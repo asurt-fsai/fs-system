@@ -1,0 +1,7 @@
+pep8==1.7.*
+autopep8==2.*
+cmake_format==0.6.*
+pylint==2.15.*
+black==22.10.*
+mypy==0.991
+pre-commit==2.20.*
