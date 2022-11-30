@@ -1,0 +1,29 @@
+repos:
+  - repo: local
+    hooks:
+      - id: commit-msg
+        name: commit-msg
+        entry: ./.hooks/commit-msg.py
+        language: python
+        stages:
+          - commit-msg
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-json
+
+  - repo: local
+    hooks:
+      - id: check-format
+        name: check format
+        entry: make check_format
+        language: system
+      - id: check-lint
+        name: check lint
+        entry: make lint
+        language: system
