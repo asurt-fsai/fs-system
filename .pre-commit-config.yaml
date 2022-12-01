@@ -21,9 +21,9 @@ repos:
     hooks:
       - id: check-format
         name: check format
-        entry: make check_format
+        entry: make -s format_staged
         language: system
       - id: check-lint
         name: check lint
-        entry: make lint
+        entry: make -s lint_staged
         language: system
