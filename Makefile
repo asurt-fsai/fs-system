@@ -22,7 +22,7 @@ lint:
 
 lint_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc
-	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict
+	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict --follow-imports=silent
 
 format_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty black --check
