@@ -4,6 +4,7 @@ Cone classifier module to predict if a given set of points fall on a cone or not
 from typing import List, Tuple, Union, Optional, Any
 
 import numpy as np
+import numpy.typing as npt
 from ..helpers import SingletonMeta
 
 
@@ -47,8 +48,8 @@ class ConeClassifier(metaclass=SingletonMeta):
             raise TypeError(errMsg) from exc
 
     def isCone(
-        self, points: Any, returnLosses: bool = False
-    ) -> Tuple[List[Union[bool, float]], Optional[Any]]:
+        self, points: npt.NDArray[np.float64], returnLosses: bool = False
+    ) -> Tuple[List[Union[bool, float]], Optional[npt.NDArray[np.float64]]]:
         """
         Given a set of points, predict whether they fall on a cone or not.
 
@@ -93,7 +94,7 @@ class ConeClassifier(metaclass=SingletonMeta):
 
         return pred, coneCenter
 
-    def fitCone(self, points: Any) -> List[float]:
+    def fitCone(self, points: npt.NDArray[np.float64]) -> List[float]:
         """
         Given a set of points, return cone parameters fitted
 
@@ -129,7 +130,9 @@ class ConeClassifier(metaclass=SingletonMeta):
 
         return toReturn
 
-    def l2Loss(self, coneX: float, coneY: float, coneZ: float, points: Any) -> float:
+    def l2Loss(
+        self, coneX: float, coneY: float, coneZ: float, points: npt.NDArray[np.float64]
+    ) -> float:
         """
         Computes the MSE after fitting a cone (assuming no linearization error)
 

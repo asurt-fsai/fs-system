@@ -1,14 +1,15 @@
 """
 This module can be used to run tests on the ConeClassiier hyperparameters
 """
-from typing import Tuple, Any
+from typing import Tuple
 import numpy as np
+import numpy.typing as npt
 import matplotlib.pyplot as plt
 
 from .ConeClassifier import ConeClassifier
 
 
-def plotPoints(points: Any) -> None:
+def plotPoints(points: npt.NDArray[np.float64]) -> None:
     """
     Plot 3D points using matplotlib
     """
@@ -17,7 +18,9 @@ def plotPoints(points: Any) -> None:
     plt.show()
 
 
-def generateCone(nPoints: int, radius: float, height: float, coneCenter: Any) -> Any:
+def generateCone(
+    nPoints: int, radius: float, height: float, coneCenter: npt.NDArray[np.float64]
+) -> npt.NDArray[np.float64]:
     """
     Generate points falling on a cone with the given dimensions and center
 

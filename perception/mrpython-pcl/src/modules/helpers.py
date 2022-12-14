@@ -2,7 +2,7 @@
 Helper functions and classes
 """
 import functools
-from typing import Any, Dict
+from typing import Dict
 from threading import Lock
 
 
@@ -13,7 +13,7 @@ class SingletonMeta(type):
 
     _instances: Dict[object, object] = {}
 
-    def __call__(cls, *args, **kwargs) -> Any:  # type: ignore[no-untyped-def]
+    def __call__(cls, *args, **kwargs):  # type: ignore[no-untyped-def]
         """
         Possible changes to the value of the `__init__` argument do not affect
         the returned instance.
