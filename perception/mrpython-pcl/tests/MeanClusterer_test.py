@@ -72,6 +72,7 @@ def setUpTearDown() -> Generator[Any, Any, Any]:
     """
     Setup and teardown for all tests (mainly to clear the singleton)
     """
+    np.random.seed(3)
     MeanClusterer.clear()  # setup
     yield
     MeanClusterer.clear()  # teardown
@@ -125,7 +126,6 @@ def testClusteringEasy() -> None:
     Easy case of clustering with low variance in each cluster and no noisy points
     """
     # Test Parameters
-    np.random.seed(3)
     nTests = 20
     minDistBetweenClusters = 2
 
@@ -180,7 +180,6 @@ def testClusteringHard() -> None:
     A hard case of clustering (higher variance with added noisy points)
     """
     # Test Parameters
-    np.random.seed(3)
     nTests = 20
     minDistBetweenClusters = 0.8
 

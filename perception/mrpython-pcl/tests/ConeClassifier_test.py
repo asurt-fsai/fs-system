@@ -61,6 +61,7 @@ def setUpTearDown() -> Generator[Any, Any, Any]:
     """
     Setup and teardown for all tests (mainly to clear the singleton)
     """
+    np.random.seed(3)
     ConeClassifier.clear()  # setup
     yield
     ConeClassifier.clear()  # teardown
@@ -106,7 +107,6 @@ def testConeEasy() -> None:
     """
     Cones generated with no noise
     """
-    np.random.seed(3)
     # test parameters
     nTests = 10
     numPoints = 4  # Hardest case (with 3 points, it fails mathematically)
@@ -147,7 +147,6 @@ def testConeNoisy() -> None:
     """
     Cones generated with added noise
     """
-    np.random.seed(3)
     # test parameters
     nTests = 50
 
@@ -192,7 +191,6 @@ def testTooNoisyCone() -> None:
     """
     Test cones with a lot of noise (shouldn't be detected as cones)
     """
-    np.random.seed(3)
     # test parameters
     nTests = 50
 
@@ -224,7 +222,6 @@ def testNoCone() -> None:
     """
     Test random points (shouldn't be detected as cones)
     """
-    np.random.seed(3)
     # test parameters
     nTests = 50
 
@@ -254,7 +251,6 @@ def testMinPointsFilter() -> None:
     """
     Test the minimum points filter
     """
-    np.random.seed(3)
 
     coneClassifier = ConeClassifier(RADIUS, HEIGHT, MINPOINTS, L2LOSSTHRESH, LINLOSSPERCENT)
 
