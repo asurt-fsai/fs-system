@@ -20,7 +20,7 @@ pcl.PointCloud_PointXYZI = pcl.PointCloud_PointXYZI
 
 class Filter(metaclass=SingletonMeta):  # type: ignore[misc]
     """
-    n
+    Filter class containing many preprocessing methods for the point cloud
     """
 
     def __init__(
@@ -58,6 +58,7 @@ class Filter(metaclass=SingletonMeta):  # type: ignore[misc]
         # Parameter Validation
         try:
             assert resconstructParam > 0 and type(resconstructParam) in [int, float]
+            assert isinstance(groundRemovalMethod, GroundRemovalMethod)
 
             def checkDict(toCheckDict: Dict[str, List[float]], checkZ: bool = False) -> None:
                 """
