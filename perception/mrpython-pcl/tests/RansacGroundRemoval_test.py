@@ -1,5 +1,5 @@
 """
-Tests for the ConeClassifier class
+Tests for the RansacGroundRemoval class
 """
 import os
 import sys
@@ -13,7 +13,7 @@ import numpy.typing as npt
 
 # import matplotlib.pyplot as plt
 
-# Import ConeClassifier
+# Import RansacGroundRemoval
 path, _ = os.path.split(os.path.split(__file__)[0])
 path = os.path.join(path, "src")
 sys.path.insert(0, path)
