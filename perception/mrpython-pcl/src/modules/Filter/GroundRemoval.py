@@ -93,11 +93,14 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # ty
         locs = self.getDiscretizedLocs(points)  # Discretized locations for each point
         values = np.unique(locs)
         binMins = np.zeros((self.nGridCells[0] * self.nGridCells[1], 3))
+        binMinsMask = np.zeros((self.nGridCells[0] * self.nGridCells[1]))
         for val in values:
             pVals = points[locs == val]
             binMins[val] = pVals[np.argmin(pVals[:, 2])]
+            binMinsMask[val] = 1
 
         # linear regression on binMins
+        binMins = binMins[binMinsMask == 1]
         matX = np.hstack((binMins[:, :2], np.ones((binMins.shape[0], 1))))
         y = binMins[:, 2:]
         theta = np.linalg.pinv(matX) @ y
@@ -105,7 +108,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # ty
         inputs = np.hstack((points[:, :2], np.ones((points.shape[0], 1))))
         preds = inputs @ theta
         diffs = np.abs(points[:, 2] - preds.reshape(-1))
-        points = points[diffs < self.distFromPlaneTh]
+        points = points[diffs > self.distFromPlaneTh]
 
         cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
