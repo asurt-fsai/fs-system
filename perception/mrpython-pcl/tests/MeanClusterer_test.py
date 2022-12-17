@@ -1,22 +1,17 @@
 """
 Tests for the MeanClusterer class
 """
-import os
-import sys
+# pylint: disable=all
 import time
-import pytest
 from typing import Generator, Any, Tuple, no_type_check
 
+import pytest
 import numpy as np
 import numpy.typing as npt
 
 import matplotlib.pyplot as plt
 
-# Import MeanClusterer
-path, _ = os.path.split(os.path.split(__file__)[0])
-path = os.path.join(path, "src")
-sys.path.insert(0, path)
-from modules.Clusterer.MeanClusterer import MeanClusterer  # pylint: disable=all
+from src.modules.Clusterer.MeanClusterer import MeanClusterer
 
 ENABLEPLOTTING = False
 MAXTIMEFOREASYTEST = 30
@@ -44,27 +39,27 @@ def generateClusters(
     -------
     points: np.array, shape=(N, 3)
         points generated, all z values are zero
-    cluster_centers: np.array, shape=(M, 2)
+    clusterCenters: np.array, shape=(M, 2)
         Centers for all the clusters generated.
         Note: M could be less than nClusters to ensure minDistBetweenClusters
     """
-    cluster_centers = np.random.uniform(-15, 15, (nClusters, 2))
-    filtered_centers = [cluster_centers[0]]
-    for center in cluster_centers:
-        dists = np.linalg.norm(center.reshape(1, -1) - np.array(filtered_centers), axis=1)
+    clusterCenters = np.random.uniform(-15, 15, (nClusters, 2))
+    filteredCenters = [clusterCenters[0]]
+    for center in clusterCenters:
+        dists = np.linalg.norm(center.reshape(1, -1) - np.array(filteredCenters), axis=1)
         if np.min(dists) > minDistBetweenClusters:
-            filtered_centers.append(center)
-    cluster_centers = np.array(filtered_centers)
-    nClusters = cluster_centers.shape[0]
+            filteredCenters.append(center)
+    clusterCenters = np.array(filteredCenters)
+    nClusters = clusterCenters.shape[0]
     points = []
-    for center in cluster_centers:
-        n_points = np.random.randint(minPoints, maxPoints)
-        new_points = np.random.normal(0, variance, (n_points, 2)) + center
-        points.extend(new_points.tolist())
+    for center in clusterCenters:
+        nPoints = np.random.randint(minPoints, maxPoints)
+        newPoints = np.random.normal(0, variance, (nPoints, 2)) + center
+        points.extend(newPoints.tolist())
 
     toReturnPoints: npt.NDArray[np.float64] = np.array(points).astype(np.float64)
     toReturnPoints = np.hstack((toReturnPoints, np.zeros((toReturnPoints.shape[0], 1))))
-    return toReturnPoints, cluster_centers
+    return toReturnPoints, clusterCenters
 
 
 @no_type_check
@@ -140,7 +135,7 @@ def testClusteringEasy() -> None:
         nClusters = np.random.randint(50, 100)
         minPoints, maxPoints = 500, 1000
         variance = 0.05
-        points, cluster_centers = generateClusters(
+        points, clusterCenters = generateClusters(
             nClusters, minPoints, maxPoints, variance, minDistBetweenClusters
         )
 
@@ -157,16 +152,16 @@ def testClusteringEasy() -> None:
             print(nClusters, centers.shape[0])
 
         # Compute distance to ground truth cluster centers
-        dist_list = []
+        distsList = []
         for center in centers:
-            dists = np.linalg.norm(cluster_centers - center.reshape(1, -1), axis=1)
-            dist_list.append(np.min(dists))
+            dists = np.linalg.norm(clusterCenters - center.reshape(1, -1), axis=1)
+            distsList.append(np.min(dists))
 
         # Assert small distance to clusters and not missing too many clusters
-        assert np.abs(centers.shape[0] - cluster_centers.shape[0]) < 5
-        assert np.mean(dist_list) < 0.2
+        assert np.abs(centers.shape[0] - clusterCenters.shape[0]) < 5
+        assert np.mean(distsList) < 0.2
 
-        avgClusDist.append(np.mean(dist_list))
+        avgClusDist.append(np.mean(distsList))
         clustersMissed.append(np.abs(centers.shape[0] - nClusters))
 
     assert totalTime / nTests < MAXTIMEFOREASYTEST
@@ -194,12 +189,12 @@ def testClusteringHard() -> None:
         nClusters = np.random.randint(50, 100)
         minPoints, maxPoints = 50, 100
         variance = 0.2
-        points, cluster_centers = generateClusters(
+        points, clusterCenters = generateClusters(
             nClusters, minPoints, maxPoints, variance, minDistBetweenClusters
         )
 
-        random_points = np.random.uniform(-15, 15, (200, 3))
-        points = np.vstack((points, random_points))
+        randomPoints = np.random.uniform(-15, 15, (200, 3))
+        points = np.vstack((points, randomPoints))
 
         tic = time.time()
         centers = clusterer.cluster(points)
@@ -214,17 +209,17 @@ def testClusteringHard() -> None:
             print(nClusters, centers.shape[0])
 
         # Compute distance to ground truth cluster centers
-        dist_list = []
+        distsList = []
         for center in centers:
-            dists = np.linalg.norm(cluster_centers - center.reshape(1, -1), axis=1)
-            dist_list.append(np.min(dists))
+            dists = np.linalg.norm(clusterCenters - center.reshape(1, -1), axis=1)
+            distsList.append(np.min(dists))
 
         # Assert small distance to clusters and not missing too many clusters
-        assert np.abs(centers.shape[0] - cluster_centers.shape[0]) < 10
-        assert np.mean(dist_list) < 0.3
+        assert np.abs(centers.shape[0] - clusterCenters.shape[0]) < 10
+        assert np.mean(distsList) < 0.3
 
         clustersMissed.append(np.abs(centers.shape[0] - nClusters))
-        avgClusDist.append(np.mean(dist_list))
+        avgClusDist.append(np.mean(distsList))
 
     assert totalTime / nTests < MAXTIMEFORHARDTEST
     print("Hard test report:")

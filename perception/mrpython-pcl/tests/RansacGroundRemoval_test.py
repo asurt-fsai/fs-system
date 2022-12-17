@@ -1,23 +1,17 @@
 """
 Tests for the RansacGroundRemoval class
 """
-import os
-import sys
+# pylint: disable=all
 import time
-import pytest
 from typing import Generator, Any, no_type_check
 
 import pcl
+import pytest
 import numpy as np
-import numpy.typing as npt
 
 # import matplotlib.pyplot as plt
 
-# Import RansacGroundRemoval
-path, _ = os.path.split(os.path.split(__file__)[0])
-path = os.path.join(path, "src")
-sys.path.insert(0, path)
-from modules.Filter.GroundRemoval import RansacGroundRemoval  # pylint: disable=all
+from src.modules.Filter.GroundRemoval import RansacGroundRemoval
 
 
 @no_type_check
@@ -76,18 +70,18 @@ def testGroundEasy() -> None:
 
     tic = time.time()
     for _ in range(nTests):
-        x_y = np.random.uniform(-15, 15, (nPoints, 2))
-        n = np.random.uniform(-1, 1, (1, 2))
-        z = np.sum(x_y * n, axis=1)
-        points = np.hstack((x_y, z.reshape(-1, 1)))
+        xySpace = np.random.uniform(-15, 15, (nPoints, 2))
+        normal = np.random.uniform(-1, 1, (1, 2))
+        z = np.sum(xySpace * normal, axis=1)
+        points = np.hstack((xySpace, z.reshape(-1, 1)))
 
-        random_points = np.random.normal(0, 5, (nPoints, 3))
-        points = np.vstack((points, random_points))
+        randomPoints = np.random.normal(0, 5, (nPoints, 3))
+        points = np.vstack((points, randomPoints))
         cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
 
-        filter = RansacGroundRemoval(0.0001)
-        filtered = filter.removeGround(cloud).to_array()
+        groundRemover = RansacGroundRemoval(0.0001)
+        filtered = groundRemover.removeGround(cloud).to_array()
         assert filtered.shape[0] == nPoints  # Removes all ground points, leaving only noise
     toc = time.time()
     totalTime = (toc - tic) * 1000 / nTests
@@ -109,19 +103,19 @@ def testGroundHard() -> None:
 
     tic = time.time()
     for _ in range(nTests):
-        x_y = np.random.uniform(-15, 15, (nPoints, 2))
-        n = np.random.uniform(-1, 1, (1, 2))
-        z = np.sum(x_y * n, axis=1)
-        points = np.hstack((x_y, z.reshape(-1, 1)))
+        xySpace = np.random.uniform(-15, 15, (nPoints, 2))
+        normal = np.random.uniform(-1, 1, (1, 2))
+        z = np.sum(xySpace * normal, axis=1)
+        points = np.hstack((xySpace, z.reshape(-1, 1)))
         points += np.random.normal(0, 0.07, points.shape)
 
-        random_points = np.random.normal(0, 5, (nPoints, 3))
-        points = np.vstack((points, random_points))
+        randomPoints = np.random.normal(0, 5, (nPoints, 3))
+        points = np.vstack((points, randomPoints))
         cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
 
-        filter = RansacGroundRemoval(0.2)
-        filtered = filter.removeGround(cloud).to_array()
+        groundRemover = RansacGroundRemoval(0.2)
+        filtered = groundRemover.removeGround(cloud).to_array()
         assert (
             nPoints - maxErrors < filtered.shape[0] < nPoints + maxErrors
         )  # Removes most ground points, leaving some noise

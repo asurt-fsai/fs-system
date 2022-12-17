@@ -1,25 +1,20 @@
 """
 Tests for the Filter class
 """
-import os
-import sys
+# pylint: disable=all
 import time
-import pytest
 from typing import Generator, Any, no_type_check
 
 import pcl
+import pytest
 import numpy as np
-import numpy.typing as npt
 
 # Import Filter
-path, _ = os.path.split(os.path.split(__file__)[0])
-path = os.path.join(path, "src")
-sys.path.insert(0, path)
-from modules.Filter.Filter import Filter  # pylint: disable=all
-from modules.Filter.GroundRemoval import (
+from src.modules.Filter.Filter import Filter
+from src.modules.Filter.GroundRemoval import (
     RansacGroundRemoval,
     AdaptiveGroundRemoval,
-)  # pylint: disable=all
+)
 
 REPORTTIME = False
 NTESTCASESPERTEST = 10
@@ -48,10 +43,10 @@ def testSingleton() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 0.2, bounds, bounds)
-    filter2 = Filter(groundRemovalMethod, 5, bounds, bounds)
-    assert filter == filter2
-    assert filter2.resconstructParam == 0.2
+    filterer = Filter(groundRemovalMethod, 0.2, bounds, bounds)
+    filterer2 = Filter(groundRemovalMethod, 5, bounds, bounds)
+    assert filterer == filterer2
+    assert filterer2.resconstructParam == 0.2
 
 
 def runTestParams(*args, **kwargs) -> None:  # type: ignore
@@ -75,16 +70,16 @@ def testParams() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    wrong_bounds = {"x": [-10, 10], "z": [-10, 10]}
-    wrong_bounds2 = {"x": [-10, 10], "y": [10, -10], "z": [-10, 10]}
+    wrongBounds = {"x": [-10, 10], "z": [-10, 10]}
+    wrongBounds2 = {"x": [-10, 10], "y": [10, -10], "z": [-10, 10]}
     runTestParams(5, 5, bounds, bounds)
     runTestParams(groundRemovalMethod, -5, bounds, bounds)
     runTestParams(groundRemovalMethod, 5, "hi", bounds)
     runTestParams(groundRemovalMethod, 5, bounds, "hi")
-    runTestParams(groundRemovalMethod, 5, wrong_bounds, bounds)
-    runTestParams(groundRemovalMethod, 5, bounds, wrong_bounds)
-    runTestParams(groundRemovalMethod, 5, wrong_bounds2, bounds)
-    runTestParams(groundRemovalMethod, 5, bounds, wrong_bounds2)
+    runTestParams(groundRemovalMethod, 5, wrongBounds, bounds)
+    runTestParams(groundRemovalMethod, 5, bounds, wrongBounds)
+    runTestParams(groundRemovalMethod, 5, wrongBounds2, bounds)
+    runTestParams(groundRemovalMethod, 5, bounds, wrongBounds2)
 
 
 @no_type_check
@@ -95,7 +90,7 @@ def testFilterViewableArea() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
     times = []
     for _ in range(NTESTCASESPERTEST):
         points = np.random.uniform(-15, 15, (NPOINTSPERTEST, 3)).astype(np.float32)
@@ -103,7 +98,7 @@ def testFilterViewableArea() -> None:
         cloud.from_array(points)
 
         start = time.time()
-        filtered = filter.filterViewableArea(cloud)
+        filtered = filterer.filterViewableArea(cloud)
         end = time.time()
         times.append((end - start) * 1000)
 
@@ -115,7 +110,7 @@ def testFilterViewableArea() -> None:
         assert np.all(filtered.to_array()[:, 2] <= 10)
 
     if REPORTTIME:
-        print("Test Filter Viewable Area: {} ms".format(np.mean(times)))
+        print(f"Test Filter Viewable Area: {np.mean(times)} ms")
 
 
 @no_type_check
@@ -126,7 +121,7 @@ def testRemoveCar() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
     times = []
 
     for _ in range(NTESTCASESPERTEST):
@@ -135,7 +130,7 @@ def testRemoveCar() -> None:
         cloud.from_array(points)
 
         start = time.time()
-        filtered = filter.removeCar(cloud)
+        filtered = filterer.removeCar(cloud)
         end = time.time()
         times.append((end - start) * 1000)
 
@@ -147,7 +142,7 @@ def testRemoveCar() -> None:
         assert np.sum(inCar) == 0
 
     if REPORTTIME:
-        print("Test Remove Car: {} ms".format(np.mean(times)))
+        print(f"Test Remove Car: {np.mean(times)} ms")
 
 
 @no_type_check
@@ -159,14 +154,14 @@ def testReconstruct() -> None:
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
     radius = 0.5
-    filter = Filter(groundRemovalMethod, radius, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, radius, bounds, bounds)
     pointCenters = np.random.uniform(-15, 15, (20, 2))
     pointCentersFiltered = [pointCenters[0]]
-    for point_center in pointCenters:
+    for pointCenter in pointCenters:
         if np.min(
-            np.linalg.norm(point_center.reshape(1, -1) - np.array(pointCentersFiltered), axis=1)
+            np.linalg.norm(pointCenter.reshape(1, -1) - np.array(pointCentersFiltered), axis=1)
         ) > 2 * np.sqrt(2 * radius**2):
-            pointCentersFiltered.append(point_center)
+            pointCentersFiltered.append(pointCenter)
     pointCentersFiltered = np.array(pointCentersFiltered)
     pointCentersFiltered = np.hstack(
         (pointCentersFiltered, np.zeros((pointCentersFiltered.shape[0], 1)))
@@ -188,7 +183,7 @@ def testReconstruct() -> None:
 
     for center, cluster in zip(pointCentersFiltered, clusters):
         cluster = np.array(cluster)
-        filtered = filter.reconstruct(cloud, center[0], center[1])
+        filtered = filterer.reconstruct(cloud, center[0], center[1])
         filtered = filtered.to_array()
 
         assert np.all(np.linalg.norm(filtered - center, axis=1) < np.sqrt(2 * radius**2))
@@ -203,21 +198,20 @@ def testRansacGroundRemoval() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.0001)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
 
     for _ in range(NTESTCASESPERTEST):
-        x_y = np.random.uniform(-15, 15, (NPOINTSPERTEST, 2))
-        n = np.random.uniform(-1, 1, (1, 2))
-        z = np.sum(x_y * n, axis=1)
-        points = np.hstack((x_y, z.reshape(-1, 1)))
+        xySpace = np.random.uniform(-15, 15, (NPOINTSPERTEST, 2))
+        normal = np.random.uniform(-1, 1, (1, 2))
+        z = np.sum(xySpace * normal, axis=1)
+        points = np.hstack((xySpace, z.reshape(-1, 1)))
 
-        random_points = np.random.normal(0, 5, (NPOINTSPERTEST, 3))
-        points = np.vstack((points, random_points))
+        randomPoints = np.random.normal(0, 5, (NPOINTSPERTEST, 3))
+        points = np.vstack((points, randomPoints))
         cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
 
-        filter = RansacGroundRemoval(0.0001)
-        filtered = filter.removeGround(cloud).to_array()
+        filtered = filterer.removeGround(cloud).to_array()
         assert filtered.shape[0] == NPOINTSPERTEST  # Removes all ground points, leaving only noise
 
 
@@ -230,21 +224,21 @@ def testAdaptiveGroundRemoval() -> None:
     groundRemovalMethod = AdaptiveGroundRemoval(40, 40, 0.2)
     maxErrors = 100
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
 
     for _ in range(NTESTCASESPERTEST):
-        x_y = np.random.uniform(-50, 50, (NPOINTSPERTEST, 2))
-        n = np.random.uniform(-1, 1, (1, 2))
-        z = np.sum(x_y * n, axis=1)
-        points = np.hstack((x_y, z.reshape(-1, 1)))
+        xySpace = np.random.uniform(-50, 50, (NPOINTSPERTEST, 2))
+        normal = np.random.uniform(-1, 1, (1, 2))
+        z = np.sum(xySpace * normal, axis=1)
+        points = np.hstack((xySpace, z.reshape(-1, 1)))
 
-        random_points = np.random.normal(0, 3, (NPOINTSPERTEST, 3))
-        random_points[:, 2] = np.abs(random_points[:, 2])
-        points = np.vstack((points, random_points))
+        randomPoints = np.random.normal(0, 3, (NPOINTSPERTEST, 3))
+        randomPoints[:, 2] = np.abs(randomPoints[:, 2])
+        points = np.vstack((points, randomPoints))
         cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
 
-        filtered = filter.removeGround(cloud).to_array()
+        filtered = filterer.removeGround(cloud).to_array()
         assert (
             NPOINTSPERTEST - maxErrors < filtered.shape[0] < NPOINTSPERTEST + maxErrors
         )  # Removes most ground points, leaving some noise
@@ -258,20 +252,20 @@ def testPassFilter() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
 
     points = np.random.uniform(-15, 15, (500, 3)).astype(np.float32)
     cloud = pcl.PointCloud()
     cloud.from_array(points)
 
     # Test filter on x axis
-    filteredPointsX = filter.passFilter(cloud, "x", 0, 5).to_array()
+    filteredPointsX = filterer.passFilter(cloud, "x", 0, 5).to_array()
 
     # Test filter on y axis
-    filteredPointsY = filter.passFilter(cloud, "y", 0, 5).to_array()
+    filteredPointsY = filterer.passFilter(cloud, "y", 0, 5).to_array()
 
     # Test filter on z axis
-    filteredPointsZ = filter.passFilter(cloud, "z", 0, 5).to_array()
+    filteredPointsZ = filterer.passFilter(cloud, "z", 0, 5).to_array()
 
     correctX = np.logical_and(filteredPointsX[:, 0] >= 0, filteredPointsX[:, 0] <= 5)
     correctY = np.logical_and(filteredPointsY[:, 1] >= 0, filteredPointsY[:, 1] <= 5)
@@ -290,7 +284,7 @@ def testSubsample() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
     times = []
 
     for _ in range(NTESTCASESPERTEST):
@@ -299,13 +293,13 @@ def testSubsample() -> None:
         cloud.from_array(points)
 
         start = time.time()
-        subsampled = filter.subsample(cloud, 0.5)
+        subsampled = filterer.subsample(cloud, 0.5)
         end = time.time()
         times.append((end - start) * 1000)
 
         assert subsampled.to_array().shape[0] == NPOINTSPERTEST // 2
     if REPORTTIME:
-        print("Test Subsample: {} ms".format(np.mean(times)))
+        print(f"Test Subsample: {np.mean(times)} ms")
 
 
 @no_type_check
@@ -316,7 +310,7 @@ def testRemoveIntensity() -> None:
     """
     groundRemovalMethod = RansacGroundRemoval(0.2)
     bounds = {"x": [-10, 10], "y": [-10, 10], "z": [-10, 10]}
-    filter = Filter(groundRemovalMethod, 5, bounds, bounds)
+    filterer = Filter(groundRemovalMethod, 5, bounds, bounds)
     times = []
 
     for _ in range(NTESTCASESPERTEST):
@@ -325,10 +319,10 @@ def testRemoveIntensity() -> None:
         cloud.from_array(points)
 
         start = time.time()
-        cloud = filter.removeIntensity(cloud)
+        cloud = filterer.removeIntensity(cloud)
         end = time.time()
         times.append((end - start) * 1000)
 
         assert cloud.to_array().shape[1] == 3
     if REPORTTIME:
-        print("Test Remove Intensity: {} ms".format(np.mean(times)))
+        print(f"Test Remove Intensity: {np.mean(times)} ms")
