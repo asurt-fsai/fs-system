@@ -42,8 +42,8 @@ def generateClusters(
 
     Returns
     -------
-    points: np.array, shape=(N, 2)
-        points generated
+    points: np.array, shape=(N, 3)
+        points generated, all z values are zero
     cluster_centers: np.array, shape=(M, 2)
         Centers for all the clusters generated.
         Note: M could be less than nClusters to ensure minDistBetweenClusters
@@ -63,6 +63,7 @@ def generateClusters(
         points.extend(new_points.tolist())
 
     toReturnPoints: npt.NDArray[np.float64] = np.array(points).astype(np.float64)
+    toReturnPoints = np.hstack((toReturnPoints, np.zeros((toReturnPoints.shape[0], 1))))
     return toReturnPoints, cluster_centers
 
 
@@ -103,9 +104,11 @@ def runTestParams(*args, **kwargs) -> None:  # type: ignore
 def testParams() -> None:
     """
     Ensure parameter validation is done correctly:
-        - all positive
-        - cluster_minPoints and cluster_maxPoints are integers
-        - cluster_minPoints < cluster_maxPoints
+        - GridCells is a list of two ellements, all positive integers
+        - nmsRadius is a positive float
+        - nIters is a positive integer
+        - minClusterPoints is a positive integer
+
     """
     runTestParams("hi", 2, 8, 5)
     runTestParams([-100, 100], 2, 8, 5)
@@ -195,7 +198,7 @@ def testClusteringHard() -> None:
             nClusters, minPoints, maxPoints, variance, minDistBetweenClusters
         )
 
-        random_points = np.random.uniform(-15, 15, (200, 2))
+        random_points = np.random.uniform(-15, 15, (200, 3))
         points = np.vstack((points, random_points))
 
         tic = time.time()
