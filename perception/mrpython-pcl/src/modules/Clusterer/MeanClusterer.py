@@ -7,9 +7,10 @@ import numpy as np
 import numpy.typing as npt
 
 from ..helpers import SingletonMeta
+from .AbstractClusterer import Clusterer
 
 
-class MeanClusterer(metaclass=SingletonMeta):  # type: ignore[misc]
+class MeanClusterer(Clusterer, metaclass=SingletonMeta):  # type:ignore[misc]
     """
     Discretized Mean Shift Clustering implementation based on the LaserNet paper
     titled "LaserNet: An Efficient Probabilistic 3D Object Detector for Autonomous Driving"
