@@ -1,10 +1,10 @@
 """
 Tests for the Serializers methods
 """
+# pylint: disable=all
 import os
 import sys
 import time
-import sys
 
 import pcl
 import numpy as np
@@ -28,7 +28,7 @@ from ros.modules.Serializers import (
     pclToRos,
     npToRos,
     npConesToRos,
-)  # pylint: disable=all
+)
 
 REPORTTIME = False
 
