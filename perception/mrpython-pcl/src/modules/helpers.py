@@ -2,7 +2,7 @@
 Helper functions and classes
 """
 import functools
-from typing import Dict
+from typing import Dict, Callable, Any
 from threading import Lock
 
 
@@ -31,7 +31,7 @@ class SingletonMeta(type):
             del cls._instances[cls]
 
 
-def mutexLock(lock: Lock):  # type: ignore[no-untyped-def]
+def mutexLock(lock: Lock) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     Decorator to lock a function with a given mutex
 
@@ -41,9 +41,9 @@ def mutexLock(lock: Lock):  # type: ignore[no-untyped-def]
         Mutex lock to fetch and release
     """
 
-    def decorator(func):  # type: ignore[no-untyped-def]
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
         @functools.wraps(func)
-        def newFunc(*args, **kwargs):  # type: ignore[no-untyped-def]
+        def newFunc(*args: Any, **kwargs: Any) -> Any:
             lock.acquire()
             val = None
             try:
