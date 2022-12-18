@@ -2,20 +2,8 @@
 Tests for the Serializers methods
 """
 # pylint: disable=all
-import os
-import sys
 import time
-
-# Imports (UGLY Stuff)
-packagePath, _ = os.path.split(os.path.split(__file__)[0])
-
-for i in range(4):
-    packagePath = os.path.split(packagePath)[0]
-
-sys.path.insert(0, os.path.join(packagePath, "devel/lib/python3/dist-packages"))
-
-from sensor_msgs.msg import PointCloud2
-from asurt_msgs.msg import LandmarkArray
+import pytest
 
 from mrpython_pcl.LidarPipeline.LidarPipeline import LidarPipeline
 from mrpython_pcl.LidarPipeline.Filter.Filter import Filter
@@ -23,13 +11,7 @@ from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
 from mrpython_pcl.LidarPipeline.ConeClassifier import ConeClassifier
 from mrpython_pcl.LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 
-from mrpython_pcl.ros.Builders import (
-    buildPipeline,
-    buildTracker,
-    buildFilter,
-    buildConeClassifier,
-    buildClusterer,
-)  # pylint: disable=all
+from mrpython_pcl.ros.Builders import Builder
 
 REPORTTIME = False
 
@@ -38,8 +20,9 @@ def testBuildFilter() -> None:
     """
     Tests the buildFilter method
     """
+    builder = Builder()
     tic = time.time()
-    filterer = buildFilter()
+    filterer = builder.buildFilter()
     toc = time.time()
 
     if REPORTTIME:
@@ -52,8 +35,9 @@ def testBuildConeClassifier() -> None:
     """
     Tests the buildConeClassifier method
     """
+    builder = Builder()
     tic = time.time()
-    coneClassifier = buildConeClassifier()
+    coneClassifier = builder.buildConeClassifier()
     toc = time.time()
 
     if REPORTTIME:
@@ -65,8 +49,9 @@ def testBuildClusterer() -> None:
     """
     Tests the buildClusterer method
     """
+    builder = Builder()
     tic = time.time()
-    clusterer = buildClusterer()
+    clusterer = builder.buildClusterer()
     toc = time.time()
 
     if REPORTTIME:
@@ -78,10 +63,30 @@ def testBuildPipeline() -> None:
     """
     Tests the buildPipeline method
     """
+    builder = Builder()
     tic = time.time()
-    lidarPipeline = buildPipeline()
+    lidarPipeline = builder.buildPipeline()
     toc = time.time()
 
     if REPORTTIME:
         print(f"buildPipeline took {(toc - tic)*1000}ms")
     assert isinstance(lidarPipeline, LidarPipeline)
+
+
+def testSecuringParamServer() -> None:
+    """
+    Ensures that using default value for parameters can be disabled
+    and if enabled, works as expected
+    """
+    # Default values disabled
+    builder = Builder(False)
+    with pytest.raises(KeyError):
+        builder.getParam("Doesn't exist", 1)
+
+    # Default values enabled
+    builder = Builder(True)
+    defaultValue = builder.getParam("Doesn't exist", 1)
+    assert defaultValue == 1
+
+    with pytest.raises(KeyError):
+        builder.getParam("Doesn't exist")
