@@ -6,11 +6,11 @@ from sensor_msgs.msg import PointCloud2
 
 import rospy
 
-from ...modules.Filter.Filter import Filter
-from ...modules.Filter.GroundRemoval import RansacGroundRemoval
-from ...modules.ConeClassifier.ConeClassifier import ConeClassifier
-from ...modules.Clusterer.MeanClusterer import MeanClusterer
-from ...modules.Clusterer.AbstractClusterer import Clusterer
+from ..LidarPipeline.Filter.Filter import Filter
+from ..LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
+from ..LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
+from ..LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
+from ..LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
 
 

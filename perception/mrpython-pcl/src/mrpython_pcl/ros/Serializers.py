@@ -238,7 +238,7 @@ def npConesToRos(cones: npt.NDArray[np.float64], addIDs: bool = False) -> Landma
         landmark.position.y = cone[1]
         landmark.type = 4  # Unknown type
         if addIDs:
-            landmark.id = cone[2]
+            landmark.identifier = cone[2]
         landmarks.append(landmark)
 
     msg = LandmarkArray()

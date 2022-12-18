@@ -4,8 +4,9 @@ Main ros node for the lidar pipeline used to detect cones
 """
 import rospy
 
-from tf_helper import Status_Publisher  # pylint: disable=import-error
-from ..modules.Builders import buildPipeline
+# pylint: disable=import-error, no-name-in-module
+from mrpython_pcl.ros.Builders import buildPipeline
+from tf_helper.StatusPublisher import StatusPublisher
 
 
 def main() -> None:
@@ -14,7 +15,7 @@ def main() -> None:
     """
     # Initialize ROS node
     rospy.init_node("mr_lidar")
-    status = Status_Publisher("/status/lidar")
+    status = StatusPublisher("/status/lidar")
     status.starting()
 
     lidar = buildPipeline()

@@ -10,7 +10,7 @@ from ..helpers import SingletonMeta
 from .AbstractClusterer import Clusterer
 
 
-class MeanClusterer(Clusterer, metaclass=SingletonMeta):  # type:ignore[misc]
+class MeanClusterer(Clusterer, metaclass=SingletonMeta):
     """
     Discretized Mean Shift Clustering implementation based on the LaserNet paper
     titled "LaserNet: An Efficient Probabilistic 3D Object Detector for Autonomous Driving"

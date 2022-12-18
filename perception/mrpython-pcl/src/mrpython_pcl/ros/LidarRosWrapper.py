@@ -8,11 +8,11 @@ import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import PointCloud2
 
-from ...modules.LidarPipeline import LidarPipeline
+from ..LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl
 
 
-class LidarRosWrapper(LidarPipeline):  # type: ignore[misc]
+class LidarRosWrapper(LidarPipeline):
     """
     A ros wrapper for the lidar pipeline class
     It allows the class to read sensor_msgs.msg.PointCloud2 point cloud

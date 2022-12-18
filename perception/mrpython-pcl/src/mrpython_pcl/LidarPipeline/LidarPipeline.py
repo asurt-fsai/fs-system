@@ -18,7 +18,7 @@ from .Clusterer.AbstractClusterer import Clusterer
 from .helpers import SingletonMeta, mutexLock
 
 
-class LidarPipeline(metaclass=SingletonMeta):  # type: ignore[misc]
+class LidarPipeline(metaclass=SingletonMeta):
     """
     Main Lidar Pipeline class
     """
@@ -55,7 +55,7 @@ class LidarPipeline(metaclass=SingletonMeta):  # type: ignore[misc]
                         lidarHeight: float > 0"
             raise TypeError(errMsg) from exp
 
-    @mutexLock(mutex)  # type: ignore[misc]
+    @mutexLock(mutex)
     def setPointcloud(self, pointcloud: pcl.PointCloud) -> None:
         """
         Set the point cloud to be used in the pipeline
@@ -67,7 +67,7 @@ class LidarPipeline(metaclass=SingletonMeta):  # type: ignore[misc]
         """
         self.lidarPc = pointcloud
 
-    @mutexLock(mutex)  # type: ignore[misc]
+    @mutexLock(mutex)
     def getPointcloud(self) -> Optional[pcl.PointCloud]:
         """
         Fetches the latest point cloud and sets it to None

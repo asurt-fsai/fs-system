@@ -41,7 +41,7 @@ class GroundRemovalMethod:
 
 
 @dataclass
-class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
+class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
     Removes points falling onto the ground plance using an adaptive method
     Based on the paper: https://arxiv.org/abs/1905.05150
@@ -147,7 +147,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # ty
 
 
 @dataclass
-class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
+class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
     Removes points falling onto the ground plance using RANSAC implemented in python-pcl
     """
