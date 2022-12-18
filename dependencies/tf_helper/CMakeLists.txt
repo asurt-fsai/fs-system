@@ -27,3 +27,8 @@ catkin_package(
 # listed before other locations
 include_directories(# include ${catkin_INCLUDE_DIRS}
 )
+
+install(
+  DIRECTORY src
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+  USE_SOURCE_PERMISSIONS)
