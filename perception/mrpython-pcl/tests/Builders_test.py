@@ -17,13 +17,13 @@ sys.path.insert(0, os.path.join(packagePath, "devel/lib/python3/dist-packages"))
 from sensor_msgs.msg import PointCloud2
 from asurt_msgs.msg import LandmarkArray
 
-from src.modules.LidarPipeline import LidarPipeline
-from src.modules.Filter.Filter import Filter
-from src.modules.Filter.GroundRemoval import RansacGroundRemoval
-from src.modules.ConeClassifier import ConeClassifier
-from src.modules.Clusterer.AbstractClusterer import Clusterer
+from mrpython_pcl.LidarPipeline.LidarPipeline import LidarPipeline
+from mrpython_pcl.LidarPipeline.Filter.Filter import Filter
+from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
+from mrpython_pcl.LidarPipeline.ConeClassifier import ConeClassifier
+from mrpython_pcl.LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 
-from src.ros.modules.Builders import (
+from mrpython_pcl.ros.Builders import (
     buildPipeline,
     buildTracker,
     buildFilter,

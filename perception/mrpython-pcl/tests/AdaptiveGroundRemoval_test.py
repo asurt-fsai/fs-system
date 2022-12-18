@@ -11,7 +11,7 @@ import numpy as np
 
 # import matplotlib.pyplot as plt
 
-from src.modules.Filter.GroundRemoval import AdaptiveGroundRemoval
+from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import AdaptiveGroundRemoval
 
 
 @no_type_check

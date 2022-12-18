@@ -11,7 +11,7 @@ import numpy.typing as npt
 
 import matplotlib.pyplot as plt
 
-from src.modules.Clusterer.MeanClusterer import MeanClusterer
+from mrpython_pcl.LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 
 ENABLEPLOTTING = False
 MAXTIMEFOREASYTEST = 30

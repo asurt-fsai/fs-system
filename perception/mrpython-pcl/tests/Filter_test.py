@@ -10,8 +10,8 @@ import pytest
 import numpy as np
 
 # Import Filter
-from src.modules.Filter.Filter import Filter
-from src.modules.Filter.GroundRemoval import (
+from mrpython_pcl.LidarPipeline.Filter.Filter import Filter
+from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import (
     RansacGroundRemoval,
     AdaptiveGroundRemoval,
 )

@@ -12,7 +12,7 @@ import numpy.typing as npt
 
 # import matplotlib.pyplot as plt
 
-from src.modules.ConeClassifier import ConeClassifier
+from mrpython_pcl.LidarPipeline.ConeClassifier import ConeClassifier
 
 
 RADIUS = 0.15
