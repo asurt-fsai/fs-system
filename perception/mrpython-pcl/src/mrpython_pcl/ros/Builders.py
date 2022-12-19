@@ -65,10 +65,21 @@ class Builder:
         lidarPipeline: LidarRosWrapper
             The main pipeline object created
         """
-        filteredTopic = self.getParam("/perception/lidar/filtered_topic", "/tracked_cones")
-        clusteredTopics = self.getParam("/perception/lidar/clustered_topic", "/tracked_cones")
-        detectedConesTopic = self.getParam("/perception/lidar/detected_topic", "/tracked_cones")
-        trackedConesTopic = self.getParam("/perception/lidar/tracked_topic", "/tracked_cones")
+        filteredTopic = self.getParam(
+            "/perception/lidar/filtered_topic", "/placeholder/lidar/filtered"
+        )
+        clusteredTopics = self.getParam(
+            "/perception/lidar/clustered_topic", "/placeholder/lidar/clustered"
+        )
+        detectedConesTopic = self.getParam(
+            "/perception/lidar/detected_topic", "/placeholder/lidar/detected"
+        )
+        trackedConesTopic = self.getParam(
+            "/perception/lidar/tracked_topic", "/placeholder/lidar/tracked"
+        )
+        detectedMarkersTopic = self.getParam(
+            "/perception/lidar/detected_markers_topic", "/placeholder/lidar/detected_markers"
+        )
 
         publishers = {}
         publishers["filtered"] = rospy.Publisher(filteredTopic, PointCloud2, queue_size=10)
@@ -76,7 +87,7 @@ class Builder:
         publishers["detected"] = rospy.Publisher(detectedConesTopic, LandmarkArray, queue_size=10)
         publishers["tracked"] = rospy.Publisher(trackedConesTopic, LandmarkArray, queue_size=10)
         publishers["detected_markers"] = rospy.Publisher(
-            "/detected_cones_markers", MarkerArray, queue_size=10
+            detectedMarkersTopic, MarkerArray, queue_size=10
         )
 
         markerViz = self.buildMarkerViz()

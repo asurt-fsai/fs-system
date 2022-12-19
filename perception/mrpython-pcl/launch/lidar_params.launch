@@ -4,10 +4,11 @@
 	<param name="/perception/lidar/velodyne_topic"  value="/velodyne_points"/>
 
 	<!-- ROS Topics (Published to) -->
-	<param name="/perception/lidar/filtered_topic"  value="/perception/lidar/filtered"/>   <!-- PointCloud2 -->
-	<param name="/perception/lidar/clustered_topic" value="/perception/lidar/clustered"/>  <!-- PointCloud2 -->
-	<param name="/perception/lidar/detected_topic"  value="/perception/lidar/detected"/>   <!-- LandmarkArray -->
-	<param name="/perception/lidar/tracked_topic"   value="/perception/lidar/tracked"/>    <!-- LandmarkArray -->
+	<param name="/perception/lidar/filtered_topic"           value="/perception/lidar/filtered"/>   <!-- PointCloud2 -->
+	<param name="/perception/lidar/clustered_topic"          value="/perception/lidar/clustered"/>  <!-- PointCloud2 -->
+	<param name="/perception/lidar/detected_topic"           value="/perception/lidar/detected"/>   <!-- LandmarkArray -->
+	<param name="/perception/lidar/tracked_topic"            value="/perception/lidar/tracked"/>    <!-- LandmarkArray -->
+	<param name="/perception/lidar/detected_markers_topic"   value="/perception/lidar/detected_markers"/>    <!-- MarkerArray -->
 
 	<!-- Physical Parameters -->
 	<param name="/perception/lidar/cone_radius"  value="0.228"/>
