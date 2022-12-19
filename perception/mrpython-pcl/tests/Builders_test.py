@@ -7,7 +7,7 @@ import pytest
 
 from mrpython_pcl.LidarPipeline.LidarPipeline import LidarPipeline
 from mrpython_pcl.LidarPipeline.Filter.Filter import Filter
-from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
+from mrpython_pcl.LidarPipeline.GroundRemoval.SimpleGroundRemoval import SimpleGroundRemoval
 from mrpython_pcl.LidarPipeline.ConeClassifier import ConeClassifier
 from mrpython_pcl.LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 
@@ -20,7 +20,7 @@ def testBuildFilter() -> None:
     """
     Tests the buildFilter method
     """
-    builder = Builder()
+    builder = Builder(True)
     tic = time.time()
     filterer = builder.buildFilter()
     toc = time.time()
@@ -28,14 +28,14 @@ def testBuildFilter() -> None:
     if REPORTTIME:
         print(f"buildFilter took {(toc - tic)*1000}ms")
     assert isinstance(filterer, Filter)
-    assert isinstance(filterer.groundRemovalMethod, RansacGroundRemoval)
+    assert isinstance(filterer.groundRemovalMethod, SimpleGroundRemoval)
 
 
 def testBuildConeClassifier() -> None:
     """
     Tests the buildConeClassifier method
     """
-    builder = Builder()
+    builder = Builder(True)
     tic = time.time()
     coneClassifier = builder.buildConeClassifier()
     toc = time.time()
@@ -49,7 +49,7 @@ def testBuildClusterer() -> None:
     """
     Tests the buildClusterer method
     """
-    builder = Builder()
+    builder = Builder(True)
     tic = time.time()
     clusterer = builder.buildClusterer()
     toc = time.time()
@@ -63,7 +63,7 @@ def testBuildPipeline() -> None:
     """
     Tests the buildPipeline method
     """
-    builder = Builder()
+    builder = Builder(True)
     tic = time.time()
     lidarPipeline = builder.buildPipeline()
     toc = time.time()

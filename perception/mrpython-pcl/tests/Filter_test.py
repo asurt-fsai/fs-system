@@ -11,10 +11,8 @@ import numpy as np
 
 # Import Filter
 from mrpython_pcl.LidarPipeline.Filter.Filter import Filter
-from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import (
-    RansacGroundRemoval,
-    AdaptiveGroundRemoval,
-)
+from mrpython_pcl.LidarPipeline.GroundRemoval.RansacGroundRemoval import RansacGroundRemoval
+from mrpython_pcl.LidarPipeline.GroundRemoval.AdaptiveGroundRemoval import AdaptiveGroundRemoval
 
 REPORTTIME = False
 NTESTCASESPERTEST = 10

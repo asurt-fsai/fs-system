@@ -11,7 +11,7 @@ import numpy as np
 
 # import matplotlib.pyplot as plt
 
-from mrpython_pcl.LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
+from mrpython_pcl.LidarPipeline.GroundRemoval.RansacGroundRemoval import RansacGroundRemoval
 
 
 @no_type_check
