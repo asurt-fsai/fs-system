@@ -8,7 +8,7 @@ import numpy.typing as npt
 from ..helpers import SingletonMeta
 
 
-class ConeClassifier(metaclass=SingletonMeta):
+class ConeClassifier(metaclass=SingletonMeta):  # type: ignore[misc]
     """
     Given 3D points that might fall on a cone, this class predicts whether the points represent
     a cone or not, and if they fall on a cone, it returns the cone center.
@@ -38,6 +38,11 @@ class ConeClassifier(metaclass=SingletonMeta):
 
         # Parameter Validation
         try:
+            assert type(radius) in [int, float]
+            assert type(height) in [int, float]
+            assert type(minPoints) in [int, float]
+            assert type(l2LossTh) in [int, float]
+            assert type(linLossPerc) in [int, float]
             assert radius > 0
             assert height > 0
             assert minPoints > 0 and int(minPoints) == minPoints
