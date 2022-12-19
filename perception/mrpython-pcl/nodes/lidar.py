@@ -5,7 +5,7 @@ Main ros node for the lidar pipeline used to detect cones
 import rospy
 
 # pylint: disable=import-error, no-name-in-module
-from mrpython_pcl.ros.Builders import buildPipeline
+from mrpython_pcl.ros.Builders import Builder
 from tf_helper.StatusPublisher import StatusPublisher
 
 
@@ -18,7 +18,8 @@ def main() -> None:
     status = StatusPublisher("/status/lidar")
     status.starting()
 
-    lidar = buildPipeline()
+    builder = Builder(True)
+    lidar = builder.buildPipeline()
 
     # Create a ROS subscriber for the input point cloud
     status.ready()
