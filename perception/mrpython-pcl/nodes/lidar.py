@@ -18,7 +18,7 @@ def main() -> None:
     status = StatusPublisher("/status/lidar")
     status.starting()
 
-    builder = Builder(True)
+    builder = Builder()
     lidar = builder.buildPipeline()
 
     # Create a ROS subscriber for the input point cloud
