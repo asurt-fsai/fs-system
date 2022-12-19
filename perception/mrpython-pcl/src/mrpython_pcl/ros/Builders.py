@@ -95,9 +95,10 @@ class Builder:
         clusterer = self.buildClusterer()
         coneClassifier = self.buildConeClassifier()
         tracker = None
+        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
 
         lidarPipeline = LidarRosWrapper(
-            publishers, markerViz, filterer, clusterer, coneClassifier, tracker
+            publishers, markerViz, filterer, clusterer, coneClassifier, tracker, lidarHeight
         )
 
         velodyneTopic = self.getParam("/perception/lidar/velodyne_topic", "/velodyne_points")
