@@ -10,7 +10,7 @@ from typing import Dict, List
 import pcl
 import numpy as np
 from ..helpers import SingletonMeta
-from .GroundRemoval import GroundRemovalMethod
+from ..GroundRemoval.GroundRemovalMethod import GroundRemovalMethod
 
 # To fix the issue with mypy not recognising the pcl classes
 # These can be removed of course, they are just to make mypy happy
@@ -18,7 +18,7 @@ pcl.PointCloud = pcl.PointCloud
 pcl.PointCloud_PointXYZI = pcl.PointCloud_PointXYZI
 
 
-class Filter(metaclass=SingletonMeta):
+class Filter(metaclass=SingletonMeta):  # type: ignore[misc]
     """
     Filter class containing many preprocessing methods for the point cloud
     """

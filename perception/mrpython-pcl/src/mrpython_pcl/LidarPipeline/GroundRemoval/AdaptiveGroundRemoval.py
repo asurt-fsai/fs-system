@@ -1,47 +1,22 @@
 """
-Contains ground removal classes to be used with the Filter module.
-Mainly contains the AdaptiveGroundRemoval class and the RansacGroundRemoval class.
+Adaptive Ground Removal based on the paper: https://arxiv.org/abs/1905.05150
 """
 from dataclasses import dataclass
 
 import pcl
 import numpy as np
 import numpy.typing as npt
+
 from ..helpers import SingletonMeta
+from .GroundRemovalMethod import GroundRemovalMethod
 
 # To fix the issue with mypy not recognising the pcl classes
 # These can be removed of course, they are just to make mypy happy
 pcl.PointCloud = pcl.PointCloud
-pcl.SampleConsensusModelPlane = pcl.SampleConsensusModelPlane
-pcl.RandomSampleConsensus = pcl.RandomSampleConsensus
 
 
 @dataclass
-class GroundRemovalMethod:
-    """
-    Base class from ground removal methods
-    """
-
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
-        """
-        Removes points falling onto the ground plance
-
-        Parameters
-        ----------
-        cloud : pcl.PointCloud
-            Point cloud containing the ground points and other
-            points (the points that we are interested in)
-
-        Returns
-        -------
-        pcl.PointCloud
-            Point cloud with the the ground points removed
-        """
-        raise NotImplementedError
-
-
-@dataclass
-class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
+class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
     """
     Removes points falling onto the ground plance using an adaptive method
     Based on the paper: https://arxiv.org/abs/1905.05150
@@ -144,56 +119,3 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
         locs = locs.astype(np.int32)
         locs = locs[:, 0] * self.nGridCells[1] + locs[:, 1]
         return locs
-
-
-@dataclass
-class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
-    """
-    Removes points falling onto the ground plance using RANSAC implemented in python-pcl
-    """
-
-    def __init__(self, ransacTh: float):
-        """
-        Parameters
-        ----------
-        ransacTh : float
-            The ransac threshold used to determine if a point is part of the ground plane
-        """
-        self.ransacTh = ransacTh
-
-        # Parameter Validation
-        try:
-            assert ransacTh > 0 and type(ransacTh) in [int, float]
-        except Exception as exp:
-            errMsg = "RansacGroundRemoval: ensure all parameters are within correct ranges \n \
-                        ransacTh: float > 0"
-            raise TypeError(errMsg) from exp
-
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
-        """
-        Removes points falling onto the ground plance
-
-        Parameters
-        ----------
-        cloud : pcl.PointCloud
-            Point cloud containing the ground points and other
-            points (the points that we are interested in)
-
-        Returns
-        -------
-        pcl.PointCloud
-            Point cloud with the the ground points removed
-        """
-        # Model for 3D plane segmentation
-        planeModel = pcl.SampleConsensusModelPlane(cloud)
-
-        # Run RANSAC
-        ransac = pcl.RandomSampleConsensus(planeModel)
-        ransac.set_DistanceThreshold(self.ransacTh)
-        ransac.computeModel()
-        inliers = ransac.get_Inliers()
-
-        # Remove ground points
-        cloudFiltered = cloud.extract(inliers, True)
-
-        return cloudFiltered
