@@ -5,15 +5,17 @@ from typing import Any
 
 from asurt_msgs.msg import LandmarkArray  # pylint: disable=import-error
 from sensor_msgs.msg import PointCloud2
+from visualization_msgs.msg import MarkerArray
 
 import rospy
 
 from ..LidarPipeline.Filter.Filter import Filter
-from ..LidarPipeline.Filter.GroundRemoval import RansacGroundRemoval
+from ..LidarPipeline.GroundRemoval.RansacGroundRemoval import RansacGroundRemoval
 from ..LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from ..LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from ..LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
+from .MarkerViz import MarkerViz
 
 
 class Builder:
@@ -73,13 +75,19 @@ class Builder:
         publishers["clustered"] = rospy.Publisher(clusteredTopics, PointCloud2, queue_size=10)
         publishers["detected"] = rospy.Publisher(detectedConesTopic, LandmarkArray, queue_size=10)
         publishers["tracked"] = rospy.Publisher(trackedConesTopic, LandmarkArray, queue_size=10)
+        publishers["detected_markers"] = rospy.Publisher(
+            "/detected_cones_markers", MarkerArray, queue_size=10
+        )
 
+        markerViz = self.buildMarkerViz()
         filterer = self.buildFilter()
         clusterer = self.buildClusterer()
         coneClassifier = self.buildConeClassifier()
         tracker = None
 
-        lidarPipeline = LidarRosWrapper(publishers, filterer, clusterer, coneClassifier, tracker)
+        lidarPipeline = LidarRosWrapper(
+            publishers, markerViz, filterer, clusterer, coneClassifier, tracker
+        )
 
         velodyneTopic = self.getParam("/perception/lidar/velodyne_topic", "/velodyne_points")
         rospy.Subscriber(velodyneTopic, PointCloud2, callback=lidarPipeline.setPointcloud)
@@ -136,6 +144,7 @@ class Builder:
 
         ransacThreshold = self.getParam("/perception/lidar/ransac_threshold", 0.1)
         groundRemover = RansacGroundRemoval(ransacThreshold)
+        # groundRemover = SimpleGroundRemoval([0, 0, -1, -0.1], 0.05, 1)
 
         filterer = Filter(groundRemover, reconstructParam, viewBounds, carBounds)
         return filterer
@@ -187,3 +196,17 @@ class Builder:
             raise NotImplementedError(f"Invalid cluster strategy: {clusterStrategy}")
 
         raise ValueError(f"Invalid cluster strategy: {clusterStrategy}")
+
+    def buildMarkerViz(self) -> MarkerViz:
+        """
+        Creates a marker viz object using the ros parameters set
+
+        Returns
+        -------
+        MarkerViz
+            The created marker viz object
+        """
+        coneRadius = self.getParam("/perception/lidar/cone_radius", 0.228)
+        coneHeight = self.getParam("/perception/lidar/cone_height", 0.4)
+        markerViz = MarkerViz(coneRadius, coneHeight)
+        return markerViz

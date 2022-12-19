@@ -10,18 +10,26 @@ from sensor_msgs.msg import PointCloud2
 
 from ..LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl
+from .MarkerViz import MarkerViz
 
 
-class LidarRosWrapper(LidarPipeline):
+class LidarRosWrapper(LidarPipeline):  # type: ignore[misc]
     """
     A ros wrapper for the lidar pipeline class
     It allows the class to read sensor_msgs.msg.PointCloud2 point cloud
     It also publishes the detected cones to the publishers given in the initialization
     """
 
-    def __init__(self, publishers: Dict[str, rospy.Publisher], *args: Any, **kwargs: Any):
+    def __init__(
+        self,
+        publishers: Dict[str, rospy.Publisher],
+        markerViz: MarkerViz,
+        *args: Any,
+        **kwargs: Any,
+    ):
         super().__init__(*args, **kwargs)
         self.publishers = publishers
+        self.markerViz = markerViz
 
         # Parameter Validation
         try:
@@ -56,8 +64,15 @@ class LidarRosWrapper(LidarPipeline):
         self.publishers["clustered"].publish(output["clustered"])
         self.publishers["detected"].publish(output["detected"])
 
+        # MarkerArray visualizations
+        detectedMarkers = self.markerViz.conesToMarkers(output["detected"])
+        self.publishers["detected_markers"].publish(detectedMarkers)
+
         if "tracked" in output:
             output["tracked"] = npConesToRos(output["tracked"], addIDs=True)
             self.publishers["tracked"].publish(output["tracked"])
+
+            trackedMarkers = self.markerViz.conesToMarkers(output["tracked"])
+            self.publishers["tracked_markers"].publish(trackedMarkers)
 
         return output
