@@ -10,7 +10,7 @@ from visualization_msgs.msg import MarkerArray
 import rospy
 
 from ..LidarPipeline.Filter.Filter import Filter
-from ..LidarPipeline.GroundRemoval.RansacGroundRemoval import RansacGroundRemoval
+from ..LidarPipeline.GroundRemoval.SimpleGroundRemoval import SimpleGroundRemoval
 from ..LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from ..LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from ..LidarPipeline.Clusterer.AbstractClusterer import Clusterer
@@ -143,8 +143,8 @@ class Builder:
         reconstructParam = self.getParam("/perception/lidar/cone_radius", 0.228)
 
         ransacThreshold = self.getParam("/perception/lidar/ransac_threshold", 0.1)
-        groundRemover = RansacGroundRemoval(ransacThreshold)
-        # groundRemover = SimpleGroundRemoval([0, 0, -1, -0.1], 0.05, 1)
+        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
+        groundRemover = SimpleGroundRemoval([0, 0, -1, -1 * lidarHeight], ransacThreshold, nIters=1)
 
         filterer = Filter(groundRemover, reconstructParam, viewBounds, carBounds)
         return filterer
