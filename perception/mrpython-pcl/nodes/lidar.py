@@ -21,7 +21,7 @@ def main() -> None:
     builder = Builder()
     lidar = builder.buildPipeline()
 
-    # Create a ROS subscriber for the input point cloud
+    # Publish heartbeat to show the module is ready
     status.ready()
 
     # Main loop
