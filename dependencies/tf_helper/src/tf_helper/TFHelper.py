@@ -123,7 +123,7 @@ class TFHelper:
         self, rosMsg: LandmarkArray, fromId: str, toId: str
     ) -> Optional[LandmarkArray]:
         """
-        Transform a ros message of type LandmarkArray from a frame to anoterh
+        Transform a ros message of type LandmarkArray from a frame to another
 
         Parameters
         ----------
@@ -164,7 +164,7 @@ class TFHelper:
         self, rosMsg: MarkerArray, fromId: str, toId: str
     ) -> Optional[MarkerArray]:
         """
-        Transform a ros message of type MarkerArray from a frame to anoterh
+        Transform a ros message of type MarkerArray from a frame to another
 
         Parameters
         ----------
@@ -203,7 +203,7 @@ class TFHelper:
 
     def transformPathMsg(self, rosMsg: Path, fromId: str, toId: str) -> Optional[Path]:
         """
-        Transform a ros message of type Path from a frame to anoterh
+        Transform a ros message of type Path from a frame to another
 
         Parameters
         ----------
