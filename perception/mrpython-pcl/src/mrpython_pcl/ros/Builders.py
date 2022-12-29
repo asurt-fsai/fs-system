@@ -158,8 +158,7 @@ class Builder:
         lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
         groundRemover = SimpleGroundRemoval([0, 0, -1, -1 * lidarHeight], ransacThreshold, nIters=1)
 
-        filterer = Filter(groundRemover, reconstructParam, viewBounds, carBounds)
-        return filterer
+        return Filter(groundRemover, reconstructParam, viewBounds, carBounds)
 
     def buildConeClassifier(self) -> ConeClassifier:
         """
