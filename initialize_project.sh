@@ -8,7 +8,7 @@ if [ "$ROS_PYTHON_VERSION" = "3" ]; then
 fi
 
 ADDITIONAL_PACKAGES="ros-$ROS_DISTRO-rospy"
-ADDITIONAL_PACKAGES = "$ADDITIONAL_PACKAGES python3-pcl" #perception/mrpython-pcl
+ADDITIONAL_PACKAGES="$ADDITIONAL_PACKAGES python3-pcl" #perception/mrpython-pcl
 
 if [ "$(lsb_release -sc)" = "focal" ]; then
     ADDITIONAL_PACKAGES="$ADDITIONAL_PACKAGES
