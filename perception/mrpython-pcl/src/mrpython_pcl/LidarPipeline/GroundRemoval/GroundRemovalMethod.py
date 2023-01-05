@@ -18,7 +18,7 @@ class GroundRemovalMethod:
 
     def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
         """
-        Removes points falling onto the ground plance
+        Removes points falling onto the ground plane
 
         Parameters
         ----------

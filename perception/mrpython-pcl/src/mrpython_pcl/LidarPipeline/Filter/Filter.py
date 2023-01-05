@@ -100,7 +100,7 @@ class Filter(metaclass=SingletonMeta):
 
     def filterViewableArea(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
         """
-        Filters to point cloud to include include the viewable area (box around the origin)
+        Filters to point cloud to include the viewable area (box around the origin)
 
         Parameters
         ----------

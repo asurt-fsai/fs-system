@@ -66,7 +66,7 @@ class TFHelper:
         self, arr: npt.NDArray[np.float64], fromId: str, toId: str
     ) -> Optional[npt.NDArray[np.float64]]:
         """
-        Transfomr a given numpy array from a given frame to another
+        Transform a given numpy array from a given frame to another
 
         Parameters
         ----------

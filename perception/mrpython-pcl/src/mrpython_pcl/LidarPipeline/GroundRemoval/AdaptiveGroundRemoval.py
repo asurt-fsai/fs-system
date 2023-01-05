@@ -18,7 +18,7 @@ pcl.PointCloud = pcl.PointCloud
 @dataclass
 class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
-    Removes points falling onto the ground plance using an adaptive method
+    Removes points falling onto the ground plane using an adaptive method
     Based on the paper: https://arxiv.org/abs/1905.05150
     """
 
@@ -50,7 +50,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
 
     def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
         """
-        Removes points falling onto the ground plance
+        Removes points falling onto the ground plane
 
         Parameters
         ----------

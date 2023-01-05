@@ -18,7 +18,7 @@ pcl.RandomSampleConsensus = pcl.RandomSampleConsensus
 @dataclass
 class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
-    Removes points falling onto the ground plance using RANSAC implemented in python-pcl
+    Removes points falling onto the ground plane using RANSAC implemented in python-pcl
     """
 
     def __init__(self, ransacTh: float):
@@ -40,7 +40,7 @@ class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
 
     def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
         """
-        Removes points falling onto the ground plance
+        Removes points falling onto the ground plane
 
         Parameters
         ----------
