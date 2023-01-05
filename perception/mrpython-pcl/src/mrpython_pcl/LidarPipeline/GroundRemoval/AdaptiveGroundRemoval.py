@@ -3,16 +3,12 @@ Adaptive Ground Removal based on the paper: https://arxiv.org/abs/1905.05150
 """
 from dataclasses import dataclass
 
-import pcl
+from pcl import PointCloud  # pylint: disable=no-name-in-module
 import numpy as np
 import numpy.typing as npt
 
 from ..helpers import SingletonMeta
 from .GroundRemovalMethod import GroundRemovalMethod
-
-# To fix the issue with mypy not recognising the pcl classes
-# These can be removed of course, they are just to make mypy happy
-pcl.PointCloud = pcl.PointCloud
 
 
 @dataclass
@@ -48,19 +44,19 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
                         distFromPlaneTh: float > 0"
             raise TypeError(errMsg) from exp
 
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def removeGround(self, cloud: PointCloud) -> PointCloud:
         """
         Removes points falling onto the ground plane
 
         Parameters
         ----------
-        cloud : pcl.PointCloud
+        cloud : PointCloud
             Point cloud containing the ground points and other
             points (the points that we are interested in)
 
         Returns
         -------
-        pcl.PointCloud
+        PointCloud
             Point cloud with the the ground points removed
         """
         points = cloud.to_array()
@@ -85,7 +81,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
         diffs = np.abs(points[:, 2] - preds.reshape(-1))
         points = points[diffs > self.distFromPlaneTh]
 
-        cloud = pcl.PointCloud()
+        cloud = PointCloud()
         cloud.from_array(points.astype(np.float32))
         return cloud
 
