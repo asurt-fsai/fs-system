@@ -47,4 +47,7 @@
 	<param name="/perception/lidar/mean_shift/n_iters"             value="3"/>
 	<param name="/perception/lidar/mean_shift/min_cluster_points"  value="5"/>
 
+	<!-- Subsampling Option -->
+	<param name="/perception/lidar/subsample"  value="False"/>
+
 </launch>

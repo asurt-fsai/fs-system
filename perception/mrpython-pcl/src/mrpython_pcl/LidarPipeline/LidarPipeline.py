@@ -32,12 +32,14 @@ class LidarPipeline(metaclass=SingletonMeta):
         coneClassifier: ConeClassifier,
         tracker: Any = None,
         lidarHeight: float = 0,
+        subsample: bool = False,
     ):
         self.filterer = filterer
         self.clusterer = clusterer
         self.coneClassifier = coneClassifier
         self.tracker = tracker
         self.lidarHeight = lidarHeight
+        self.subsample = subsample
 
         self.lidarPc = None
 
@@ -107,7 +109,8 @@ class LidarPipeline(metaclass=SingletonMeta):
         cloud = self.filterer.filterViewableArea(cloud)
         cloud = self.filterer.removeCar(cloud)
         cloud = self.filterer.removeGround(cloud)
-        # cloud = self.filterer.subsample(cloud)
+        if self.subsample:
+            cloud = self.filterer.subsample(cloud)
         cloudFil = cloud.to_array()
 
         clusterCenters = self.clusterer.cluster(cloudFil)

@@ -1,7 +1,7 @@
 """
 List of builder functions to instantiate different components of the pipeline with ros parameters
 """
-from typing import Any
+from typing import Any, Dict
 
 from asurt_msgs.msg import LandmarkArray  # pylint: disable=import-error
 from sensor_msgs.msg import PointCloud2
@@ -65,6 +65,42 @@ class Builder:
         lidarPipeline: LidarRosWrapper
             The main pipeline object created
         """
+        publishers = self.buildPublishers()
+
+        markerViz = self.buildMarkerViz()
+        filterer = self.buildFilter()
+        clusterer = self.buildClusterer()
+        coneClassifier = self.buildConeClassifier()
+        tracker = None
+        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
+        subsample = self.getParam("/perception/lidar/subsample", False)
+
+        lidarPipeline = LidarRosWrapper(
+            publishers,
+            markerViz,
+            filterer,
+            clusterer,
+            coneClassifier,
+            tracker,
+            lidarHeight,
+            subsample,
+        )
+
+        velodyneTopic = self.getParam("/perception/lidar/velodyne_topic", "/velodyne_points")
+        rospy.Subscriber(velodyneTopic, PointCloud2, callback=lidarPipeline.setPointcloud)
+
+        return lidarPipeline
+
+    def buildPublishers(self) -> Dict[str, rospy.Publisher]:
+        """
+        Creates the publishers to use with the main pipeline object
+
+        Returns
+        -------
+        Dict[str, rospy.Publisher]
+            A rospy publisher for each topic:
+                filtered, clustered, detected, tracked, detected_markers
+        """
         filteredTopic = self.getParam(
             "/perception/lidar/filtered_topic", "/placeholder/lidar/filtered"
         )
@@ -90,21 +126,7 @@ class Builder:
             detectedMarkersTopic, MarkerArray, queue_size=10
         )
 
-        markerViz = self.buildMarkerViz()
-        filterer = self.buildFilter()
-        clusterer = self.buildClusterer()
-        coneClassifier = self.buildConeClassifier()
-        tracker = None
-        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
-
-        lidarPipeline = LidarRosWrapper(
-            publishers, markerViz, filterer, clusterer, coneClassifier, tracker, lidarHeight
-        )
-
-        velodyneTopic = self.getParam("/perception/lidar/velodyne_topic", "/velodyne_points")
-        rospy.Subscriber(velodyneTopic, PointCloud2, callback=lidarPipeline.setPointcloud)
-
-        return lidarPipeline
+        return publishers
 
     def buildTracker(self) -> None:
         """
