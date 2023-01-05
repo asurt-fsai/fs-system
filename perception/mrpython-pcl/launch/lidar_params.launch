@@ -30,7 +30,7 @@
 	<param name="/perception/lidar/car_bounds/ymax"  value="0.75"/>
 
 	<!-- Ground Removal Threshold-->
-	<param name="/perception/lidar/ransac_threshold"  value="0.2"/>
+	<param name="/perception/lidar/ransac_threshold"  value="0.05"/>
 
 	<!-- Cone Filter -->
 	<param name="/perception/lidar/cone_filter/min_points"  value="5"/>
@@ -41,6 +41,8 @@
 	<param name="/perception/lidar/cluster_strategy"  value="mean_shift"/>
 
 	<!-- Mean Shift Clustering -->
+	<param name="/perception/lidar/mean_shift/n_grid_cells_x"      value="40"/>
+	<param name="/perception/lidar/mean_shift/n_grid_cells_y"      value="40"/>
 	<param name="/perception/lidar/mean_shift/nms_radius"          value="0.4"/>
 	<param name="/perception/lidar/mean_shift/n_iters"             value="3"/>
 	<param name="/perception/lidar/mean_shift/min_cluster_points"  value="5"/>

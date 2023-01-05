@@ -197,7 +197,9 @@ class Builder:
         clusterStrategy = self.getParam("/perception/lidar/cluster_strategy", "mean_shift")
 
         if clusterStrategy == "mean_shift":
-            nGridCells = self.getParam("/perception/lidar/mean_shift/n_grid_cells", [40, 40])
+            nGridCellsX = self.getParam("/perception/lidar/mean_shift/n_grid_cells_x", 40)
+            nGridCellsY = self.getParam("/perception/lidar/mean_shift/n_grid_cells_y", 40)
+            nGridCells = [nGridCellsX, nGridCellsY]
             nmsRadius = self.getParam("/perception/lidar/mean_shift/nms_radius", 0.4)
             nIters = self.getParam("/perception/lidar/mean_shift/n_iters", 3)
             minClusterPoints = self.getParam("/perception/lidar/mean_shift/min_cluster_points", 5)
