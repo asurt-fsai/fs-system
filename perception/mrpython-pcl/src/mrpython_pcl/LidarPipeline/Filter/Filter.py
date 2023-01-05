@@ -139,7 +139,6 @@ class Filter(metaclass=SingletonMeta):
         idx = np.where(idx)[0]
         cloud = PointCloud()
         cloud.from_array(cloudsArr[idx])
-        # cloud = cloud.extract(idx, False)
 
         return cloud
 

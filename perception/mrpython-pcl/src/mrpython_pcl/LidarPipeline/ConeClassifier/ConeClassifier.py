@@ -129,7 +129,6 @@ class ConeClassifier(metaclass=SingletonMeta):
 
         params = np.linalg.pinv(features) @ target
 
-        # params = [coneCenter_x, coneCenter_y, coneCenter_z, linearization_term]
         params = params.reshape(-1)
         toReturn: List[float] = params.tolist()
 
