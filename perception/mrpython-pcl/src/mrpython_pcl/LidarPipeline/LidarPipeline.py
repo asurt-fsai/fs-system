@@ -8,7 +8,7 @@ LidarPipeline class to integrate the following classes:
 from typing import Optional, Dict, Any
 from threading import Lock
 
-import pcl
+from pcl import PointCloud  # pylint: disable=no-name-in-module
 import numpy as np
 import numpy.typing as npt
 
@@ -58,25 +58,25 @@ class LidarPipeline(metaclass=SingletonMeta):
             raise TypeError(errMsg) from exp
 
     @mutexLock(mutex)
-    def setPointcloud(self, pointcloud: pcl.PointCloud) -> None:
+    def setPointcloud(self, pointcloud: PointCloud) -> None:
         """
         Set the point cloud to be used in the pipeline
 
         Parameters
         ----------
-        pointcloud : pcl.PointCloud
+        pointcloud : PointCloud
             Raw point cloud recieved from the lidar
         """
         self.lidarPc = pointcloud
 
     @mutexLock(mutex)
-    def getPointcloud(self) -> Optional[pcl.PointCloud]:
+    def getPointcloud(self) -> Optional[PointCloud]:
         """
         Fetches the latest point cloud and sets it to None
 
         Returns
         -------
-        pcl.PointCloud or None
+        PointCloud or None
             Raw point cloud recieved from the lidar
             Returns None if no point cloud has been added
         """

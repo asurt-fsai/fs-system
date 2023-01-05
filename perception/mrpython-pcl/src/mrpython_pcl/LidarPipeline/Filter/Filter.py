@@ -7,15 +7,11 @@ A set of filters used including:
     - Cone reconstruction filter
 """
 from typing import Dict, List
-import pcl
+
+from pcl import PointCloud, PointCloud_PointXYZI  # pylint: disable=no-name-in-module
 import numpy as np
 from ..helpers import SingletonMeta
 from ..GroundRemoval.GroundRemovalMethod import GroundRemovalMethod
-
-# To fix the issue with mypy not recognising the pcl classes
-# These can be removed of course, they are just to make mypy happy
-pcl.PointCloud = pcl.PointCloud
-pcl.PointCloud_PointXYZI = pcl.PointCloud_PointXYZI
 
 
 class Filter(metaclass=SingletonMeta):
@@ -98,18 +94,18 @@ class Filter(metaclass=SingletonMeta):
                         viewableBounds and carDimensions: dict, see docstring"
             raise TypeError(errMsg) from exp
 
-    def filterViewableArea(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def filterViewableArea(self, cloud: PointCloud) -> PointCloud:
         """
         Filters to point cloud to include the viewable area (box around the origin)
 
         Parameters
         ----------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud to filter
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Filtered point cloud
         """
         cloud = self.passFilter(cloud, "y", *self.viewableBounds["y"])
@@ -117,18 +113,18 @@ class Filter(metaclass=SingletonMeta):
         cloud = self.passFilter(cloud, "z", *self.viewableBounds["z"])
         return cloud
 
-    def removeCar(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def removeCar(self, cloud: PointCloud) -> PointCloud:
         """
         Removes points that possibly fall on the car (ego)
 
         Parameters
         ----------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud to clip
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud with the 2D box clipped from it
         """
         xMin = self.carDimensions["x"][0]
@@ -141,38 +137,38 @@ class Filter(metaclass=SingletonMeta):
         idxY = np.logical_or(cloudsArr[:, 1] > yMax, cloudsArr[:, 1] < yMin)
         idx = np.logical_or(idxX, idxY)
         idx = np.where(idx)[0]
-        cloud = pcl.PointCloud()
+        cloud = PointCloud()
         cloud.from_array(cloudsArr[idx])
         # cloud = cloud.extract(idx, False)
 
         return cloud
 
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def removeGround(self, cloud: PointCloud) -> PointCloud:
         """
         Removes points falling onto the ground plance
 
         Parameters
         ----------
-        cloud : pcl.PointCloud
+        cloud : PointCloud
             Point cloud containing the ground points and other
             points (the points that we are interested in)
 
         Returns
         -------
-        pcl.PointCloud
+        PointCloud
             Point cloud with the the ground points removed
         """
         filteredCloud = self.groundRemovalMethod.removeGround(cloud)
         return filteredCloud
 
-    def reconstruct(self, cloud: pcl.PointCloud, centerX: float, centerY: float) -> pcl.PointCloud:
+    def reconstruct(self, cloud: PointCloud, centerX: float, centerY: float) -> PointCloud:
         """
         Returns points from the given problem within a box (on x and y axes)
         around the given center point
 
         Parameters
         ----------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud to fetch points from
         centerX: float
             X-axis center
@@ -181,7 +177,7 @@ class Filter(metaclass=SingletonMeta):
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Points with a box around the given center (centerX, centerY)
         """
         xmin = centerX - self.resconstructParam
@@ -198,16 +194,14 @@ class Filter(metaclass=SingletonMeta):
         return cloud
 
     @staticmethod
-    def passFilter(
-        cloud: pcl.PointCloud, field: str, minLimit: float, maxLimit: float
-    ) -> pcl.PointCloud:
+    def passFilter(cloud: PointCloud, field: str, minLimit: float, maxLimit: float) -> PointCloud:
         """
         Applies a pass filter on a cloud on a particular axis. It passes values only
         between minLimit and maxLimit on the given axis (field)
 
         Parameters
         ----------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud to filter
         field: str
             field for which to apply filter e.g. "x", "y", "z"
@@ -218,7 +212,7 @@ class Filter(metaclass=SingletonMeta):
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Filtered point cloud
         """
         passthrough = cloud.make_passthrough_filter()
@@ -228,9 +222,7 @@ class Filter(metaclass=SingletonMeta):
         return cloud
 
     @staticmethod
-    def subsample(
-        cloud: pcl.PointCloud, ratio: float = 0.8, temperature: float = 500
-    ) -> pcl.PointCloud:
+    def subsample(cloud: PointCloud, ratio: float = 0.8, temperature: float = 500) -> PointCloud:
         """
         Subsample a ratio of points from the pointcloud weighted, where near
         points are more likely to be sampled
@@ -238,7 +230,7 @@ class Filter(metaclass=SingletonMeta):
 
         Parameters
         ----------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud to subsample from
         ratio: float, optional, default 0.8
             Fraction of points to sample from the point cloud
@@ -247,7 +239,7 @@ class Filter(metaclass=SingletonMeta):
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Subsampled point cloud
         """
         assert 0 < ratio <= 1
@@ -266,26 +258,26 @@ class Filter(metaclass=SingletonMeta):
         sampledIndices = np.random.choice(cloudArr.shape[0], nNewSamples, replace=False, p=probs)
         cloudArr = cloudArr[sampledIndices]
 
-        cloud = pcl.PointCloud()
+        cloud = PointCloud()
         cloud.from_array(cloudArr)
         return cloud
 
     @staticmethod
-    def removeIntensity(cloud: pcl.PointCloud_PointXYZI) -> pcl.PointCloud:
+    def removeIntensity(cloud: PointCloud_PointXYZI) -> PointCloud:
         """
         Removes the intensity information from a point cloud, leaving only x, y, z
 
         Parameters
         ----------
-        cloud: pcl.PointCloud_PointXYZI
+        cloud: PointCloud_PointXYZI
             Point cloud with intensity (i.e. each point has x,y,z,i)
 
         Returns
         -------
-        cloud: pcl.PointCloud
+        cloud: PointCloud
             Point cloud with intensity removed
         """
         cloudArr = cloud.to_array()
-        cloud = pcl.PointCloud()
+        cloud = PointCloud()
         cloud.from_array(cloudArr[:, :3])
         return cloud

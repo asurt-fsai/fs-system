@@ -1,22 +1,19 @@
 """
 Serializer functions for transforming between the following data types:
     - numpy array of points: npt.NDArray[np.float64]
-    - pcl pointcloud: pcl.PointCloud
+    - pcl pointcloud: PointCloud
     - ros point cloud: sensor_msgs.msg.PointCloud2
 """
-import pcl
 import rospy
 import numpy as np
 import numpy.typing as npt
+from pcl import PointCloud, PointCloud_PointXYZI  # pylint: disable=no-name-in-module
 
 from asurt_msgs.msg import Landmark, LandmarkArray  # pylint: disable=import-error
 from sensor_msgs.msg import PointField, PointCloud2
 
-pcl.PointCloud = pcl.PointCloud
-pcl.PointCloud_PointXYZI = pcl.PointCloud_PointXYZI
-
 # pylint: disable-msg=too-many-locals
-def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> pcl.PointCloud:
+def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> PointCloud:
     """
     Parses a given PointCloud2 ros message into a pcl point cloud
 
@@ -27,7 +24,7 @@ def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> pcl.PointCloud:
 
     Returns
     -------
-    cloud: pcl.PointCloud
+    cloud: PointCloud
         Parsed point cloud
     """
     dummyFieldPrefix = "__"
@@ -106,7 +103,7 @@ def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> pcl.PointCloud:
     return cloud
 
 
-def npToPcl(cloudArray: npt.NDArray[np.float64]) -> pcl.PointCloud:
+def npToPcl(cloudArray: npt.NDArray[np.float64]) -> PointCloud:
     """
     Converts a numpy array of points to a pcl point cloud
 
@@ -117,29 +114,29 @@ def npToPcl(cloudArray: npt.NDArray[np.float64]) -> pcl.PointCloud:
 
     Returns
     -------
-    pcl.PointCloud
+    PointCloud
         Point cloud containing the same points as cloudArray
     """
     ###########################################################################
     ########################   This is slow  ##################################
     ###########################################################################
     if cloudArray.shape[1] == 3:
-        cloud = pcl.PointCloud()
+        cloud = PointCloud()
     elif cloudArray.shape[1] == 4:
-        cloud = pcl.PointCloud_PointXYZI()
+        cloud = PointCloud_PointXYZI()
 
     cloud.from_array(cloudArray.astype(np.float32))
 
     return cloud
 
 
-def pclToRos(cloudPcl: pcl.PointCloud) -> PointCloud2:
+def pclToRos(cloudPcl: PointCloud) -> PointCloud2:
     """
     Converts a pcl Point cloud to a ros PointCloud2 message
 
     Parameters
     ----------
-    cloudPcl : pcl.PointCloud
+    cloudPcl : PointCloud
         Point cloud to convert
 
     Returns

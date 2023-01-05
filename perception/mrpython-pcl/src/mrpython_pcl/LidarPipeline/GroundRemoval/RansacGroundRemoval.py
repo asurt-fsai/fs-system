@@ -4,15 +4,13 @@ Based on the Ransac implementation in python-pcl
 """
 from dataclasses import dataclass
 
-import pcl
+from pcl import (  # pylint: disable=no-name-in-module
+    PointCloud,
+    SampleConsensusModelPlane,
+    RandomSampleConsensus,
+)
 from ..helpers import SingletonMeta
 from .GroundRemovalMethod import GroundRemovalMethod
-
-# To fix the issue with mypy not recognising the pcl classes
-# These can be removed of course, they are just to make mypy happy
-pcl.PointCloud = pcl.PointCloud
-pcl.SampleConsensusModelPlane = pcl.SampleConsensusModelPlane
-pcl.RandomSampleConsensus = pcl.RandomSampleConsensus
 
 
 @dataclass
@@ -38,26 +36,26 @@ class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
                         ransacTh: float > 0"
             raise TypeError(errMsg) from exp
 
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def removeGround(self, cloud: PointCloud) -> PointCloud:
         """
         Removes points falling onto the ground plane
 
         Parameters
         ----------
-        cloud : pcl.PointCloud
+        cloud : PointCloud
             Point cloud containing the ground points and other
             points (the points that we are interested in)
 
         Returns
         -------
-        pcl.PointCloud
+        PointCloud
             Point cloud with the the ground points removed
         """
         # Model for 3D plane segmentation
-        planeModel = pcl.SampleConsensusModelPlane(cloud)
+        planeModel = SampleConsensusModelPlane(cloud)
 
         # Run RANSAC
-        ransac = pcl.RandomSampleConsensus(planeModel)
+        ransac = RandomSampleConsensus(planeModel)
         ransac.set_DistanceThreshold(self.ransacTh)
         ransac.computeModel()
         inliers = ransac.get_Inliers()

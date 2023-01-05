@@ -3,15 +3,11 @@ Simple ground removal method
 """
 from typing import List
 
-import pcl
+from pcl import PointCloud  # pylint: disable=no-name-in-module
 import numpy as np
 import numpy.typing as npt
 from ..helpers import SingletonMeta
 from .GroundRemovalMethod import GroundRemovalMethod
-
-# To fix the issue with mypy not recognising the pcl classes
-# These can be removed of course, they are just to make mypy happy
-pcl.PointCloud = pcl.PointCloud
 
 
 class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
@@ -29,7 +25,7 @@ class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
         self.groundTh = groundTh
         self.nIters = nIters
 
-    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
+    def removeGround(self, cloud: PointCloud) -> PointCloud:
         """
         Fit a plane to a point cloud given a starting plane equation and
         constraints on the possible planes
@@ -37,12 +33,12 @@ class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
 
         Parameters
         ----------
-        cloud : pcl.PointCloud
+        cloud : PointCloud
             Points to fit the plane to
 
         Returns
         -------
-        pcl.PointCloud
+        PointCloud
             Point cloud with the ground points removed
         """
         points = cloud.to_array()
@@ -54,7 +50,7 @@ class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
             planeEquation = self.fitPlane(neighbors)
         outliers = self.getOutliers(points, planeEquation)
 
-        filteredCloud = pcl.PointCloud()
+        filteredCloud = PointCloud()
         filteredCloud.from_array(outliers.astype(np.float32))
 
         return filteredCloud
