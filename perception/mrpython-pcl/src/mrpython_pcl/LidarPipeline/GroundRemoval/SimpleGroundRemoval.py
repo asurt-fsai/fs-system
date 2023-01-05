@@ -14,7 +14,7 @@ from .GroundRemovalMethod import GroundRemovalMethod
 pcl.PointCloud = pcl.PointCloud
 
 
-class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
+class SimpleGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
     Custom implementation to remove the ground plane
 

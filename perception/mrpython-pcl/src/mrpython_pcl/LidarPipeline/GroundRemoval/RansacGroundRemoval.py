@@ -16,7 +16,7 @@ pcl.RandomSampleConsensus = pcl.RandomSampleConsensus
 
 
 @dataclass
-class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
+class RansacGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
     Removes points falling onto the ground plance using RANSAC implemented in python-pcl
     """

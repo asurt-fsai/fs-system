@@ -16,7 +16,7 @@ pcl.PointCloud = pcl.PointCloud
 
 
 @dataclass
-class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):  # type: ignore[misc]
+class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
     """
     Removes points falling onto the ground plance using an adaptive method
     Based on the paper: https://arxiv.org/abs/1905.05150

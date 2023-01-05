@@ -18,7 +18,7 @@ pcl.PointCloud = pcl.PointCloud
 pcl.PointCloud_PointXYZI = pcl.PointCloud_PointXYZI
 
 
-class Filter(metaclass=SingletonMeta):  # type: ignore[misc]
+class Filter(metaclass=SingletonMeta):
     """
     Filter class containing many preprocessing methods for the point cloud
     """
