@@ -94,43 +94,16 @@ class TFHelper:
         arr += np.array([*trans]).reshape(1, 2)
         return arr
 
-    def getMessageIn(self, rosMsg: Any, toId: str) -> Any:
-        """
-        Transforms a given message to a new frame
-
-        Parameters
-        ----------
-        rosMsg : Any
-            Ros message to transform
-        toId : str
-            Frame to transform to
-
-        Returns
-        -------
-        Any
-            The ros message transformed to the new frame
-        """
-        if isinstance(rosMsg, LandmarkArray):
-            fromId = rosMsg.header.frame_id
-            return self.transformMsg(rosMsg, fromId, toId)
-        if isinstance(rosMsg, MarkerArray):
-            fromId = rosMsg.markers[0].header.frame_id
-            return self.transformMsg(rosMsg, fromId, toId)
-        errMsg = f"Message of type {type(rosMsg)} hasn't been implemented by TFHelper"
-        raise NotImplementedError(errMsg)
-
     def transformLandmarkArrayMsg(
-        self, rosMsg: LandmarkArray, fromId: str, toId: str
+        self, rosMsg: LandmarkArray, toId: str
     ) -> Optional[LandmarkArray]:
         """
-        Transform a ros message of type LandmarkArray from a frame to another
+        Transform a ros message of type LandmarkArray from its frame to another
 
         Parameters
         ----------
         rosMsg : LandmarkArray
             The ros message to transform
-        fromId : str
-            The frame to transform from
         toId : str
             The frame to transform to
 
@@ -148,9 +121,10 @@ class TFHelper:
 
         # Apply transformations
         if len(conesArr) > 0:
+            fromId = rosMsg.header.frame_id
             transformedCones = self.transformArr(conesArr, fromId, toId)
             if transformedCones is None:
-                return None
+                return rosMsg
 
             # Modify original message
             for idx, landmark in enumerate(rosMsg.landmarks):
@@ -160,18 +134,14 @@ class TFHelper:
         rosMsg.header.frame_id = toId
         return rosMsg
 
-    def transformMarkerArrayMsg(
-        self, rosMsg: MarkerArray, fromId: str, toId: str
-    ) -> Optional[MarkerArray]:
+    def transformMarkerArrayMsg(self, rosMsg: MarkerArray, toId: str) -> Optional[MarkerArray]:
         """
-        Transform a ros message of type MarkerArray from a frame to another
+        Transform a ros message of type MarkerArray from its frame to another
 
         Parameters
         ----------
         rosMsg : MarkerArray
             The ros message to transform
-        fromId : str
-            The frame to transform from
         toId : str
             The frame to transform to
 
@@ -189,9 +159,10 @@ class TFHelper:
 
         # Apply transformations
         if len(conesArr) > 0:
+            fromId = rosMsg.markers[0].header.frame_id
             transformedCones = self.transformArr(conesArr, fromId, toId)
             if transformedCones is None:
-                return None
+                return rosMsg
 
             # Modify original message
             for idx, marker in enumerate(rosMsg.markers):
@@ -201,16 +172,14 @@ class TFHelper:
 
         return rosMsg
 
-    def transformPathMsg(self, rosMsg: Path, fromId: str, toId: str) -> Optional[Path]:
+    def transformPathMsg(self, rosMsg: Path, toId: str) -> Optional[Path]:
         """
-        Transform a ros message of type Path from a frame to another
+        Transform a ros message of type Path from its frame to another
 
         Parameters
         ----------
         rosMsg : Path
             The ros message to transform
-        fromId : str
-            The frame to transform from
         toId : str
             The frame to transform to
 
@@ -227,9 +196,10 @@ class TFHelper:
 
         # Apply transformations
         if len(pointsArr) > 0:
+            fromId = rosMsg.header.frame_id
             transformedPoints = self.transformArr(pointsArr, fromId, toId)
             if transformedPoints is None:
-                return None
+                return rosMsg
 
             # Modify original message
             for idx, pose in enumerate(rosMsg.poses):
@@ -241,7 +211,7 @@ class TFHelper:
 
         return rosMsg
 
-    def transformMsg(self, rosMsg: Any, fromId: str, toId: str) -> Any:
+    def transformMsg(self, rosMsg: Any, toId: str) -> Any:
         """
         Transform a ros message from a given frame to another
 
@@ -249,8 +219,6 @@ class TFHelper:
         ----------
         rosMsg : Any
             Ros message to transform
-        fromId : str
-            Frame to transform from
         toId : str
             Frame to transform to
 
@@ -258,18 +226,17 @@ class TFHelper:
         -------
         Any or None
             The transformed ros message into the new frame
-            Return None if the transformation is not possible either because:
-                - No transformation found between the two given frames
-                - The message type is not support (also throws a rospy.logerr)
+            Return the original message if the transformation is not possible
+            Return None if the message type is not supported (also throws a rospy.logerr)
         """
         if isinstance(rosMsg, LandmarkArray):
-            return self.transformLandmarkArrayMsg(rosMsg, fromId, toId)
+            return self.transformLandmarkArrayMsg(rosMsg, toId)
 
         if isinstance(rosMsg, MarkerArray):
-            return self.transformMarkerArrayMsg(rosMsg, fromId, toId)
+            return self.transformMarkerArrayMsg(rosMsg, toId)
 
         if isinstance(rosMsg, Path):
-            return self.transformPathMsg(rosMsg, fromId, toId)
+            return self.transformPathMsg(rosMsg, toId)
 
         rospy.logerr(type(rosMsg), " not implemented in tf_helper")
         return None
