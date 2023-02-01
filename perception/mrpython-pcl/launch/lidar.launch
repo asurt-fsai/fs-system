@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find mrpython_pcl)/launch/lidar_params.launch" />
+	<node name = "lidar" pkg = "mrpython_pcl" type = "lidar.py" output="screen"/>
+</launch>

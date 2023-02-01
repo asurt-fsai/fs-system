@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- ROS Topics (Subscribed to) -->
+	<param name="/perception/lidar/velodyne_topic"  value="/velodyne_points"/>
+
+	<!-- ROS Topics (Published to) -->
+	<param name="/perception/lidar/filtered_topic"           value="/perception/lidar/filtered"/>   <!-- PointCloud2 -->
+	<param name="/perception/lidar/clustered_topic"          value="/perception/lidar/clustered"/>  <!-- PointCloud2 -->
+	<param name="/perception/lidar/detected_topic"           value="/perception/lidar/detected"/>   <!-- LandmarkArray -->
+	<param name="/perception/lidar/tracked_topic"            value="/perception/lidar/tracked"/>    <!-- LandmarkArray -->
+	<param name="/perception/lidar/detected_markers_topic"   value="/perception/lidar/detected_markers"/>    <!-- MarkerArray -->
+
+	<!-- Physical Parameters -->
+	<param name="/perception/lidar/cone_radius"  value="0.228"/>
+	<param name="/perception/lidar/cone_height"  value="0.4"/>
+	<param name="/perception/lidar/lidar_height"  value="0.1"/>
+
+	<!-- View Bounds -->
+	<param name="/perception/lidar/view_bounds/xmin" value="-1"/>
+	<param name="/perception/lidar/view_bounds/xmax" value="12"/>
+	<param name="/perception/lidar/view_bounds/ymin" value="-5"/>
+	<param name="/perception/lidar/view_bounds/ymax" value="5"/>
+	<param name="/perception/lidar/view_bounds/zmin" value="-0.1"/>
+	<param name="/perception/lidar/view_bounds/zmax" value="0.2"/>
+
+	<!-- Car Bounds -->
+	<param name="/perception/lidar/car_bounds/xmin"  value="-2"/>
+	<param name="/perception/lidar/car_bounds/xmax"  value="0"/>
+	<param name="/perception/lidar/car_bounds/ymin"  value="-0.75"/>
+	<param name="/perception/lidar/car_bounds/ymax"  value="0.75"/>
+
+	<!-- Ground Removal Threshold-->
+	<param name="/perception/lidar/ransac_threshold"  value="0.05"/>
+
+	<!-- Cone Filter -->
+	<param name="/perception/lidar/cone_filter/min_points"  value="5"/>
+	<param name="/perception/lidar/cone_filter/l2_th"  value="0.03"/>
+	<param name="/perception/lidar/cone_filter/lin_th"  value="0.0001"/>
+
+	<!-- Cone Cluster -->
+	<param name="/perception/lidar/cluster_strategy"  value="mean_shift"/>
+
+	<!-- Mean Shift Clustering -->
+	<param name="/perception/lidar/mean_shift/n_grid_cells_x"      value="40"/>
+	<param name="/perception/lidar/mean_shift/n_grid_cells_y"      value="40"/>
+	<param name="/perception/lidar/mean_shift/nms_radius"          value="0.4"/>
+	<param name="/perception/lidar/mean_shift/n_iters"             value="3"/>
+	<param name="/perception/lidar/mean_shift/min_cluster_points"  value="5"/>
+
+	<!-- Subsampling Option -->
+	<param name="/perception/lidar/subsample"  value="False"/>
+
+</launch>
