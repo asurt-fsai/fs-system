@@ -14,9 +14,8 @@ Kd = 0.1 #acc gain 2
 dt =  0.1  # [s] time step
 BaseWidth = 2.9  # [m] wheel base of vehicle
 show_animation = True
+
 #getting car state from SLAM
-
-
 class State:
     def __init__(self, x=0.0, y=0.0, yaw=0.0, currentSpeed=0.0):
         self.x = x
@@ -68,6 +67,7 @@ class WayPoints:
     def search_target_index(self, state):
 
         #(to be optimized)
+        
         if self.old_nearest_point_index is None:
             # search nearest point index 
             self.dx = [state.rear_x - iX_coordinates for iX_coordinates in self.X_coordinates]
@@ -78,10 +78,10 @@ class WayPoints:
         else:
             ind = self.old_nearest_point_index
             distance_this_index = state.calc_distance(self.X_coordinates[ind],self.Y_coordinates[ind])
-            if distance_this_index > 1.0:
-                rospy.sleep(0.02)
+            
             while True:
-                
+                if ind +1 == len(self.X_coordinates):
+                    break
                 self.distance_next_index = state.calc_distance(self.X_coordinates[ind + 1],self.Y_coordinates[ind + 1])
                 if distance_this_index < self.distance_next_index:
                     break
@@ -148,8 +148,9 @@ def main():
     target_course = WayPoints(X_coordinates, Y_coordinates) 
     target_ind, _ = target_course.search_target_index(state)
     
+    rate= rospy.Rate(1/dt)
     
-    while T >= time and lastIndex > target_ind:
+    while T >= time and lastIndex >= target_ind:
        
         acc = proportional_control(target_speed, state.currentSpeed)  #longitudinal controller
         di, target_ind = pure_pursuit_steer_control(state, target_course, target_ind) #lateral controller
@@ -157,13 +158,15 @@ def main():
         
         target_speed = (20.0/ 3.6)/(abs(di) *4)  # [m/s]
         
-        if target_speed <= 10/3.6:  # min speed
-            target_speed = 10/3.6
-        if target_speed >= 40/3.6:   #max speed
-            target_speed = 40/3.6
+        if target_speed <= 15/3.6:  # min speed
+            target_speed = 15/3.6
+        if target_speed >= 80/3.6:   #max speed
+            target_speed = 80/3.6
         time += dt
+        clearance = state.calc_distance(target_course.X_coordinates[-1], target_course.Y_coordinates[-1])
         print("target_x:",round(target_course.X_coordinates[target_ind],2),"my_x:",round(state.x,2),
-         "target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:", target_speed)
+         "target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:"
+         , target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
         
         states.update(time, state)
         
@@ -181,6 +184,16 @@ def main():
             plt.grid(True)
             plt.title("Speed[km/h]:" + str(state.currentSpeed * 3.6)[:4])
             plt.pause(0.001)
+        
+        if clearance <= 1.0:
+            # goal_reached = True
+            print("Goal Reached")
+            break
+        
+            
+        rate.sleep()
+        
+    
 
     assert lastIndex >= target_ind, "Cannot reach goal"
     
