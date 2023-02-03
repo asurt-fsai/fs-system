@@ -8,6 +8,7 @@ from sensor_msgs.msg import PointCloud2
 from visualization_msgs.msg import MarkerArray
 
 import rospy
+from tf_helper.MarkerViz import MarkerViz  # pylint: disable=no-name-in-module, import-error
 
 from ..LidarPipeline.Filter.Filter import Filter
 from ..LidarPipeline.GroundRemoval.SimpleGroundRemoval import SimpleGroundRemoval
@@ -15,7 +16,6 @@ from ..LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from ..LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from ..LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
-from .MarkerViz import MarkerViz
 
 
 class Builder:
