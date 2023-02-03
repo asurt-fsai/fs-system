@@ -7,12 +7,12 @@ from std_msgs.msg import Float64MultiArray
 import matplotlib.pyplot as plt
 
 #parameters
-gainLH =  0.3  # look forward gain
-LOOKAHEADCONSTANT =  2.0  # [m] look-ahead distance
-Kp =  1.0  #acc gain 1
-Kd = 0.1 #acc gain 2
-dt =  0.1  # [s] time step
-BaseWidth = 2.9  # [m] wheel base of vehicle
+gainLH =  0.3  # look forward gain rospy.get_param("/gains/look_forward")
+LOOKAHEADCONSTANT =  2.0  # [m] look-ahead distance rospy.get_param("/look_ahead_constant")
+Kp =  1.0  #acc gain 1 rospy.get_param("/gains/propotional")
+Kd = 0.1 #acc gain 2  rospy.get_param("/gains/differential")
+dt =  0.1  # [s] time step  rospy.get_param("/time_step")
+BaseWidth = 2.9  # [m] wheel base of vehicle rospy.get_param("/base_width")
 show_animation = True
 
 #getting car state from SLAM
