@@ -1,5 +1,6 @@
-import rospy
+#!/usr/bin/env python3
 import math
+import rospy
 import numpy as np
 from geometry_msgs.msg import Pose
 from nav_msgs.msg import Path
@@ -7,16 +8,25 @@ from std_msgs.msg import Float64MultiArray
 import matplotlib.pyplot as plt
 
 #parameters
-gainLH =  0.3  # look forward gain rospy.get_param("/gains/look_forward")
-LOOKAHEADCONSTANT =  2.0  # [m] look-ahead distance rospy.get_param("/look_ahead_constant")
-Kp =  1.0  #acc gain 1 rospy.get_param("/gains/propotional")
-Kd = 0.1 #acc gain 2  rospy.get_param("/gains/differential")
-dt =  0.1  # [s] time step  rospy.get_param("/time_step")
-BaseWidth = 2.9  # [m] wheel base of vehicle rospy.get_param("/base_width")
+gainLH = rospy.get_param("/gains/look_forward")   # look forward gain 
+LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant") # look ahead constant
+Kp =  rospy.get_param("/gains/propotional") # propotional gain
+Kd = rospy.get_param("/gains/differential") # differential gain
+dt = rospy.get_param("/time_step") # [s] time step 
+BaseWidth = rospy.get_param("/base_width") # [m] car length
 show_animation = True
+
+#self.velocity_publisher = rospy.Publisher ('/turtle1/cmd_vel', Twist, queue_size=10)
+    
+#self.pose_subscriber = rospy.Subscriber('/turtle1/pose', Pose, self.update_pose)
 
 #getting car state from SLAM
 class State:
+    """
+    
+    state of the vehicle gotten from SLAM
+    
+    """
     def __init__(self, x=0.0, y=0.0, yaw=0.0, currentSpeed=0.0):
         self.x = x
         self.y = y
@@ -24,14 +34,24 @@ class State:
         self.currentSpeed = currentSpeed
         self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
         self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
-    def update(self, acc, delta):
+    def update(self, acc, delta) -> list : 
+        """
+        
+        update the state of the vehicle
+        
+        """
         self.x += self.currentSpeed * math.cos(self.yaw) * dt
         self.y += self.currentSpeed * math.sin(self.yaw) * dt
         self.yaw += self.currentSpeed / BaseWidth * math.tan(delta) * dt   
         self.currentSpeed += acc * dt  
         self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
         self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
-    def calc_distance(self, point_x, point_y):
+    def calcDistance(self, point_x:float, point_y:float) -> float:
+        """
+        
+        calculate the distance between the vehicle and the target point
+        
+        """
         dx = self.rear_x - point_x
         dy = self.rear_y - point_y
         return math.hypot(dx, dy)
@@ -53,20 +73,30 @@ class States:
         self.time.append(time)
         
 
-#storing the waypoints from path planning
-class WayPoints:
+
+class WayPoints: 
+    """
+    
+    storing the waypoints from path planning
+    
+    """
+
     def __init__(self, X_coordinates, Y_Coordinates):
         self.X_coordinates : list = X_coordinates  #rospy.Subscriber("X coordinate", PoseStamped, callback=self.callback)
         self.Y_coordinates : list = Y_Coordinates #rospy.Subscriber("y coordinate", PoseStamped, callback=self.callback)
         self.old_nearest_point_index = None
     
     def update(self, X_coordinates, Y_coordinates):
+        '''used to update the waypoints'''
         self.X_coordinates.append(X_coordinates)
         self.Y_coordinates.append(Y_coordinates)
 
     def search_target_index(self, state):
-
-        #(to be optimized)
+        """
+        
+        search nearest point index and target point index
+        
+        """
         
         if self.old_nearest_point_index is None:
             # search nearest point index 
@@ -77,12 +107,12 @@ class WayPoints:
             self.old_nearest_point_index = ind
         else:
             ind = self.old_nearest_point_index
-            distance_this_index = state.calc_distance(self.X_coordinates[ind],self.Y_coordinates[ind])
+            distance_this_index = state.calcDistance(self.X_coordinates[ind],self.Y_coordinates[ind])
             
             while True:
                 if ind +1 == len(self.X_coordinates):
                     break
-                self.distance_next_index = state.calc_distance(self.X_coordinates[ind + 1],self.Y_coordinates[ind + 1])
+                self.distance_next_index = state.calcDistance(self.X_coordinates[ind + 1],self.Y_coordinates[ind + 1])
                 if distance_this_index < self.distance_next_index:
                     break
                 if (ind + 1) < len(self.X_coordinates):
@@ -95,7 +125,7 @@ class WayPoints:
         
         Lookahead = gainLH * state.currentSpeed + LOOKAHEADCONSTANT  # update look ahead distance
         # search look ahead target point index
-        while Lookahead > state.calc_distance(self.X_coordinates[ind], self.Y_coordinates[ind]):
+        while Lookahead > state.calcDistance(self.X_coordinates[ind], self.Y_coordinates[ind]):
             if (ind + 1) >= len(self.X_coordinates):
                 break  # not exceed goal
             ind += 1
@@ -163,13 +193,13 @@ def main():
         if target_speed >= 80/3.6:   #max speed
             target_speed = 80/3.6
         time += dt
-        clearance = state.calc_distance(target_course.X_coordinates[-1], target_course.Y_coordinates[-1])
+        clearance = state.calcDistance(target_course.X_coordinates[-1], target_course.Y_coordinates[-1])
+        
         print("target_x:",round(target_course.X_coordinates[target_ind],2),"my_x:",round(state.x,2),
          "target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:"
          , target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
         
-        states.update(time, state)
-        
+        states.update(time, state)        
         if show_animation:  
             plt.cla()
             # for stopping simulation with the esc key.
@@ -192,7 +222,6 @@ def main():
         
             
         rate.sleep()
-        
     
 
     assert lastIndex >= target_ind, "Cannot reach goal"
