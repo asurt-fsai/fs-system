@@ -1,6 +1,6 @@
-goals: {x: 1, y: 1}
+#goals: {x: 1, y: 1}
 
-gains: {lookahead: 2.0, look_forward: 5.0, propotional: 2.0, differential: 0.0, integral: 0.0}
+gains: {lookahead: 2.0, look_forward: 0.3, propotional: 1.0, differential: 0.1, integral: 0.0}
 
 look_ahead_constant: 2.0 # meters
 

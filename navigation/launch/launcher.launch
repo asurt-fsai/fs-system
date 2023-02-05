@@ -1,0 +1,4 @@
+<launch>
+<rosparam file="$(find formula)/src/fs-system/navigation/parameters.yaml" />
+<node name="purepursuit_controller" pkg="formula" type="purepursuit.py"></node>
+</launch>
