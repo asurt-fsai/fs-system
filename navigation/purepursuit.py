@@ -34,7 +34,7 @@ class State:
         self.currentSpeed = currentSpeed
         self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
         self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
-    def update(self, acc, delta) -> list : 
+    def update(self, acc:float, delta:float) -> None:
         """
         
         update the state of the vehicle
@@ -46,6 +46,7 @@ class State:
         self.currentSpeed += acc * dt  
         self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
         self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
+        return None
     def calcDistance(self, point_x:float, point_y:float) -> float:
         """
         
@@ -81,15 +82,25 @@ class WayPoints:
     
     """
 
-    def __init__(self, X_coordinates, Y_Coordinates):
+    def __init__(self, X_coordinates:list, Y_Coordinates:list, Z_coordinates:list):
+        self.waypoint_sub = rospy.Subscriber("waypoints", Pose, self.update)
         self.X_coordinates : list = X_coordinates  #rospy.Subscriber("X coordinate", PoseStamped, callback=self.callback)
         self.Y_coordinates : list = Y_Coordinates #rospy.Subscriber("y coordinate", PoseStamped, callback=self.callback)
         self.old_nearest_point_index = None
+        self.pose = Pose()
+        
     
-    def update(self, X_coordinates, Y_coordinates):
-        '''used to update the waypoints'''
-        self.X_coordinates.append(X_coordinates)
-        self.Y_coordinates.append(Y_coordinates)
+    def update(self, data:Pose):
+        """
+        used to update the waypoints
+        """
+        self.pose = data
+        self.pose.position.y = self.pose.position.y
+        self.pose.position.x = self.pose.position.x
+        self.X_coordinates.append(self.pose.position.x)
+        self.Y_coordinates.append(self.pose.position.y)
+        
+        
 
     def search_target_index(self, state):
         """
@@ -106,7 +117,7 @@ class WayPoints:
             ind = np.argmin(self.d) 
             self.old_nearest_point_index = ind
         else:
-            ind = self.old_nearest_point_index
+            ind:int = self.old_nearest_point_index
             distance_this_index = state.calcDistance(self.X_coordinates[ind],self.Y_coordinates[ind])
             
             while True:
@@ -145,7 +156,7 @@ def pure_pursuit_steer_control(state:State, trajectory:WayPoints, pind):
         tx = trajectory.X_coordinates[-1]
         ty = trajectory.Y_coordinates[-1]
         ind = len(trajectory.X_coordinates) - 1
-
+    
     alpha = math.atan2(ty - state.rear_y, tx - state.rear_x) - state.yaw
 
     delta = math.atan2(2.0 * BaseWidth * math.sin(alpha) / Lf, 1.0)
@@ -160,44 +171,51 @@ def proportional_control(targetSpeed, currentSpeed):  #longitudinal controller
 def main():
     
     rospy.init_node ('purepursuit_controller', anonymous=True)
-    X_coordinates = np.arange(0, 100, 0.5)
-    Y_coordinates = [math.sin(ix / 5.0) * ix / 2.0 for ix in X_coordinates]
+    # pose = Pose()
+    X_coordinates = [0.0]
+    Y_coordinates = [0.0]
+    Z_coordinates = [0.0]
+    # X_coordinate = pose.position.x #np.arange(0, 100, 0.5)
+    # Y_coordinate = pose.position.y  #[math.sin(ix / 5.0) * ix / 2.0 for ix in X_coordinates]
+    # Z_coordinate = pose.position.z 
+    waypoints = WayPoints(X_coordinates, Y_coordinates, Z_coordinates)
     
+
     target_speed = (20.0 / 3.6) #[m/s]
     
     T = 100.0  # max simulation time
     
     # initial state
-    state = State(x=-0.0, y=-3.0, yaw=0.0, currentSpeed=0.0)
+    state = State(x=(waypoints.pose.position.x-1.0), y=(waypoints.pose.position.y-1), yaw=0.0, currentSpeed=0.0)
     
     lastIndex = len(X_coordinates) - 1
     time = 0.0
     states = States()
     states.update(time, state)
-    
-    target_course = WayPoints(X_coordinates, Y_coordinates) 
+    #
+    target_course = WayPoints(X_coordinates, Y_coordinates, Z_coordinates) 
     target_ind, _ = target_course.search_target_index(state)
     
     rate= rospy.Rate(1/dt)
     
-    while T >= time and lastIndex >= target_ind:
+    while T >= time :#or lastIndex >= target_ind:
        
         acc = proportional_control(target_speed, state.currentSpeed)  #longitudinal controller
         di, target_ind = pure_pursuit_steer_control(state, target_course, target_ind) #lateral controller
         state.update(acc, di)   #update the state of the car
         
         target_speed = (20.0/ 3.6)/(abs(di) *4)  # [m/s]
-        
+        # waypoints.update(pose)
         if target_speed <= 15/3.6:  # min speed
             target_speed = 15/3.6
-        if target_speed >= 80/3.6:   #max speed
-            target_speed = 80/3.6
+        if target_speed >= 60/3.6:   #max speed
+            target_speed = 60/3.6
         time += dt
         clearance = state.calcDistance(target_course.X_coordinates[-1], target_course.Y_coordinates[-1])
-        
-        print("target_x:",round(target_course.X_coordinates[target_ind],2),"my_x:",round(state.x,2),
-         "target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:"
-         , target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
+        print(waypoints.X_coordinates)
+        #print("target_x:",round(target_course.X_coordinates[target_ind],2),"my_x:",round(state.x,2),
+         #"target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:"
+         #, target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
         
         states.update(time, state)        
         if show_animation:  
@@ -215,7 +233,7 @@ def main():
             plt.title("Speed[km/h]:" + str(state.currentSpeed * 3.6)[:4])
             plt.pause(0.001)
         
-        if clearance <= 1.0:
+        if clearance <= 1.4:
             # goal_reached = True
             print("Goal Reached")
             break
@@ -224,7 +242,7 @@ def main():
         rate.sleep()
     
 
-    assert lastIndex >= target_ind, "Cannot reach goal"
+    # assert lastIndex >= target_ind, "Cannot reach goal"
     
     if show_animation:  
         plt.cla()
@@ -246,5 +264,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
   
         
