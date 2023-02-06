@@ -3,8 +3,8 @@ import math
 import rospy
 import numpy as np
 from geometry_msgs.msg import Pose
-from nav_msgs.msg import Path
-from std_msgs.msg import Float64MultiArray
+#from nav_msgs.msg import Path
+#from std_msgs.msg import Float64MultiArray
 import matplotlib.pyplot as plt
 
 #parameters
@@ -14,7 +14,7 @@ Kp =  rospy.get_param("/gains/propotional") # propotional gain
 Kd = rospy.get_param("/gains/differential") # differential gain
 dt = rospy.get_param("/time_step") # [s] time step 
 BaseWidth = rospy.get_param("/base_width") # [m] car length
-show_animation = True
+SHOWANIMATION = True
 
 #self.velocity_publisher = rospy.Publisher ('/turtle1/cmd_vel', Twist, queue_size=10)
     
@@ -27,13 +27,13 @@ class State:
     state of the vehicle gotten from SLAM
     
     """
-    def __init__(self, x=0.0, y=0.0, yaw=0.0, currentSpeed=0.0):
+    def __init__(self, x:float=0.0, y:float=0.0, yaw:float=0.0, currentSpeed:float=0.0) -> None:
         self.x = x
         self.y = y
         self.yaw = yaw
         self.currentSpeed = currentSpeed
-        self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
-        self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
+        self.rearX = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
+        self.rearY = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
     def update(self, acc:float, delta:float) -> None:
         """
         
@@ -44,8 +44,8 @@ class State:
         self.y += self.currentSpeed * math.sin(self.yaw) * dt
         self.yaw += self.currentSpeed / BaseWidth * math.tan(delta) * dt   
         self.currentSpeed += acc * dt  
-        self.rear_x = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
-        self.rear_y = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
+        self.rearX = self.x - ((BaseWidth / 2) * math.cos(self.yaw))
+        self.rearY = self.y - ((BaseWidth / 2) * math.sin(self.yaw))
         return None
     def calcDistance(self, point_x:float, point_y:float) -> float:
         """
@@ -53,13 +53,13 @@ class State:
         calculate the distance between the vehicle and the target point
         
         """
-        dx = self.rear_x - point_x
-        dy = self.rear_y - point_y
+        dx = self.rearX - point_x
+        dy = self.rearY - point_y
         return math.hypot(dx, dy)
 
 #storing the states of the vehicle gotten from SLAM
 class States:
-    def __init__(self):
+    def __init__(self) -> None:
         self.x = []
         self.y = []
         self.yaw = []
@@ -82,7 +82,7 @@ class WayPoints:
     
     """
 
-    def __init__(self, X_coordinates:list, Y_Coordinates:list, Z_coordinates:list):
+    def __init__(self, X_coordinates:list, Y_Coordinates:list, Z_coordinates:list) -> None:
         self.waypoint_sub = rospy.Subscriber("waypoints", Pose, self.update)
         self.X_coordinates : list = X_coordinates  #rospy.Subscriber("X coordinate", PoseStamped, callback=self.callback)
         self.Y_coordinates : list = Y_Coordinates #rospy.Subscriber("y coordinate", PoseStamped, callback=self.callback)
@@ -111,8 +111,8 @@ class WayPoints:
         
         if self.old_nearest_point_index is None:
             # search nearest point index 
-            self.dx = [state.rear_x - iX_coordinates for iX_coordinates in self.X_coordinates]
-            self.dy = [state.rear_y - iY_coordinates for iY_coordinates in self.Y_coordinates]
+            self.dx = [state.rearX - iX_coordinates for iX_coordinates in self.X_coordinates]
+            self.dy = [state.rearY - iY_coordinates for iY_coordinates in self.Y_coordinates]
             self.d = np.hypot(self.dx, self.dy)
             ind = np.argmin(self.d) 
             self.old_nearest_point_index = ind
@@ -143,29 +143,34 @@ class WayPoints:
 
         return ind, Lookahead # return the index of the target point and the look ahead distance
         
-def pure_pursuit_steer_control(state:State, trajectory:WayPoints, pind):
+def purepursuitSteercontrol(state:State, trajectory:WayPoints, pind:int) :
+    """
+    pure pursuit steering control
+    """
     ind, Lf = trajectory.search_target_index(state)
-    tx = ty = 0
+    trajX = ty = 0
     if pind >= ind:
         ind = pind
 
     if ind < len(trajectory.X_coordinates):
-        tx = trajectory.X_coordinates[ind]
+        trajX = trajectory.X_coordinates[ind]
         ty = trajectory.Y_coordinates[ind]
     else:  # toward goal
-        tx = trajectory.X_coordinates[-1]
+        trajX = trajectory.X_coordinates[-1]
         ty = trajectory.Y_coordinates[-1]
         ind = len(trajectory.X_coordinates) - 1
     
-    alpha = math.atan2(ty - state.rear_y, tx - state.rear_x) - state.yaw
+    alpha = math.atan2(ty - state.rearY, trajX - state.rearX) - state.yaw
 
     delta = math.atan2(2.0 * BaseWidth * math.sin(alpha) / Lf, 1.0)
 
     return delta, ind
 
-def proportional_control(targetSpeed, currentSpeed):  #longitudinal controller
-    
-    acc = Kp*(targetSpeed - currentSpeed) + Kd*((targetSpeed-currentSpeed)/dt )
+def proportionalControl(targetSpeed:float, currentSpeed:float) -> float:  #longitudinal controller
+    """
+    PID Controller
+    """
+    acc:float = Kp*(targetSpeed - currentSpeed) + Kd*((targetSpeed-currentSpeed)/dt )
     return acc
     
 def main():
@@ -200,8 +205,8 @@ def main():
     
     while T >= time :#or lastIndex >= target_ind:
        
-        acc = proportional_control(target_speed, state.currentSpeed)  #longitudinal controller
-        di, target_ind = pure_pursuit_steer_control(state, target_course, target_ind) #lateral controller
+        acc = proportionalControl(target_speed, state.currentSpeed)  #longitudinal controller
+        di, target_ind = purepursuitSteercontrol(state, target_course, target_ind) #lateral controller
         state.update(acc, di)   #update the state of the car
         
         target_speed = (20.0/ 3.6)/(abs(di) *4)  # [m/s]
@@ -218,7 +223,7 @@ def main():
          #, target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
         
         states.update(time, state)        
-        if show_animation:  
+        if SHOWANIMATION:  
             plt.cla()
             # for stopping simulation with the esc key.
             plt.gcf().canvas.mpl_connect(
@@ -244,7 +249,7 @@ def main():
 
     # assert lastIndex >= target_ind, "Cannot reach goal"
     
-    if show_animation:  
+    if SHOWANIMATION:  
         plt.cla()
         plt.plot(X_coordinates, Y_coordinates, ".r", label="course")
         plt.plot(states.x, states.y, "-b", label="trajectory")
