@@ -15,6 +15,9 @@ module-naming-style=any
 
 docstring-min-length=-1
 good-names=i,
+           x,
+           y,
+           z,
            j,
            _,
            e
@@ -24,7 +27,7 @@ no-docstring-rgx=^_
 variable-rgx=((([a-z_][a-zA-Z0-9]{2,})|(__[a-z][a-zA-Z0-9_]+__))$)|([A-Z_][A-Z0-9_]+$)
 
 [DESIGN]
-max-args=4
+max-args=7
 max-attributes=7
 max-bool-expr=3
 max-branches=12

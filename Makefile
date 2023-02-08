@@ -1,10 +1,10 @@
 file_finder = @find . -type f $(1) -not \( -path './venv/*' \)
-staged_files = git diff --staged --name-only HEAD | grep ${1}
+staged_files = git diff --staged --name-only --diff-filter=d HEAD | grep ${1}
 
-CMAKE_FILES = $(call file_finder,\( -name "*.cmake" -o -name "CMakeLists.txt" \))
-PY_FILES = $(call file_finder,-name "*.py")
-STAGED_PY_FILES = $(call staged_files, -e ".py")
-STAGED_CMAKE_FILES = $(call staged_files, -e ".cmake" -e "CMakeLists.txt")
+CMAKE_FILES = $(call file_finder,\( -name "*\.cmake" -o -name "CMakeLists\.txt" \))
+PY_FILES = $(call file_finder,-name "*\.py")
+STAGED_PY_FILES = $(call staged_files, -e "\.py")
+STAGED_CMAKE_FILES = $(call staged_files, -e "\.cmake" -e "CMakeLists\.txt")
 
 check: check_format lint
 
@@ -22,7 +22,7 @@ lint:
 
 lint_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc
-	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict
+	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict --follow-imports=silent
 
 format_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty black --check
