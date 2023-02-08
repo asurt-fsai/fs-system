@@ -15,6 +15,9 @@ module-naming-style=any
 
 docstring-min-length=-1
 good-names=i,
+           x,
+           y,
+           z,
            j,
            _,
            e
@@ -23,7 +26,7 @@ no-docstring-rgx=^_
 
 
 [DESIGN]
-max-args=4
+max-args=7
 max-attributes=7
 max-bool-expr=3
 max-branches=12
