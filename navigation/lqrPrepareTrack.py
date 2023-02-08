@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Prepares the input track to be processed.
 It consists of 3 steps:
@@ -10,6 +11,9 @@ from typing import Tuple, List
 from scipy import interpolate, optimize, spatial
 import numpy.typing as npt
 import numpy as np
+import rospy
+from std_msgs.msg import Float64MultiArray
+import matplotlib.pyplot as plt
 
 K_REG: int = 3
 S_REG: int = 10
@@ -24,12 +28,10 @@ class RefTrack:
     Input Track given by Path Planning
     """
 
-    def __init__(self, track: npt.NDArray[np.float64]):
-        if track[-1] == track[0]:
-            self.track = track
-        else:
-            track = np.vstack((track, track[0]))
-            self.track = track
+    def __init__(self, refTrack: npt.NDArray[np.float64]):
+
+        refTrack = np.vstack((refTrack, refTrack[0]))
+        self.track = refTrack
         self.noPoints = self.track.shape[0]
         self.distCum = self.calcDistCum()
 
@@ -410,3 +412,40 @@ def sideofLine(
         - (lineEnd[1] - lineStart[1]) * (pointZ[0] - lineStart[0])
     )
     return side
+
+if __name__ == "__main__":
+    referenceTrack = np.array([])
+    rospy.init_node("lqr", anonymous=True)
+    message = rospy.wait_for_message("/waypoints",Float64MultiArray)
+    trackBuffer = np.array([message.data])
+    widthCol = np.ones(int(trackBuffer.shape[1]/2)) * TRACK_WIDTH
+    trackBuffer = np.stack((trackBuffer[0,:widthCol.shape[0]],
+                            trackBuffer[0,widthCol.shape[0]:],
+                            widthCol / 2,
+                            widthCol / 2),axis = 1)
+    referenceTrack = np.reshape(trackBuffer, (-1,4))
+    originalTrack = RefTrack(referenceTrack)
+    (
+        newTrack,
+        normVecInterp,
+        _,_,_
+    ) = prepTrack(
+        refTrack = originalTrack
+    )
+
+    upperBound = newTrack[:, :2] + normVecInterp * np.expand_dims(
+        newTrack[:, 2], 1
+    )
+    lowerBound = newTrack[:, :2] - normVecInterp * np.expand_dims(
+        newTrack[:, 3], 1
+    )
+
+    plt.figure()
+    plt.plot(newTrack[:, 0], newTrack[:, 1], "b--")
+    plt.plot(originalTrack.track[:, 0], originalTrack.track[:, 1], "k--")
+    plt.plot(upperBound[:, 0], upperBound[:, 1], "k-")
+    plt.plot(lowerBound[:, 0], lowerBound[:, 1], "k-")
+    plt.grid()
+    ax = plt.gca()
+    ax.set_aspect("equal", "datalim")
+    plt.show()
