@@ -85,8 +85,8 @@ def prepTrack(
 
     Parameters
     ----------
-    refTrackImp: np.array, shape=(M,4)
-        Original track imported from SLAM [x,y,right width,left width]
+    refTrackImp: RefTrack  
+        Original track imported from SLAM
 
     Return
     ------
