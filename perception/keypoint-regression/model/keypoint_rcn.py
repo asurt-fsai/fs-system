@@ -116,10 +116,10 @@ def miniTest():
     model = model.cuda()
 
     total = 0
-    iterations = 1000
+    ITERATIONS = 1000
     model.eval()
 
-    for _ in range(iterations):
+    for _ in range(ITERATIONS):
 
         imagesBatch = torch.randn(40, 3, 80, 50)  # pylint: disable=no-member
         time1 = datetime.datetime.now()
@@ -132,7 +132,7 @@ def miniTest():
         time2 = datetime.datetime.now()
         total += (time2 - time1).microseconds / 1000
 
-    print(total / iterations, "ms")
+    print(total / ITERATIONS, "ms")
 
 
 if __name__ == "__main__":
