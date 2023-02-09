@@ -11,7 +11,13 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-import cv2 as cv
+from cv2 import (  # pylint: disable=no-name-in-module
+    rectangle,
+    cvtColor,
+    drawKeypoints,
+    ORB_create,
+    COLOR_BGR2GRAY,
+)
 
 
 class DistributedFeatureDetectionSystem:
@@ -58,7 +64,7 @@ class DistributedFeatureDetectionSystem:
         # loop over all boundingBoxes
 
         args = (
-            (image, boundingBoxes[i], keypointsList, descriptorsList)
+            (image.copy(), boundingBoxes[i], keypointsList, descriptorsList)
             for i in range(len(boundingBoxes))
         )
         res = self.pool.starmap_async(createFeatureExtractionTask, args)
@@ -71,7 +77,7 @@ class DistributedFeatureDetectionSystem:
             visualizableImage = image.copy()
             for i, boundingBox in enumerate(boundingBoxes):
                 # bounding box
-                cv.rectangle(  # pylint: disable=c-extension-no-member
+                rectangle(  # pylint: disable=c-extension-no-member
                     visualizableImage,
                     (boundingBox[0], boundingBox[1]),
                     (boundingBox[2], boundingBox[3]),
@@ -79,7 +85,7 @@ class DistributedFeatureDetectionSystem:
                     2,
                 )
                 # draw keypoints
-                visualizableImage = cv.drawKeypoints(  # pylint: disable=c-extension-no-member
+                visualizableImage = drawKeypoints(  # pylint: disable=c-extension-no-member
                     visualizableImage, keypointsList[i], None, color=(0, 255, 0)
                 )
 
@@ -114,6 +120,7 @@ def createMask(imageShape: Tuple[int], boundingBox: List[int]) -> np.ndarray:
     """
     mask = np.zeros(imageShape, np.uint8)
     mask[boundingBox[1] : boundingBox[3], boundingBox[0] : boundingBox[2]] = 255
+    mask = cvtColor(mask.copy(), COLOR_BGR2GRAY)
     return mask
 
 
@@ -138,14 +145,18 @@ def createFeatureExtractionTask(
     descriptorsList: List[float]
         descriptors results array
     """
+
     imageShape = image.shape
 
     # creating mask step
     mask = createMask(imageShape, boundingBox)
-    orb = cv.ORB_create(nfeatures=100)  # pylint: disable=c-extension-no-member
+
+    orb = ORB_create(nfeatures=1000)  # pylint: disable=c-extension-no-member
 
     # orb feature extraction step
     keypoint = orb.detect(image, mask)
     keypoint, des = orb.compute(image, keypoint)
+    keypoint = [(kp.pt, kp.size, kp.angle, kp.response, kp.octave, kp.class_id) for kp in keypoint]
     keypointsList.append(keypoint)
+
     descriptorsList.append(des)
