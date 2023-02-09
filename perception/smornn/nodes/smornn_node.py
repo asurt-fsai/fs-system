@@ -3,6 +3,7 @@
 Main ros node for the smornn pipeline used to combine detections from lidar and smoreo
 """
 import rospy
+from visualization_msgs.msg import MarkerArray
 
 # pylint: disable=import-error, no-name-in-module
 from asurt_msgs.msg import LandmarkArray
@@ -22,7 +23,11 @@ def main() -> None:
     status.starting()
 
     publishTopic = rospy.get_param("/perception/smornn/detected")
-    publishers = {"detected": rospy.Publisher(publishTopic, LandmarkArray, queue_size=1)}
+    markerTopic = rospy.get_param("/perception/smornn/detected_markers")
+    publishers = {
+        "detected": rospy.Publisher(publishTopic, LandmarkArray, queue_size=1),
+        "detected_markers": rospy.Publisher(markerTopic, MarkerArray, queue_size=1),
+    }
     markerViz = MarkerViz(0.1, 0.4)
 
     minDistNeighbor = rospy.get_param("/perception/smornn/min_dist_neighbor")
