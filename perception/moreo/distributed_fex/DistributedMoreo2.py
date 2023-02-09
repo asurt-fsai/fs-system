@@ -6,7 +6,7 @@ import time
 import multiprocessing
 from multiprocessing.managers import ListProxy
 
-from typing import List, Tuple, Any
+from typing import List, Tuple
 
 import numpy as np
 
