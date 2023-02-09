@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <vector>
+#include <queue>
 #include "cone.h"
 #include "path.h"
 
@@ -28,8 +29,8 @@ public:
 
   Path getPath();
 
-  std::vector<Cone> filterLocal(std::vector<Cone> cones, float field_of_view, float distance);
-  std::vector<Cone> filterLocal(std::vector<Cone> cones, float field_of_view, float distance, float x, float y, float heading);
+  template <typename T> std::vector<T> filterLocal(std::vector<T> cones, float field_of_view, float distance);
+  template <typename T> std::vector<T> filterLocal(std::vector<T> cones, float field_of_view, float distance, float x, float y, float heading);
 
   std::vector<Waypoint> triangulate(std::vector<Cone> cones);
 

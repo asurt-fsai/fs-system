@@ -18,16 +18,16 @@ Path TreeSearch::getPath(){
     }
 }
 
-std::vector<Cone> TreeSearch::filterLocal(std::vector<Cone> cones, float field_of_view, float distance){
-    return TreeSearch::filterLocal(cones, field_of_view, distance, 0, 0, 0);
+template <typename T> std::vector<T> TreeSearch::filterLocal(std::vector<T> points, float field_of_view, float distance){
+    return TreeSearch::filterLocal(points, field_of_view, distance, 0, 0, 0);
 }
 
-std::vector<Cone> TreeSearch::filterLocal(std::vector<Cone> cones, float field_of_view, float distance, float x, float y, float heading){
-    std::vector<Cone> filtered_cones;
+template <typename T> std::vector<T> TreeSearch::filterLocal(std::vector<T> points, float field_of_view, float distance, float x, float y, float heading){
+    std::vector<T> filtered_points;
 
-    for(Cone cone: cones){
-        float dx = cone.x - x;
-        float dy = cone.y - y;
+    for(T point: points){
+        float dx = point.x - x;
+        float dy = point.y - y;
         float dist = sqrt(dx*dx + dy*dy);
         float angle = atan2(dy, dx) - heading;
 
@@ -35,10 +35,10 @@ std::vector<Cone> TreeSearch::filterLocal(std::vector<Cone> cones, float field_o
         if(angle > M_PI) angle -= 2 * M_PI; // Normalize angle to [-pi, pi]
 
         if (fabs(angle) <= field_of_view/2 && dist <= distance){
-            filtered_cones.push_back(cone);
+            filtered_points.push_back(point);
         }
     }
-    return filtered_cones;
+    return filtered_points;
 }
 
 
@@ -69,4 +69,49 @@ std::vector<Waypoint> TreeSearch::triangulate(std::vector<Cone> cones){
         }
     }
     return waypoints;
+}
+
+Path TreeSearch::getPath(){
+    std::queue<Path> paths;
+    std::queue<float> costs;
+    paths.push(Path());
+    costs.push(std::numeric_limits<float>::infinity());
+
+    for (int i = 0; i < params.max_search_iterations; i++){
+        bool no_new_paths = true;
+        int size = paths.size();
+        for (int j = 0; j < size; j++){
+            Path curr_path = paths.front();
+            float curr_cost = costs.front();
+            paths.pop();
+            costs.pop();
+
+            if(curr_path.waypoints.size() > params.max_waypoints_per_path){
+                paths.push(curr_path);
+                costs.push(curr_cost);
+                continue;
+            }
+            Waypoint *last_waypoint = &curr_path.waypoints.back();
+
+            std::vector<Waypoint> possible_next_waypoints = filterLocal(this->waypoints, params.waypoint_field_of_view, params.waypoint_distance, last_waypoint->x, last_waypoint->y, last_waypoint->heading);
+            bool added_point = false;
+            for (int k = 0; k < possible_next_waypoints.size(); k++)
+            {
+
+            }
+        }
+    }
+
+    // Example on using a queue in cpp
+    // std::queue<int> q;
+    // q.push(1);
+    // q.push(2);
+    // q.push(3);
+    // q.push(4);
+    // q.push(5);
+    // while(!q.empty()){
+    //     std::cout << q.front() << std::endl;
+    //     q.pop();
+    // }
+
 }
