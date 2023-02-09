@@ -117,5 +117,6 @@ class SmornnRos(Smornn):
             return cones
         landmarks = self.toLandmarkArray(cones)
         self.publishers["detected"].publish(landmarks)
-        self.markerViz.publish(landmarks)
+        detectedMarkers = self.markerViz.conesToMarkers(landmarks)
+        self.publishers["detected_markers"].publish(detectedMarkers)
         return landmarks
