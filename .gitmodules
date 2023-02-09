@@ -1,3 +1,6 @@
 [submodule "dependencies/ros_numpy"]
 	path = dependencies/ros_numpy
 	url = https://github.com/asurt-fsai/ros_numpy
+[submodule "dependencies/velodyne"]
+	path = dependencies/velodyne
+	url = https://github.com/asurt-fsai/velodyne
