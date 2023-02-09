@@ -40,11 +40,12 @@ class SmornnRos(Smornn):
             for key, value in publishers.items():
                 assert isinstance(value, rospy.Publisher)
 
-            for key in ["detected"]:
+            for key in ["detected", "detected_markers"]:
                 assert key in publishers
         except Exception as exp:
             errMsg = "Smornn: ensure the all the publishers required are provided \n \
-                       - detected"
+                       - detected \n \
+                       - detected_markers"
             raise TypeError(errMsg) from exp
 
     def toConeArray(
