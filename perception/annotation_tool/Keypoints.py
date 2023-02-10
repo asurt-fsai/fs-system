@@ -21,8 +21,8 @@ class Keypoint:
         self.json_path=json_path
         self.data=[]
         self.image_names=[]
-        self.all_x_idx=torch.empty(0,8, dtype=torch.int16)
-        self.all_y_idx=torch.empty(0,8, dtype=torch.int16)
+        self.all_x_idx=torch.empty(0, dtype=torch.int16)
+        self.all_y_idx=torch.empty(0, dtype=torch.int16)
         self.original_dimensions=torch.empty(0, 2, dtype=torch.int16)
         self.normalized_keypoints=torch.empty(0, 2, dtype=torch.float)
         self.__load_json()
