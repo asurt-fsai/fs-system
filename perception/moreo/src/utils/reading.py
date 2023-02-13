@@ -172,5 +172,7 @@ class Reading(BaseReading):
     def getImageHeader(self) -> typing.Any:
         """
         Get the header of the image
+
+        :return Header object of the image captured in this reading
         """
         return self.imgHeader

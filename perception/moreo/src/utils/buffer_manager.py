@@ -19,7 +19,7 @@ from .oldDistributedFEX import (  # pylint: disable=import-error
 
 class BufferManager:
     """
-    The BufferManager class is responsible for managing a buffer of image reading,
+    The BufferManager class is responsible for managing a buffer of readings,
     including adding new readings to the buffer and
     retrieving pairs of readings based on a specified baseline distance.
     The __init__ method initializes the buffer manager object with
@@ -102,7 +102,8 @@ class BufferManager:
         Get a pair of readings from the buffer based on the specified baseline.
 
         :param baseline: The desired baseline distance between the two readings.
-        :return: A pair of readings from the buffer and their relative baseline distance.
+        :return: A pair of readings from the buffer where the destince between the two readings
+        is approximatley equal to the passed baseline.
         """
 
         currentReading = self.buffer[self.getPreviousIdx()]

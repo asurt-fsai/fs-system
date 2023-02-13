@@ -32,7 +32,7 @@ class MoreoBase:
 
         Parameters:
             params (Dict[str, Any]): A dictionary containing the parameters for the class.
-            visuals (Any): A variable representing the visual information.
+            visuals (Any): Publishers used for visualizing intermediate outputs
         """
         self.params = params
         self.visuals = visuals
@@ -49,9 +49,9 @@ class MoreoBase:
         Calculate the fundemental matrix between two poses of the camera.
 
         Parameters:
-            prevR (npt.NDArray[np.float64]): A Numpy array of float64 representing the
+            prevR (npt.NDArray[np.float64]): A rotation matrix of float64 representing the
             first camera orientation.
-            curR (npt.NDArray[np.float64]): A Numpy array of float64 representing the
+            curR (npt.NDArray[np.float64]): A rotation matrix of float64 representing the
             second camera orientation.
             relativeT (npt.NDArray[np.float64]): A Numpy array of float64 representing the
             relative translation.
@@ -99,26 +99,28 @@ class MoreoBase:
 
         Parameters
         ----------
-        orgKps : list list of key points(cv.keyPoint objects) in image 1
-        orgDes : ndarray ndarray of shape (num_features, 32) containing 32
+        orgKps : list of key points(cv.keyPoint objects) in image 1
+        orgDes : ndarray of shape (num_features, 32) containing 32
         bit string descriptions for features passed in orgKps
-        propKps : list list of key points(cv.keyPoint objects) proposed in image 2
-        propDes : ndarrayndarray of shape (num_features, 32) containing 32 bit
+        propKps : list of key points(cv.keyPoint objects) proposed in image 2
+        propDes : ndarray of shape (num_features, 32) containing 32 bit
         string descriptions for features passed in propKps
 
         Returns
         -------
-        match: ndarray
+        matches: ndarray
         Array of shape (num_features, 3) that contains keypoints in homogenous
         cordinates that were the best match for every keypoint passed in orgKps
+        errors: ndarray
+        Array of the sae length of mathces, contains the error of every match calculated as
+        ecluidean distance between the original key point and the matched
         """
         numberKeyPoints = 4
 
         epilines = self.getEpilines(orgKps, self.matrixF).T
         propPts = self.toHomogenous(propKps)
-        distances = np.power(
-            epilines @ propPts.T, 2
-        )  # The ijth element holds the distance^2 between point j the i epiline
+        distances = np.power(epilines @ propPts.T, 2)
+        # The ijth element holds the distance^2 between point j the i epiline
         sortedIndices = np.argsort(distances, axis=1)[:, :numberKeyPoints]
         finalDes = propDes[sortedIndices]
         orgDes = orgDes[:, np.newaxis, :]
@@ -154,7 +156,7 @@ class MoreoBase:
 
     def toHomogenous(self, kps: List[KeyPoint]) -> npt.NDArray[np.float64]:
         """
-        Calculate epilines for a vector of keypoints
+        Calculate epilines for a list of keypoints
 
         Parameters
         ----------
@@ -212,7 +214,7 @@ class MoreoBase:
         - curReading: The Reading object representing the current reading
 
         Returns:
-        - List of 3D position of landmarks as a numpy ndarray with dtype float64
+        - List of 3D position of landmarks as a LanmarkArray object
         """
         prevR = tf.transformations.quaternion_matrix(prevReading.getOrientation())[:3, :3]
         curR = tf.transformations.quaternion_matrix(curReading.getOrientation())[:3, :3]
@@ -232,8 +234,10 @@ class MoreoBase:
         allPrevKps: List[KeyPoint] = []
         allCurKps: List[KeyPoint] = []
 
-        targetPts: List[npt.NDArray[np.float64]] = []  # All Points in A that was matched in image B
-        allMatches: List[npt.NDArray[np.float64]] = []  # All matches in image B
+        # All Points in A that was matched in image B
+        targetPts: List[npt.NDArray[np.float64]] = []
+        # All matched points in image B
+        allMatches: List[npt.NDArray[np.float64]] = []
         landmarks = []
         # predictedPoses: List[np.ndarray] = []
         for _, boxId in enumerate(list(curReading.getFeaturesPerBbox().keys())):
@@ -412,7 +416,15 @@ class MoreoBase:
         visImg2: npt.NDArray[np.float64],
     ) -> npt.NDArray[np.float64]:
         """
-        Draw epilines on givvent image
+        Draw epilines on second image of keypoints extracted from the first image.
+
+        Parameters:
+        - kp1 (List[KeyPoint]): The list of keypoints in the first image.
+        - matrixF (npt.NDArray[np.float64]): The fundamental matrix.
+        - visImg2 (npt.NDArray[np.float64]): The second image.
+
+        Returns:
+        - visImg2 (npt.NDArray[np.float64]): second image after drawing all epilines on it.
         """
         imageShape = visImg2.shape
         lines = self.getEpilines(kp1, matrixF).T
@@ -442,7 +454,7 @@ class MoreoBase:
             img1 (npt.NDArray[np.float64]): First input image.
             img2 (npt.NDArray[np.float64]): Second input image.
             pts1 (npt.NDArray[np.float64]): Points from first image.
-            matches (npt.NDArray[np.float64]): Points from second image, matching with `pts1`.
+            matches (npt.NDArray[np.float64]): Points from second image, matched with `pts1`.
 
         Raises:
             AssertionError: If `pts1.shape[0]` is not equal to `matches.shape[0]`.

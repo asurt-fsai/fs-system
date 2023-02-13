@@ -145,6 +145,11 @@ class MoreoSystem:
     def recievDataCallback(self, img: Image, boundingBoxes: BoundingBoxes) -> None:
         """
         Callback to recieve the data from the synchronizer and store it in buffer
+
+        Parameters:
+        img (Image): obtained image message
+        boundingBoxes (BoundingBoxes): obtained BoundingBoxes message which
+        is a list of BoundingBox objects
         """
         odom = rospy.wait_for_message("/odometry", Odometry)
         self.bufferManager.addToBuffer(img, odom, self.processBboxes(boundingBoxes))
