@@ -1,0 +1,3 @@
+<launch>
+  <test test-name="test_status_publisher" pkg="tf_helper" type="StatusPublisher_test.py" />
+</launch>
