@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(dependencies)
+project(SLAM)
 
 # Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -72,8 +72,8 @@ find_package(catkin REQUIRED)
 # projects also need DEPENDS: system dependencies of this project that dependent
 # projects also need
 catkin_package(
-  # INCLUDE_DIRS include LIBRARIES dependencies CATKIN_DEPENDS other_catkin_pkg
-  # DEPENDS system_lib
+  # INCLUDE_DIRS include LIBRARIES SLAM CATKIN_DEPENDS other_catkin_pkg DEPENDS
+  # system_lib
 )
 
 # ##############################################################################
@@ -85,8 +85,8 @@ catkin_package(
 include_directories(# include ${catkin_INCLUDE_DIRS}
 )
 
-# Declare a C++ library add_library(${PROJECT_NAME}
-# src/${PROJECT_NAME}/dependencies.cpp )
+# Declare a C++ library add_library(${PROJECT_NAME} src/${PROJECT_NAME}/SLAM.cpp
+# )
 
 # Add cmake target dependencies of the library as an example, code may need to
 # be generated before libraries either from message generation or dynamic
@@ -95,8 +95,7 @@ include_directories(# include ${catkin_INCLUDE_DIRS}
 
 # Declare a C++ executable With catkin_make all packages are built within a
 # single CMake context The recommended prefix ensures that target names across
-# packages don't collide add_executable(${PROJECT_NAME}_node
-# src/dependencies_node.cpp)
+# packages don't collide add_executable(${PROJECT_NAME}_node src/SLAM_node.cpp)
 
 # Rename C++ executable without prefix The above recommended prefix causes long
 # target names, the following renames the target back to the shorter version for
@@ -147,7 +146,7 @@ include_directories(# include ${catkin_INCLUDE_DIRS}
 # ##############################################################################
 
 # Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_dependencies.cpp) if(TARGET
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_SLAM.cpp) if(TARGET
 # ${PROJECT_NAME}-test) target_link_libraries(${PROJECT_NAME}-test
 # ${PROJECT_NAME}) endif()
 
