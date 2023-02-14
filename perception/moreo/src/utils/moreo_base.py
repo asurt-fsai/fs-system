@@ -16,6 +16,7 @@ from cv2 import (  # pylint: disable=no-name-in-module
     FONT_HERSHEY_SIMPLEX,
 )
 from asurt_msgs.msg import LandmarkArray, Landmark
+from rospy import Publisher
 import tf
 from cv_bridge import CvBridge
 from .reading import Reading  # pylint: disable=import-error
@@ -26,13 +27,13 @@ class MoreoBase:
     This class contains the main functionality of moreo
     """
 
-    def __init__(self, params: Dict[str, Any], visuals: Any) -> None:
+    def __init__(self, params: Dict[str, Any], visuals: Dict[str, Publisher]) -> None:
         """
         The constructor for MoreoBase class.
 
         Parameters:
             params (Dict[str, Any]): A dictionary containing the parameters for the class.
-            visuals (Any): Publishers used for visualizing intermediate outputs
+            visuals (Dict[str,Publisher]): Publishers used for visualizing intermediate outputs
         """
         self.params = params
         self.visuals = visuals
@@ -44,7 +45,7 @@ class MoreoBase:
         prevR: npt.NDArray[np.float64],
         curR: npt.NDArray[np.float64],
         relativeT: npt.NDArray[np.float64],
-    ) -> Any:
+    ) -> npt.NDArray[np.float64]:
         """
         Calculate the fundemental matrix between two poses of the camera.
 
@@ -57,7 +58,7 @@ class MoreoBase:
             relative translation.
 
         Returns:
-            Any: The calculated fundamental matrix.
+            NDArray[np.float64]: The calculated fundamental matrix.
         """
 
         relativeR = (
@@ -76,7 +77,9 @@ class MoreoBase:
             dtype=np.float64,
         )
         matrixE = matrixS @ relativeR
-        self.matrixF = np.linalg.inv(self.params["k"]).T @ matrixE @ np.linalg.inv(self.params["k"])
+        self.matrixF = np.asarray(
+            np.linalg.inv(self.params["k"]).T @ matrixE @ np.linalg.inv(self.params["k"])
+        )
         print("Estimated baseline", np.sqrt(np.sum(np.power(relativeT, 2))))
 
         return self.matrixF
@@ -101,9 +104,9 @@ class MoreoBase:
         ----------
         orgKps : list of key points(cv.keyPoint objects) in image 1
         orgDes : ndarray of shape (num_features, 32) containing 32
-        bit string descriptions for features passed in orgKps
+        byte string descriptions for features passed in orgKps
         propKps : list of key points(cv.keyPoint objects) proposed in image 2
-        propDes : ndarray of shape (num_features, 32) containing 32 bit
+        propDes : ndarray of shape (num_features, 32) containing 32 byte
         string descriptions for features passed in propKps
 
         Returns
@@ -134,7 +137,9 @@ class MoreoBase:
         predsIdx = sortedIndices[np.arange(matchesIdx.shape[1]), matchesIdx]
         return propPts[predsIdx][0], errorPerMatch
 
-    def getEpilines(self, kps: List[KeyPoint], matrixF: npt.NDArray[np.float64]) -> Any:
+    def getEpilines(
+        self, kps: List[KeyPoint], matrixF: npt.NDArray[np.float64]
+    ) -> npt.NDArray[np.float64]:
         """
         Get the epilines corresponding to keypoints in an image
 
@@ -357,7 +362,7 @@ class MoreoBase:
         img2: npt.NDArray[np.float64],
         kp1: List[KeyPoint],
         kp2: List[KeyPoint],
-        boxes: Dict["str", Tuple[Any, Any, Any]],
+        boxes: Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]],
         matrixF: npt.NDArray[np.float64],
     ) -> None:
         """
@@ -368,7 +373,8 @@ class MoreoBase:
         - img2 (npt.NDArray[np.float64]): The second image.
         - kp1 (List[KeyPoint]): The list of keypoints in the first image.
         - kp2 (List[KeyPoint]): The list of keypoints in the second image.
-        - boxes (Dict["str", Tuple[Any, Any, Any]]): The dictionary of bounding boxes.
+        - boxes (Dict[str, Tuple[npt.NDArray[np.float64],List[KeyPoint] ,List[List[int]]]]):
+            The dictionary of bounding boxes along with the keypoints and descriptors.
         - matrixF (npt.NDArray[np.float64]): The fundamental matrix.
 
         Returns:

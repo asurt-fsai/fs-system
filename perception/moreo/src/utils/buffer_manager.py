@@ -115,7 +115,7 @@ class BufferManager:
             for idx, box in enumerate(currentReading.getBboxes()):
                 _, _, _, _, bboxId, _ = box
                 kps = features[idx][0]
-                des = features[idx][1]
+                des = np.asarray(features[idx][1])
                 featuresInBbox[str(bboxId)] = (box, kps, des)
 
             currentReading.setFeaturesPerBbox(featuresInBbox)
@@ -141,7 +141,7 @@ class BufferManager:
                     for idx, box in enumerate(previousReading.getBboxes()):
                         _, _, _, _, bboxId, _ = box
                         kps = features[idx][0]
-                        des = features[idx][1]
+                        des = np.asarray(features[idx][1])
                         featuresInBbox[str(bboxId)] = (box, kps, des)
                     previousReading.setFeaturesPerBbox(featuresInBbox)
             return previousReading, currentReading

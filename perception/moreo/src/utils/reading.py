@@ -3,11 +3,13 @@ This module contains the reading objects
 The base reading represents an empty reading.
 """
 
-import typing
+from typing import Dict, List, Any, Tuple
 import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import Image
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Header
+from cv2 import KeyPoint  # pylint: disable=no-name-in-module
 
 
 class BaseReading:
@@ -51,7 +53,7 @@ class BaseReading:
 
     def setFeaturesPerBbox(
         self,
-        features: typing.Dict[str, typing.Tuple[typing.Any, typing.Any, typing.Any]],
+        features: Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]],
     ) -> None:
         """
         Set features for each bounding box in the reading.
@@ -66,13 +68,21 @@ class BaseReading:
 
     def getFeaturesPerBbox(
         self,
-    ) -> typing.Dict[str, typing.Tuple[typing.Any, typing.Any, typing.Any]]:
+    ) -> Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]]:
         """
         Get the features for each bounding box in the reading.
 
         :return: A dictionary where the keys are strings representing
         the bounding box IDs and the values are tuples containing
         the bounding box, keypoints, and descriptors for each bounding box.
+        """
+        raise ValueError("Trying to access an empty reading")
+
+    def getImageHeader(self) -> None:
+        """
+        Get the header of the image
+
+        :return Header object of the image captured in this reading
         """
         raise ValueError("Trying to access an empty reading")
 
@@ -110,9 +120,7 @@ class Reading(BaseReading):
         self.position = np.asarray(pos[:3].reshape(-1, 1))
         self.orientation = np.asarray(pos[3:])
         self.bboxes = bboxes
-        self.featuresPerBbox: typing.Dict[
-            str, typing.Tuple[typing.Any, typing.Any, typing.Any]
-        ] = {}
+        self.featuresPerBbox: Dict[str, Tuple[Any, Any, Any]] = {}
 
     def getImage(self) -> npt.NDArray[np.float64]:
         """
@@ -145,7 +153,7 @@ class Reading(BaseReading):
 
     def setFeaturesPerBbox(
         self,
-        features: typing.Dict[str, typing.Tuple[typing.Any, typing.Any, typing.Any]],
+        features: Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]],
     ) -> None:
         """
         Set features for each bounding box in the reading.
@@ -159,7 +167,7 @@ class Reading(BaseReading):
 
     def getFeaturesPerBbox(
         self,
-    ) -> typing.Dict[str, typing.Tuple[typing.Any, typing.Any, typing.Any]]:
+    ) -> Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]]:
         """
         Get the features for each bounding box in the reading.
 
@@ -169,7 +177,7 @@ class Reading(BaseReading):
         """
         return self.featuresPerBbox
 
-    def getImageHeader(self) -> typing.Any:
+    def getImageHeader(self) -> Header:
         """
         Get the header of the image
 

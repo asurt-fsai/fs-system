@@ -40,7 +40,7 @@ class MoreoSystem:
             rospy.get_param("moreo/bufferSize", 5), DistributedFeatureDetectionSystem()
         )
         self.publishers: Dict[str, rospy.Publisher]
-        self.visuals: Dict[str, Any] = {}
+        self.visuals: Dict[str, rospy.Publisher] = {}
 
     def getParams(self) -> Dict[str, Any]:
         """
