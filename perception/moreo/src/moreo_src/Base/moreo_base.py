@@ -19,7 +19,7 @@ from asurt_msgs.msg import LandmarkArray, Landmark
 from rospy import Publisher
 import tf
 from cv_bridge import CvBridge
-from .reading import Reading  # pylint: disable=import-error
+from moreo_src.utils.reading import Reading  # pylint: disable=import-error
 
 
 class MoreoBase:

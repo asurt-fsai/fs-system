@@ -2,6 +2,7 @@
 """
 Moreo System
 """
+# pylint: disable=import-error, no-name-in-module
 from typing import Dict, Any
 import numpy as np
 import rospy
@@ -12,13 +13,13 @@ from sensor_msgs.msg import Image
 from nav_msgs.msg import Odometry
 import message_filters
 import tf
-from utils.moreo_base import MoreoBase  # pylint: disable=import-error
-from utils.reading import Reading  # pylint: disable=import-error
-from utils.buffer_manager import BufferManager  # pylint: disable=import-error
-from utils.oldDistributedFEX import (  # pylint: disable=import-error
+from moreo_src.Base.moreo_base import MoreoBase
+from moreo_src.utils.reading import Reading
+from moreo_src.utils.buffer_manager import BufferManager
+from moreo_src.FEX.oldDistributedFEX import (
     DistributedFeatureDetectionSystem,
 )
-import np.typing as npt  # pylint: disable=import-error
+import np.typing as npt
 
 
 class MoreoSystem:
@@ -170,7 +171,7 @@ class MoreoSystem:
         self.moreo = MoreoBase(params, self.visuals)
         while not rospy.is_shutdown():
             prevReading, curReading = self.bufferManager.getPair(0.3)
-            if isinstance(prevReading, Reading) and isinstance(curReading, Reading) != 0:
+            if isinstance(prevReading, Reading) and isinstance(curReading, Reading):
                 started = rospy.get_rostime()
                 landmarks = self.moreo.reconstruct(prevReading, curReading)
                 now = rospy.get_rostime()
