@@ -4,6 +4,6 @@ Install the lidar library
 from distutils.core import setup
 from catkin_pkg.python_setup import generate_distutils_setup
 
-d = generate_distutils_setup(packages=["moreo_src"], package_dir={"": "src"})
+d = generate_distutils_setup(packages=["moreo"], package_dir={"": "src"})
 
 setup(**d)

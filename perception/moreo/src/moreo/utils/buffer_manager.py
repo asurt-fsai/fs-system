@@ -11,7 +11,7 @@ import numpy.typing as npt
 import numpy as np
 from sensor_msgs.msg import Image
 from nav_msgs.msg import Odometry
-from moreo_src.FEX.oldDistributedFex import (  # pylint: disable=import-error, no-name-in-module
+from moreo.FEX.oldDistributedFex import (  # pylint: disable=import-error, no-name-in-module
     DistributedFeatureDetectionSystem,
 )
 from .reading import BaseReading, Reading  # pylint: disable=import-error

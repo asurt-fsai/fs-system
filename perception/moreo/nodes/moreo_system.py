@@ -13,10 +13,10 @@ from sensor_msgs.msg import Image
 from nav_msgs.msg import Odometry
 import message_filters
 import tf
-from moreo_src.Base.moreo_base import MoreoBase
-from moreo_src.utils.reading import Reading
-from moreo_src.utils.buffer_manager import BufferManager
-from moreo_src.FEX.oldDistributedFEX import (
+from moreo.Base.moreo_base import MoreoBase
+from moreo.utils.reading import Reading
+from moreo.utils.buffer_manager import BufferManager
+from moreo.FEX.oldDistributedFEX import (
     DistributedFeatureDetectionSystem,
 )
 import np.typing as npt
