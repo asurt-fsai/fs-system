@@ -4,7 +4,6 @@ Main ros node for the lidar pipeline used to detect cones
 """
 import rospy
 
-# pylint: disable=import-error, no-name-in-module
 from mrpython_pcl.ros.Builders import Builder
 from tf_helper.StatusPublisher import StatusPublisher
 

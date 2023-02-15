@@ -3,7 +3,7 @@ Abstract class for ground removal methods
 """
 from dataclasses import dataclass
 
-from pcl import PointCloud  # pylint: disable=no-name-in-module
+from pcl import PointCloud
 
 
 @dataclass
