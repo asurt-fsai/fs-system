@@ -48,7 +48,6 @@ STAGED_PACKAGES_NAME = $(foreach pkg,$(STAGED_PACKAGES_PATH),$(shell basename $(
 STAGED_TESTS_DIRECTORIES = $(foreach pkg,$(STAGED_PACKAGES), $(if $(wildcard $(pkg)/tests),$(pkg)/tests,))
 STAGED_ROS_TESTS_DIRECTORIES = $(foreach pkg,$(STAGED_PACKAGES), $(if $(wildcard $(pkg)/launch),$(pkg)/launch,))
 
-
 check: check_format lint
 
 format:
@@ -60,16 +59,16 @@ check_format:
 	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
 
 lint:
-	$(PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc
+	$(PY_FILES) | xargs --no-run-if-empty pylint --rcfile=$(CURRENT_DIRECTORY)/.pylintrc
 	$(PY_FILES) | xargs --no-run-if-empty mypy --strict
 
 lint_staged:
-	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc
+	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=$(CURRENT_DIRECTORY)/.pylintrc
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict --follow-imports=silent
 
 format_staged:
-	$(STAGED_PY_FILES) | xargs --no-run-if-empty black --check
-	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
+	$(STAGED_PY_FILES) | xargs --no-run-if-empty black
+	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format
 
 build:
 	@cd $(WORK_SPACE); \
