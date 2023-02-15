@@ -48,7 +48,11 @@ min-similarity-lines=5
 [STRING]
 check-quote-consistency=yes
 
-
 [TYPECHECK]
 ignored-modules=numpy,carla,pygame,agents
 disable=cyclic-import
+
+[MESSAGES CONTROL]
+disable=no-name-in-module,
+        import-error,
+        no-member
