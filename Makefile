@@ -68,8 +68,8 @@ lint_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict --follow-imports=silent
 
 format_staged:
-	$(STAGED_PY_FILES) | xargs --no-run-if-empty black --check
-	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
+	$(STAGED_PY_FILES) | xargs --no-run-if-empty black
+	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format
 
 build:
 	@cd $(WORK_SPACE); \
