@@ -28,7 +28,7 @@ if_not_exists = if [ -z "$(strip ${1})" ]; then \
 CMAKE_FILES = $(call file_finder,\( -name "*\.cmake" -o -name "CMakeLists\.txt" \))
 PY_FILES = $(call file_finder,-name "*\.py")
 CACHED_ITEMS = $(call cached_items)
-STAGED_PY_FILES = $(call staged_files, -e "\.py")
+STAGED_PY_FILES = $(call staged_files, -e "\.py\>")
 STAGED_CMAKE_FILES = $(call staged_files, -e "\.cmake" -e "CMakeLists\.txt")
 
 CURRENT_DIRECTORY := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
@@ -52,16 +52,16 @@ STAGED_ROS_TESTS_DIRECTORIES = $(foreach pkg,$(STAGED_PACKAGES), $(if $(wildcard
 check: check_format lint
 
 format:
-	$(PY_FILES) | xargs black
-	$(CMAKE_FILES) | xargs cmake-format -i
+	$(PY_FILES) | xargs --no-run-if-empty black
+	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format -i
 
 check_format:
-	$(PY_FILES) | xargs black --check
-	$(CMAKE_FILES) | xargs cmake-format --check
+	$(PY_FILES) | xargs --no-run-if-empty black --check
+	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
 
 lint:
-	$(PY_FILES) | xargs pylint --rcfile=.pylintrc
-	$(PY_FILES) | xargs mypy --strict
+	$(PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc
+	$(PY_FILES) | xargs --no-run-if-empty mypy --strict
 
 lint_staged:
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=.pylintrc

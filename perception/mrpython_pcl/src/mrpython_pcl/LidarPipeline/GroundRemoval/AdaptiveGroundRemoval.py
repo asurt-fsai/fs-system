@@ -3,7 +3,7 @@ Adaptive Ground Removal based on the paper: https://arxiv.org/abs/1905.05150
 """
 from dataclasses import dataclass
 
-from pcl import PointCloud  # pylint: disable=no-name-in-module
+from pcl import PointCloud
 import numpy as np
 import numpy.typing as npt
 
