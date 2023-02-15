@@ -6,9 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
 
-from mrpython_pcl.LidarPipeline.ConeClassifier import (  # pylint: disable=no-name-in-module, import-error
-    ConeClassifier,
-)
+from mrpython_pcl.LidarPipeline.ConeClassifier import ConeClassifier  # type: ignore
 
 
 def plotPoints(points: npt.NDArray[np.float64]) -> None:

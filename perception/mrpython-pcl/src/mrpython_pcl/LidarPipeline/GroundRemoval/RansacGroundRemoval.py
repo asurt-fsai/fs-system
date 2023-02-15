@@ -4,7 +4,7 @@ Based on the Ransac implementation in python-pcl
 """
 from dataclasses import dataclass
 
-from pcl import (  # pylint: disable=no-name-in-module
+from pcl import (
     PointCloud,
     SampleConsensusModelPlane,
     RandomSampleConsensus,
