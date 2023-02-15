@@ -10,7 +10,6 @@ from typing import Generator, Any
 import rospy
 import rostest
 
-# pylint: disable=no-name-in-module, import-error
 from asurt_msgs.msg import NodeStatus
 from tf_helper.StatusPublisher import (
     StatusPublisher,

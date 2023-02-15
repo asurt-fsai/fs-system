@@ -7,7 +7,7 @@ import rospy
 import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import PointCloud2
-from tf_helper.MarkerViz import MarkerViz  # pylint: disable=no-name-in-module, import-error
+from tf_helper.MarkerViz import MarkerViz
 
 from ..LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl

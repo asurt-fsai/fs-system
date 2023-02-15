@@ -8,7 +8,7 @@ A set of filters used including:
 """
 from typing import Dict, List
 
-from pcl import PointCloud, PointCloud_PointXYZI  # pylint: disable=no-name-in-module
+from pcl import PointCloud, PointCloud_PointXYZI
 import numpy as np
 from ..helpers import SingletonMeta
 from ..GroundRemoval.GroundRemovalMethod import GroundRemovalMethod
