@@ -53,7 +53,6 @@ class TFHelper:
                 [trans.rotation.x, trans.rotation.y, trans.rotation.z, trans.rotation.w]
             )[2]
             return translation, yaw
-        # pylint: disable=no-member
         except (
             tf2_ros.LookupException,
             tf2_ros.ConnectivityException,
