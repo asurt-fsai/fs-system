@@ -40,9 +40,13 @@ def isValidCommitMsg(commitMsg: str, config: Dict[str, Any]) -> bool:
     minLength: int = config["length"]["min"]
     maxLength: int = config["length"]["max"]
 
+    mergeRegex = r"^Merge branch .*$"
     commitRegex = (
         r"^(?P<revert>revert: )?(?P<type>" + r"|".join(config["types"]) + r"): (?P<message>.*$)"
     )
+
+    if re.match(mergeRegex, commitMsg) is not None:
+        return True
 
     match = re.match(commitRegex, commitMsg)
 
