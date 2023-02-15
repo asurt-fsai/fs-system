@@ -8,7 +8,7 @@ LidarPipeline class to integrate the following classes:
 from typing import Optional, Dict, Any
 from threading import Lock
 
-from pcl import PointCloud  # pylint: disable=no-name-in-module
+from pcl import PointCloud
 import numpy as np
 import numpy.typing as npt
 

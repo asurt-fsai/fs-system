@@ -3,7 +3,7 @@ Simple ground removal method
 """
 from typing import List
 
-from pcl import PointCloud  # pylint: disable=no-name-in-module
+from pcl import PointCloud
 import numpy as np
 import numpy.typing as npt
 from ..helpers import SingletonMeta
