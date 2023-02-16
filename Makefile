@@ -48,39 +48,58 @@ STAGED_PACKAGES_NAME = $(foreach pkg,$(STAGED_PACKAGES_PATH),$(shell basename $(
 STAGED_TESTS_DIRECTORIES = $(foreach pkg,$(STAGED_PACKAGES), $(if $(wildcard $(pkg)/tests),$(pkg)/tests,))
 STAGED_ROS_TESTS_DIRECTORIES = $(foreach pkg,$(STAGED_PACKAGES), $(if $(wildcard $(pkg)/launch),$(pkg)/launch,))
 
-check: check_format lint
+default: help
 
-format:
+##@ Help
+.PHONY: help
+help: ## Display information about the available commands.
+	@awk 'BEGIN {FS = ":.*##|##"; printf "\nUsage:\n  make \033[34m<target> \033[36marg1=\"\" \033[36marg2=\"\"\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[33m%-15s\033[0m %s\n", $$1, $$2 } /^[[:space:]]*## .*/ { printf "  %-15s\033[33m\033[0m %s\n", $$100, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+
+##@ Format and lint
+
+check: check_format lint ## Runs formating and linting checks without modifying any files.
+
+format: ## Runs formating on python and cmake files.
 	$(PY_FILES) | xargs --no-run-if-empty black
 	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format -i
 
-check_format:
+check_format: ## Checks if python and cmake files are formated.
 	$(PY_FILES) | xargs --no-run-if-empty black --check
 	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
 
-lint:
+lint: ## Checks if python files are linted using pylint and mypy.
 	$(PY_FILES) | xargs --no-run-if-empty pylint --rcfile=$(CURRENT_DIRECTORY)/.pylintrc
 	$(PY_FILES) | xargs --no-run-if-empty mypy --strict
 
-lint_staged:
+lint_staged: ## Checks if staged python files are linted using pylint and mypy.
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty pylint --rcfile=$(CURRENT_DIRECTORY)/.pylintrc
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty mypy --strict --follow-imports=silent
 
-format_staged:
+format_staged: ## Runs formating on staged python and cmake files.
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty black
 	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format
 
-build:
+##@ Build
+
+build: 	## Runs catkin build on all packages.
+		## Accepts packages as argument.
+		## e.g. make build packages="package1 package2 package3"
 	@cd $(WORK_SPACE); \
 	catkin build $(packages);
 
-build_staged: packages=$(STAGED_PACKAGES_NAME)
+build_staged: packages=$(STAGED_PACKAGES_NAME) ## Runs catkin build on staged packages.
 build_staged: build
 
-rebuild: clean_catkin build
+rebuild: clean_catkin build ## Runs catkin clean and build on all packages.
+							## Accepts packages as argument.
+							## e.g. make rebuild packages="package1 package2 package3"
 
+##@ Test
 
-test: build
+test: build ## Builds packages and run its tests
+			## Accepts packages as argument.
+			## e.g. make test packages="package1 package2 package3"
 	source $(WORK_SPACE)/devel/setup.bash; \
 	set -e ; \
 	$(call if_not_exists, $(packages),\
@@ -90,15 +109,16 @@ test: build
 		$(call run_unittest, $(call package_to_test_finder, $(pkg))))\
 	)
 
-test_staged: packages=$(STAGED_PACKAGES_NAME)
+test_staged: packages=$(STAGED_PACKAGES_NAME) ## Builds staged packages and run its tests.
 test_staged: test
 
+##@ Clean
 
-clean_catkin:
+clean_catkin: ## Runs catkin clean on all packages.
 	@cd $(WORK_SPACE); \
 	rm -r devel build logs;
 
-clean_python:
+clean_python: ## Removes all python cache files.
 	$(CACHED_ITEMS) | xargs rm -rf
 
-clean: clean_catkin clean_python
+clean: clean_catkin clean_python ## Runs catkin clean and removes all python cache files.
