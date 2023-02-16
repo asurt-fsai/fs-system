@@ -114,11 +114,11 @@ test_staged: test
 
 ##@ Clean
 
-clean_catkin: ## Runs catkin clean on all packages.
+clean_catkin: ## Cleans catkin workspace. Removes devel, build and logs directories.
 	@cd $(WORK_SPACE); \
 	rm -r devel build logs;
 
 clean_python: ## Removes all python cache files.
 	$(CACHED_ITEMS) | xargs rm -rf
 
-clean: clean_catkin clean_python ## Runs catkin clean and removes all python cache files.
+clean: clean_catkin clean_python ## Runs catkin build, devel, logs. and removes all python cache files.
