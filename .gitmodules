@@ -4,3 +4,6 @@
 [submodule "dependencies/velodyne"]
 	path = dependencies/velodyne
 	url = https://github.com/asurt-fsai/velodyne
+[submodule "dependencies/ackermann_msgs"]
+	path = dependencies/ackermann_msgs
+	url = https://github.com/asurt-fsai/ackermann_msgs
