@@ -3,20 +3,22 @@ import math
 import rospy
 import numpy as np
 from geometry_msgs.msg import Pose
-#from nav_msgs.msg import Path
+from nav_msgs.msg import Path, Odometry
 #from std_msgs.msg import Float64MultiArray
 import matplotlib.pyplot as plt
+g = Path()
 
 #parameters
 gainLH = rospy.get_param("/gains/look_forward")   # look forward gain 
 LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant") # look ahead constant
 Kp =  rospy.get_param("/gains/propotional") # propotional gain
 Kd = rospy.get_param("/gains/differential") # differential gain
+Ki = rospy.get_param("/gains/integral") # integral gain
 dt = rospy.get_param("/time_step") # [s] time step 
 BaseWidth = rospy.get_param("/base_width") # [m] car length
 SHOWANIMATION = True
 
-#self.velocity_publisher = rospy.Publisher ('/turtle1/cmd_vel', Twist, queue_size=10)
+#self.velocitrajY_publisher = rospy.Publisher ('/turtle1/cmd_vel', Twist, queue_size=10)
     
 #self.pose_subscriber = rospy.Subscriber('/turtle1/pose', Pose, self.update_pose)
 
@@ -53,19 +55,19 @@ class State:
         calculate the distance between the vehicle and the target point
         
         """
-        dx = self.rearX - point_x
-        dy = self.rearY - point_y
-        return math.hypot(dx, dy)
+        distanceX = self.rearX - point_x
+        distanceY = self.rearY - point_y
+        return math.hypot(distanceX, distanceY)
 
 #storing the states of the vehicle gotten from SLAM
 class States:
     def __init__(self) -> None:
-        self.x = []
-        self.y = []
-        self.yaw = []
-        self.currentSpeed = []
-        self.time = []
-        
+        self.x = [0]
+        self.y = [0]
+        self.yaw = [0]
+        self.currentSpeed = [0]
+        self.time = [0]
+    #yaw[0]
     def update(self, time, state):
         self.x.append(state.x)
         self.y.append(state.y)
@@ -82,15 +84,19 @@ class WayPoints:
     
     """
 
-    def __init__(self, X_coordinates:list, Y_Coordinates:list, Z_coordinates:list) -> None:
-        self.waypoint_sub = rospy.Subscriber("waypoints", Pose, self.update)
+    def __init__(self, X_coordinates:list, Y_Coordinates:list) -> None:
+        self.waypoint_sub = rospy.Subscriber('waypoints', Pose , self.update)                                                      #rospy.Subscriber("/odometry_node/odometry", Odometry, self.update)
         self.X_coordinates : list = X_coordinates  #rospy.Subscriber("X coordinate", PoseStamped, callback=self.callback)
         self.Y_coordinates : list = Y_Coordinates #rospy.Subscriber("y coordinate", PoseStamped, callback=self.callback)
         self.old_nearest_point_index = None
         self.pose = Pose()
+        self.distanceX = [0]
+        self.distanceY = [0]
+        self.distance = [0]
+        
         
     
-    def update(self, data:Pose):
+    def update(self, data:Pose) -> None:
         """
         used to update the waypoints
         """
@@ -102,7 +108,7 @@ class WayPoints:
         
         
 
-    def search_target_index(self, state):
+    def searchTargetindex(self, state:State) -> int:
         """
         
         search nearest point index and target point index
@@ -111,10 +117,10 @@ class WayPoints:
         
         if self.old_nearest_point_index is None:
             # search nearest point index 
-            self.dx = [state.rearX - iX_coordinates for iX_coordinates in self.X_coordinates]
-            self.dy = [state.rearY - iY_coordinates for iY_coordinates in self.Y_coordinates]
-            self.d = np.hypot(self.dx, self.dy)
-            ind = np.argmin(self.d) 
+            self.distanceX = [state.rearX - iX_coordinates for iX_coordinates in self.X_coordinates]
+            self.distanceY = [state.rearY - iY_coordinates for iY_coordinates in self.Y_coordinates]
+            self.distance = np.hypot(self.distanceX, self.distanceY)
+            ind:int = np.argmin(self.distance) 
             self.old_nearest_point_index = ind
         else:
             ind:int = self.old_nearest_point_index
@@ -147,30 +153,30 @@ def purepursuitSteercontrol(state:State, trajectory:WayPoints, pind:int) :
     """
     pure pursuit steering control
     """
-    ind, Lf = trajectory.search_target_index(state)
-    trajX = ty = 0
+    ind, lookAhead = trajectory.searchTargetindex(state)
+    trajX = trajY = 0
     if pind >= ind:
         ind = pind
 
     if ind < len(trajectory.X_coordinates):
         trajX = trajectory.X_coordinates[ind]
-        ty = trajectory.Y_coordinates[ind]
+        trajY = trajectory.Y_coordinates[ind]
     else:  # toward goal
         trajX = trajectory.X_coordinates[-1]
-        ty = trajectory.Y_coordinates[-1]
+        trajY = trajectory.Y_coordinates[-1]
         ind = len(trajectory.X_coordinates) - 1
     
-    alpha = math.atan2(ty - state.rearY, trajX - state.rearX) - state.yaw
+    alpha:float = math.atan2(trajY - state.rearY, trajX - state.rearX) - state.yaw
 
-    delta = math.atan2(2.0 * BaseWidth * math.sin(alpha) / Lf, 1.0)
+    delta:float = math.atan2(2.0 * BaseWidth * math.sin(alpha)/ lookAhead, 1.0)
 
     return delta, ind
 
-def proportionalControl(targetSpeed:float, currentSpeed:float) -> float:  #longitudinal controller
+def proportionalControl(targetSpeed:float, currentSpeed:float, integ_prev_error) -> float:  #longitudinal controller
     """
     PID Controller
     """
-    acc:float = Kp*(targetSpeed - currentSpeed) + Kd*((targetSpeed-currentSpeed)/dt )
+    acc:float = Kp*(targetSpeed - currentSpeed) + Kd*((targetSpeed-currentSpeed)/dt ) + Ki*(integ_prev_error +(targetSpeed - currentSpeed)*dt)
     return acc
     
 def main():
@@ -183,7 +189,7 @@ def main():
     # X_coordinate = pose.position.x #np.arange(0, 100, 0.5)
     # Y_coordinate = pose.position.y  #[math.sin(ix / 5.0) * ix / 2.0 for ix in X_coordinates]
     # Z_coordinate = pose.position.z 
-    waypoints = WayPoints(X_coordinates, Y_coordinates, Z_coordinates)
+    waypoints = WayPoints(X_coordinates, Y_coordinates)
     
 
     target_speed = (20.0 / 3.6) #[m/s]
@@ -192,32 +198,33 @@ def main():
     
     # initial state
     state = State(x=(waypoints.pose.position.x-1.0), y=(waypoints.pose.position.y-1), yaw=0.0, currentSpeed=0.0)
-    
+    integ_prev_error = 0.0
     lastIndex = len(X_coordinates) - 1
     time = 0.0
     states = States()
     states.update(time, state)
     #
-    target_course = WayPoints(X_coordinates, Y_coordinates, Z_coordinates) 
-    target_ind, _ = target_course.search_target_index(state)
+    target_course = WayPoints(X_coordinates, Y_coordinates) 
+    target_ind, _ = target_course.searchTargetindex(state)
     
     rate= rospy.Rate(1/dt)
     
     while T >= time :#or lastIndex >= target_ind:
-       
-        acc = proportionalControl(target_speed, state.currentSpeed)  #longitudinal controller
+        integ_prev_error += (target_speed - state.currentSpeed)*dt
+        acc = proportionalControl(target_speed, state.currentSpeed, integ_prev_error)  #longitudinal controller
         di, target_ind = purepursuitSteercontrol(state, target_course, target_ind) #lateral controller
         state.update(acc, di)   #update the state of the car
         
         target_speed = (20.0/ 3.6)/(abs(di) *4)  # [m/s]
         # waypoints.update(pose)
-        if target_speed <= 15/3.6:  # min speed
-            target_speed = 15/3.6
-        if target_speed >= 60/3.6:   #max speed
-            target_speed = 60/3.6
+        if target_speed <= 5/3.6:  # min speed
+            target_speed = 5/3.6
+        if target_speed >= 10/3.6:   #max speed
+            target_speed = 10/3.6
         time += dt
         clearance = state.calcDistance(target_course.X_coordinates[-1], target_course.Y_coordinates[-1])
-        print(waypoints.X_coordinates)
+        print(waypoints.searchTargetindex(state))
+        #print(waypoints.X_coordinates)
         #print("target_x:",round(target_course.X_coordinates[target_ind],2),"my_x:",round(state.x,2),
          #"target_y:" ,round(target_course.Y_coordinates[target_ind],2), "my_y:", round(state.y,2),"steer:",round(di,4),"speed:", round(state.currentSpeed,2),"ind:", target_ind, "target_Speed:"
          #, target_speed,"time:", round(time,2), "clearance:", round(clearance,2))
@@ -238,7 +245,7 @@ def main():
             plt.title("Speed[km/h]:" + str(state.currentSpeed * 3.6)[:4])
             plt.pause(0.001)
         
-        if clearance <= 1.4:
+        if clearance <= 0.2:
             # goal_reached = True
             print("Goal Reached")
             break
@@ -268,6 +275,7 @@ def main():
 
 
 if __name__ == '__main__':
+    #rospy.wait_for_message('/waypoints', Pose)
     main()
     
   

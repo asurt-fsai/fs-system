@@ -8,11 +8,11 @@ import rospy
 from scipy import interpolate
 from std_msgs.msg import Float64MultiArray, Float64
 from nav_msgs.msg import Path
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, PoseStamped
 
 s = Path
 
-
+dt =0.1
 # generate a random circular track
 def generate_track(n = 100):
     final=2*np.pi-np.pi/6
@@ -155,26 +155,31 @@ def plot_(track=None, cones=None):
 
 track=generate_track(20)
 smoothed=smooth_track(*track,3)
-spline=fit_spline(*smoothed,20)
+spline=fit_spline(*smoothed,30)
 #plot_(track=spline)
 print(len(spline[0]))
 x_coord = spline[0]
 y_coord = spline[1]
 #spline [array of x, array of y]
 rospy.init_node('waypointsgen', anonymous=True)
-rate = rospy.Rate(15) # 10hz
+rate = rospy.Rate(60) # 10hz
 path = Pose()
 
+
 if __name__ == '__main__':
-    path_pub = rospy.Publisher('waypoints', Pose, queue_size=10)
-    
+    path_pub = rospy.Publisher("waypoints", Pose, queue_size=10)
+    tick = time.time()
     # rate.sleep()
     for i in range(len(x_coord)):
+        
         path.position.x = x_coord[i]
         path.position.y = y_coord[i]
         #point_x = x_coord[i]
+        print(x_coord[i], y_coord[i])
         path_pub.publish(path)
         rate.sleep()
+    tock = time.time()
+    print("time taken:" + str(tock - tick))
     print("The track is complete")
 #waypoints_pub = rospy.Publisher('waypoints', Float64, queue_size=10)
 #waypoints = spline
