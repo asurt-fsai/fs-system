@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_camera" args="0 0 0.4 0 0 0 base_link camera_link"/>
+	<node pkg="tf2_ros" type="static_transform_publisher" name="world_to_image_coordinate_system" args="0 0 0 0.5 -0.5 0.5 0.5 worldcoordinates cameracoordinates"/>
+
+	<node type="rviz" name="rviz" pkg="rviz" args="-d $(find moreo)/moreo_rviz.rviz" />
+
+
+
+
+	<!-- Nodes to be launched -->
+
+
+
+	<!--<include file="$( find bounding_box_filter)/launch/bounding_box_filter.launch"/>-->
+	<node name="smoreo" pkg="smoreo" type="smoreo_system.py" output="screen"/>
+
+
+
+					<!-- Camera_parameters-->
+	<param name="image_width"    								value="720"/>
+	<param name="image_height"    							value="540"/>
+	<param name="smoreo/f_in_pixels"    							value="406.47"/>
+	<param name="hfov"    									value="90"/>
+	<param name="smoreo/cx"		    						value="350.0"/>
+	<param name="smoreo/cy"    								value="270.01"/>
+	<param name="smoreo/pixel_size"    							value="0.00345"/>
+
+						<!-- Published topics -->
+	<param name="/smoreo/predicted_landmarks" 		value="/perception/smoreo/detected_cones_lm"/>
+						<!-- Subscribed topics -->
+	<param name="/smoreo/bboxes_filtered" 				value="darknet_ros/bounding_boxes_filtered"/>
+	<param name="/smoreo/bboxes" 						value="darknet_ros/bounding_boxes"/>
+	<param name = "/smoreo/camera_info"					value = "/camera_array/cam0/resize/camera_info" />
+
+	<param name="/smoreo/use_filtered" 					value="False"/>
+	<param name="/smoreo/hardcode_params" 				value="True"/>
+	<param name="/smoreo/cone_height" 					value="0.38"/>
+	<param name="/smoreo/cut_off_y" 					value="400"/>
+
+</launch>

@@ -6,10 +6,10 @@ import rospy
 import numpy as np
 import numpy.typing as npt
 import tf
-from darknet_ros_msgs.msg import BoundingBoxes
 from sensor_msgs.msg import CameraInfo
 from asurt_msgs.msg import LandmarkArray
 from smoreo.smoreo import Smoreo
+from darknet_ros_msgs.msg import BoundingBoxes
 
 
 class SmoreoRosWrapper:
