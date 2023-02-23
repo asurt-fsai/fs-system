@@ -9,6 +9,8 @@ fi
 
 ADDITIONAL_PACKAGES="ros-$ROS_DISTRO-rospy"
 ADDITIONAL_PACKAGES="$ADDITIONAL_PACKAGES python3-pcl" #perception/mrpython-pcl
+ADDITIONAL_PACKAGES="$ADDITIONAL_PACKAGES ros-$ROS_DISTRO-velodyne" #dependancies velodyne
+
 
 if [ "$(lsb_release -sc)" = "focal" ]; then
     ADDITIONAL_PACKAGES="$ADDITIONAL_PACKAGES
