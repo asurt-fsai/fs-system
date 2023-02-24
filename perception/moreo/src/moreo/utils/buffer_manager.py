@@ -14,7 +14,7 @@ from nav_msgs.msg import Odometry
 from moreo.FEX.oldDistributedFex import (  # pylint: disable=import-error, no-name-in-module
     DistributedFeatureDetectionSystem,
 )
-from .reading import BaseReading, Reading  # pylint: disable=import-error
+from reading import BaseReading, Reading  # pylint: disable=import-error
 
 
 class BufferManager:

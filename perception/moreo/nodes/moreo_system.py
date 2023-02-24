@@ -6,7 +6,6 @@ Moreo System
 from typing import Dict, Any
 import numpy as np
 import rospy
-from darknet_ros_msgs.msg import BoundingBoxes
 from asurt_msgs.msg import LandmarkArray
 from visualization_msgs.msg import MarkerArray
 from sensor_msgs.msg import Image
@@ -20,6 +19,7 @@ from moreo.FEX.oldDistributedFEX import (
     DistributedFeatureDetectionSystem,
 )
 import np.typing as npt
+from darknet_ros_msgs.msg import BoundingBoxes
 
 
 class MoreoSystem:
@@ -43,7 +43,7 @@ class MoreoSystem:
         self.publishers: Dict[str, rospy.Publisher]
         self.visuals: Dict[str, rospy.Publisher] = {}
 
-    def getParams(self) -> Dict[str, Any]:
+    def findParams(self) -> None:
         """
         Returns a dictionary containing the parameters for the Moreo system.
         These parameters are obtained by getting the values from the ROS parameters
@@ -84,8 +84,6 @@ class MoreoSystem:
         }
         # print(self.params["camera_translation_vector"],
         # self.params["camera_rotation_matrix"],self.params["worldCords_inCamera"])
-
-        return self.params
 
     def processBboxes(self, boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
         """
@@ -167,8 +165,8 @@ class MoreoSystem:
         timeSynch = message_filters.TimeSynchronizer([imageSub, boundingBoxes], 20)
         timeSynch.registerCallback(self.recievDataCallback)
         self.createPublishers()
-        params = self.getParams()
-        self.moreo = MoreoBase(params, self.visuals)
+        self.findParams()
+        self.moreo = MoreoBase(self.params, self.visuals)
         while not rospy.is_shutdown():
             prevReading, curReading = self.bufferManager.getPair(0.3)
             if isinstance(prevReading, Reading) and isinstance(curReading, Reading):

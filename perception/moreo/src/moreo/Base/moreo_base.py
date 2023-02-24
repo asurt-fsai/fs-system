@@ -19,7 +19,7 @@ from asurt_msgs.msg import LandmarkArray, Landmark
 from rospy import Publisher
 import tf
 from cv_bridge import CvBridge
-from moreo.utils.reading import Reading  # pylint: disable=import-error
+from utils.reading import Reading  # pylint: disable=import-error
 
 
 class MoreoBase:
@@ -45,7 +45,7 @@ class MoreoBase:
         prevR: npt.NDArray[np.float64],
         curR: npt.NDArray[np.float64],
         relativeT: npt.NDArray[np.float64],
-    ) -> npt.NDArray[np.float64]:
+    ) -> None:
         """
         Calculate the fundemental matrix between two poses of the camera.
 
@@ -81,8 +81,6 @@ class MoreoBase:
             np.linalg.inv(self.params["k"]).T @ matrixE @ np.linalg.inv(self.params["k"])
         )
         print("Estimated baseline", np.sqrt(np.sum(np.power(relativeT, 2))))
-
-        return self.matrixF
 
     def match(
         self,
@@ -224,7 +222,7 @@ class MoreoBase:
         prevR = tf.transformations.quaternion_matrix(prevReading.getOrientation())[:3, :3]
         curR = tf.transformations.quaternion_matrix(curReading.getOrientation())[:3, :3]
 
-        matrixF = self.calculateF(
+        self.calculateF(
             prevR,
             curR,
             relativeT=(curReading.getPosition() - prevReading.getPosition()).reshape(3, 1),
@@ -284,7 +282,7 @@ class MoreoBase:
             allPrevKps,
             allCurKps,
             prevReading.getFeaturesPerBbox(),
-            matrixF,
+            self.matrixF,
         )
         self.drawMatches(
             prevReading.getImage(),
