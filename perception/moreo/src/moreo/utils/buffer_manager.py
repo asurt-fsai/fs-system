@@ -44,8 +44,16 @@ class BufferManager:
         """
         Initialize the buffer manager object with the specified buffer size and feature extractor.
 
-        :param bufferSize: The maximum number of items that can be stored in the buffer.
-        :param featureExtractor: An object that can extract features from images and bounding boxes.
+        Parameters
+        ----------
+        bufferSize : int
+            The size of the buffer.
+        featureExtractor : DistributedFeatureDetectionSystem
+            The feature extractor to be used to extract features from the images and bounding boxes.
+
+        Returns
+        -------
+        None
         """
         self.bufferSize = bufferSize
         self.buffer = []
@@ -60,7 +68,10 @@ class BufferManager:
         """
         Get the next index in the buffer, wrapping around to the start if necessary.
 
-        :return: The next index in the buffer.
+        Returns
+        -------
+        nextIdx : int
+            The next index in the buffer.
         """
         return (int)((self.currentIdx + 1) % self.bufferSize)
 
@@ -68,7 +79,10 @@ class BufferManager:
         """
         Get the previous index in the buffer, wrapping around to the end if necessary.
 
-        :return: The previous index in the buffer.
+        Returns
+        -------
+        prevIdx : int
+            The previous index in the buffer.
         """
         return (int)((self.currentIdx - 1) % self.bufferSize)
 
@@ -76,9 +90,18 @@ class BufferManager:
         """
         Add an image message, odometry, and bounding boxes to the buffer.
 
-        :param imgMsg: The image message to be added to the buffer.
-        :param odom: The odometry of the image to be added to the buffer.
-        :param bboxes: The bounding boxes associated with the image to be added to the buffer.
+        Parameters
+        ----------
+        imgMsg : Image
+            The image message to be added to the buffer.
+        odom : Odometry
+            The odometry of the image to be added to the buffer.
+        bboxes : npt.NDArray[np.float64]
+            The bounding boxes associated with the image to be added to the buffer.
+
+        Returns
+        -------
+        None
         """
         currentReading = Reading(imgMsg, odom, bboxes)
         previousReading = self.buffer[self.getPreviousIdx()]
@@ -101,9 +124,17 @@ class BufferManager:
         """
         Get a pair of readings from the buffer based on the specified baseline.
 
-        :param baseline: The desired baseline distance between the two readings.
-        :return: A pair of readings from the buffer where the destince between the two readings
-        is approximatley equal to the passed baseline.
+        Parameters
+        ----------
+        baseline : float
+            The desired baseline distance between the two readings.
+
+        Returns
+        -------
+        pair : typing.Tuple[BaseReading, BaseReading]
+            A pair of readings from the buffer where the destince between the two readings
+            is approximatley equal to the passed baseline.
+
         """
 
         currentReading = self.buffer[self.getPreviousIdx()]
@@ -152,9 +183,17 @@ class BufferManager:
         """
         Calculate the baseline distance between two readings in the buffer.
 
-        :param reading1: The first reading to use for calculating the baseline distance.
-        :param reading2: The second reading to use for calculating the baseline distance.
-        :return: The baseline distance between the two readings.
+        Parameters
+        ----------
+        previousReading : Reading
+            The first reading to use for calculating the baseline distance.
+        currentReading : Reading
+            The second reading to use for calculating the baseline distance.
+
+        Returns
+        -------
+        baseline : float
+            The baseline distance between the two readings.
         """
         if isinstance(previousReading, Reading) and isinstance(currentReading, Reading):
             relativeTranslation = (

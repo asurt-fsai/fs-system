@@ -1,25 +1,18 @@
 """
 Moreo Base
 """
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Union
 import numpy.typing as npt
 import numpy as np
 from cv2 import (  # pylint: disable=no-name-in-module
     KeyPoint,
     KeyPoint_convert,
     triangulatePoints,
-    drawKeypoints,
-    rectangle,
-    circle,
-    putText,
-    line,
-    FONT_HERSHEY_SIMPLEX,
 )
 from asurt_msgs.msg import LandmarkArray, Landmark
-from rospy import Publisher
 import tf
-from cv_bridge import CvBridge
 from utils.reading import Reading  # pylint: disable=import-error
+from utils.visualizer import Visualizer  # pylint: disable=import-error
 
 
 class MoreoBase:
@@ -27,18 +20,21 @@ class MoreoBase:
     This class contains the main functionality of moreo
     """
 
-    def __init__(self, params: Dict[str, Any], visuals: Dict[str, Publisher]) -> None:
-        """
+    def __init__(self, params: Dict[str, Any], visualizer: Union[Visualizer, None]) -> None:
+        """create moreo base object
         The constructor for MoreoBase class.
 
         Parameters:
-            params (Dict[str, Any]): A dictionary containing the parameters for the class.
-            visuals (Dict[str,Publisher]): Publishers used for visualizing intermediate outputs
+        -----------
+        params: Dict[str, Any]
+            A dictionary containing the parameters for the class.
+        visualizer: Union[Visualizer,None]
+            Visualizer object that is used to visualize the intermediate steps of the
+            system. If passed as None, no visualization will be done.
         """
         self.params = params
-        self.visuals = visuals
+        self.visualizer = visualizer
         self.matrixF: npt.NDArray[np.float64]
-        self.cvBridge = CvBridge()
 
     def calculateF(
         self,
@@ -46,19 +42,21 @@ class MoreoBase:
         curR: npt.NDArray[np.float64],
         relativeT: npt.NDArray[np.float64],
     ) -> None:
-        """
+        """Calculate fundmental marix
+
         Calculate the fundemental matrix between two poses of the camera.
 
         Parameters:
-            prevR (npt.NDArray[np.float64]): A rotation matrix of float64 representing the
-            first camera orientation.
-            curR (npt.NDArray[np.float64]): A rotation matrix of float64 representing the
-            second camera orientation.
-            relativeT (npt.NDArray[np.float64]): A Numpy array of float64 representing the
-            relative translation.
+        ------------
+        prevR: npt.NDArray[np.float64]
+            A rotation matrix of float64 representing the first camera orientation.
+        curR: npt.NDArray[np.float64]
+            A rotation matrix of float64 representing the second camera orientation.
+        relativeT: npt.NDArray[np.float64]
+            A Numpy array of float64 representing the relative translation.
 
         Returns:
-            NDArray[np.float64]: The calculated fundamental matrix.
+            None
         """
 
         relativeR = (
@@ -90,7 +88,8 @@ class MoreoBase:
         propDes: npt.NDArray[np.int16],
     ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
 
-        """
+        """Match features between two images
+
         Match between features in image 1 and features in image 2
         Uses the epilines to simplify the matching process by:
         1) Finding an epiline in image2 for every feature in image 1
@@ -100,12 +99,16 @@ class MoreoBase:
 
         Parameters
         ----------
-        orgKps : list of key points(cv.keyPoint objects) in image 1
-        orgDes : ndarray of shape (num_features, 32) containing 32
-        byte string descriptions for features passed in orgKps
-        propKps : list of key points(cv.keyPoint objects) proposed in image 2
-        propDes : ndarray of shape (num_features, 32) containing 32 byte
-        string descriptions for features passed in propKps
+        orgKps: List(Keypoint)
+            list of extracted key points(cv.keyPoint objects) in image 1
+        orgDes: ndarray
+            array of shape (num_features, 32) containing 32 byte string descriptions
+            for features passed in orgKps
+        propKps: List(Keypoint)]
+            list of key points(cv.keyPoint objects) proposed in image 2
+        propDes: ndarray
+            Array of shape (num_features, 32) containing 32 byte string descriptions
+            for features passed in propKps
 
         Returns
         -------
@@ -138,32 +141,32 @@ class MoreoBase:
     def getEpilines(
         self, kps: List[KeyPoint], matrixF: npt.NDArray[np.float64]
     ) -> npt.NDArray[np.float64]:
-        """
+        """Calculate epilines for every passed keypoint
+
         Get the epilines corresponding to keypoints in an image
 
         Parameters
         ----------
-        kps : list
-        list of cv.keyPoint objects
+        kps : List(Keypoint)
+            list of cv.keyPoint objects
         matrixF : ndarray
-        Fundamental matrix (3,3)
+            Fundamental matrix of (3,3) shape
 
         Returns:
-        -------
+        ---------
         lr: ndarray
-        Array that contains epiline for every keypoint passed to the function with shape (3,n)
-        where n is the number of passed keypoints
+            Array that contains epiline for every keypoint passed to the function with shape (3,n)
+            where n is the number of passed keypoints
         """
         pts = self.toHomogenous(kps)
         return matrixF.T @ pts.T
 
     def toHomogenous(self, kps: List[KeyPoint]) -> npt.NDArray[np.float64]:
-        """
-        Calculate epilines for a list of keypoints
+        """Transfer a kerypoin to homogenous cordinates
 
         Parameters
         ----------
-        kps : list
+        kps : list(Keypoint)
             list of key points(cv.keyPoint objects)
 
         Returns
@@ -183,19 +186,25 @@ class MoreoBase:
         curR: npt.NDArray[np.float64],
         relativeT: npt.NDArray[np.float64],
     ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
-        """
-        Calculate the realtive projection matrix for two cameras from the previous to the current
+        """Calculate projection matrices for two cameras
 
-        Args:
-        - prevR: Rotation matrix of the previous camera as a numpy ndarray with dtype float64
-        - curR: Rotation matrix of the current camera as a numpy ndarray with dtype float64
-        - relativeT: The relative translation of the current camera with respect
-        to the previous camera
-        as a numpy ndarray with dtype float64
+        Calculate the realtive projection matrix for two cameras relative to the current
+        camera
+
+        Parameters:
+        -----------
+        prevR: ndarray (3,3)
+            Rotation matrix of the previous camera as a numpy ndarray with dtype float64
+        curR: ndarray (3,3)
+            Rotation matrix of the current camera as a numpy ndarray with dtype float64
+        relativeT: ndarray (3,1)
+            The relative translation of the current camera with respect
+            to the previous camera as a numpy ndarray with dtype float64
 
         Returns:
-        - Tuple of two numpy ndarrays with dtype float64, the projection matrix of
-        the previous camera and the current camera
+        --------
+        Tuple of two numpy ndarrays with dtype float64, the projection matrix of
+        the previous camera and the current camera each of shape (3,4)
         """
 
         curIX0 = np.hstack((np.identity(3) @ np.identity(3), np.identity(3) @ np.zeros((3, 1))))
@@ -209,15 +218,22 @@ class MoreoBase:
     def reconstruct(  # pylint: disable=too-many-locals
         self, prevReading: Reading, curReading: Reading
     ) -> LandmarkArray:
-        """
-        Reconstruct cones position between two readings
+        """Reconstruct cones position between two readings
 
-        Args:
-        - prevReading: The Reading object representing the previous reading
-        - curReading: The Reading object representing the current reading
+        Reconstruct cones position between two readings using their relative
+        projectetion matrices and the openCV triangulation function
+
+
+        Parameters:
+        ------------
+        prevReading: Raading
+            The Reading object representing the previous reading
+        curReading: Reading
+            The Reading object representing the current reading
 
         Returns:
-        - List of 3D position of landmarks as a LanmarkArray object
+        landmarks: LandmarkArray
+            List of 3D position of landmarks as a LanmarkArray object
         """
         prevR = tf.transformations.quaternion_matrix(prevReading.getOrientation())[:3, :3]
         curR = tf.transformations.quaternion_matrix(curReading.getOrientation())[:3, :3]
@@ -276,20 +292,21 @@ class MoreoBase:
             if not np.isnan(conePose[0]):
                 landmarks.append(self.getLandmark(conePose, curBoxInfo))
 
-        self.visualizeEpilines(
-            prevReading.getImage(),
-            curReading.getImage(),
-            allPrevKps,
-            allCurKps,
-            prevReading.getFeaturesPerBbox(),
-            self.matrixF,
-        )
-        self.drawMatches(
-            prevReading.getImage(),
-            curReading.getImage(),
-            np.asarray(targetPts).reshape(-1, 3),
-            np.asarray(allMatches).reshape(-1, 3),
-        )
+        if self.visualizer is not None:
+            self.visualizer.visualizeEpilines(
+                prevReading.getImage(),
+                curReading.getImage(),
+                allPrevKps,
+                allCurKps,
+                prevReading.getFeaturesPerBbox(),
+                self.getEpilines(allPrevKps, self.matrixF).T,
+            )
+            self.visualizer.drawMatches(
+                prevReading.getImage(),
+                curReading.getImage(),
+                np.asarray(targetPts).reshape(-1, 3),
+                np.asarray(allMatches).reshape(-1, 3),
+            )
         allLandmarks = LandmarkArray()
         # --------------------!!!!!! THIS
         # SHOULD ONLY BE DONE IN TESTING !!!
@@ -306,8 +323,26 @@ class MoreoBase:
         prevP: npt.NDArray[np.float64],
         curP: npt.NDArray[np.float64],
     ) -> npt.NDArray[np.float64]:
-        """
-        Triangulate points
+        """Triangulate between corresponding points in two images
+
+        Apply opencv triangulation betweeen corresponding points in previous
+        and current reading. The points are normalized before triangulation
+
+        Parameters:
+        ------------
+        homCurPts: ndarray (N,3)
+            Points in the current image as a numpy ndarray with dtype float64
+        homPrevPts: ndarray (N,3)
+            Points in the previous image as a numpy ndarray with dtype float64
+        prevP: ndarray (3,4)
+            Projection matrix of the previous image as a numpy ndarray with dtype float64
+        curP: ndarray (3,4)
+            Projection matrix of the current image as a numpy ndarray with dtype float64
+
+        Returns:
+        --------
+        triangulatedPoints: ndarray (N,3)
+            3D points as a numpy ndarray with dtype float64
         """
         normalizedCurPts = np.linalg.inv(self.params["k"]) @ np.asarray(homCurPts).T
         normalizedCurPts = normalizedCurPts / normalizedCurPts[2, :]
@@ -331,18 +366,22 @@ class MoreoBase:
         return conePose
 
     def getLandmark(self, pose: npt.NDArray[np.float64], bbox: npt.NDArray[np.float64]) -> Landmark:
-        """
+        """Create a landmark object from a pose and bounding box
+
         This method creates a Landmark object and populates its properties
         based on the given pose and bounding box information.
 
         Parameters:
-        pose (npt.NDArray[np.float64]): A 3-element numpy array representing
-        the x, y, and z position of the landmark.
-        bbox (npt.NDArray[np.float64]): A 6-element numpy array representing the
-        bounding box information for the landmark.
+        ------------
+        pose: npt.NDArray[np.float64]
+            A 3-element numpy array representing the x, y, and z position of the landmark.
+        bbox: npt.NDArray[np.float64]
+            A 6-element numpy array representing the bounding box information for the landmark.
 
         Returns:
-        Landmark: A populated Landmark object.
+        --------
+        landmark: Landmark
+            A populated Landmark object.
 
         """
         cone = Landmark()
@@ -353,149 +392,3 @@ class MoreoBase:
 
         cone.type = bbox[5]
         return cone
-
-    def visualizeEpilines(  # pylint: disable=too-many-locals
-        self,
-        img1: npt.NDArray[np.float64],
-        img2: npt.NDArray[np.float64],
-        kp1: List[KeyPoint],
-        kp2: List[KeyPoint],
-        boxes: Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]],
-        matrixF: npt.NDArray[np.float64],
-    ) -> None:
-        """
-        Visualize intermediate outputs of moreo.
-
-        Parameters:
-        - img1 (npt.NDArray[np.float64]): The first image.
-        - img2 (npt.NDArray[np.float64]): The second image.
-        - kp1 (List[KeyPoint]): The list of keypoints in the first image.
-        - kp2 (List[KeyPoint]): The list of keypoints in the second image.
-        - boxes (Dict[str, Tuple[npt.NDArray[np.float64],List[KeyPoint] ,List[List[int]]]]):
-            The dictionary of bounding boxes along with the keypoints and descriptors.
-        - matrixF (npt.NDArray[np.float64]): The fundamental matrix.
-
-        Returns:
-        None.
-        """
-        # draw keypoints
-        visImg1 = drawKeypoints(img1, kp1, None, color=(0, 255, 0))
-        visImg2 = drawKeypoints(img2, kp2, None, color=(0, 255, 0))
-        for bboxId in boxes.keys():
-            bbox, _, _ = boxes[bboxId]
-            bboxHeight, bboxWidth, bboxY, bboxX, bId, _ = bbox
-
-            # get rectangular diagonal points
-            maskStartIdx = (int(bboxY - bboxHeight // 2), int(bboxX - bboxWidth // 2))
-            maskEndIdx = (
-                int(maskStartIdx[0] + bboxHeight),
-                int(maskStartIdx[1] + bboxWidth),
-            )
-
-            # bounding box
-            visImg1 = rectangle(
-                visImg1.copy(),
-                (maskStartIdx[1], maskStartIdx[0]),
-                (maskEndIdx[1], maskEndIdx[0]),
-                255,
-            )
-            visImg1 = putText(
-                visImg1,
-                str(bId),
-                (maskStartIdx[1], maskStartIdx[0] + 20),
-                FONT_HERSHEY_SIMPLEX,
-                1,
-                (0, 255, 0),
-                2,
-            )
-        # Draw epilines on second image
-        fig = np.hstack((visImg1, self.drawEpilines(kp1, matrixF, visImg2)))
-        imageMessage = self.cvBridge.cv2_to_imgmsg(fig, encoding="passthrough")
-        self.visuals["epilines"].publish(imageMessage)
-
-    def drawEpilines(
-        self,
-        kp1: List[KeyPoint],
-        matrixF: npt.NDArray[np.float64],
-        visImg2: npt.NDArray[np.float64],
-    ) -> npt.NDArray[np.float64]:
-        """
-        Draw epilines on second image of keypoints extracted from the first image.
-
-        Parameters:
-        - kp1 (List[KeyPoint]): The list of keypoints in the first image.
-        - matrixF (npt.NDArray[np.float64]): The fundamental matrix.
-        - visImg2 (npt.NDArray[np.float64]): The second image.
-
-        Returns:
-        - visImg2 (npt.NDArray[np.float64]): second image after drawing all epilines on it.
-        """
-        imageShape = visImg2.shape
-        lines = self.getEpilines(kp1, matrixF).T
-        if np.sum(lines) != 0:
-
-            for singleLine in lines:
-                _, width, _ = imageShape
-                cordX0, cordY0 = map(int, [0, -(singleLine[2] / singleLine[1])])
-                cordX1, cordY1 = map(
-                    int,
-                    [width, -((singleLine[2] + singleLine[0] * width) / singleLine[1])],
-                )
-                visImg2 = line(visImg2, (cordX0, cordY0), (cordX1, cordY1), 1)
-        return visImg2
-
-    def drawMatches(
-        self,
-        img1: npt.NDArray[np.float64],
-        img2: npt.NDArray[np.float64],
-        pts1: npt.NDArray[np.float64],
-        matches: npt.NDArray[np.float64],
-    ) -> None:
-        """
-        Draw matches between pairs of images.
-
-        Parameters:
-            img1 (npt.NDArray[np.float64]): First input image.
-            img2 (npt.NDArray[np.float64]): Second input image.
-            pts1 (npt.NDArray[np.float64]): Points from first image.
-            matches (npt.NDArray[np.float64]): Points from second image, matched with `pts1`.
-
-        Raises:
-            AssertionError: If `pts1.shape[0]` is not equal to `matches.shape[0]`.
-        """
-        assert (
-            pts1.shape[0] == matches.shape[0]
-        ), "Taerget points and matches should be the same size"
-        # Create a new output image that concatenates the two images together
-        rows1 = img1.shape[0]
-        cols1 = img1.shape[1]
-        rows2 = img2.shape[0]
-        cols2 = img2.shape[1]
-        out = np.zeros((max([rows1, rows2]), cols1 + cols2, 3), dtype="uint8")
-        # Place the first image to the left
-        out[:rows1, :cols1, :] = img1
-        # Place the next image to the right of it
-        out[:rows2, cols1 : cols1 + cols2, :] = img2
-        # For each pair of points we have between both images
-        # draw circles, then connect a line between them
-        for i, match in enumerate(matches):
-            # x - columns
-            # y - rows
-            cordX1, cordY1, _ = pts1[i]
-            # Draw a small circle at both co-ordinates
-            # radius 4
-            # colour blue
-            # thickness = 1
-            circle(out, (int(cordX1), int(cordY1)), 4, (255, 0, 0), 1)
-            circle(out, (int(match[0]) + cols1, int(match[1])), 4, (255, 0, 0), 1)
-            # Draw a line in between the two points
-            # thickness = 1
-            # colour blue
-            line(
-                out,
-                (int(cordX1), int(cordY1)),
-                (int(match[0]) + cols1, int(match[1])),
-                (255, 0, 0),
-                1,
-            )
-        self.visuals["matches"].publish(self.cvBridge.cv2_to_imgmsg(out, encoding="passthrough"))

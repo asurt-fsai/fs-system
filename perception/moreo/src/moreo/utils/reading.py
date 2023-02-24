@@ -25,29 +25,38 @@ class BaseReading:
     def getImage(self) -> npt.NDArray[np.float64]:
         """
         Get the image data.
-        :return: An ndarray representation of the image data
+        Raises an error since the reading is empty.
         """
         raise ValueError("Trying to access an empty reading")
 
     def getPosition(self) -> npt.NDArray[np.float64]:
         """
         Get the position of the reading.
-        :return: A 1-D numpy array of x,y,z position of the reading
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
     def getOrientation(self) -> npt.NDArray[np.float64]:
         """
         Get the orientation of the reading.
-        :return: A 1-D numpy array of x,y,z,w quaternion
-        representation of the orientation of the reading
+
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
     def getBboxes(self) -> npt.NDArray[np.float64]:
         """
         Get the bounding boxes of the reading.
-        :return: A numpy array of bounding boxes
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
@@ -58,11 +67,16 @@ class BaseReading:
         """
         Set features for each bounding box in the reading.
 
-        :param features: A dictionary where the keys are strings
-        representing the bounding box IDs and the values are
-        tuples containing the bounding box, keypoints,
-        and descriptors for each bounding box.
-        :return: None
+        Parameters
+        ----------
+        features : Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]]
+            A dictionary where the keys are strings representing
+            the bounding box IDs and the values are tuples containing
+            the bounding box, keypoints, and descriptors for each bounding box.
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
@@ -72,9 +86,10 @@ class BaseReading:
         """
         Get the features for each bounding box in the reading.
 
-        :return: A dictionary where the keys are strings representing
-        the bounding box IDs and the values are tuples containing
-        the bounding box, keypoints, and descriptors for each bounding box.
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
@@ -82,7 +97,10 @@ class BaseReading:
         """
         Get the header of the image
 
-        :return Header object of the image captured in this reading
+        Raises
+        ------
+        ValueError
+            Trying to access an empty reading
         """
         raise ValueError("Trying to access an empty reading")
 
@@ -97,10 +115,16 @@ class Reading(BaseReading):
         """
         Initialize the reading object with image message, odometry, and bounding boxes data.
 
-        :param imgMsg: The image message of the reading.
-        :param odom: The odometry of the image of the reading.
-        :param bboxes: The bounding boxes associated with the image of the reading.
+        Parameters
+        ----------
+        imgMsg : Image
+            The image message of the reading.
+        odom : Odometry
+            The odometry of the image of the reading.
+        bboxes : npt.NDArray[np.float64]
+            The bounding boxes associated with the image of the reading.
         """
+
         pose = odom.pose.pose
         pos = np.array(
             [
@@ -125,29 +149,40 @@ class Reading(BaseReading):
     def getImage(self) -> npt.NDArray[np.float64]:
         """
         Get the image data.
-        :return: An ndarray representation of the image data
+        Returns
+        -------
+        npt.NDArray[np.float64]
+            An ndarray representation of the image data
         """
         return self.image
 
     def getPosition(self) -> npt.NDArray[np.float64]:
         """
         Get the position of the reading.
-        :return: A 1-D numpy array of x,y,z position of the reading
+        Returns
+        -------
+        npt.NDArray[np.float64]
+            A 1-D numpy array of x,y,z position of the reading
         """
         return self.position
 
     def getOrientation(self) -> npt.NDArray[np.float64]:
         """
         Get the orientation of the reading.
-        :return: A 1-D numpy array of x,y,z,w quaternion
-        representation of the orientation of the reading
+        Returns
+        -------
+        npt.NDArray[np.float64]
+            A 1-D numpy array of x,y,z,w orientation of the reading
         """
         return self.orientation
 
     def getBboxes(self) -> npt.NDArray[np.float64]:
         """
         Get the bounding boxes of the reading.
-        :return: A numpy array of bounding boxes
+        Returns
+        -------
+        npt.NDArray[np.float64]
+            A 2-D numpy array of bounding boxes of the reading
         """
         return self.bboxes
 
@@ -158,10 +193,12 @@ class Reading(BaseReading):
         """
         Set features for each bounding box in the reading.
 
-        :param features: A dictionary where the keys are strings
-        representing the bounding box IDs and the values are
-        tuples containing the bounding box, keypoints, and descriptors for each bounding box.
-        :return: None
+        Parameters
+        ----------
+        features : Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]]
+            A dictionary where the keys are strings representing
+            the bounding box IDs and the values are tuples containing
+            the bounding box, keypoints, and descriptors for each bounding box.
         """
         self.featuresPerBbox = features
 
@@ -171,9 +208,12 @@ class Reading(BaseReading):
         """
         Get the features for each bounding box in the reading.
 
-        :return: A dictionary where the keys are strings representing
-        the bounding box IDs and the values are tuples containing the
-        bounding box, keypoints, and descriptors for each bounding box.
+        Returns
+        -------
+        Dict[str, Tuple[npt.NDArray[np.float64], List[KeyPoint], npt.NDArray[np.int16]]]
+            A dictionary where the keys are strings representing
+            the bounding box IDs and the values are tuples containing
+            the bounding box, keypoints, and descriptors for each bounding box.
         """
         return self.featuresPerBbox
 
@@ -181,6 +221,9 @@ class Reading(BaseReading):
         """
         Get the header of the image
 
-        :return Header object of the image captured in this reading
+        Returns
+        -------
+        imageHeader: Header
+            The header of the image
         """
         return self.imgHeader
