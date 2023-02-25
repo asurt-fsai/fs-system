@@ -22,7 +22,6 @@ class SmoreoRosWrapper:
         self.landmarkPub: rospy.Publisher
         self.boundingBoxes: BoundingBoxes
         self.smoreo: Smoreo
-
     def getParams(self) -> Dict[str, Any]:
         """
         Get params of the system from the ros parameters server

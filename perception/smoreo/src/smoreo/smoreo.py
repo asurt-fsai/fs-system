@@ -16,6 +16,37 @@ class Smoreo:
     """
 
     def __init__(self, params: Dict[str, Any]):
+        try:
+            for key, value in params.items():
+                if key in [
+                    "cut_off_y",
+                    "camera_height_from_ground",
+                    "cx",
+                    "cy",
+                    "f",
+                    "cone_height",
+                ]:
+                    assert isinstance(value, float)
+            for key in [
+                "cut_off_y",
+                "camera_height_from_ground",
+                "cx",
+                "cy",
+                "f",
+                "worldCords_inCamera",
+                "cone_height",
+            ]:
+                assert key in params
+        except Exception as exp:
+            errMsg = "smoreo: ensure all the required parameters are provided \n \
+                       - cut_off_y \n\
+                       - camera_height_from_ground \n\
+                       - worldCords_inCamera \n\
+                       - cx \n\
+                       - cy \n\
+                       - f \n\
+                       - cone_height"
+            raise TypeError(errMsg) from exp
         self.params = params
         self.allLandMarks = LandmarkArray()
         self.allLandMarks.header.frame_id = "flir"
@@ -34,6 +65,11 @@ class Smoreo:
         --------
         cutOf (bool): Whether to consider this bounding box or not
         """
+        try:
+            assert isinstance(bboxCy, float)
+        except Exception as exp:
+            raise TypeError("smoreo: bboxCy must be a float") from exp
+
         if bboxCy > self.params["cut_off_y"]:
             return False
         return True
@@ -54,7 +90,6 @@ class Smoreo:
         --------
         None
         """
-
         cone = Landmark()
         cone.position.x = pose[0][0]
         cone.position.y = pose[0][1]
