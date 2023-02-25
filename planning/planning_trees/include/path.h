@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "cone.h"
-#include "./waypoint.h"
+#include "waypoint.h"
 
 class Path {
 public:
@@ -62,4 +62,6 @@ public:
   Waypoint &get_last_waypoint() { return waypoints.back(); }
 
   float getCost();
+
+  bool hasWaypoint(Waypoint waypoint);
 };

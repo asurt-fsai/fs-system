@@ -173,3 +173,13 @@ float Path::getCost(){
 
   return cost;
 }
+
+bool Path::hasWaypoint(Waypoint waypoint){
+  float epsilon = std::numeric_limits<float>::epsilon();
+  for (int i = 0; i < waypoints.size(); i++){
+    if(fabs(waypoints[i].x - waypoint.x) <= epsilon && fabs(waypoints[i].y - waypoint.y) <= epsilon){
+      return true;
+    }
+  }
+  return false;
+}
