@@ -59,11 +59,13 @@ class Smoreo:
 
         Parameters:
         ----------
-        bboxCy (float): y cordinate of the bbox center
+        bboxCy (float):
+            y cordinate of the bbox center
 
         Returns:
         --------
-        cutOf (bool): Whether to consider this bounding box or not
+        cutOf (bool):
+            Whether to consider this bounding box or not
         """
         try:
             assert isinstance(bboxCy, float)
@@ -83,13 +85,22 @@ class Smoreo:
 
         Parameters:
         ----------
-        pose (ndArray): Predicted cone position.
-        box (ndArray): bounding box for predicted cone
+        pose (ndArray(1,3)):
+            Predicted cone position.
+        box (ndArray(6,1)):
+            bounding box for predicted cone consisting
+            of (h,w,cy,cx,id,type)
 
         Returns:
         --------
         None
         """
+        if not isinstance(pose, np.ndarray) or not isinstance(box, np.ndarray):
+            raise TypeError("smoreo: pose and bounding box must be numpy arrays")
+        if not pose.shape == (1, 3) or not box.shape == (6,):
+            raise ValueError(
+                "smoreo: pose must be a 1x3 array and bounding box must be a 6x1 array"
+            )
         cone = Landmark()
         cone.position.x = pose[0][0]
         cone.position.y = pose[0][1]
@@ -106,12 +117,12 @@ class Smoreo:
         parameters
         ----------
         bboxes2: ndArray
-        bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
+            bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
 
         Returns
         ------
-        array
-        3d position per bounding box
+        array: LandmarkArray
+            3d position per bounding box
         """
         poses = []
         self.allLandMarks = LandmarkArray()
@@ -142,11 +153,11 @@ class Smoreo:
         parameters
         ----------
         bboxes2: ndArray
-        bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
+            bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
         Returns
         ------
-        array
-        3d position per bounding box
+        array: LandmarkArray
+            3d position per bounding box
         """
         poses = []
         cameraHeight = self.params["camera_height_from_ground"]

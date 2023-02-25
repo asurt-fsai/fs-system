@@ -5,7 +5,6 @@ import unittest
 import numpy as np
 from smoreo.smoreo import Smoreo
 from asurt_msgs.msg import LandmarkArray
-import numpy as np
 
 
 class SmoreoTest(unittest.TestCase):
@@ -23,6 +22,7 @@ class SmoreoTest(unittest.TestCase):
             "worldCords_inCamera": np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]]),
             "cone_height": 0.5,
         }
+
     def testParamInp(self) -> None:
         """
         Test if the params are passed correctly
@@ -33,10 +33,11 @@ class SmoreoTest(unittest.TestCase):
     def testFrameId(self) -> None:
         """
         Test if the frame id is passed correctly
-        """   
+        """
         frame = "flir"
         smoreo = Smoreo(self.correctParams)
         self.assertEqual(smoreo.allLandMarks.header.frame_id, frame)
+
     def testRaisingErrorAtInvalidParam(self) -> None:
         """
         Test if the error is raised when invalid params are passed
@@ -57,6 +58,7 @@ class SmoreoTest(unittest.TestCase):
         """
         with self.assertRaises(TypeError):
             Smoreo(None)
+
     def testInvalidBboxcy(self) -> None:
         """
         Test if the error is raised when invalid bboxcy is passed
@@ -65,6 +67,7 @@ class SmoreoTest(unittest.TestCase):
             wrongParams = self.correctParams
             wrongParams["cut_off_y"] = "cy"
             Smoreo(wrongParams)
+
     def testRaisingErrorAtInvalidBboxcy(self) -> None:
         """
         Test if the error is raised when invalid bboxcy is passed
@@ -72,6 +75,7 @@ class SmoreoTest(unittest.TestCase):
         smoreo = Smoreo(self.correctParams)
         with self.assertRaises(TypeError):
             smoreo.filterNearBoxes("cy")
+
     def testReturnTypeFilterNearBoxes(self) -> None:
         """
         Test if the return type of filterNearBoxes is correct
@@ -80,6 +84,7 @@ class SmoreoTest(unittest.TestCase):
         newParams["cut_off_y"] = 7.9
         smoreo = Smoreo(newParams)
         self.assertIsInstance(smoreo.filterNearBoxes(0.5), bool)
+
     def testOutputofInvalidBboxcy(self) -> None:
         """
         Test if the output of invalid bboxcy is correct
@@ -106,43 +111,46 @@ class SmoreoTest(unittest.TestCase):
         newParams["cut_off_y"] = 50.0
         smoreo = Smoreo(newParams)
         self.assertTrue(smoreo.filterNearBoxes(50.0))
-    def testInvalidPose(self):
+
+    def testInvalidPose(self) -> None:
         """
         Test if the error is raised when pose is not a numpy array of size (1,3)
         """
         smoreo = Smoreo(self.correctParams)
-        box=np.array([1,2,3,4,5,6],dtype=np.float32)
+        box = np.array([1, 2, 3, 4, 5, 6], dtype=np.float32)
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray([1,2,3],box)
+            smoreo.addToLandmarkArray([1, 2, 3], box)
         with self.assertRaises(TypeError):
             smoreo.addToLandmarkArray("pose", box)
         with self.assertRaises(ValueError):
-            smoreo.addToLandmarkArray(np.zeros((2,2),dtype=np.float32),box)
-    def testInvalidBox(self):
+            smoreo.addToLandmarkArray(np.zeros((2, 2), dtype=np.float32), box)
+
+    def testInvalidBox(self) -> None:
         """
         Test if the error is raised when box is not a numpy array of size (1,6)
         """
         smoreo = Smoreo(self.correctParams)
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(np.zeros((1,3),dtype=np.float32),99)
+            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), 99)
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(np.zeros((1,3),dtype=np.int64),99)
+            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.int64), 99)
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(np.zeros((1,3),dtype=np.float32),{})
-        pose=np.array([1,2,3],dtype=np.float32)
+            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), {})
+        pose = np.array([1, 2, 3], dtype=np.float32)
         with self.assertRaises(TypeError):
             smoreo.addToLandmarkArray(pose, "box")
+        with self.assertRaises(ValueError):
+            smoreo.addToLandmarkArray(pose, np.zeros((2, 2), dtype=np.float32))
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(pose,np.zeros((2,2),dtype=np.float32))  
-        with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(np.zeros((1,3),dtype=np.float32),[1,2,3,4,5,6]) 
-    def testAddToLandmarkArray(self):
+            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), [1, 2, 3, 4, 5, 6])
+
+    def testAddToLandmarkArray(self) -> None:
         """
         Test if the landmark array is updated correctly
         """
-        smoreo=Smoreo(self.correctParams)
-        pose=np.zeros((1,3),dtype=np.float32)
-        box=np.array([1,2,3,4,5,6],dtype=np.float32)
+        smoreo = Smoreo(self.correctParams)
+        pose = np.zeros((1, 3), dtype=np.float32)
+        box = np.array([1, 2, 3, 4, 5, 6], dtype=np.float32)
         smoreo.addToLandmarkArray(pose, box)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 1)
         self.assertEqual(smoreo.allLandMarks.landmarks[0].position.x, pose[0][0])
@@ -154,5 +162,7 @@ class SmoreoTest(unittest.TestCase):
         box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0], dtype=np.float32)
         smoreo.addToLandmarkArray(pose2, box2)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 2)
-if __name__=='__main__':
+
+
+if __name__ == "__main__":
     unittest.main()
