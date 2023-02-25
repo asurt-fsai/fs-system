@@ -186,6 +186,17 @@ TEST(TestGetCost, Test1){
     EXPECT_FLOAT_EQ(path.getCost(), expected_cost);
 }
 
+TEST(TestHasWaypoint, Test1){
+    std::vector<Cone> cones{Cone(0, 1, 0), Cone(1, 0, 0), Cone(2, 1, 0), Cone(3, 0, 1)};
+    Path path(cones);
+    path.addWaypoint(1, 1);
+    path.addWaypoint(2, 0);
+    path.addWaypoint(3, 1);
+
+    EXPECT_FALSE(path.hasWaypoint(Waypoint(0,2)));
+    EXPECT_TRUE(path.hasWaypoint(Waypoint(1,1)));
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
