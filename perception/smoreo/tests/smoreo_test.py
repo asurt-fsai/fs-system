@@ -127,7 +127,7 @@ class SmoreoTest(unittest.TestCase):
             smoreo.addToLandmarkArray(box, pose)
     def testPoseOrder(self):
         """
-        Test if the pose is added in the correct order
+        Test if the error is raised when the pose is not in the correct order
         """
         smoreo=Smoreo({})
         pose1 = np.array([[1, 2, 3]], dtype=np.float32)
@@ -138,15 +138,16 @@ class SmoreoTest(unittest.TestCase):
             smoreo.addToLandmarkArray(pose2, box)
     def testBoxOrder(self):
         """
-        Test if the box is added in the correct order
+        Test if the error is raised when the box is not in the correct order
         """
         smoreo=Smoreo({})
-        pose=np.zeros((1,3),dtype=np.float32)
+        pose=np.array([[1, 2, 3]], dtype=np.float32)
         box1=np.array([1,2,3,4,5,6],dtype=np.float32)
         box2=np.array([1,2,3,4,5,6],dtype=np.float32)
         smoreo.addToLandmarkArray(pose, box1)
         with self.assertRaises(IndexError):
             smoreo.addToLandmarkArray(pose, box2)
+
     def testAddToLandmarkArray(self):
         """
         Test if the landmark array is updated correctly
