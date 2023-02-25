@@ -30,7 +30,8 @@ public:
   Path getPath();
 
   template <typename T> std::vector<T> filterLocal(std::vector<T> cones, float field_of_view, float distance);
-  template <typename T> std::vector<T> filterLocal(std::vector<T> cones, float field_of_view, float distance, float x, float y, float heading);
+  std::vector<Cone> filterLocal(std::vector<Cone> cones, float field_of_view, float distance, float x, float y, float heading);
+  std::vector<Waypoint*> filterLocal(std::vector<Waypoint*> waypoints, float field_of_view, float distance, float x, float y, float heading);
 
   std::vector<Waypoint> triangulate(std::vector<Cone> cones);
 
