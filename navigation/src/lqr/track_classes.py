@@ -92,6 +92,33 @@ class Final:
 
 
 @dataclass
+class SolverMatrices:
+    """
+    This class contains the helper matrices that
+    will be used to calulate the solver input.
+
+    Attributes
+    ----------
+    matP : npt.NDArray[np.float64]
+        The P matrix, matP = [matPXX,matPXY,matPYY]
+    matPrime : npt.NDArray[np.float64]
+        The prime matrix, matPrime = [xPrime,yPrime]
+    matT : npt.NDArray[np.float64]
+        The T matrix, matT = [matTC,matTNX,matTNY]
+    matQ : npt.NDArray[np.float64]
+        The Q matrix, matQ = [matQX,matQY]
+    curvPart : npt.NDArray[np.float64]
+        The curvature part of the matrix
+    """
+
+    matP: npt.NDArray[np.float64]
+    matPrime: npt.NDArray[np.float64]
+    matT: npt.NDArray[np.float64]
+    matQ: npt.NDArray[np.float64]
+    curvPart: npt.NDArray[np.float64]
+
+
+@dataclass
 class Track:
     """
     This class conains all the track stages
