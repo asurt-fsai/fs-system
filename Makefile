@@ -115,8 +115,7 @@ test_staged: test
 ##@ Clean
 
 clean_catkin: ## Cleans catkin workspace. Removes devel, build and logs directories.
-	@cd $(WORK_SPACE); \
-	rm -r devel build logs;
+	catkin clean
 
 clean_python: ## Removes all python cache files.
 	$(CACHED_ITEMS) | xargs rm -rf
