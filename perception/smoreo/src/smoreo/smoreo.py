@@ -125,13 +125,13 @@ class Smoreo:
             3d position per bounding box
         """
         poses = []
-        self.allLandMarks = LandmarkArray()
+        self.allLandMarks.landmarks = []
         cameraHeight = self.params["camera_height_from_ground"]
         for box in bboxes:
             bboxH, _, bboxCy, bboxCx, _, _ = box
-            if self.filterNearBoxes(bboxCy):
+            if self.filterNearBoxes(float(bboxCy)):
                 x = bboxCx - self.params["cx"]
-                yBottom = bboxCx + bboxH // 2 - self.params["cy"]
+                yBottom = bboxCy + bboxH // 2 - self.params["cy"]
                 tOne = cameraHeight / yBottom
                 baseProjection = np.asarray(
                     [x * tOne, yBottom * tOne, self.params["f"] * tOne]
