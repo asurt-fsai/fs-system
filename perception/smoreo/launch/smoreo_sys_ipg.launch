@@ -38,4 +38,6 @@
 	<param name="/smoreo/cut_off_y" 					value="900.0"/>
 	<param name="/smoreo/use_cone_base" 				value= "True"/>
 	<param name="/smoreo/camera_height_from_ground" 	value="0.816"/>
+	<param name="/smoreo/in_tuning" 					value="True"/>
+
 </launch>

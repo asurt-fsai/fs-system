@@ -51,6 +51,52 @@ class Smoreo:
         self.allLandMarks = LandmarkArray()
         self.allLandMarks.header.frame_id = "flir"
 
+    def updateParams(self, params: Dict[str, Any]) -> None:
+        """
+        Update params of the system from the ros parameters server
+
+        Parameters:
+        ------------
+        params: Dict[str,Any]
+            parameters obtained from the ros parameter server.
+        Returns:
+        -----------
+        None
+        """
+        try:
+            for key, value in params.items():
+                if key in [
+                    "cut_off_y",
+                    "camera_height_from_ground",
+                    "cx",
+                    "cy",
+                    "f",
+                    "cone_height",
+                ]:
+                    assert isinstance(value, float)
+            for key in [
+                "cut_off_y",
+                "camera_height_from_ground",
+                "cx",
+                "cy",
+                "f",
+                "worldCords_inCamera",
+                "cone_height",
+            ]:
+                assert key in params
+        except Exception as exp:
+            errMsg = "smoreo: ensure all the required parameters are provided \n \
+                       - cut_off_y \n\
+                       - camera_height_from_ground \n\
+                       - worldCords_inCamera \n\
+                       - cx \n\
+                       - cy \n\
+                       - f \n\
+                       - cone_height"
+            raise TypeError(errMsg) from exp
+        print(params)
+        self.params = params
+
     def filterNearBoxes(self, bboxCy: float) -> bool:
         """
         Filter boxes that are close to the car, since their base

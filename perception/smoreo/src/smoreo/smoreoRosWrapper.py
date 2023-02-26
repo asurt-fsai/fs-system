@@ -23,6 +23,7 @@ class SmoreoRosWrapper:
         self.boundingBoxes: BoundingBoxes
         self.smoreo: Smoreo
         self.useConeBase: bool
+        self.inTuning: bool
 
     def getParams(self) -> Dict[str, Any]:
         """
@@ -91,7 +92,7 @@ class SmoreoRosWrapper:
             "worldCords_inCamera": np.array(
                 tf.transformations.quaternion_matrix(worldToCameraRotation)[:3, :3], dtype=int
             ),
-            "camera_height_from_ground": rospy.get_param("smoreo/camera_height", 0.5),
+            "camera_height_from_ground": rospy.get_param("smoreo/camera_height_from_ground"),
             "cut_off_y": float(cutOffY),
             "cone_height": coneHeight,
         }
@@ -165,17 +166,21 @@ class SmoreoRosWrapper:
         Run the smoreo system.
         """
         if self.boundingBoxes is not None:
+            if self.inTuning:
+                newParams = self.getParams()
+                self.smoreo.updateParams(newParams)
             if self.useConeBase:
                 predictedLandmarks = self.smoreo.predictWithBase(self.boundingBoxes)
             else:
                 predictedLandmarks = self.smoreo.predictWithTop(self.boundingBoxes)
             self.landmarkPub.publish(predictedLandmarks)
 
-    def start(self, useConeBase: bool) -> None:
+    def start(self, useConeBase: bool, inTuning: bool) -> None:
         """
         start the smoreo system by creating publishers, subscribers and the smoreo object.
         """
         self.useConeBase = useConeBase
+        self.inTuning = inTuning
         self.createPublishers()
         self.params = self.getParams()
         self.boundingBoxes = None
