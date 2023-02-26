@@ -141,7 +141,7 @@ class SmoreoRosWrapper:
             errMsg = "smoreo: ensure all the required topics for\n \
                          publishing are provided in ros server\n \
                        - predicted_landmarks"
-            raise TypeError(errMsg) from exp
+            raise ValueError(errMsg) from exp
         self.landmarkPub = rospy.Publisher(
             rospy.get_param("/smoreo/predicted_landmarks"), LandmarkArray, queue_size=10
         )
