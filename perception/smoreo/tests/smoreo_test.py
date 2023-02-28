@@ -2,7 +2,6 @@
 Test file for smoreo
 """
 import unittest
-import numpy as np
 from smoreo.smoreo import Smoreo
 from asurt_msgs.msg import LandmarkArray
 import numpy as np
@@ -21,7 +20,7 @@ class SmoreoTest(unittest.TestCase):
             "cy": 0.5,
             "f": 0.5,
             "worldCords_inCamera": np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]]),
-            "cone_height": 0.5,
+            "cone_height": 0.5
         }
     def testParamInp(self) -> None:
         """
