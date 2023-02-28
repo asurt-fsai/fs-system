@@ -95,7 +95,10 @@ class SmornnRos(Smornn):
             landmark = Landmark()
             landmark.position.x = cone[0]
             landmark.position.y = cone[1]
-            landmark.type = cone[2]
+            if len(cone) > 2:
+                landmark.type = cone[2]
+            else:
+                landmark.type = Landmark.CONE_TYPE_UNKOWN
             landmarks.append(landmark)
         landmarksMsg = LandmarkArray()
         landmarksMsg.landmarks = landmarks
