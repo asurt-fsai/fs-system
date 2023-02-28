@@ -51,6 +51,52 @@ class Smoreo:
         self.allLandMarks = LandmarkArray()
         self.allLandMarks.header.frame_id = "flir"
 
+    def updateParams(self, params: Dict[str, Any]) -> None:
+        """
+        Update params of the system from the ros parameters server
+
+        Parameters:
+        ------------
+        params: Dict[str,Any]
+            parameters obtained from the ros parameter server.
+        Returns:
+        -----------
+        None
+        """
+        try:
+            for key, value in params.items():
+                if key in [
+                    "cut_off_y",
+                    "camera_height_from_ground",
+                    "cx",
+                    "cy",
+                    "f",
+                    "cone_height",
+                ]:
+                    assert isinstance(value, float)
+            for key in [
+                "cut_off_y",
+                "camera_height_from_ground",
+                "cx",
+                "cy",
+                "f",
+                "worldCords_inCamera",
+                "cone_height",
+            ]:
+                assert key in params
+        except Exception as exp:
+            errMsg = "smoreo: ensure all the required parameters are provided \n \
+                       - cut_off_y \n\
+                       - camera_height_from_ground \n\
+                       - worldCords_inCamera \n\
+                       - cx \n\
+                       - cy \n\
+                       - f \n\
+                       - cone_height"
+            raise TypeError(errMsg) from exp
+        print(params)
+        self.params = params
+
     def filterNearBoxes(self, bboxCy: float) -> bool:
         """
         Filter boxes that are close to the car, since their base
@@ -59,11 +105,13 @@ class Smoreo:
 
         Parameters:
         ----------
-        bboxCy (float): y cordinate of the bbox center
+        bboxCy (float):
+            y cordinate of the bbox center
 
         Returns:
         --------
-        cutOf (bool): Whether to consider this bounding box or not
+        cutOf (bool):
+            Whether to consider this bounding box or not
         """
         try:
             assert isinstance(bboxCy, float)
@@ -83,13 +131,22 @@ class Smoreo:
 
         Parameters:
         ----------
-        pose (ndArray): Predicted cone position.
-        box (ndArray): bounding box for predicted cone
+        pose (ndArray(1,3)):
+            Predicted cone position.
+        box (ndArray(6,1)):
+            bounding box for predicted cone consisting
+            of (h,w,cy,cx,id,type)
 
         Returns:
         --------
         None
         """
+        if not isinstance(pose, np.ndarray) or not isinstance(box, np.ndarray):
+            raise TypeError("smoreo: pose and bounding box must be numpy arrays")
+        if not pose.shape == (1, 3) or not box.shape == (6,):
+            raise ValueError(
+                "smoreo: pose must be a 1x3 array and bounding box must be a 6x1 array"
+            )
         cone = Landmark()
         cone.position.x = pose[0][0]
         cone.position.y = pose[0][1]
@@ -106,21 +163,21 @@ class Smoreo:
         parameters
         ----------
         bboxes2: ndArray
-        bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
+            bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
 
         Returns
         ------
-        array
-        3d position per bounding box
+        array: LandmarkArray
+            3d position per bounding box
         """
         poses = []
-        self.allLandMarks = LandmarkArray()
+        self.allLandMarks.landmarks = []
         cameraHeight = self.params["camera_height_from_ground"]
         for box in bboxes:
             bboxH, _, bboxCy, bboxCx, _, _ = box
-            if self.filterNearBoxes(bboxCy):
+            if self.filterNearBoxes(float(bboxCy)):
                 x = bboxCx - self.params["cx"]
-                yBottom = bboxCx + bboxH // 2 - self.params["cy"]
+                yBottom = bboxCy + bboxH // 2 - self.params["cy"]
                 tOne = cameraHeight / yBottom
                 baseProjection = np.asarray(
                     [x * tOne, yBottom * tOne, self.params["f"] * tOne]
@@ -142,11 +199,11 @@ class Smoreo:
         parameters
         ----------
         bboxes2: ndArray
-        bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
+            bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
         Returns
         ------
-        array
-        3d position per bounding box
+        array: LandmarkArray
+            3d position per bounding box
         """
         poses = []
         cameraHeight = self.params["camera_height_from_ground"]

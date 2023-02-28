@@ -8,6 +8,7 @@ project(smoreo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  dynamic_reconfigure
   message_generation
   roscpp
   rospy
@@ -16,6 +17,13 @@ find_package(catkin REQUIRED COMPONENTS
   asurt_msgs
   tf_helper
 )
+catkin_python_setup()
+
+generate_dynamic_reconfigure_options(
+  src/smoreo/cfg/smoreo.cfg
+
+)
+
 catkin_package(
   # INCLUDE_DIRS include
   LIBRARIES
@@ -35,8 +43,7 @@ install(
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   USE_SOURCE_PERMISSIONS)
 
-catkin_python_setup()
 
 
-catkin_install_python(PROGRAMS nodes/smoreo_system.py DESTINATION
+catkin_install_python(PROGRAMS nodes/smoreo_system.py nodes/tuner.py DESTINATION
                       ${CATKIN_PACKAGE_BIN_DESTINATION})

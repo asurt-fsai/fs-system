@@ -18,7 +18,12 @@ def main() -> None:
     status.starting()
 
     smoreo = SmoreoRosWrapper()
-    smoreo.start()
+    if "/smoreo/use_cone_base" not in rospy.get_param_names():
+        raise ValueError("smoreo: use_cone_base is not set")
+    if "/smoreo/in_tuning" not in rospy.get_param_names():
+        raise ValueError("smoreo: in_tuning is not set")
+
+    smoreo.start(rospy.get_param("/smoreo/use_cone_base"), rospy.get_param("/smoreo/in_tuning"))
 
     status.ready()
 
