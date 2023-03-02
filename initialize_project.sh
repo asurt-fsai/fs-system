@@ -31,5 +31,7 @@ sudo apt-get install --no-install-recommends -y \
 pip$PYTHON_SUFFIX install --upgrade pip$PYTHON_SUFFIX
 pip$PYTHON_SUFFIX install -r $SCRIPT_DIR/requirements.txt
 
+git submodule update --init --depth 1
+
 chmod +x $SCRIPT_DIR/.hooks/install_hooks.sh
 $SCRIPT_DIR/.hooks/install_hooks.sh
