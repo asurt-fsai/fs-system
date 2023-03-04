@@ -5,7 +5,6 @@ Main ros node for the smornn pipeline used to combine detections from lidar and 
 import rospy
 from visualization_msgs.msg import MarkerArray
 
-# pylint: disable=import-error, no-name-in-module
 from asurt_msgs.msg import LandmarkArray
 from tf_helper.StatusPublisher import StatusPublisher
 from tf_helper.MarkerViz import MarkerViz

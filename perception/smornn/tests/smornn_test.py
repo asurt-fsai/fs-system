@@ -6,7 +6,7 @@ import unittest
 import numpy.typing as npt
 import numpy as np
 
-from smornn import Smornn  # pylint: disable=no-name-in-module
+from smornn import Smornn
 
 
 class SmornnTest(unittest.TestCase):
