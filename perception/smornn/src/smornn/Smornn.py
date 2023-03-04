@@ -65,7 +65,7 @@ class Smornn:
     def run(self) -> Optional[npt.NDArray[np.float64]]:
         """
         Run smornn on the available lidar and smoreo readings
-        Returns None is no lidar detections are available
+        Returns None if no lidar detections are available
         Returns lidar detections with all cone_color == 4 (unknown) if no smoreo readings available
         Otherwise, does the nearest neighbors to get colors for the lidar detections
 
