@@ -4,10 +4,9 @@ A ros wrapper for the Smornn class
 from typing import Dict, Any, Optional
 
 import rospy
-import numpy as np
-import numpy.typing as npt
-from asurt_msgs.msg import LandmarkArray, Landmark
+from asurt_msgs.msg import LandmarkArray
 
+from tf_helper.utils import parseLandmarks, createLandmarkMessage
 from .Smornn import Smornn
 
 
@@ -28,12 +27,14 @@ class SmornnRos(Smornn):
         self,
         publishers: Dict[str, rospy.Publisher],
         markerViz: Any,
+        frameId: str,
         *args: Any,
         **kwargs: Any,
     ):
         super().__init__(*args, **kwargs)
         self.publishers = publishers
         self.markerViz = markerViz
+        self.frameId = frameId
 
         # Parameter Validation
         try:
@@ -48,68 +49,12 @@ class SmornnRos(Smornn):
                        - detected_markers"
             raise TypeError(errMsg) from exp
 
-    def toConeArray(
-        self, landmarks: LandmarkArray, addType: bool = False
-    ) -> npt.NDArray[np.float64]:
-        """
-        Converts a LandmarkArray to a numpy array of cones
-
-        Parameters
-        ----------
-        landmarks : LandmarkArray
-            Landmark array to convert
-        addType : bool, by default False
-            Whether to add the type and type probability to the cones
-
-        Returns
-        -------
-        npt.NDArray[np.float64]
-            Numpy array of cones, each row is a cone and contains either
-            [x, y] or [x, y, color, color_prob]
-        """
-        cones = []
-        for landmark in landmarks.landmarks:
-            toAdd = [landmark.position.x, landmark.position.y]
-            if addType:
-                toAdd.extend([landmark.type, 0])
-            cones.append(toAdd)
-        return np.array(cones)
-
-    def toLandmarkArray(self, cones: npt.NDArray[np.float64]) -> LandmarkArray:
-        """
-        Converts a numpy array of cones to a LandmarkArray
-
-        Parameters
-        ----------
-        cones : npt.NDArray[np.float64]
-            Numpy array of cones, each row is a cone and contains either
-            [x, y] or [x, y, color, color_prob]
-
-        Returns
-        -------
-        LandmarkArray
-            Landmark array of cones
-        """
-        landmarks = []
-        for cone in cones:
-            landmark = Landmark()
-            landmark.position.x = cone[0]
-            landmark.position.y = cone[1]
-            if len(cone) > 2:
-                landmark.type = cone[2]
-            else:
-                landmark.type = Landmark.CONE_TYPE_UNKOWN
-            landmarks.append(landmark)
-        landmarksMsg = LandmarkArray()
-        landmarksMsg.landmarks = landmarks
-        return landmarksMsg
-
     def lidarCallback(self, cones: LandmarkArray) -> None:
-        cones = self.toConeArray(cones)
+        cones = parseLandmarks(cones)[:, :2]  # Use only x, y of the cones without color for lidar
         super().lidarCallback(cones)
 
     def smoreoCallback(self, cones: LandmarkArray) -> None:
-        cones = self.toConeArray(cones, addType=True)
+        cones = parseLandmarks(cones)
         super().smoreoCallback(cones)
 
     def run(self) -> Optional[LandmarkArray]:
@@ -119,7 +64,7 @@ class SmornnRos(Smornn):
         cones = super().run()
         if cones is None:
             return None
-        landmarks = self.toLandmarkArray(cones)
+        landmarks = createLandmarkMessage(cones[:, :2], cones[:, 2], self.frameId)
         self.publishers["detected"].publish(landmarks)
         detectedMarkers = self.markerViz.conesToMarkers(landmarks)
         self.publishers["detected_markers"].publish(detectedMarkers)

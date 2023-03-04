@@ -9,7 +9,7 @@ from asurt_msgs.msg import LandmarkArray
 from tf_helper.StatusPublisher import StatusPublisher
 from tf_helper.MarkerViz import MarkerViz
 
-from smornn import SmornnRos
+from smornn.SmornnRos import SmornnRos
 
 
 def main() -> None:
@@ -31,7 +31,7 @@ def main() -> None:
 
     minDistNeighbor = rospy.get_param("/perception/smornn/min_dist_neighbor")
 
-    smornn = SmornnRos(publishers, markerViz, minDistNeighbor)
+    smornn = SmornnRos(publishers, markerViz, "velodyne", minDistNeighbor)
 
     lidarTopic = rospy.get_param("/perception/lidar/detected")
     smoreoTopic = rospy.get_param("/perception/smoreo/detected")
