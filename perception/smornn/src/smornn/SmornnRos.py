@@ -1,7 +1,7 @@
 """
 A ros wrapper for the Smornn class
 """
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 import rospy
 import numpy as np
@@ -112,13 +112,13 @@ class SmornnRos(Smornn):
         cones = self.toConeArray(cones, addType=True)
         super().smoreoCallback(cones)
 
-    def run(self) -> LandmarkArray:
+    def run(self) -> Optional[LandmarkArray]:
         """
         Runs the smornn algorithm and publishes the results
         """
         cones = super().run()
         if cones is None:
-            return cones
+            return None
         landmarks = self.toLandmarkArray(cones)
         self.publishers["detected"].publish(landmarks)
         detectedMarkers = self.markerViz.conesToMarkers(landmarks)
