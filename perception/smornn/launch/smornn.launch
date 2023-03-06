@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- ROS Topics -->
+	<param name="/perception/smoreo/detected" value="/perception/smoreo/detected"/>
+	<param name="/perception/lidar/detected" value="/perception/lidar/detected"/>
+	<param name="/perception/smornn/detected" value="/perception/smornn/detected"/>
+	<param name="/perception/smornn/detected_markers" value="/perception/smornn/detected_markers"/>
+
+	<!-- Algorithm Parameters -->
+	<param name="/perception/smornn/min_dist_neighbor" value="1"/>
+
+	<!-- ROS node -->
+	<node name="smornn" pkg="smornn" type="smornn_node.py" output="screen"/>
+</launch>
