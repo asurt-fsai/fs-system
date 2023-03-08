@@ -104,7 +104,7 @@ TEST(TestFunctions, TestGetDistNearestCone) {
 
   Waypoint waypoint2(-0.5, -0.5);
   float distance2 = waypoint2.getDistNearestCone(cones);
-  EXPECT_FLOAT_EQ(distance2, sqrt(0.5*0.5 + 1.5*1.5));
+  EXPECT_FLOAT_EQ(distance2, sqrt(0.5 * 0.5 + 1.5 * 1.5));
 }
 TEST(TestFunctions, TestGetVecTo) {
   Waypoint waypoint1(1, 2);
@@ -121,6 +121,28 @@ TEST(TestFunctions, TestEquality) {
   EXPECT_FALSE(waypoint1 == waypoint2);
   EXPECT_TRUE(waypoint1 == waypoint3);
   EXPECT_TRUE(waypoint1 == waypoint4);
+}
+TEST(TestManualCopy, TestCopy) {
+  Waypoint waypoint1(1, 2);
+  Waypoint waypoint2(3, 4);
+  Waypoint waypoint3(1, 2);
+  Waypoint waypoint4(1, 2, 5);
+  waypoint2.updateWaypointPrev(waypoint1);
+  waypoint2.updateWaypointNext(waypoint3);
+
+  Waypoint waypoint1Copy(0, 0);
+  Waypoint waypoint2Copy(0, 0);
+  Waypoint waypoint3Copy(0, 0);
+  Waypoint waypoint4Copy(0, 0);
+  waypoint1Copy.manualCopy(waypoint1);
+  waypoint2Copy.manualCopy(waypoint2);
+  waypoint3Copy.manualCopy(waypoint3);
+  waypoint4Copy.manualCopy(waypoint4);
+
+  EXPECT_TRUE(waypoint1 == waypoint1Copy);
+  EXPECT_TRUE(waypoint2 == waypoint2Copy);
+  EXPECT_TRUE(waypoint3 == waypoint3Copy);
+  EXPECT_TRUE(waypoint4 == waypoint4Copy);
 }
 
 int main(int argc, char **argv) {

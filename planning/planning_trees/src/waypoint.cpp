@@ -60,11 +60,11 @@ std::array<float, 4> Waypoint::getBounds(const Waypoint &other_waypoint) {
   return bounds;
 }
 
-float Waypoint::getDistNearestCone(std::vector<Cone> cones){
+float Waypoint::getDistNearestCone(std::vector<Cone> cones) {
   float min_dist = std::numeric_limits<float>::infinity();
-  for (Cone cone : cones){
+  for (Cone cone : cones) {
     float dist = this->getDistanceTo(cone.x, cone.y);
-    if (dist < min_dist){
+    if (dist < min_dist) {
       min_dist = dist;
     }
   }
@@ -82,4 +82,13 @@ bool Waypoint::operator==(const Waypoint &other) const {
 void Waypoint::print() {
   std::cout << "Waypoint at (" << x << ", " << y << ") , Heading: " << heading
             << ", Tanget: " << tangent << std::endl;
+}
+
+void Waypoint::manualCopy(const Waypoint &other) {
+  x = other.x;
+  y = other.y;
+  heading = other.heading;
+  tangent = other.tangent;
+  prev_x = other.prev_x;
+  prev_y = other.prev_y;
 }

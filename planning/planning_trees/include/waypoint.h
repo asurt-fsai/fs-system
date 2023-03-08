@@ -1,12 +1,12 @@
 #pragma once
 
-#include <cmath>
-#include <tuple>
-#include <array>
-#include <vector>
-#include <limits>
-#include <iostream>
 #include "cone.h"
+#include <array>
+#include <cmath>
+#include <iostream>
+#include <limits>
+#include <tuple>
+#include <vector>
 
 class Waypoint {
 public:
@@ -35,7 +35,7 @@ public:
 
   // Delete copy constructor to prevent accidental copying
   Waypoint(const Waypoint &) = delete;
-  Waypoint(Waypoint&&) = default;
+  Waypoint(Waypoint &&) = default;
 
   /**
    * @brief Get the distance between this waypoint and another point
@@ -131,7 +131,7 @@ public:
    * floats (x,y)
    *
    * @return float The distance to the nearest cone
-  */
+   */
   float getDistNearestCone(std::vector<Cone> cones);
 
   /**
@@ -143,6 +143,11 @@ public:
    * other
    */
   bool operator==(const Waypoint &other) const;
+
+  /**
+   * @brief Copy all values from another waypoint to this waypoint
+   */
+  void manualCopy(const Waypoint &other);
 
   /**
    * @brief Prints the current waypoint's position (x,y), heading, and tanget
