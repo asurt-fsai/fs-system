@@ -2,7 +2,7 @@
 
 bool PathQueue::addNewPath(Path *new_path, float new_cost) {
   if (paths.size() >= PATH_QUEUE_LIMIT) {
-    int worst_path_index = getWorstPath();
+    int worst_path_index = getWorstPathIndex();
     if (costs[worst_path_index] > new_cost) {
       paths[worst_path_index] = new_path;
       costs[worst_path_index] = new_cost;
@@ -15,7 +15,7 @@ bool PathQueue::addNewPath(Path *new_path, float new_cost) {
   return true;
 }
 
-int PathQueue::getWorstPath() {
+int PathQueue::getWorstPathIndex() {
   int worst_path_index = 0;
   for (int i = 0; i < costs.size(); i++) {
     if (costs[i] > costs[worst_path_index]) {
@@ -25,7 +25,7 @@ int PathQueue::getWorstPath() {
   return worst_path_index;
 }
 
-int PathQueue::getBestPath() {
+int PathQueue::getBestPathIndex() {
   int best_path_index = 0;
   for (int i = 0; i < costs.size(); i++) {
     if (costs[i] < costs[best_path_index]) {

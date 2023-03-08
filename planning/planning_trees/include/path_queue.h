@@ -26,12 +26,12 @@ public:
    *
    * @return int The index of the worst path
    */
-  int getWorstPath();
+  int getWorstPathIndex();
 
   /**
    * @brief Gets the index of the best path in the queue
    *
    * @return int The index of the best path
    */
-  int getBestPath();
+  int getBestPathIndex();
 };
