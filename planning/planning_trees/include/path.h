@@ -1,20 +1,21 @@
 #pragma once
 
-#include <cmath>
-#include <tuple>
-#include <array>
-#include <vector>
-#include <iostream>
-#include <stdexcept>
 #include "cone.h"
 #include "waypoint.h"
+#include <array>
+#include <cmath>
+#include <iostream>
+#include <stdexcept>
+#include <tuple>
+#include <vector>
 
 class Path {
 public:
   // List of waypoints on this path
   std::vector<Waypoint> waypoints;
 
-  // For each two waypoints in order [(w0, w1), (w1, w2), ...], this is a vector that point to the left of them
+  // For each two waypoints in order [(w0, w1), (w1, w2), ...], this is a vector
+  // that point to the left of them
   std::vector<std::array<float, 2>> left_unit_normals;
 
   // The set of cones that are currently detected
@@ -37,19 +38,20 @@ public:
   }
 
   /**
-   * @brief Add a waypoint to the path and recomputes some parts of the costs if needed
+   * @brief Add a waypoint to the path and recomputes some parts of the costs if
+   * needed
    *
    * @param x the x coordinate of the waypoint
    * @param y the y coordinate of the waypoint
    *
    * @return void
-  */
+   */
   void addWaypoint(float x, float y);
 
   float getNearestConeToLine(std::vector<Cone> cones,
-                           std::array<float, 2> left_unit_normal,
-                           float intercept, Waypoint &new_waypoint,
-                       Waypoint &prev_waypoint);
+                             std::array<float, 2> left_unit_normal,
+                             float intercept, Waypoint &new_waypoint,
+                             Waypoint &prev_waypoint);
 
   std::vector<int> getIndices();
 
@@ -62,6 +64,8 @@ public:
   Waypoint &get_last_waypoint() { return waypoints.back(); }
 
   float getCost();
+
+  Path createCopy();
 
   bool hasWaypoint(Waypoint waypoint);
 };
