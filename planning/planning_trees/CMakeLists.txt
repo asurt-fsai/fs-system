@@ -16,7 +16,7 @@ catkin_package(
 include_directories(${catkin_INCLUDE_DIRS})
 
 # Declare a C++ library
-add_library(${PROJECT_NAME} src/cone.cpp src/waypoint.cpp src/path.cpp
+add_library(${PROJECT_NAME} src/cone.cpp src/waypoint.cpp src/path.cpp src/path_queue.cpp
                             src/tree_search.cpp)
 
 # Add cmake target dependencies of the library as an example, code may need to
@@ -46,17 +46,22 @@ add_library(${PROJECT_NAME} src/cone.cpp src/waypoint.cpp src/path.cpp
 # Testing ##
 # ##############################################################################
 
-# Add gtests catkin_add_gtest(${PROJECT_NAME}-cone_test test/cone_test.cpp)
-# target_link_libraries(${PROJECT_NAME}-cone_test ${catkin_LIBRARIES}
-# ${PROJECT_NAME})
+# Add gtests
+catkin_add_gtest(${PROJECT_NAME}-cone_test test/cone_test.cpp)
+target_link_libraries(${PROJECT_NAME}-cone_test ${catkin_LIBRARIES}
+${PROJECT_NAME})
 
-# catkin_add_gtest(${PROJECT_NAME}-waypoint_test test/waypoint_test.cpp)
-# target_link_libraries(${PROJECT_NAME}-waypoint_test ${catkin_LIBRARIES}
-# ${PROJECT_NAME})
+catkin_add_gtest(${PROJECT_NAME}-waypoint_test test/waypoint_test.cpp)
+target_link_libraries(${PROJECT_NAME}-waypoint_test ${catkin_LIBRARIES}
+${PROJECT_NAME})
 
-# catkin_add_gtest(${PROJECT_NAME}-path_test test/path_test.cpp)
-# target_link_libraries(${PROJECT_NAME}-path_test ${catkin_LIBRARIES}
-# ${PROJECT_NAME})
+catkin_add_gtest(${PROJECT_NAME}-path_test test/path_test.cpp)
+target_link_libraries(${PROJECT_NAME}-path_test ${catkin_LIBRARIES}
+${PROJECT_NAME})
+
+catkin_add_gtest(${PROJECT_NAME}-path_queue_test test/path_queue_test.cpp)
+target_link_libraries(${PROJECT_NAME}-path_queue_test ${catkin_LIBRARIES}
+                      ${PROJECT_NAME})
 
 catkin_add_gtest(${PROJECT_NAME}-tree_search_test test/tree_search_test.cpp)
 target_link_libraries(${PROJECT_NAME}-tree_search_test ${catkin_LIBRARIES}
