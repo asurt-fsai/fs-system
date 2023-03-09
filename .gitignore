@@ -117,3 +117,6 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+
+navigation/pure_pursuit/tests/waypointsgen.py
+navigation/pure_pursuit/tests/purepursuit.py
