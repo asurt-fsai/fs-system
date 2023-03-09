@@ -1,0 +1,4 @@
+<launch>
+<node name="purepursuit_controller" pkg="pure_pursuit" type="purepursuit_node.py"></node>
+<node name="waypoints" pkg="pure_pursuit" type="waypointsgen.py"></node>
+</launch>
