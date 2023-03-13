@@ -14,13 +14,14 @@ import numpy as np
 import rospy
 from std_msgs.msg import Float64MultiArray
 import matplotlib.pyplot as plt
+from track import Track, Original
 
 K_REG: int = 3
-S_REG: int = 10
+S_REG: int = 20
 STEPSIZE_PREP: float = 1.0
-STEPSIZE_REG: float = 3.0
+STEPSIZE_REG: float = 1.0
 MIN_WIDTH: float = 3.0
-TRACK_WIDTH: float = 3.0
+TRACK_WIDTH: float = 5.0
 
 
 class RefTrack:
@@ -72,7 +73,7 @@ class RefTrack:
 
 
 def prepTrack(
-    refTrack: RefTrack,
+    refTrack: Original,
 ) -> Tuple[
     npt.NDArray[np.float64],
     npt.NDArray[np.float64],
@@ -85,7 +86,7 @@ def prepTrack(
 
     Parameters
     ----------
-    refTrackImp: RefTrack  
+    refTrackImp: RefTrack
         Original track imported from SLAM
 
     Return
@@ -128,7 +129,7 @@ def prepTrack(
     )
 
 
-def splineApprox(track: RefTrack) -> npt.NDArray[np.float64]:
+def splineApprox(track: Original) -> npt.NDArray[np.float64]:
     """
     Smooth spline approximation for track
 
@@ -413,36 +414,45 @@ def sideofLine(
     )
     return side
 
+
 if __name__ == "__main__":
     referenceTrack = np.array([])
-    rospy.init_node("lqr", anonymous=True)
-    message = rospy.wait_for_message("/waypoints",Float64MultiArray)
+    rospy.init_node("lqr")
+    rospy.loginfo("Waiting for Message")
+    message = rospy.wait_for_message("/waypoints", Float64MultiArray, timeout=None)
+    rospy.loginfo("Recieved Message")
     trackBuffer = np.array([message.data])
-    widthCol = np.ones(int(trackBuffer.shape[1]/2)) * TRACK_WIDTH
-    trackBuffer = np.stack((trackBuffer[0,:widthCol.shape[0]],
-                            trackBuffer[0,widthCol.shape[0]:],
-                            widthCol / 2,
-                            widthCol / 2),axis = 1)
-    referenceTrack = np.reshape(trackBuffer, (-1,4))
-    originalTrack = RefTrack(referenceTrack)
+    widthCol = np.ones(int(trackBuffer.shape[1] / 2)) * TRACK_WIDTH
+    trackBuffer = np.stack(
+        (
+            trackBuffer[0, : widthCol.shape[0]],
+            trackBuffer[0, widthCol.shape[0] :],
+            widthCol / 2,
+            widthCol / 2,
+        ),
+        axis=1,
+    )
+    referenceTrack = np.reshape(trackBuffer, (-1, 4))
+    # originalTrack = RefTrack(referenceTrack)
+    trackClass = Track(referenceTrack)
     (
-        newTrack,
-        normVecInterp,
-        _,_,_
-    ) = prepTrack(
-        refTrack = originalTrack
-    )
+        trackClass.smooth.track,
+        trackClass.smooth.normVectors,
+        trackClass.smooth.alpha,
+        trackClass.smooth.xCoeff,
+        trackClass.smooth.yCoeff,
+    ) = prepTrack(refTrack=trackClass.original)
 
-    upperBound = newTrack[:, :2] + normVecInterp * np.expand_dims(
-        newTrack[:, 2], 1
+    upperBound = trackClass.smooth.track[:, :2] + trackClass.smooth.normVectors * np.expand_dims(
+        trackClass.smooth.track[:, 2], 1
     )
-    lowerBound = newTrack[:, :2] - normVecInterp * np.expand_dims(
-        newTrack[:, 3], 1
+    lowerBound = trackClass.smooth.track[:, :2] - trackClass.smooth.normVectors * np.expand_dims(
+        trackClass.smooth.track[:, 3], 1
     )
 
     plt.figure()
-    plt.plot(newTrack[:, 0], newTrack[:, 1], "b--")
-    plt.plot(originalTrack.track[:, 0], originalTrack.track[:, 1], "k--")
+    plt.plot(trackClass.smooth.track[:, 0], trackClass.smooth.track[:, 1], "b--")
+    plt.plot(trackClass.original.track[:, 0], trackClass.original.track[:, 1], "k--")
     plt.plot(upperBound[:, 0], upperBound[:, 1], "k-")
     plt.plot(lowerBound[:, 0], lowerBound[:, 1], "k-")
     plt.grid()
