@@ -1,0 +1,203 @@
+#!/usr/bin/python3
+
+"""
+This module is used to generate a test case for smoreo
+"""
+from typing import Dict, Any, List
+import pickle
+import rosbag
+import numpy as np
+import numpy.typing as npt
+import matplotlib.pyplot as plt
+from smoreo.smoreo import Smoreo
+from tf_helper.utils import parseLandmarks
+from darknet_ros_msgs.msg import BoundingBoxes
+from visualization_msgs.msg import MarkerArray
+
+
+class TestCaseGeneration:
+    """
+    Generate a yaml file that contains a single test case to test moreo.
+    """
+
+    def __init__(
+        self, params: Dict[str, Any], bagPath: str, boundingBoxtopic: str, groundTruthTopic: str
+    ):
+        self.params = params
+        self.bagPath = bagPath
+        self.boundingBoxtopic = boundingBoxtopic
+        self.groundTruthTopic = groundTruthTopic
+        self.bag: rosbag.Bag = None
+        self.subTopics: List[str] = []
+        self.testCase: Dict[str, Any] = {}
+
+    def fetchBag(self) -> None:
+        """
+        Try to fetch the bag file
+        """
+        try:
+            self.bag = rosbag.Bag(self.bagPath)
+        except Exception as exp:
+            raise FileNotFoundError("bag file not found") from exp
+
+        topics = self.bag.get_type_and_topic_info()[1].keys()
+        if self.boundingBoxtopic not in topics:
+            raise TypeError("bounding box topic not found in the provided bag")
+
+        self.subTopics.append(self.boundingBoxtopic)
+        if self.groundTruthTopic is not None:
+            if self.groundTruthTopic not in topics:
+                raise TypeError("ground truth topic not found in the provided bag")
+            self.subTopics.append(self.groundTruthTopic)
+
+    def processBboxes(self, boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
+        """
+        Process bounding boxes objects and return
+        an np array representation.
+
+        parameters
+        ----------
+        boundingBoxes: BoundingBoxes
+            bounding boxes found in image
+        Returns
+        ------
+        ndarray
+        #boxes x 6 (#boxes,h,w,cy,cx,id,type)
+        """
+        bboxes = []
+        for box in boundingBoxes.bounding_boxes:
+            height = box.ymax - box.ymin
+            width = box.xmax - box.xmin
+            centerY = (box.ymax + box.ymin) // 2
+            centerX = (box.xmax + box.xmin) // 2
+            boxId = box.id
+            if box.Class == "blue_cone":
+                boxType = 0
+            elif box.Class == "yellow_cone":
+                boxType = 1
+            elif box.Class == "orange_cone":
+                boxType = 2
+            elif box.Class == "large_cone":
+                boxType = 3
+            else:
+                boxType = 4
+            bboxes.append([height, width, centerY, centerX, boxId, boxType])
+        return np.asarray(bboxes)
+
+    def parseMarkerArray(self, markerArray: MarkerArray) -> npt.NDArray[np.float64]:
+        """
+        Parse the marker array to get the cone positions
+        Parameters:
+        -----------
+        markerArray: MarkerArray
+            Marker array containing the cone positions
+        Returns:
+        --------
+        ndarray
+            #cones x 2 (#cones,x,y)
+        """
+        cones = []
+        for marker in markerArray.markers:
+            cones.append([marker.pose.position.x, marker.pose.position.y])
+        return np.asarray(cones)
+
+    def visualizePredicted(
+        self, predicted: npt.NDArray[np.float64], groundTruth: npt.NDArray[np.float64]
+    ) -> None:
+        """
+        Visualize the predicted cones and the ground truth cones
+
+        Parameters:
+        -----------
+        predicted: ndarray
+            #cones x 2 (#cones,x,y)
+        groundTruth: ndarray
+            #cones x 2 (#cones,x,y)
+        Returns:
+        --------
+        None
+        """
+        nearestCritereonInX = np.bitwise_and(groundTruth[:, 0] < 15, groundTruth[:, 0] > 0)
+        nearestCritereonInY = np.bitwise_and(groundTruth[:, 1] < 5, groundTruth[:, 1] > -5)
+        nearestCritereon = np.bitwise_and(nearestCritereonInX, nearestCritereonInY)
+        nearestGroundTruth = groundTruth[nearestCritereon]
+        plt.scatter(predicted[:, 1], predicted[:, 0], c="r")
+        plt.scatter(nearestGroundTruth[:, 1], nearestGroundTruth[:, 0], c="b")
+        plt.show()
+
+    def createTest(
+        self,
+        bboxes: npt.NDArray[np.float64],
+        predictedCones: npt.NDArray[np.float64],
+        groundTruth: npt.NDArray[np.float64],
+    ) -> None:
+        """
+        Create a test case
+
+        Parameters:
+        -----------
+        bboxes: ndarray
+            #boxes x 6 (#boxes,h,w,cy,cx,id,type)
+        predictedCones: ndarray
+            #cones x 2 (#cones,x,y)
+        groundTruth: ndarray
+            #cones x 2 (#cones,x,y)
+
+        Returns:
+        --------
+        None
+        """
+        self.testCase["params"] = self.params
+        self.testCase["bboxes"] = bboxes
+        self.testCase["predictedCones"] = predictedCones
+        self.testCase["groundTruth"] = groundTruth
+
+    def generateTestCase(self) -> None:
+        """
+        Generate a test case for smoreo
+        """
+        self.fetchBag()
+        smoreo = Smoreo(self.params)
+        lastGroundTruth = None
+        for topic, msg, _ in self.bag.read_messages(topics=self.subTopics):
+            if topic == self.boundingBoxtopic:
+                bbox = self.processBboxes(msg)
+                predictedCones = smoreo.predictWithBase(bbox)
+                predictedCones = parseLandmarks(predictedCones.landmarks)
+                if lastGroundTruth is not None:
+                    self.visualizePredicted(predictedCones, lastGroundTruth)
+                    self.createTest(bbox, predictedCones, lastGroundTruth)
+            elif topic == self.groundTruthTopic:
+                lastGroundTruth = self.parseMarkerArray(msg)
+
+
+if __name__ == """__main__""":
+    PARAMS = {
+        "cx": 680.0,
+        "cy": 540.0,
+        "f": 720.0,
+        "k": np.array(
+            [[720, 0.0, 720], [0.0, 720, 560], [0.0, 0.0, 1.0]],
+            dtype=np.float64,
+        ),
+        "worldCords_inCamera": np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]], dtype=int),
+        "camera_height_from_ground": 0.816,
+        "cut_off_y": 900.0,
+        "cone_height": 0.38,
+    }
+
+    BAG_PATH = "/media/mosameh/CEFE-EBFE/first_Ipg_moreo_inputs.bag"
+    TEST_CASE_PATH = r"/home/mosameh/fs-system2/src/perception/smoreo/testing/testCase1.pickle"
+
+    BOUNDING_BOX_TOPIC = "/darknet_ros/bounding_boxes"
+    GROUND_TRUTH_TOPIC = "/ObjectList"
+
+    testCaseGeneration = TestCaseGeneration(
+        PARAMS, BAG_PATH, BOUNDING_BOX_TOPIC, GROUND_TRUTH_TOPIC
+    )
+    try:
+        testCaseGeneration.generateTestCase()
+    except KeyboardInterrupt:
+        with open(TEST_CASE_PATH, "wb") as file:
+            pickle.dump(testCaseGeneration.testCase, file)
+        print("test case saved at : ", TEST_CASE_PATH)

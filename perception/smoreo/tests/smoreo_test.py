@@ -2,8 +2,11 @@
 Test file for smoreo
 """
 import unittest
+import pickle
 from smoreo.smoreo import Smoreo
 from asurt_msgs.msg import LandmarkArray
+from tf_helper.utils import parseLandmarks
+import numpy as np
 
 
 class SmoreoTest(unittest.TestCase):
@@ -19,7 +22,7 @@ class SmoreoTest(unittest.TestCase):
             "cy": 0.5,
             "f": 0.5,
             "worldCords_inCamera": np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]]),
-            "cone_height": 0.5
+            "cone_height": 0.5,
         }
 
     def testParamInp(self) -> None:
@@ -161,6 +164,21 @@ class SmoreoTest(unittest.TestCase):
         box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0], dtype=np.float32)
         smoreo.addToLandmarkArray(pose2, box2)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 2)
+
+    def testPredictWithConeBase(self) -> None:
+        """
+        Test if the prediction is correct with cone base
+        """
+        with open(
+            r"/home/mosameh/fs-system2/src/perception/smoreo/testing/testCase1.pickle",
+            "rb",
+        ) as file:
+            testCase = pickle.load(file)
+
+        smoreo = Smoreo(testCase["params"])
+        landmarks = smoreo.predictWithBase(testCase["bboxes"])
+        cones = parseLandmarks(landmarks.landmarks)
+        np.testing.assert_array_equal(cones, testCase["predictedCones"])
 
 
 if __name__ == "__main__":
