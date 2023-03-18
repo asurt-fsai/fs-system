@@ -16,38 +16,8 @@ class Smoreo:
     """
 
     def __init__(self, params: Dict[str, Any]):
-        try:
-            for key, value in params.items():
-                if key in [
-                    "cut_off_y",
-                    "camera_height_from_ground",
-                    "cx",
-                    "cy",
-                    "f",
-                    "cone_height",
-                ]:
-                    assert isinstance(value, float)
-            for key in [
-                "cut_off_y",
-                "camera_height_from_ground",
-                "cx",
-                "cy",
-                "f",
-                "worldCords_inCamera",
-                "cone_height",
-            ]:
-                assert key in params
-        except Exception as exp:
-            errMsg = "smoreo: ensure all the required parameters are provided \n \
-                       - cut_off_y \n\
-                       - camera_height_from_ground \n\
-                       - worldCords_inCamera \n\
-                       - cx \n\
-                       - cy \n\
-                       - f \n\
-                       - cone_height"
-            raise TypeError(errMsg) from exp
-        self.params = params
+        self.params: Dict[str, Any]
+        self.updateParams(params)
         self.allLandMarks = LandmarkArray()
         self.allLandMarks.header.frame_id = "flir"
 
@@ -94,7 +64,6 @@ class Smoreo:
                        - f \n\
                        - cone_height"
             raise TypeError(errMsg) from exp
-        print(params)
         self.params = params
 
     def filterNearBoxes(self, bboxCy: float) -> bool:
@@ -158,11 +127,11 @@ class Smoreo:
     def predictWithBase(self, bboxes: npt.NDArray[np.float32]) -> LandmarkArray:
         """
         Uses the bounding boxes bases to estimate a
-        3d position for every box by projecting their bas on the ground.
+        3d position for every box by projecting their base on the ground.
 
         parameters
         ----------
-        bboxes2: ndArray
+        bboxes: ndArray
             bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
 
         Returns
@@ -198,7 +167,7 @@ class Smoreo:
 
         parameters
         ----------
-        bboxes2: ndArray
+        bboxes: ndArray
             bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
         Returns
         ------

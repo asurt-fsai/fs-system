@@ -6,7 +6,7 @@ Smoreo exploits the fact that cones will always be on the ground in our problem 
 
 ![Smoreo](https://drive.google.com/uc?export=view&id=1WVj9aliuL2hKJ-hyDW1-whw-uqaY00OV)
 
-As shown in the image the line passing the through the base center in the image plane and the cone base in the real world can be represented by parameterized line equation as $<u*t,v*t ,f*t>$. And since ideally the line will pass through the base of the cone $(x,cameraHeight,z)$ we can solve for the parameter t by equating the two equations which gives us $t = cameraHeight/v $. we can the substiute for t in the line equation to get the x,y,z coordinates of the cone. Where:
+As shown in the image the line passing the through the base center in the image plane and the cone base in the real world can be represented by parameterized line equation as $ <u*t,v*t ,f*t> $. And since ideally the line will pass through the base of the cone $(x,cameraHeight,z)$ we can solve for the parameter t by equating the two equations which gives us $t = cameraHeight/v $. we can the substiute for t in the line equation to get the x,y,z coordinates of the cone. Where:
 <div align = "center">
 
  $x = u * cH/v$

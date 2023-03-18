@@ -1,14 +1,14 @@
 """
 Smoreo ros wrapper
 """
-from typing import Dict, Any
+from typing import Dict, Any, Union
 import rospy
 import numpy as np
-import numpy.typing as npt
 import tf
 from sensor_msgs.msg import CameraInfo
 from asurt_msgs.msg import LandmarkArray
 from smoreo.smoreo import Smoreo
+from smoreo.utils import processBboxes
 from darknet_ros_msgs.msg import BoundingBoxes
 
 
@@ -98,40 +98,6 @@ class SmoreoRosWrapper:
         }
         return params
 
-    def processBboxes(self, boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
-        """
-        Process bounding boxes objects and return
-        an np array representation.
-
-        parameters
-        ----------
-        boundingBoxes: BoundingBoxes
-            bounding boxes found in image
-        Returns
-        ------
-        ndarray
-        #boxes x 6 (#boxes,h,w,cy,cx,id,type)
-        """
-        bboxes = []
-        for box in boundingBoxes:
-            height = box.ymax - box.ymin
-            width = box.xmax - box.xmin
-            centerY = (box.ymax + box.ymin) // 2
-            centerX = (box.xmax + box.xmin) // 2
-            boxId = box.id
-            if box.Class == "blue_cone":
-                boxType = 0
-            elif box.Class == "yellow_cone":
-                boxType = 1
-            elif box.Class == "orange_cone":
-                boxType = 2
-            elif box.Class == "large_cone":
-                boxType = 3
-            else:
-                boxType = 4
-            bboxes.append([height, width, centerY, centerX, boxId, boxType])
-        return np.asarray(bboxes)
-
     def createPublishers(self) -> None:
         """
         Create needed publishers, for now only one for the predicted landmarks.
@@ -159,13 +125,14 @@ class SmoreoRosWrapper:
         -----------
         None
         """
-        self.boundingBoxes = self.processBboxes(boundingBoxes.bounding_boxes)
+        self.boundingBoxes = processBboxes(boundingBoxes)
 
-    def run(self) -> None:
+    def run(self) -> Union[LandmarkArray, None]:
         """
         Run the smoreo system.
         """
         if self.boundingBoxes is not None:
+            # Get parameters every run if in tuning mode
             if self.inTuning:
                 newParams = self.getParams()
                 self.smoreo.updateParams(newParams)
@@ -174,6 +141,8 @@ class SmoreoRosWrapper:
             else:
                 predictedLandmarks = self.smoreo.predictWithTop(self.boundingBoxes)
             self.landmarkPub.publish(predictedLandmarks)
+            return predictedLandmarks
+        return None
 
     def start(self, useConeBase: bool, inTuning: bool) -> None:
         """
