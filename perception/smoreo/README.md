@@ -6,31 +6,31 @@ Smoreo exploits the fact that cones will always be on the ground in our problem 
 
 ![Smoreo](https://drive.google.com/uc?export=view&id=1WVj9aliuL2hKJ-hyDW1-whw-uqaY00OV)
 
-As shown in the image the line passing the through the base center in the image plane and the cone base in the real world can be represented by parameterized line equation as $ <u*t,v*t ,f*t> $. And since ideally the line will pass through the base of the cone $(x,cameraHeight,z)$ we can solve for the parameter t by equating the two equations which gives us $t = cameraHeight/v $. we can the substiute for t in the line equation to get the x,y,z coordinates of the cone. Where:
+As shown in the image the line passing through the base center in the image plane and the cone base in the real world can be represented by parameterized line equation as $<u \times t,v \times t ,f \times t> $. And since ideally the line will pass through the base of the cone $(x,cameraHeight,z)$ we can solve for the parameter t by equating the two equations which gives us $t = cameraHeight/v $. we can then substiute for t in the line equation to get the x,y,z coordinates of the cone. Where:
 <div align = "center">
 
- $x = u * cH/v$
+ $x = u \times cH/v$
 
- $y = v *cH/v$
+ $y = v \times cH/v$
 
- $z = f * cH/v$
+ $z = f \times cH/v$
 </div>
 
 >Please notice that the point $(u,v,f)$ is in the camera coordinate system and not the image coordinate system, so we have to transform pixels to the camera frame first.
 ## Dependencies
-* [ROS](http://wiki.ros.org/kinetic/Installation/Ubuntu)
-* [OpenCV](https://docs.opencv.org/3.4.3/d7/d9f/tutorial_linux_install.html)
+* [ROS](http://wiki.ros.org/noetic/Installation/Ubuntu)
+* [OpenCV](https://pypi.org/project/opencv-python/4.5.1.48/)
 * [Numpy](https://pypi.org/project/numpy/)
 * [Matplotlib](https://pypi.org/project/matplotlib/)
 ## Installation
 ### Install ROS
-Follow the instructions on the [ROS Wiki](http://wiki.ros.org/kinetic/Installation/Ubuntu) to install ROS Kinetic.
+Follow the instructions on the [ROS Wiki](http://wiki.ros.org/noetic/Installation/Ubuntu) to install ROS noetic.
 
 ### Create a catkin workspace
 Follow the instructions on the [ROS Wiki](http://wiki.ros.org/catkin/Tutorials/create_a_workspace) to create a catkin workspace.
 
 ### Install OpenCV
-Follow the instructions on the [OpenCV website](https://docs.opencv.org/3.4.3/d7/d9f/tutorial_linux_install.html) to install OpenCV 3.4.3. Make sure to install the dependencies and the contrib modules.
+Follow the instructions on the [OpenCV website](https://pypi.org/project/opencv-python/4.5.1.48/) to install OpenCV 4.5.1. Make sure to install the dependencies.
 
 ### Install Numpy
 Follow the instructions on the [Numpy website](https://pypi.org/project/numpy/) to install Numpy.
@@ -68,8 +68,3 @@ roslaunch smoreo smoreo_tuner.launch
 ### Subscribe to the output topic
 The pipeline publishes the results to the `/perception/smoreo/detected_cones_lm`    topic. Subscribe to this topic to get the results.
 *To visualize the landmark array on rviz, use can use our MarkerViz package that parse landmarks to makers that can be easily visualized in rviz.*
-
-
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
