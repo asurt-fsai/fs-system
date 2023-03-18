@@ -4,7 +4,7 @@
 	<node pkg="tf2_ros" type="static_transform_publisher" name="base_to_camera" args="0 0 0.4 0 0 0 base_link camera_link"/>
 	<node pkg="tf2_ros" type="static_transform_publisher" name="world_to_image_coordinate_system" args="0 0 0 0.5 -0.5 0.5 0.5 worldcoordinates cameracoordinates"/>
 	<!-- Nodes to be launched -->
-	<!--<include file="$( find bounding_box_filter)/launch/bounding_box_filter.launch"/>-->
+
 	<node name="smoreo" pkg="smoreo" type="smoreo_system.py" output="screen"/>
 
 					<!-- Camera_parameters-->

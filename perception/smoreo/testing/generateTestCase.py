@@ -3,6 +3,7 @@
 """
 This module is used to generate a test case for smoreo
 """
+import os
 from typing import Dict, Any, List
 import pickle
 import rosbag
@@ -153,7 +154,10 @@ if __name__ == """__main__""":
     }
 
     BAG_PATH = "/media/mosameh/CEFE-EBFE/first_Ipg_moreo_inputs.bag"
-    TEST_CASE_PATH = r"/home/mosameh/fs-system2/src/perception/smoreo/testing/testCase1.pickle"
+    TEST_CASE_PATH = r"testCase.pickle"
+
+    script_dir = os.path.dirname(__file__)
+    abs_file_path = os.path.join(script_dir, TEST_CASE_PATH)
 
     BOUNDING_BOX_TOPIC = "/darknet_ros/bounding_boxes"
     GROUND_TRUTH_TOPIC = "/ObjectList"
@@ -164,6 +168,6 @@ if __name__ == """__main__""":
     try:
         testCaseGeneration.generateTestCase()
     except KeyboardInterrupt:
-        with open(TEST_CASE_PATH, "wb") as file:
+        with open(abs_file_path, "wb") as file:
             pickle.dump(testCaseGeneration.testCase, file)
-        print("test case saved at : ", TEST_CASE_PATH)
+        print("test case saved at : ", abs_file_path)

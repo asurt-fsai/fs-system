@@ -1,12 +1,13 @@
 """
 Test file for smoreo
 """
+import os
 import unittest
 import pickle
+import numpy as np
 from smoreo.smoreo import Smoreo
 from asurt_msgs.msg import LandmarkArray
 from tf_helper.utils import parseLandmarks
-import numpy as np
 
 
 class SmoreoTest(unittest.TestCase):
@@ -169,8 +170,11 @@ class SmoreoTest(unittest.TestCase):
         """
         Test if the prediction is correct with cone base
         """
+        testCasePath = r"../testing/testCase1.pickle"
+        scriptDir = os.path.dirname(__file__)
+        absFilePath = os.path.join(scriptDir, testCasePath)
         with open(
-            r"/home/mosameh/fs-system2/src/perception/smoreo/testing/testCase1.pickle",
+            absFilePath,
             "rb",
         ) as file:
             testCase = pickle.load(file)

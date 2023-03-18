@@ -8,11 +8,7 @@
 
 
 
-	<!-- Nodes to be launched -->
-
-
-
-	<!--<include file="$( find bounding_box_filter)/launch/bounding_box_filter.launch"/>-->
+							<!-- Nodes to be launched -->
 	<node name="smoreo" pkg="smoreo" type="smoreo_system.py" output="screen"/>
 
 
