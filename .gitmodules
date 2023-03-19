@@ -4,3 +4,7 @@
 [submodule "dependencies/ackermann_msgs"]
 	path = dependencies/ackermann_msgs
 	url = https://github.com/asurt-fsai/ackermann_msgs
+[submodule "slam/kiss-icp"]
+	path = slam/kiss-icp
+	url = https://github.com/asurt-fsai/kiss-icp.git
+	branch = nacho/single_thread_implementation
