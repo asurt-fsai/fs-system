@@ -45,6 +45,12 @@ cd path/to/catkin/workspace/src
 git clone
 ```
 
+## Install requirements
+Install the requirements using the following command:
+
+```
+pip install -r requirements.txt
+```
 
 ### Build the project
 Build the package with `catkin build`.
@@ -52,19 +58,18 @@ Build the package with `catkin build`.
 ## Usage
 
 ### Launch the pipeline
-Make sure to open the smoreo_sys_flir launch file and change it with the appropriate parameters and then launch the pipeline with the following command.
+Make sure to open the smoreo_sys launch file and change it with the appropriate parameters and then launch the pipeline with the following command. You can specify which setup to run using the argument "setup_name", this is used to determine which param file is used from the config directory. By the default setup_name is "flir", so you can omit it from the command if using the flir.
 ```
-roslaunch smoreo smoreo_sys_flir.launch
+roslaunch smoreo smoreo_sys.launch setup_name:=ipg
 ```
 ### Tuner
 Smoreo is very sensitive to the accuracy of the calibration parameters most calibration algorithms we tried didn't yield an accurate estimate of the camera parameters, so we built a simple paramter tuner in order to tune the pipeline parameters online while the system is running.
-To use the tuner make sure you set the /smoreo/hardcode_params and /smoreo/in_tuning to true in the launch file. After launching smoreo run the following command:
+To use the tuner make sure the /smoreo/hardcode_params is set to True in the smoreo_sys.launch. to run smoreo and the tuner at the same time use following command:
 
 ```
-roslaunch smoreo smoreo_tuner.launch
+roslaunch smoreo smoreo_sys.launch setup_name:=ipg tune:=True
 ```
 
-*Please note that currently the tuned paramters are not saved, so manually change the parameters in the launch file after tuning the pipeline
 ### Subscribe to the output topic
 The pipeline publishes the results to the `/perception/smoreo/detected_cones_lm`    topic. Subscribe to this topic to get the results.
-*To visualize the landmark array on rviz, use can use our MarkerViz package that parse landmarks to makers that can be easily visualized in rviz.*
+*To visualize the landmark array on rviz, you can subscribe to the topic `/perception/smoreo/detected_cones_markers` which has the same landmarks but in the markerArray format, that can be easily visualized on rviz.*
