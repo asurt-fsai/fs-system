@@ -5,9 +5,9 @@ import os
 import unittest
 import pickle
 import numpy as np
-from smoreo.smoreo import Smoreo
 from asurt_msgs.msg import LandmarkArray
 from tf_helper.utils import parseLandmarks
+from smoreo.smoreo import Smoreo
 
 
 class SmoreoTest(unittest.TestCase):
@@ -120,7 +120,7 @@ class SmoreoTest(unittest.TestCase):
         Test if the error is raised when pose is not a numpy array of size (1,3)
         """
         smoreo = Smoreo(self.correctParams)
-        box = np.array([1, 2, 3, 4, 5, 6], dtype=np.float32)
+        box = np.array([1, 2, 3, 4, 5, 6, 7], dtype=np.float32)
         with self.assertRaises(TypeError):
             smoreo.addToLandmarkArray([1, 2, 3], box)
         with self.assertRaises(TypeError):
@@ -145,7 +145,7 @@ class SmoreoTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             smoreo.addToLandmarkArray(pose, np.zeros((2, 2), dtype=np.float32))
         with self.assertRaises(TypeError):
-            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), [1, 2, 3, 4, 5, 6])
+            smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), [1, 2, 3, 4, 5, 6, 7])
 
     def testAddToLandmarkArray(self) -> None:
         """
@@ -153,7 +153,7 @@ class SmoreoTest(unittest.TestCase):
         """
         smoreo = Smoreo(self.correctParams)
         pose = np.zeros((1, 3), dtype=np.float32)
-        box = np.array([1, 2, 3, 4, 5, 6], dtype=np.float32)
+        box = np.array([1, 2, 3, 4, 5, 6, 7], dtype=np.float32)
         smoreo.addToLandmarkArray(pose, box)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 1)
         self.assertEqual(smoreo.allLandMarks.landmarks[0].position.x, pose[0][0])
@@ -162,7 +162,7 @@ class SmoreoTest(unittest.TestCase):
         self.assertEqual(smoreo.allLandMarks.landmarks[0].identifier, box[4])
         self.assertEqual(smoreo.allLandMarks.landmarks[0].type, box[5])
         pose2 = np.array([[4.0, 5.0, 6.0]], dtype=np.float32)
-        box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0], dtype=np.float32)
+        box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0], dtype=np.float32)
         smoreo.addToLandmarkArray(pose2, box2)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 2)
 
