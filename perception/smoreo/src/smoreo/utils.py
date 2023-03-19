@@ -27,6 +27,7 @@ def processBboxes(boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
         centerY = (box.ymax + box.ymin) // 2
         centerX = (box.xmax + box.xmin) // 2
         boxId = box.id
+        classPob = box.probability
         if box.Class == "blue_cone":
             boxType = 0
         elif box.Class == "yellow_cone":
@@ -37,5 +38,5 @@ def processBboxes(boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
             boxType = 3
         else:
             boxType = 4
-        bboxes.append([height, width, centerY, centerX, boxId, boxType])
+        bboxes.append([height, width, centerY, centerX, boxId, boxType, classPob])
     return np.asarray(bboxes)

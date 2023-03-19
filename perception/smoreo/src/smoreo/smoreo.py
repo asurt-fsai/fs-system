@@ -92,7 +92,7 @@ class Smoreo:
         return True
 
     def addToLandmarkArray(
-        self, pose: npt.NDArray[np.float32], box: npt.NDArray[np.float32]
+        self, pose: npt.NDArray[np.float32], box: npt.NDArray[np.float64]
     ) -> None:
         """
         Create landmark object for the passed cone
@@ -104,7 +104,7 @@ class Smoreo:
             Predicted cone position.
         box (ndArray(6,1)):
             bounding box for predicted cone consisting
-            of (h,w,cy,cx,id,type)
+            of (h,w,cy,cx,id,type,classProb)
 
         Returns:
         --------
@@ -112,9 +112,9 @@ class Smoreo:
         """
         if not isinstance(pose, np.ndarray) or not isinstance(box, np.ndarray):
             raise TypeError("smoreo: pose and bounding box must be numpy arrays")
-        if not pose.shape == (1, 3) or not box.shape == (6,):
+        if not pose.shape == (1, 3) or not box.shape == (7,):
             raise ValueError(
-                "smoreo: pose must be a 1x3 array and bounding box must be a 6x1 array"
+                "smoreo: pose must be a 1x3 array and bounding box must be a 7x1 array"
             )
         cone = Landmark()
         cone.position.x = pose[0][0]
@@ -124,7 +124,7 @@ class Smoreo:
         cone.type = box[5]
         self.allLandMarks.landmarks.append(cone)
 
-    def predictWithBase(self, bboxes: npt.NDArray[np.float32]) -> LandmarkArray:
+    def predictWithBase(self, bboxes: npt.NDArray[np.float64]) -> LandmarkArray:
         """
         Uses the bounding boxes bases to estimate a
         3d position for every box by projecting their base on the ground.
@@ -132,7 +132,7 @@ class Smoreo:
         parameters
         ----------
         bboxes: ndArray
-            bounding boxes found in image with shape => #boxes x 5 (#boxes,h,w,cy,cx,id)
+            bounding boxes found in image with shape => #boxes x 6 (#boxes,h,w,cy,cx,id,classProb)
 
         Returns
         ------
@@ -143,11 +143,11 @@ class Smoreo:
         self.allLandMarks.landmarks = []
         cameraHeight = self.params["camera_height_from_ground"]
         for box in bboxes:
-            bboxH, _, bboxCy, bboxCx, _, _ = box
+            bboxH, _, bboxCy, bboxCx, _, _, _ = box
             if self.filterNearBoxes(float(bboxCy)):
                 x = bboxCx - self.params["cx"]
                 yBottom = bboxCy + bboxH // 2 - self.params["cy"]
-                tOne = cameraHeight / yBottom
+                tOne = cameraHeight / (yBottom + 1e-6)
                 baseProjection = np.asarray(
                     [x * tOne, yBottom * tOne, self.params["f"] * tOne]
                 ).reshape(1, 3)
@@ -159,7 +159,7 @@ class Smoreo:
 
         return self.allLandMarks
 
-    def predictWithTop(self, bboxes: npt.NDArray[np.float32]) -> LandmarkArray:
+    def predictWithTop(self, bboxes: npt.NDArray[np.float64]) -> LandmarkArray:
         """
         Uses the bounding boxes to estimate a
         3d position for every box by projecting their top

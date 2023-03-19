@@ -2,7 +2,7 @@
 Main ros node for the smoreo tuner
 """
 #!/usr/bin/python3
-
+import sys
 import rospy
 from tf_helper.StatusPublisher import StatusPublisher
 from smoreo.tuner.tunerServer import Tuner
@@ -37,3 +37,10 @@ if __name__ == "__main__":
         main()
     except rospy.ROSInterruptException:
         pass
+    finally:
+        print(sys.argv)
+        try:
+            assert len(sys.argv) > 2
+        except Exception as exc:
+            raise ValueError("Provide the name of the setup you are tuning") from exc
+        Tuner.dumpParams(sys.argv[1])

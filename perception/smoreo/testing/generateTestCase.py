@@ -10,10 +10,10 @@ import rosbag
 import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
-from smoreo.smoreo import Smoreo
-from smoreo.utils import processBboxes
-from tf_helper.utils import parseLandmarks
 from visualization_msgs.msg import MarkerArray
+from tf_helper.utils import parseLandmarks
+from smoreo.utils import processBboxes
+from smoreo.smoreo import Smoreo
 
 
 class TestCaseGeneration:
@@ -104,7 +104,7 @@ class TestCaseGeneration:
         Parameters:
         -----------
         bboxes: ndarray
-            #boxes x 6 (#boxes,h,w,cy,cx,id,type)
+            #boxes x 6 (#boxes,h,w,cy,cx,id,type,classProb)
         predictedCones: ndarray
             #cones x 2 (#cones,x,y)
         groundTruth: ndarray
@@ -154,7 +154,7 @@ if __name__ == """__main__""":
     }
 
     BAG_PATH = "/media/mosameh/CEFE-EBFE/first_Ipg_moreo_inputs.bag"
-    TEST_CASE_PATH = r"testCase.pickle"
+    TEST_CASE_PATH = r"testCase1.pickle"
 
     script_dir = os.path.dirname(__file__)
     abs_file_path = os.path.join(script_dir, TEST_CASE_PATH)

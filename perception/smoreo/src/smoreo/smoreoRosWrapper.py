@@ -7,9 +7,11 @@ import numpy as np
 import tf
 from sensor_msgs.msg import CameraInfo
 from asurt_msgs.msg import LandmarkArray
+from visualization_msgs.msg import MarkerArray
+from darknet_ros_msgs.msg import BoundingBoxes
+from tf_helper.MarkerViz import MarkerViz
 from smoreo.smoreo import Smoreo
 from smoreo.utils import processBboxes
-from darknet_ros_msgs.msg import BoundingBoxes
 
 
 class SmoreoRosWrapper:
@@ -19,11 +21,12 @@ class SmoreoRosWrapper:
 
     def __init__(self) -> None:
         self.params: Dict[str, Any]
-        self.landmarkPub: rospy.Publisher
+        self.publishers: Dict[str, rospy.Publisher] = {}
         self.boundingBoxes: BoundingBoxes
         self.smoreo: Smoreo
         self.useConeBase: bool
         self.inTuning: bool
+        self.markerViz: MarkerViz
 
     def getParams(self) -> Dict[str, Any]:
         """
@@ -100,17 +103,23 @@ class SmoreoRosWrapper:
 
     def createPublishers(self) -> None:
         """
-        Create needed publishers, for now only one for the predicted landmarks.
+        Create needed publishers, for now only for the predicted landmarks, and the marker array.
         """
         try:
             assert rospy.has_param("/smoreo/predicted_landmarks")
+            assert rospy.has_param("/smoreo/predicted_markers")
         except Exception as exp:
             errMsg = "smoreo: ensure all the required topics for\n \
                          publishing are provided in ros server\n \
-                       - predicted_landmarks"
+                        - predicted_landmarks\n \
+                        - predicted_markers"
             raise ValueError(errMsg) from exp
-        self.landmarkPub = rospy.Publisher(
+
+        self.publishers["landmarkPub"] = rospy.Publisher(
             rospy.get_param("/smoreo/predicted_landmarks"), LandmarkArray, queue_size=10
+        )
+        self.publishers["markersPub"] = rospy.Publisher(
+            rospy.get_param("/smoreo/predicted_markers"), MarkerArray, queue_size=10
         )
 
     def setBoundingBoxes(self, boundingBoxes: BoundingBoxes) -> None:
@@ -140,7 +149,9 @@ class SmoreoRosWrapper:
                 predictedLandmarks = self.smoreo.predictWithBase(self.boundingBoxes)
             else:
                 predictedLandmarks = self.smoreo.predictWithTop(self.boundingBoxes)
-            self.landmarkPub.publish(predictedLandmarks)
+
+            self.publishers["landmarkPub"].publish(predictedLandmarks)
+            self.publishers["markersPub"].publish(self.markerViz.conesToMarkers(predictedLandmarks))
             return predictedLandmarks
         return None
 
@@ -152,6 +163,8 @@ class SmoreoRosWrapper:
         self.inTuning = inTuning
         self.createPublishers()
         self.params = self.getParams()
+        coneRadius = 0.228
+        self.markerViz = MarkerViz(coneRadius, self.params["cone_height"])
         self.boundingBoxes = None
         self.smoreo = Smoreo(self.params)
         if "/smoreo/bounding_boxes" not in rospy.get_param_names():
