@@ -150,6 +150,11 @@ class SmoreoRosWrapper:
             else:
                 predictedLandmarks = self.smoreo.predictWithTop(self.boundingBoxes)
 
+            try:
+                predictedLandmarks.header.stamp = rospy.Time.now()
+            except rospy.exceptions.ROSInitException:
+                rospy.logwarn("ROS not initialized, using time 0 for header")
+
             self.publishers["landmarkPub"].publish(predictedLandmarks)
             self.publishers["markersPub"].publish(self.markerViz.conesToMarkers(predictedLandmarks))
             return predictedLandmarks

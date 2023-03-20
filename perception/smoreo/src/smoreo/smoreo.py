@@ -120,8 +120,10 @@ class Smoreo:
         cone.position.x = pose[0][0]
         cone.position.y = pose[0][1]
         cone.position.z = pose[0][2]
-        cone.identifier = box[4]
-        cone.type = box[5]
+        cone.identifier = int(box[4])
+        cone.type = int(box[5])
+        cone.probability = box[6]
+
         self.allLandMarks.landmarks.append(cone)
 
     def predictWithBase(self, bboxes: npt.NDArray[np.float64]) -> LandmarkArray:

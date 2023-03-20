@@ -38,7 +38,6 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException:
         pass
     finally:
-        print(sys.argv)
         try:
             assert len(sys.argv) > 2
         except Exception as exc:

@@ -2,7 +2,7 @@
 <launch>
                 <!--Launch the smoreo system -->
 
-<arg name="setup" default="flir"/>
+<arg name="setup_name" default="flir"/>
 <arg name="tune" default="False"/>
 
                 <!-- Run smoreo without tuning  -->
