@@ -4,3 +4,6 @@
 [submodule "dependencies/ackermann_msgs"]
 	path = dependencies/ackermann_msgs
 	url = https://github.com/asurt-fsai/ackermann_msgs
+[submodule "perception/darknet_ros"]
+	path = perception/darknet_ros
+	url = https://github.com/asurt-fsai/darknet_ros
