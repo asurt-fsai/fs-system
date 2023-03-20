@@ -130,7 +130,7 @@ class TestCaseGeneration:
             if topic == self.boundingBoxtopic:
                 bbox = processBboxes(msg)
                 predictedCones = smoreo.predictWithBase(bbox)
-                predictedCones = parseLandmarks(predictedCones.landmarks)
+                predictedCones = parseLandmarks(predictedCones)
                 if lastGroundTruth is not None:
                     self.visualizePredicted(predictedCones, lastGroundTruth)
                     self.createTest(bbox, predictedCones, lastGroundTruth)

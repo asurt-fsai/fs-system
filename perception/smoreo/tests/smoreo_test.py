@@ -181,7 +181,7 @@ class SmoreoTest(unittest.TestCase):
 
         smoreo = Smoreo(testCase["params"])
         landmarks = smoreo.predictWithBase(testCase["bboxes"])
-        cones = parseLandmarks(landmarks.landmarks)
+        cones = parseLandmarks(landmarks)
         np.testing.assert_array_equal(cones, testCase["predictedCones"])
 
 
