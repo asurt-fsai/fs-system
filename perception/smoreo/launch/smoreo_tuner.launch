@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="setup_name" default="flir"/>
+	<node name="tuner" pkg="smoreo" type="tuner.py" args="$(arg setup_name)" output="screen"/>
+	<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="rqt_reconfigure"/>
+
+	<param name="/smoreo/camera_raw" 		value="/front_camera_rgb/image_raw" />
+	<param name="/smoreo/cut_off_viz" 		value="/perception/smoreo/cut_off_viz"/>
+
+
+</launch>
