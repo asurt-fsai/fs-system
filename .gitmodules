@@ -7,3 +7,6 @@
 [submodule "perception/darknet_ros"]
 	path = perception/darknet_ros
 	url = https://github.com/asurt-fsai/darknet_ros
+[submodule "dependencies/spinnaker_sdk_camera_driver"]
+	path = dependencies/spinnaker_sdk_camera_driver
+	url = https://github.com/asurt-fsai/spinnaker_sdk_camera_driver
