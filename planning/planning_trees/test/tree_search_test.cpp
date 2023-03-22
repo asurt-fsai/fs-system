@@ -71,6 +71,27 @@ TEST(TestTriangulate, Test1) {
 }
 
 TEST(TestGetPath, TestOne) {
+  std::vector<Cone> cones = {Cone(1, 0, 3), Cone(0.1, 1, 3), Cone(-0.1, 1, 3),
+                             Cone(1, 1, 3), Cone(2, 1, 3),   Cone(2, 0, 3)};
+  TreeSearchParams params;
+  params.triangulation_min_cone_dist = 0.5;
+  params.triangulation_min_waypoint_dist = 0.5;
+  params.triangulation_radius = 0.7;
+
+  TreeSearch tree_search = TreeSearch(cones, params);
+  std::tuple<Path, std::vector<Path>> answer = tree_search.getPath();
+  // for(Path path: std::get<1>(answer)){
+  //   cout << "--------------------" << endl;
+  //   cout << path.getCost() << endl;
+  //   for(Waypoint wp: path.waypoints){
+  //     cout << wp.x << " " << wp.y << " " << wp.heading << endl;
+  //   }
+  // }
+  cout << std::get<1>(answer).size() << endl;
+  cout << std::get<0>(answer).getCost() << endl;
+  for (Waypoint wp : std::get<0>(answer).waypoints) {
+    cout << wp.x << " " << wp.y << " " << wp.heading << endl;
+  }
   // TODO: Add more tests
 }
 
