@@ -13,6 +13,10 @@ Cone::Cone(float cone_x, float cone_y, int cone_type) : x(cone_x), y(cone_y) {
     color_probs[0] = 0.1;
     color_probs[1] = 0.1;
     color_probs[2] = 0.8;
+  } else if (cone_type == 3) {
+    color_probs[0] = 0.33;
+    color_probs[1] = 0.33;
+    color_probs[2] = 0.33;
   } else {
     throw std::invalid_argument("Invalid cone type: " +
                                 std::to_string(cone_type));
@@ -26,17 +30,15 @@ float Cone::getDistance(float x, float y) {
 float Cone::getCost(bool is_right) {
   float cost = 0.0;
   if (is_right) {
-    //cost -= 0.5*log(1 - color_probs[0]);
-    //cost += log(1 - color_probs[1]);
+    // cost -= 0.5*log(1 - color_probs[0]);
+    // cost += log(1 - color_probs[1]);
     cost -= log(color_probs[1]);
-    //cost -= 0.5 * log(1 - color_probs[2]);
-  }
-  else
-  {
-    //cost += log(1 - color_probs[0]);
+    // cost -= 0.5 * log(1 - color_probs[2]);
+  } else {
+    // cost += log(1 - color_probs[0]);
     cost -= log(color_probs[0]);
-    //cost -= 0.5*log(1 - color_probs[1]);
-    //cost -= 0.5*log(1 - color_probs[2]);
+    // cost -= 0.5*log(1 - color_probs[1]);
+    // cost -= 0.5*log(1 - color_probs[2]);
   }
   return cost;
 }
