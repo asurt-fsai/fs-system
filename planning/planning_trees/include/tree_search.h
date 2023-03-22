@@ -14,7 +14,7 @@ struct TreeSearchParams {
   int max_waypoints_per_path = 5;
   float waypoint_field_of_view = 3.14;
   float waypoint_distance = 10;
-  int path_queue_limit = 100;
+  int path_queue_limit = 10;
   float triangulation_radius = 1;
   float triangulation_min_cone_dist = 1;
   float triangulation_min_waypoint_dist = 1;
@@ -28,7 +28,7 @@ public:
 
   TreeSearch(std::vector<Cone> cones, TreeSearchParams params);
 
-  Path getPath();
+  std::tuple<Path, std::vector<Path>> getPath();
 
   template <typename T>
   std::vector<T> filterLocal(std::vector<T> cones, float field_of_view,

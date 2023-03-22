@@ -70,13 +70,13 @@ std::vector<Point> TreeSearch::triangulate(std::vector<Cone> cones) {
       float y = cone.y + this->params.triangulation_radius * sin(angle);
 
       // find the closest cone to the waypoint
-      Waypoint w(x, y);
-      float closest_cone_dist = w.getDistNearestCone(cones);
+      Waypoint waypoint(x, y);
+      float closest_cone_dist = waypoint.getDistNearestCone(cones);
 
       // Find closest waypoint to this waypoint
       float closest_waypoint_dist = std::numeric_limits<float>::infinity();
       for (int i = 0; i < waypoints.size(); i++) {
-        float dist = w.getDistanceTo(waypoints[i][0], waypoints[i][1]);
+        float dist = waypoint.getDistanceTo(waypoints[i][0], waypoints[i][1]);
         if (dist < closest_waypoint_dist) {
           closest_waypoint_dist = dist;
         }
@@ -91,48 +91,58 @@ std::vector<Point> TreeSearch::triangulate(std::vector<Cone> cones) {
   return waypoints;
 }
 
-Path TreeSearch::getPath() {
+bool has_path(std::vector<Path> all_paths, Path path) {
+  for (Path p : all_paths) {
+    if (p == path) {
+      return true;
+    }
+  }
+  return false;
+}
+std::tuple<Path, std::vector<Path>> TreeSearch::getPath() {
   PathQueue path_queue = PathQueue(params.path_queue_limit);
-  Path start_path = Path();
-  path_queue.addNewPath(&start_path, std::numeric_limits<float>::infinity());
+  Path start_path = Path(this->cones);
+  std::vector<Path> all_paths;
+  all_paths.push_back(start_path);
+  path_queue.addNewPath(start_path, std::numeric_limits<float>::infinity());
 
   for (int i = 0; i < params.max_search_iterations; i++) {
     bool no_new_paths = true;
     int size = path_queue.paths.size();
     for (int j = 0; j < size; j++) {
-      Path *curr_path = path_queue.paths.front();
+      Path curr_path = path_queue.paths.front();
       float curr_cost = path_queue.costs.front();
       path_queue.paths.erase(path_queue.paths.begin());
       path_queue.costs.erase(path_queue.costs.begin());
 
-      if (curr_path->waypoints.size() > params.max_waypoints_per_path) {
+      if (curr_path.waypoints.size() > params.max_waypoints_per_path) {
         path_queue.addNewPath(curr_path, curr_cost);
         continue;
       }
-      Waypoint *last_waypoint = &curr_path->waypoints.back();
+      Waypoint last_waypoint = curr_path.waypoints.back();
 
       std::vector<Point> possible_next_waypoints =
           filterLocal(this->waypoints, params.waypoint_field_of_view,
-                      params.waypoint_distance, last_waypoint->x,
-                      last_waypoint->y, last_waypoint->heading);
-      bool added_point = false;
+                      params.waypoint_distance, last_waypoint.x,
+                      last_waypoint.y, last_waypoint.heading);
       for (int k = 0; k < possible_next_waypoints.size(); k++) {
-        if (curr_path->hasWaypoint(Waypoint(possible_next_waypoints[k][0],
-                                            possible_next_waypoints[k][1]))) {
+        if (curr_path.hasWaypoint(Waypoint(possible_next_waypoints[k][0],
+                                           possible_next_waypoints[k][1]))) {
           continue;
         }
-        Path new_path = curr_path->createCopy();
+        Path new_path = curr_path.createCopy();
         new_path.addWaypoint(this->waypoints[k][0], this->waypoints[k][1]);
+        if (has_path(all_paths, new_path)) {
+          continue;
+        }
+        all_paths.push_back(new_path);
         float new_cost = new_path.getCost();
-        bool added_path = path_queue.addNewPath(&new_path, new_cost);
+        bool added_path = path_queue.addNewPath(new_path, new_cost);
         if (added_path) {
           no_new_paths = false;
-          added_point = true;
         }
       }
-      if (!added_point) {
-        path_queue.addNewPath(curr_path, curr_cost);
-      }
+      path_queue.addNewPath(curr_path, curr_cost);
     }
     if (no_new_paths) {
       break;
@@ -140,5 +150,6 @@ Path TreeSearch::getPath() {
   }
 
   int best_path_index = path_queue.getBestPathIndex();
-  return path_queue.paths[best_path_index]->createCopy();
+  Path to_return = path_queue.paths[best_path_index].createCopy();
+  return std::tuple<Path, std::vector<Path>>(to_return, all_paths);
 }
