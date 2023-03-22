@@ -1,6 +1,6 @@
 #include "../include/path_queue.h"
 
-bool PathQueue::addNewPath(Path *new_path, float new_cost) {
+bool PathQueue::addNewPath(Path new_path, float new_cost) {
   if (paths.size() >= PATH_QUEUE_LIMIT) {
     int worst_path_index = getWorstPathIndex();
     if (costs[worst_path_index] > new_cost) {
@@ -10,7 +10,9 @@ bool PathQueue::addNewPath(Path *new_path, float new_cost) {
     }
     return false;
   }
-  paths.push_back(new_path);
+
+  paths.emplace_back(new_path.cones);
+  paths.back() = new_path;
   costs.push_back(new_cost);
   return true;
 }
@@ -33,4 +35,13 @@ int PathQueue::getBestPathIndex() {
     }
   }
   return best_path_index;
+}
+
+bool PathQueue::hasPath(Path path) {
+  for (Path p : paths) {
+    if (p == path) {
+      return true;
+    }
+  }
+  return false;
 }

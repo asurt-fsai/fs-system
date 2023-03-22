@@ -4,9 +4,9 @@
 
 class PathQueue {
 public:
-  std::vector<Path *> paths; // List of all paths
-  std::vector<float> costs;  // List of all costs
-  int PATH_QUEUE_LIMIT;      // Maximum number of paths in queue
+  std::vector<Path> paths;  // List of all paths
+  std::vector<float> costs; // List of all costs
+  int PATH_QUEUE_LIMIT;     // Maximum number of paths in queue
 
   PathQueue(int path_queue_limit) { PATH_QUEUE_LIMIT = path_queue_limit; }
 
@@ -19,7 +19,7 @@ public:
    *
    * @return true If the path was added, false otherwise
    */
-  bool addNewPath(Path *new_path, float cost);
+  bool addNewPath(Path new_path, float cost);
 
   /**
    * @brief Gets the index of the worst path in the queue
@@ -34,4 +34,13 @@ public:
    * @return int The index of the best path
    */
   int getBestPathIndex();
+
+  /**
+   * @brief Checks if a path is in the queue
+   *
+   * @param path The path to check
+   *
+   * @return true If the path is in the queue, false otherwise
+   */
+  bool hasPath(Path path);
 };
