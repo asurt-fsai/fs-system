@@ -205,3 +205,34 @@ Path Path::createCopy() {
 
   return new_path;
 }
+
+Path &Path::operator=(const Path &rhs) {
+  waypoints = std::vector<Waypoint>();
+  for (int i = 0; i < rhs.waypoints.size(); i++) {
+    waypoints.emplace_back(rhs.waypoints[i].x, rhs.waypoints[i].y);
+    waypoints[i].manualCopy(rhs.waypoints[i]);
+  }
+
+  left_dists = rhs.left_dists;
+  right_dists = rhs.right_dists;
+  left_unit_normals = rhs.left_unit_normals;
+  cones = rhs.cones;
+  undet_left = rhs.undet_left;
+  undet_right = rhs.undet_right;
+  return *this;
+}
+
+bool Path::operator==(const Path &other) const {
+  if (waypoints.size() != other.waypoints.size()) {
+    return false;
+  }
+  float epsilon = std::numeric_limits<float>::epsilon();
+
+  for (int i = 0; i < waypoints.size(); i++) {
+    if (fabs(waypoints[i].x - other.waypoints[i].x) > epsilon ||
+        fabs(waypoints[i].y - other.waypoints[i].y) > epsilon) {
+      return false;
+    }
+  }
+  return true;
+}

@@ -68,4 +68,8 @@ public:
   Path createCopy();
 
   bool hasWaypoint(Waypoint waypoint);
+
+  Path &operator=(const Path &rhs);
+
+  bool operator==(const Path &other) const;
 };
