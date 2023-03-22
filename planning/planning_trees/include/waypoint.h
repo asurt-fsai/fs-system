@@ -33,10 +33,6 @@ public:
   // Initializes heading and tangent to the given float heading
   Waypoint(float x, float y, float heading);
 
-  // Delete copy constructor to prevent accidental copying
-  Waypoint(const Waypoint &) = delete;
-  Waypoint(Waypoint &&) = default;
-
   /**
    * @brief Get the distance between this waypoint and another point
    *
