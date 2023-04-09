@@ -1,0 +1,5 @@
+<launch>
+<node name="purepursuit_controller" pkg="pure_pursuit" type="purepursuit_node.py" output="screen"></node>
+<node name="waypointsgen" pkg="pure_pursuit" type="randomWaypointsGen.py"></node>
+<node name="statepublisher" pkg="pure_pursuit" type="statepublisher.py"></node>
+</launch>
