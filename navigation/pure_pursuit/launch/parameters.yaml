@@ -10,3 +10,5 @@ time_step: 0.1 # seconds
 speed: {max: 20.0, min: 2.0, target: 10.0} # m/s
 
 acceleration: {max: 15.0, min: -15.0} # m/s^2
+
+plotting: True
