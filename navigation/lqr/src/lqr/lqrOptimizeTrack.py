@@ -5,10 +5,10 @@ import quadprog
 import numpy.typing as npt
 import numpy as np
 import scipy
-from .track_classes import SolverMatrices, Track
+from .track import SolverMatrices, Track
 
-VEHICLE_WIDTH: float = 2
-CURVATURE_BOUNDARIES: float = 0.2
+VEHICLE_WIDTH: float = 3.5
+CURVATURE_BOUNDARIES: float = 0.12
 
 
 def setupMatrices(
@@ -27,21 +27,17 @@ def setupMatrices(
     """
     # create extraction matrix for b_i coefficients used in gradient
     extMatB = np.zeros((track.smooth.noPoints, track.smooth.noSplines * 4), dtype=int)
-
     for i in range(track.smooth.noSplines):
         extMatB[i, i * 4 + 1] = 1  # 1 * b_ix = E_x * x
-
     # create extraction matrix -> only c_i coefficients of the
     # solved linear equation system are needed for curvature information
     extMatC = np.zeros((track.smooth.noPoints, track.smooth.noSplines * 4), dtype=int)
 
     for i in range(track.smooth.noSplines):
         extMatC[i, i * 4 + 2] = 2  # 2 * c_ix = D_x * x
-
     # ax=b --> (track.smooth.alpha)*(T_C) = (extMatC)
     tempTC = scipy.sparse.linalg.spsolve(track.smooth.alpha.T, extMatC.T)
     mat.matT[0] = tempTC.T
-
     # set up matMX and matMY matrices
     matMX = np.zeros((track.smooth.noSplines * 4, track.smooth.noPoints))
     matMY = np.zeros((track.smooth.noSplines * 4, track.smooth.noPoints))
@@ -85,21 +81,25 @@ def setupMatrices(
     # set up mat.matP[0], mat.matP[1], mat.matP[2] matrices
     tempTB = scipy.sparse.linalg.spsolve(track.smooth.alpha.T, extMatB.T)
     matTB = tempTB.T
-    primes = np.array([0, 0, 0, 0, 0])
-    primes[0] = np.eye(track.smooth.noPoints, track.smooth.noPoints) * np.matmul(matTB, mat.matQ[0])
-    primes[1] = np.eye(track.smooth.noPoints, track.smooth.noPoints) * np.matmul(matTB, mat.matQ[1])
+    mat.matPrime = np.array([None, None, None, None, None])
+    mat.matPrime[0] = np.eye(track.smooth.noPoints, track.smooth.noPoints) * np.matmul(
+        matTB, mat.matQ[0]
+    )
+    mat.matPrime[1] = np.eye(track.smooth.noPoints, track.smooth.noPoints) * np.matmul(
+        matTB, mat.matQ[1]
+    )
 
-    primes[2] = np.power(primes[0], 2)
-    primes[3] = np.power(primes[3], 2)
-    primes[4] = -2 * np.matmul(primes[0], primes[3])
-    curvDen = np.power(primes[2] + primes[3], 1.5)  # calculate curvature denominator
-    curvPart = np.divide(
+    mat.matPrime[2] = np.power(mat.matPrime[0], 2)
+    mat.matPrime[3] = np.power(mat.matPrime[1], 2)
+    mat.matPrime[4] = -2 * np.matmul(mat.matPrime[0], mat.matPrime[1])
+    curvDen = np.power(mat.matPrime[2] + mat.matPrime[3], 1.5)  # calculate curvature denominator
+    mat.curvPart = np.divide(
         1, curvDen, out=np.zeros_like(curvDen), where=curvDen != 0
     )  # divide where not zero (diag elements)
-    curvPartSq = np.power(curvPart, 2)
-    mat.matP[0] = np.matmul(curvPartSq, primes[3])
-    mat.matP[2] = np.matmul(curvPartSq, primes[2])
-    mat.matP[1] = np.matmul(curvPartSq, primes[4])
+    curvPartSq = np.power(mat.curvPart, 2)
+    mat.matP[0] = np.matmul(curvPartSq, mat.matPrime[3])
+    mat.matP[2] = np.matmul(curvPartSq, mat.matPrime[2])
+    mat.matP[1] = np.matmul(curvPartSq, mat.matPrime[4])
 
     # SET UP FINAL MATRICES FOR SOLVER
     mat.matT[1] = np.matmul(mat.matT[0], matMX)
@@ -130,7 +130,7 @@ def optimizeMinCurve(
         which are going to be multiplied by the normal vector
         to get the raceline coordinates
     """
-    tempCostMat = np.array([0, 0, 0])
+    tempCostMat = np.array([None, None, None])
     tempCostMat[0] = np.matmul(mat.matT[1].T, np.matmul(mat.matP[0], mat.matT[1]))
     tempCostMat[1] = np.matmul(mat.matT[2].T, np.matmul(mat.matP[1], mat.matT[1]))
     tempCostMat[2] = np.matmul(mat.matT[2].T, np.matmul(mat.matP[2], mat.matT[2]))
@@ -138,7 +138,7 @@ def optimizeMinCurve(
     # make costMatQuad symmetric(because solver used needs symmetrical)
 
     costMatQuad = (costMatQuad + costMatQuad.T) / 2
-    tempCostMat = np.array([0, 0, 0])
+    tempCostMat = np.array([None, None, None])
     tempCostMat[0] = 2 * np.matmul(
         np.matmul(mat.matQ[0].T, mat.matT[0].T), np.matmul(mat.matP[0], mat.matT[1])
     )
@@ -152,20 +152,24 @@ def optimizeMinCurve(
     costMat = np.squeeze(costMat)  # remove non-singleton dimensions
 
     # CURVATURE(KAPPA) CONSTRAINTS
-    matCurvCons = np.array([0, 0])
+    matCurvCons = np.array([None, None])
     matCurvCons[0] = np.matmul(mat.curvPart, mat.matPrime[1])
     matCurvCons[1] = np.matmul(mat.curvPart, mat.matPrime[0])
 
+    print("\n Q_y: \n", matCurvCons[1], "\n")
+    print("\n T_ny: \n", mat.matT[2], "\n")
+    print("\n Q_x: \n", matCurvCons[0], "\n")
+    print("\n T_nx: \n", mat.matT[1], "\n")
+
     # this part is multiplied by alpha within the optimization
     curvature = np.matmul(matCurvCons[1], mat.matT[2]) - np.matmul(matCurvCons[0], mat.matT[1])
-
+    # print("\n Curvature: \n", curvature)
     # original curvature part (static part)
     curvReference = np.matmul(matCurvCons[1], np.matmul(mat.matT[0], mat.matQ[1]))
     curvReference -= np.matmul(matCurvCons[0], np.matmul(mat.matT[0], mat.matQ[0]))
 
     upperCon = np.ones((track.smooth.noPoints, 1)) * CURVATURE_BOUNDARIES - curvReference
     lowerCon = -(np.ones((track.smooth.noPoints, 1)) * -CURVATURE_BOUNDARIES - curvReference)
-    constrains = np.append(upperCon, lowerCon)
     # Solve a Quadratic Program defined as:
     #    minimize
     #        (1/2) * alpha.T * costMatQuad * alpha + costMat.T * alpha
@@ -180,10 +184,13 @@ def optimizeMinCurve(
     constCoeff = np.vstack(
         (np.eye(track.smooth.noPoints), -np.eye(track.smooth.noPoints), curvature, -curvature)
     )
-    constrains = np.append(constrains, maxDevRight)
-    constrains = np.append(constrains, maxDevLeft)
+    constrains = np.append(maxDevRight, maxDevLeft)
+    constrains = np.append(constrains, upperCon)
+    constrains = np.append(constrains, lowerCon)
+
+    # print(constCoeff)
     # solve problem
-    alphaMinCurve: npt.NDArray[np.float64] = quadprog.solve.QP(
+    alphaMinCurve: npt.NDArray[np.float64] = quadprog.solve_qp(
         costMatQuad, -costMat, -constCoeff.T, -constrains, 0
     )[0]
 
