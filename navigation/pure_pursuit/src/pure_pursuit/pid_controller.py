@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 """
-PID controller module used to control the throttle and velocity of the vehicle
+PID controller module used to as the longitudinal control of the vehicle and gives output
+the throttle and velocity of the vehicle
 
 
 parameters
@@ -25,60 +26,65 @@ MAXACC : float
 MINACC : float
     minimum acceleration allowed to be set for the vehicle
 """
-KP = 0.5  # rospy.get_param("/gains/proportional")  # propotional gain
-KD = 0.4  # rospy.get_param("/gains/differential")  # differential gain
-KI = 0.5  # rospy.get_param("/gains/integral")  # integral gain
-DT = 0.1  # rospy.get_param("/time_step")  # [s] time step
-MAXSPEED = 20  # rospy.get_param("/max_speed")  # [m/s] max speed
-MINSPEED = 2  # rospy.get_param("/min_speed")  # [m/s] min speed
-TARGETSPEED = 10  # rospy.get_param("/target_speed")  # [m/s] target speed
-MAXACC = 15  # rospy.get_param("/max_acceleration")  # [m/ss] max acceleration
-MINACC = -15  # rospy.get_param("/min_acceleration")  # [m/ss] min acceleration
+import math
+from typing import Tuple
+import rospy
 
-
-def targetSpeedCalc(delta: float) -> float:
-    """
-    calculates the target speed based on the curvature of the path
-
-    Parameters
-    ----------
-    delta : float
-        steering angle of the vehicle
-
-    Returns
-    -------
-    targetSpeed : float
-        calculated target speed of the vehicle
-    """
-    targetSpeed: float = TARGETSPEED / (abs(delta) * 4 + 0.0001)  # [m/s]
-    # waypoints.update(pose)
-    targetSpeed = max(targetSpeed, MINSPEED)
-    targetSpeed = min(targetSpeed, MAXSPEED)
-    return targetSpeed
+KP = rospy.get_param("/gains/proportional")  # propotional gain
+KD = rospy.get_param("/gains/differential")  # differential gain
+KI = rospy.get_param("/gains/integral")  # integral gain
+DT = rospy.get_param("/time_step")  # [s] time step
+MAXSPEED = rospy.get_param("/speed/max")  # [m/s] max speed
+MINSPEED = rospy.get_param("/speed/min")  # [m/s] min speed
+TARGETSPEED = rospy.get_param("/speed/target")  # [m/s] target speed
+MAXACC = rospy.get_param("/acceleration/max")  # [m/ss] max acceleration
+MINACC = rospy.get_param("/acceleration/min")  # [m/ss] min acceleration
 
 
 def proportionalControl(
-    targetSpeed: float, currentSpeed: float
-) -> float:  # longitudinal controller
+    targetSpeed: float, currentSpeed: float, prevError: float
+) -> Tuple[float, float]:  # longitudinal controller
     """
-    PID Controller
+    PID Controller for longitudinal control of the vehicle
+
+    Parameters
+    ----------
+    targetSpeed : float
+        target speed for the vehicle
+
+    currentSpeed : float
+        current speed of the vehicle
+
+    prevError : float
+        previous error between the target speed and the current speed
+
+    Returns
+    -------
+    acc : float
+        acceleration to be applied to the vehicle
     """
-    acc: float = (
-        KP * (targetSpeed - currentSpeed)
-        + KD * ((targetSpeed - currentSpeed) / DT)
-        + KI * (targetSpeed - currentSpeed) * DT
-    )
-    # if acc >= MAXACC:
-    #     acc = MAXACC
-    # if acc <= MINACC:
-    #     acc = MINACC
-    return acc
+    error: float = targetSpeed - currentSpeed
+
+    acc: float = KP * error + KD * ((error - prevError) / DT) + KI * (prevError + (error * DT))
+
+    return acc, error
 
 
 def throttleControl(acc: float) -> float:
     """
-    Throttle Control
+    Throttle Control to convert acceleration to throttle,
+    to regulate acceleration to be within the limits [-1,1]
+
+    Parameters
+    ----------
+    acc : float
+        acceleration result from the PID controller
+
+    Returns
+    -------
+    throttle : float
+        throttle to be applied to the vehicle
     """
 
-    throttle: float = acc / MAXACC
+    throttle: float = float(min(math.tanh(acc), math.tanh(MAXACC)))
     return throttle
