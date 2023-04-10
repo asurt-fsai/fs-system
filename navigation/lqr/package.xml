@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>mrpython_pcl</name>
+  <name>lqr</name>
   <version>1.0.0</version>
-  <description>Main pipeline using a lidar to detect cone locations</description>
+  <description>Calculates optimal racing line of a given track</description>
 
   <maintainer email="asurt.fsai@gmail.com">ASU Racing Team, Formula AI Team</maintainer>
 

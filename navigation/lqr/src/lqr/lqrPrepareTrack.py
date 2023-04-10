@@ -14,12 +14,12 @@ import numpy.typing as npt
 import numpy as np
 from .track import Original
 
-K_REG: int = rospy.get_param("/navigation/lqr/k_reg")
-S_REG: int = rospy.get_param("/navigation/lqr/s_reg")
-STEPSIZE_PREP: float = rospy.get_param("/navigation/lqr/stepsize_prep")
-STEPSIZE_REG: float = rospy.get_param("/navigation/lqr/stepsize_reg")
-MIN_WIDTH: float = rospy.get_param("/navigation/lqr/min_width")
-TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/track_width")
+K_REG: int = rospy.get_param("/navigation/lqr/prepare_track/k_reg")
+S_REG: int = rospy.get_param("/navigation/lqr/prepare_track/s_reg")
+STEPSIZE_PREP: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_prep")
+STEPSIZE_REG: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_reg")
+MIN_WIDTH: float = rospy.get_param("/navigation/lqr/prepare_track/min_width")
+TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/handler/track_width")
 
 
 class RefTrack:

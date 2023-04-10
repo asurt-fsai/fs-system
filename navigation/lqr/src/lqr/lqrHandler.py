@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 lqr handler to integrate the following modules:
     - lqrPrepareTrack
@@ -7,15 +8,16 @@ from typing import Tuple
 import rospy
 import numpy as np
 import numpy.typing as npt
+import matplotlib.pyplot as plt
 from geometry_msgs.msg import Pose
 from std_msgs.msg import Float64MultiArray
-from .lqrPrepareTrack import prepTrack
-from .track import Track, SolverMatrices
-from .lqrOptimizeTrack import setupMatrices, optimizeMinCurve
+from lqr.lqrPrepareTrack import prepTrack
+from lqr.track import Track, SolverMatrices
+from lqr.lqrOptimizeTrack import setupMatrices, optimizeMinCurve
 
 
-TRACK_WIDTH = rospy.get_param("/navigation/handler/track_width")
-SAFETY_MARGIN = rospy.get_param("/navigation/handler/safety_margin")
+TRACK_WIDTH = rospy.get_param("/navigation/lqr/handler/track_width")
+SAFETY_MARGIN = rospy.get_param("/navigation/lqr/handler/safety_margin")
 
 
 def normVecsToTrack(
@@ -66,11 +68,11 @@ def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
         Track array with x, y, left width and right width
     """
 
-    widthCol = np.ones(int(trackNoWidth.shape[1] / 2)) * (TRACK_WIDTH - SAFETY_MARGIN)
+    widthCol = np.ones(int(trackNoWidth.shape[0])) * (TRACK_WIDTH - SAFETY_MARGIN)
     trackNoWidth = np.stack(
         (
-            trackNoWidth[0, :],
-            trackNoWidth[1, :],
+            trackNoWidth[:, 0],
+            trackNoWidth[:, 1],
             widthCol / 2,
             widthCol / 2,
         ),
@@ -80,7 +82,10 @@ def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     return wideTrack
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Main Function of the lqrHandler
+    """
     referenceTrack = np.array([])
     solverMatrices = SolverMatrices()
     rospy.init_node("lqr")
@@ -119,3 +124,21 @@ if __name__ == "__main__":
         raceLinePub.publish(raceLineMsg)
         rate.sleep()
     rospy.loginfo("Waypoints published")
+
+    if rospy.get_param("/navigation/lqr/handler/plot") == 1:
+        plt.figure()
+        plt.plot(raceLine[:, 0], raceLine[:, 1])
+        plt.plot(trackClass.smooth.track[:, 0], trackClass.smooth.track[:, 1], "b--")
+        plt.plot(upperBound[:, 0], upperBound[:, 1], "k-")
+        plt.plot(lowerBound[:, 0], lowerBound[:, 1], "k-")
+        plt.grid()
+        plotArea = plt.gca()
+        plotArea.set_aspect("equal", "datalim")
+        plt.show()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass

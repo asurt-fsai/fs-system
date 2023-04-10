@@ -8,8 +8,8 @@ import rospy
 import scipy
 from .track import SolverMatrices, Track
 
-VEHICLE_WIDTH: float = rospy.get_param("/navigation/optimize_track/vehicle_width")
-CURVATURE_BOUNDARIES: float = rospy.get_param("/navigation/optimize_track/curvature_boundaries")
+VEHICLE_WIDTH: float = rospy.get_param("/navigation/lqr/optimize_track/vehicle_width")
+CURVATURE_BOUNDARIES: float = rospy.get_param("/navigation/lqr/optimize_track/curvature_boundaries")
 
 
 def setupMatrices(
