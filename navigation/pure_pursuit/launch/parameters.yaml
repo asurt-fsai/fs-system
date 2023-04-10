@@ -1,5 +1,5 @@
 
-gains: {lookahead: 2.0, look_forward: 0.3, propotional: 0.5, differential: 0.4, integral: 0.5}
+gains: {lookahead: 2.0, look_forward: 0.3, proportional: 0.5, differential: 0.4, integral: 0.5}
 
 look_ahead_constant: 2.0 # meters
 

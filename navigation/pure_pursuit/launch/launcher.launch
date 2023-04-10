@@ -2,4 +2,5 @@
 <rosparam file="$(find pure_pursuit)/launch/parameters.yaml" />
 <node name="purepursuit_controller" pkg="pure_pursuit" type="purepursuit_node.py"></node>
 <node name="waypoints" pkg="pure_pursuit" type="randomWaypointsGen.py"></node>
+<node name="statepublisher" pkg="pure_pursuit" type="statepublisher.py"></node>
 </launch>
