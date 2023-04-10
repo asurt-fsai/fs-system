@@ -14,7 +14,8 @@ from .track import Track, SolverMatrices
 from .lqrOptimizeTrack import setupMatrices, optimizeMinCurve
 
 
-TRACK_WIDTH = 6
+TRACK_WIDTH = rospy.get_param("/navigation/handler/track_width")
+SAFETY_MARGIN = rospy.get_param("/navigation/handler/safety_margin")
 
 
 def normVecsToTrack(
@@ -49,6 +50,36 @@ def normVecsToTrack(
     return (trackUpBound, trackLowBound, trackRaceLine)
 
 
+def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+
+    """
+    Adds width of track to track array if only the x and y coordinates of the track are given
+
+    Parameters
+    ----------
+    trackNoWidth: np.ndarray, shape=(n, 2)
+        Track array with only x and y coordinates
+
+    Returns
+    -------
+    wideTrack: np.ndarray, shape=(n, 4)
+        Track array with x, y, left width and right width
+    """
+
+    widthCol = np.ones(int(trackNoWidth.shape[1] / 2)) * (TRACK_WIDTH - SAFETY_MARGIN)
+    trackNoWidth = np.stack(
+        (
+            trackNoWidth[0, :],
+            trackNoWidth[1, :],
+            widthCol / 2,
+            widthCol / 2,
+        ),
+        axis=1,
+    )
+    wideTrack = np.reshape(trackNoWidth, (-1, 4))
+    return wideTrack
+
+
 if __name__ == "__main__":
     referenceTrack = np.array([])
     solverMatrices = SolverMatrices()
@@ -56,19 +87,13 @@ if __name__ == "__main__":
     rospy.loginfo("Waiting for Message")
     message = rospy.wait_for_message("/waypoints", Float64MultiArray, timeout=None)
     rospy.loginfo("Recieved Message")
+
     trackBuffer = np.array([message.data])
-    widthCol = np.ones(int(trackBuffer.shape[1] / 2)) * TRACK_WIDTH
-    trackBuffer = np.stack(
-        (
-            trackBuffer[0, : widthCol.shape[0]],
-            trackBuffer[0, widthCol.shape[0] :],
-            widthCol / 2,
-            widthCol / 2,
-        ),
-        axis=1,
-    )
-    referenceTrack = np.reshape(trackBuffer, (-1, 4))
-    # originalTrack = RefTrack(referenceTrack)
+    noPoints = int(trackBuffer.shape[1] / 2)
+    trackBuffer = np.stack((trackBuffer[0, :noPoints], trackBuffer[0, noPoints:]), axis=1)
+
+    referenceTrack = addWidth(trackBuffer)
+
     trackClass = Track(referenceTrack)
     (
         trackClass.smooth.track,

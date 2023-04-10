@@ -4,11 +4,12 @@ This file contains the optimization function for the raceline generation.
 import quadprog
 import numpy.typing as npt
 import numpy as np
+import rospy
 import scipy
 from .track import SolverMatrices, Track
 
-VEHICLE_WIDTH: float = 3.5
-CURVATURE_BOUNDARIES: float = 0.12
+VEHICLE_WIDTH: float = rospy.get_param("/navigation/optimize_track/vehicle_width")
+CURVATURE_BOUNDARIES: float = rospy.get_param("/navigation/optimize_track/curvature_boundaries")
 
 
 def setupMatrices(
@@ -169,7 +170,7 @@ def optimizeMinCurve(
     curvReference -= np.matmul(matCurvCons[0], np.matmul(mat.matT[0], mat.matQ[0]))
 
     upperCon = np.ones((track.smooth.noPoints, 1)) * CURVATURE_BOUNDARIES - curvReference
-    lowerCon = -(np.ones((track.smooth.noPoints, 1)) * -CURVATURE_BOUNDARIES - curvReference)
+    lowerCon = -(np.ones((track.smooth.noPoints, 1)) * (-1 * CURVATURE_BOUNDARIES) - curvReference)
     # Solve a Quadratic Program defined as:
     #    minimize
     #        (1/2) * alpha.T * costMatQuad * alpha + costMat.T * alpha

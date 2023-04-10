@@ -2,8 +2,8 @@
 <launch>
     <!-- Physical Parameters-->
     <param name="/navigation/lqr/prepare_track/min_width"  value="3.0"/>
-    <param name="/navigation/lqr/prepare_track/track_width"  value="5.0"/>
-    <param name="/navigation/lqr/optimize_track/vehicle_width"  value="1.5"/>
+    <param name="/navigation/lqr/handler/track_width"  value="5.0"/>
+    <param name="/navigation/lqr/optimize_track/vehicle_width"  value="3"/>
 
     <!-- Track Prep Parameters-->
     <param name="/navigation/lqr/prepare_track/k_reg"   value="3"/>
@@ -12,7 +12,7 @@
     <param name="/navigation/lqr/prepare_track/stepsize_reg"  value="3.0"/>
 
     <!-- Car Boundaries-->
-    <param name="/navigation/lqr/optimize_track/safety_margin"  value="3.0"/>
-    <param name="/navigation/lqr/optimize_track/curvature_boundaries"  value="0.5"/>
+    <param name="/navigation/lqr/handler/safety_margin"  value="0.5"/>
+    <param name="/navigation/lqr/optimize_track/curvature_boundaries"  value="0.12"/>
 
 </launch>

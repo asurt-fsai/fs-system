@@ -9,16 +9,17 @@ It consists of 3 steps:
 import math
 from typing import Tuple, List
 from scipy import interpolate, optimize, spatial
+import rospy
 import numpy.typing as npt
 import numpy as np
 from .track import Original
 
-K_REG: int = 3
-S_REG: int = 5
-STEPSIZE_PREP: float = 1.0
-STEPSIZE_REG: float = 3.0
-MIN_WIDTH: float = 3.0
-TRACK_WIDTH: float = 5.0
+K_REG: int = rospy.get_param("/navigation/lqr/k_reg")
+S_REG: int = rospy.get_param("/navigation/lqr/s_reg")
+STEPSIZE_PREP: float = rospy.get_param("/navigation/lqr/stepsize_prep")
+STEPSIZE_REG: float = rospy.get_param("/navigation/lqr/stepsize_reg")
+MIN_WIDTH: float = rospy.get_param("/navigation/lqr/min_width")
+TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/track_width")
 
 
 class RefTrack:
