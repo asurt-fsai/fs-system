@@ -35,5 +35,5 @@ install(
 
 catkin_python_setup()
 
-catkin_install_python(PROGRAMS nodes/super.py DESTINATION
+catkin_install_python(PROGRAMS nodes/supervisor_node.py DESTINATION
                       ${CATKIN_PACKAGE_BIN_DESTINATION})

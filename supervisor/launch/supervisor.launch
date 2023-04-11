@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <launch>
-	<node name = "supervisor" pkg = "supervisor" type = "super.py" output="screen"/>
+	<node name = "supervisor" pkg = "supervisor" type = "supervisor_node.py" output="screen"/>
 </launch>

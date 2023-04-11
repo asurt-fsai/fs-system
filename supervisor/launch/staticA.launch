@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<node name = "staticA" pkg = "supervisor" type = "staticA.py" output="screen"/>
+</launch>

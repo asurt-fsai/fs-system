@@ -1,0 +1,10 @@
+{
+    "modules": [
+        {
+        "pkg": "supervisor",
+        "launch_file":"staticA.launch",
+        "heartbeats_topic":"/status/NULL"
+        }
+
+    ]
+}
