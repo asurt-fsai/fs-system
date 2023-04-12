@@ -13,17 +13,15 @@ from asurt_msgs.msg import LandmarkArray
 from smoreo.smoreo import Smoreo
 from darknet_ros_msgs.msg import BoundingBoxes
 
+
 class SmoreoRosWrappertest(unittest.TestCase):
     """
     Test class for smoreoRosWrapper
     """
+
     def setUp(self) -> None:
-        self.params = {
-            "f_in_pixels": 100,
-            "cx": 200,
-            "cy": 300,
-            "cone_height": 0.5
-        }
+        self.params = {"f_in_pixels": 100, "cx": 200, "cy": 300, "cone_height": 0.5}
+
     def testParams(self) -> None:
         """
         Test if the params are passed correctly
@@ -45,4 +43,3 @@ class SmoreoRosWrappertest(unittest.TestCase):
         self.assertEqual(smoreoRosWrapper.params["f_in_pixels"], 100)
         self.assertEqual(smoreoRosWrapper.params["cx"], 200)
         self.assertEqual(smoreoRosWrapper.params["cy"], 300)
-        
