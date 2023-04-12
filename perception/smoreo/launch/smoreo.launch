@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+                    <!-- This file should not be launched manually !!!! -->
+
+                                    <!-- Arguments -->
+    <arg name="in_tuning" default="False"/>
+    <arg name ="setup_name" default="flir"/>
+
+                    <!-- transformation from world coorindate system to camera coordinate syste, -->
+	<node pkg="tf2_ros" type="static_transform_publisher" name="world_to_image_coordinate_system" args="0 0 0 0.5 -0.5 0.5 0.5 worldcoordinates cameracoordinates"/>
+
+                                    <!-- Nodes to be launched -->
+	<node name="smoreo" pkg="smoreo" type="smoreo_system.py" output="screen"/>
+
+                                    <!-- Published topics -->
+	<param name="/smoreo/predicted_landmarks" 		value="/perception/smoreo/detected_cones_lm"/>
+	<param name="/smoreo/predicted_markers" 		value="/perception/smoreo/detected_cones_markers"/>
+
+                                    <!-- Subscribed topics -->
+	<param name="/smoreo/bounding_boxes" 				value="/darknet_ros/bounding_boxes"/>
+	<param name = "/smoreo/camera_info"					value = "/front_camera_rgb/camera_info" />
+
+    <rosparam file="$(find smoreo)/config/$(arg setup_name)Params.yaml" />
+					                <!-- System params -->
+	<param name="/smoreo/hardcode_params" 				value="True"/>
+	<param name="/smoreo/use_cone_base" 				value= "True"/>
+	<param name="/smoreo/in_tuning" 					value="$(arg in_tuning)"/>
+
+</launch>

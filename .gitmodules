@@ -1,6 +1,12 @@
 [submodule "dependencies/ros_numpy"]
 	path = dependencies/ros_numpy
 	url = https://github.com/asurt-fsai/ros_numpy
-[submodule "dependencies/velodyne"]
-	path = dependencies/velodyne
-	url = https://github.com/asurt-fsai/velodyne
+[submodule "dependencies/ackermann_msgs"]
+	path = dependencies/ackermann_msgs
+	url = https://github.com/asurt-fsai/ackermann_msgs
+[submodule "perception/darknet_ros"]
+	path = perception/darknet_ros
+	url = https://github.com/asurt-fsai/darknet_ros
+[submodule "dependencies/spinnaker_sdk_camera_driver"]
+	path = dependencies/spinnaker_sdk_camera_driver
+	url = https://github.com/asurt-fsai/spinnaker_sdk_camera_driver

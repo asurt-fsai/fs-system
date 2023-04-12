@@ -24,17 +24,20 @@ def parseLandmarks(landmarks: LandmarkArray) -> npt.NDArray[np.float64]:
     Returns
     -------
     npt.NDArray[np.float64]
-        Parsed numpy array, each row contains [pos x, pos y, cone type]
+        Parsed numpy array, each row contains [pos x, pos y, cone type, color probability]
     """
     cones = []
-    for landmark in landmarks:
-        cones.append([landmark.position.x, landmark.position.y, landmark.type])
+    for landmark in landmarks.landmarks:
+        cones.append(
+            [landmark.position.x, landmark.position.y, landmark.type, landmark.probability]
+        )
     return np.array(cones)
 
 
 def createLandmarkMessage(
     cones: npt.NDArray[np.float64],
     types: npt.NDArray[np.int8],
+    coneProbs: npt.NDArray[np.float64],
     frameId: str,
     timestamp: rospy.Time = None,
 ) -> LandmarkArray:
@@ -48,6 +51,8 @@ def createLandmarkMessage(
         Cone positions, each row contains [pos x, pos y]
     types : npt.NDArray[np.int8]
         Cone types according to the standard in the Landmark message
+    coneProbs : npt.NDArray[np.float64]
+        For each cone, the probability the color of it is correct
     frameId : str
         Frame the message will be in
     timestamp : rospy.Time, optional
@@ -60,11 +65,12 @@ def createLandmarkMessage(
     """
     landmarks = []
 
-    for cone, typ in zip(cones, types):
+    for cone, typ, prob in zip(cones, types, coneProbs):
         coneMsg = Landmark()
         coneMsg.position.x = cone[0]
         coneMsg.position.y = cone[1]
         coneMsg.type = int(typ)
+        coneMsg.probability = prob
         landmarks.append(coneMsg)
 
     msg = LandmarkArray()
