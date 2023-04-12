@@ -3,15 +3,15 @@ This module contains the function to create the raceline from the track's
 reference line and the optimized alpha values, the generated raceline has
 constant step size.
 """
-import math
 from typing import Tuple
-from lqr.track import Track
-from lqr.lqrPrepareTrack import calcSplines
-import numpy as np
-import numpy.typing as npt
-from tf2_geometry_msgs import PoseStamped
-from nav_msgs.msg import Path
+import math
 import rospy
+from tf2_geometry_msgs import PoseStamped
+import numpy.typing as npt
+import numpy as np
+from nav_msgs.msg import Path
+from .track import Track
+from .lqrPrepareTrack import calcSplines
 
 STEPSIZE_INTERP = rospy.get_param("/navigation/lqr/raceline/stepsize_interp")
 

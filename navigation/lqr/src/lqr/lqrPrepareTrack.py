@@ -18,56 +18,7 @@ K_REG: int = rospy.get_param("/navigation/lqr/prepare_track/k_reg")
 S_REG: int = rospy.get_param("/navigation/lqr/prepare_track/s_reg")
 STEPSIZE_PREP: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_prep")
 STEPSIZE_REG: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_reg")
-MIN_WIDTH: float = rospy.get_param("/navigation/lqr/prepare_track/min_width")
 TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/handler/track_width")
-
-
-class RefTrack:
-    """
-    Input Track given by Path Planning
-    """
-
-    def __init__(self, refTrack: npt.NDArray[np.float64]):
-
-        refTrack = np.vstack((refTrack, refTrack[0]))
-        self.track = refTrack
-        self.noPoints = self.track.shape[0]
-        self.distCum = self.calcDistCum()
-
-    def addWidth(self) -> None:
-
-        """
-        Adds width of track to track array if only the x and y coordinates of the track are given
-
-        Parameters
-        ----------
-
-        Returns
-        -------
-        """
-
-        width = np.ones(self.noPoints) * TRACK_WIDTH
-        if self.track.shape[1] == 2:
-            self.track = np.hstack((self.track, width / 2, width / 2))
-
-    def calcDistCum(self) -> npt.NDArray[np.float64]:
-        """
-        Calculates the cumulative distance of each point of the input track
-
-        Parameters
-        ----------
-        self
-
-        Returns
-        -------
-        distsCumulative: np.array, shape=(N,1)
-            Cumulative distances of the points.
-        """
-        distsCumulative: npt.NDArray[np.float64] = np.cumsum(
-            np.sqrt(np.sum(np.power(np.diff(self.track[:, :2], axis=0), 2), axis=1))
-        )
-        distsCumulative = np.insert(distsCumulative, 0, 0.0)
-        return distsCumulative
 
 
 def prepTrack(
@@ -115,14 +66,6 @@ def prepTrack(
         path=refPathInterpClosed
     )
 
-    for i in range(interpReferenceTrack.shape[0]):
-        trackWidth = interpReferenceTrack[i, 2] + interpReferenceTrack[i, 3]
-
-        if trackWidth < MIN_WIDTH:
-
-            # inflate to both sidesTemp equally
-            interpReferenceTrack[i, 2] += (MIN_WIDTH - trackWidth) / 2
-            interpReferenceTrack[i, 3] += (MIN_WIDTH - trackWidth) / 2
     noPointsInterp: int = interpReferenceTrack.shape[0]
     noSplines = noPointsInterp
     return (
