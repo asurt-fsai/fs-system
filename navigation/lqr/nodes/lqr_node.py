@@ -4,52 +4,16 @@ lqr handler to integrate the following modules:
     - lqrPrepareTrack
     - lqr_optimize_track
 """
-from typing import Tuple
 import rospy
 import numpy as np
 import numpy.typing as npt
 import matplotlib.pyplot as plt
-from geometry_msgs.msg import Pose
-from std_msgs.msg import Float64MultiArray
-from lqr.lqrPrepareTrack import prepTrack
-from lqr.track import Track, SolverMatrices
-from lqr.lqrOptimizeTrack import setupMatrices, optimizeMinCurve
-
+import tf2_ros
+from nav_msgs.msg import Path
+from lqr import prepTrack, Track, SolverMatrices, setupMatrices, optimizeMinCurve, createRaceLine
 
 TRACK_WIDTH = rospy.get_param("/navigation/lqr/handler/track_width")
 SAFETY_MARGIN = rospy.get_param("/navigation/lqr/handler/safety_margin")
-
-
-def normVecsToTrack(
-    track: Track, alpha: npt.NDArray[np.float64]
-) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64],]:
-    """
-    Given a track's reference line and the optimal alpha values, this function
-    calculates the upper and lower bounds of the track as well as the
-    optimal raceline as XY coordinates.
-    ----------
-    track: Track
-        Track class containing the track's reference line
-    alphaOpt: np.ndarray
-        Optimal alpha values for the track
-    Returns
-    -------
-    trackUpBound: np.ndarray, shape=(n, 2)
-        Upper bound of the track
-    trackLowBound: np.ndarray, shape=(n, 2)
-        Lower bound of the track
-    trackRaceLine: np.ndarray, shape=(n, 2)
-        Optimal raceline of the track
-    """
-    trackUpBound = track.smooth.track[:, :2] + track.smooth.normVectors * np.expand_dims(
-        track.smooth.track[:, 2], 1
-    )
-    trackLowBound = track.smooth.track[:, :2] - track.smooth.normVectors * np.expand_dims(
-        track.smooth.track[:, 3], 1
-    )
-    trackRaceLine = track.smooth.track[:, :2] + track.smooth.normVectors * np.expand_dims(alpha, 1)
-
-    return (trackUpBound, trackLowBound, trackRaceLine)
 
 
 def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
@@ -82,6 +46,30 @@ def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     return wideTrack
 
 
+def pathToNumpy(path: Path) -> npt.NDArray[np.float64]:
+    """
+    Converts a path message to a numpy array
+    and transforms the coordinates to the world frame
+
+    Parameters
+    ----------
+    path: Path
+        Path message
+
+    Returns
+    -------
+    pathArray: np.ndarray, shape=(n, 2)
+        Numpy array with x and y coordinates of the path
+    """
+    tfBuffer = tf2_ros.Buffer()
+    pathArray = np.zeros((len(path.poses), 2))
+    for index, pose in enumerate(path.poses):
+        globalPose = tfBuffer.transform(pose, "world", rospy.Duration(1))
+        pathArray[index, 0] = globalPose.pose.position.x
+        pathArray[index, 1] = globalPose.pose.position.y
+    return pathArray
+
+
 def main() -> None:
     """
     Main Function of the lqrHandler
@@ -90,16 +78,14 @@ def main() -> None:
     solverMatrices = SolverMatrices()
     rospy.init_node("lqr")
     rospy.loginfo("Waiting for Message")
-    message = rospy.wait_for_message("/waypoints", Float64MultiArray, timeout=None)
+    message = rospy.wait_for_message("/waypoints", Path, timeout=None)
     rospy.loginfo("Recieved Message")
 
-    trackBuffer = np.array([message.data])
-    noPoints = int(trackBuffer.shape[1] / 2)
-    trackBuffer = np.stack((trackBuffer[0, :noPoints], trackBuffer[0, noPoints:]), axis=1)
-
+    trackBuffer = pathToNumpy(message)
     referenceTrack = addWidth(trackBuffer)
-
     trackClass = Track(referenceTrack)
+
+    # Setup the track
     (
         trackClass.smooth.track,
         trackClass.smooth.normVectors,
@@ -109,22 +95,21 @@ def main() -> None:
         trackClass.smooth.noPoints,
         trackClass.smooth.noSplines,
     ) = prepTrack(refTrack=trackClass.original)
-
     setupMatrices(trackClass, solverMatrices)
-    alphaOpt = optimizeMinCurve(trackClass, solverMatrices)
 
-    upperBound, lowerBound, raceLine = normVecsToTrack(trackClass, alphaOpt)
+    # Calculate the optimal alpha values
+    trackClass.optimized.alpha = optimizeMinCurve(trackClass, solverMatrices)
 
-    rate = rospy.Rate(10)
-    raceLinePub = rospy.Publisher("raceline", Pose, queue_size=10)
-    raceLineMsg = Pose()
-    for i in range(len(raceLine)):
-        raceLineMsg.position.x = raceLine[i, 0]
-        raceLineMsg.position.y = raceLine[i, 1]
-        raceLinePub.publish(raceLineMsg)
-        rate.sleep()
+    # Calculate the track boundaries and raceline
+    raceLineMsg = Path()
+    raceLineMsg, raceLine, upperBound, lowerBound = createRaceLine(trackClass)
+
+    # Publish the raceline
+    raceLinePub = rospy.Publisher("raceline", Path, queue_size=10)
+    raceLinePub.publish(raceLineMsg)
     rospy.loginfo("Waypoints published")
 
+    # Plot
     if rospy.get_param("/navigation/lqr/handler/plot") == 1:
         plt.figure()
         plt.plot(raceLine[:, 0], raceLine[:, 1])
