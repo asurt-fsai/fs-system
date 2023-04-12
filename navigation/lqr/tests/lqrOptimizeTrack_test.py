@@ -5,11 +5,11 @@ import unittest
 import numpy as np
 from lqr import Track, SolverMatrices, setupMatrices, prepTrack, optimizeMinCurve
 
-refTrack = np.zeros((4, 4))
-refTrack[:, 0] = 5 * np.cos(np.linspace(0, 2 * np.pi, 4))
-refTrack[:, 1] = 5 * np.sin(np.linspace(0, 2 * np.pi, 4))
-refTrack[:, 2] = 0.5
-refTrack[:, 3] = 0.5
+refTrack = np.zeros((100, 4))
+refTrack[:, 0] = 10 * np.cos(np.linspace(0, 2 * np.pi, 100))
+refTrack[:, 1] = 10 * np.sin(np.linspace(0, 2 * np.pi, 100))
+refTrack[:, 2] = 2.5
+refTrack[:, 3] = 2.5
 
 trackClass = Track(refTrack=refTrack)
 solverMatrices = SolverMatrices()
@@ -29,6 +29,7 @@ class test_lqrOptimizeTrack(unittest.TestCase):
         setupMatrices(trackClass, solverMatrices)
 
     def test_optimizeMinCurve(self):
+        setupMatrices(trackClass, solverMatrices)
         optimizeMinCurve(trackClass, solverMatrices)
 
 

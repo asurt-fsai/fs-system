@@ -322,7 +322,7 @@ def distToP(
     ----------
     tGlob: np.array, shape=(N,1)
         spline parameter to calculate the distance at
-    path: np.array, shape=(M,2)
+    path: list, shape=(M,1)
         x and y coordinates of the track
     pathPoint: np.array, shape=(1,2)
 
