@@ -9,9 +9,11 @@ It consists of 3 steps:
 import math
 from typing import Tuple, List
 from scipy import interpolate, optimize, spatial
+from nav_msgs.msg import Path
 import rospy
 import numpy.typing as npt
 import numpy as np
+import tf2_ros
 from .track import Original
 
 K_REG: int = rospy.get_param("/navigation/lqr/prepare_track/k_reg")
@@ -19,6 +21,61 @@ S_REG: int = rospy.get_param("/navigation/lqr/prepare_track/s_reg")
 STEPSIZE_PREP: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_prep")
 STEPSIZE_REG: float = rospy.get_param("/navigation/lqr/prepare_track/stepsize_reg")
 TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/handler/track_width")
+SAFETY_MARGIN: float = rospy.get_param("/navigation/lqr/handler/safety_margin")
+
+
+def pathToNumpy(path: Path) -> npt.NDArray[np.float64]:
+    """
+    Converts a path message to a numpy array
+    and transforms the coordinates to the world frame
+
+    Parameters
+    ----------
+    path: Path
+        Path message
+
+    Returns
+    -------
+    pathArray: np.ndarray, shape=(n, 2)
+        Numpy array with x and y coordinates of the path
+    """
+    tfBuffer = tf2_ros.Buffer()
+    pathArray = np.zeros((len(path.poses), 2))
+    for index, pose in enumerate(path.poses):
+        globalPose = tfBuffer.transform(pose, "world", rospy.Duration(1))
+        pathArray[index, 0] = globalPose.pose.position.x
+        pathArray[index, 1] = globalPose.pose.position.y
+    return pathArray
+
+
+def addWidth(trackNoWidth: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+
+    """
+    Adds width of track to track array if only the x and y coordinates of the track are given
+
+    Parameters
+    ----------
+    trackNoWidth: np.ndarray, shape=(n, 2)
+        Track array with only x and y coordinates
+
+    Returns
+    -------
+    wideTrack: np.ndarray, shape=(n, 4)
+        Track array with x, y, left width and right width
+    """
+
+    widthCol = np.ones(int(trackNoWidth.shape[0])) * (TRACK_WIDTH - SAFETY_MARGIN)
+    trackNoWidth = np.stack(
+        (
+            trackNoWidth[:, 0],
+            trackNoWidth[:, 1],
+            widthCol / 2,
+            widthCol / 2,
+        ),
+        axis=1,
+    )
+    wideTrack = np.reshape(trackNoWidth, (-1, 4))
+    return wideTrack
 
 
 def prepTrack(
