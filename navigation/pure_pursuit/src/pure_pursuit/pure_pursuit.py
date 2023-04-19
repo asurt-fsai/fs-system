@@ -57,6 +57,7 @@ class State:
         self.currentSpeed: float = currentSpeed
         self.rearX: float = self.position.x - ((BASEWIDTH / 2) * math.cos(self.yaw))
         self.rearY: float = self.position.y - ((BASEWIDTH / 2) * math.sin(self.yaw))
+        self.poseList: List[Tuple[float, float]] = []
 
     def update(self, currentState: Pose) -> None:
         """
@@ -74,6 +75,7 @@ class State:
         self.currentSpeed = currentState.orientation.x
         self.rearX = self.position.x - ((BASEWIDTH / 2) * math.cos(self.yaw))
         self.rearY = self.position.y - ((BASEWIDTH / 2) * math.sin(self.yaw))
+        self.poseList.append((self.position.x, self.position.y))
 
     def calcDistance(self, pointX: float, pointY: float) -> float:
         """
@@ -239,14 +241,7 @@ class WayPoints:
                 distanceThisIndex = distanceNextIndex
             self.oldNearestPointIndex = ind
 
-        # update look ahead distance
-        # search look ahead target point index
-        # while lookAhead > state.calcDistance(self.xList[ind], self.yList[ind]):
-        #     if (ind + 1) >= len(self.xList):
-        #         break  # not exceed goal
-        #     ind += 1
-        print("search Target index function is called")
-        return ind, lookAhead  # 3ayz a2asem de le 2 functions
+        return ind, lookAhead
 
 
 def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> Tuple[float, int]:
@@ -292,9 +287,4 @@ def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> T
 
     delta: float = math.atan2(2.0 * BASEWIDTH * math.sin(alpha) / lookAhead, 1.0)
 
-    # deltaDegree = math.degrees(delta)
-    # print("lookAhead: ", lookAhead)
-    # print("delta: ", delta)
-    # print("deltaDegree: ", deltaDegree)
-    # print("\n")
     return delta, ind
