@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+
+	<param name="/gains/lookahead"  value="2.0"/>
+    <param name="/gains/look_forward"  value="0.3"/>
+    <param name="/gains/proportional"  value="0.5"/>
+    <param name="/gains/differential"  value="0.4"/>
+    <param name="/gains/integral"  value="0.5"/>
+
+
+
+    <param name="/look_ahead_constant"  value="2.0"/>
+
+
+    <param name="/base_length"  value="2.9"/>
+
+    <param name="/time_step"  value="0.1"/>
+
+    <param name="/speed/max"  value="20.0"/>
+    <param name="/speed/min"  value="2.0"/>
+    <param name="/speed/target"  value="10.0"/>
+
+    <param name="/acceleration/max"  value="15.0"/>
+    <param name="/acceleration/min"  value="-15.0"/>
+    <param name="/plotting"  value="1"/>
+
+<launch>
