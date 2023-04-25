@@ -41,50 +41,75 @@ MAXACC = rospy.get_param("/acceleration/max")  # [m/ss] max acceleration
 MINACC = rospy.get_param("/acceleration/min")  # [m/ss] min acceleration
 
 
-def proportionalControl(
-    targetSpeed: float, currentSpeed: float, prevError: float
-) -> Tuple[float, float]:  # longitudinal controller
+class PidController:
     """
-    PID Controller for longitudinal control of the vehicle
-
-    Parameters
-    ----------
-    targetSpeed : float
-        target speed for the vehicle
-
-    currentSpeed : float
-        current speed of the vehicle
-
-    prevError : float
-        previous error between the target speed and the current speed
-
-    Returns
-    -------
-    acc : float
-        acceleration to be applied to the vehicle
-    """
-    error: float = targetSpeed - currentSpeed
-
-    acc: float = KP * error + KD * ((error - prevError) / DT) + KI * (prevError + (error * DT))
-
-    return acc, error
-
-
-def throttleControl(acc: float) -> float:
-    """
-    Throttle Control to convert acceleration to throttle,
-    to regulate acceleration to be within the limits [-1,1]
-
-    Parameters
-    ----------
-    acc : float
-        acceleration result from the PID controller
-
-    Returns
-    -------
-    throttle : float
-        throttle to be applied to the vehicle
+    PID Controller class for longitudinal control of the vehicle
     """
 
-    throttle: float = float(min(math.tanh(acc), math.tanh(MAXACC)))
-    return throttle
+    def __init__(self, error: float = 0.0, acc: float = 0.0, throttle: float = 0.0) -> None:
+        """
+        parameters
+        ----------
+        error : float
+            error between the target speed and the current speed
+
+        acc : float
+            acceleration to be applied to the vehicle
+
+        throttle : float
+            throttle to be applied to the vehicle
+        """
+        self.error: float = error
+        self.acc: float = acc
+        self.throttle: float = throttle
+
+    def proportionalControl(
+        self, targetSpeed: float, currentSpeed: float, prevError: float
+    ) -> Tuple[float, float]:  # longitudinal controller
+        """
+        PID Controller for longitudinal control of the vehicle
+
+        Parameters
+        ----------
+        targetSpeed : float
+            target speed for the vehicle
+
+        currentSpeed : float
+            current speed of the vehicle
+
+        prevError : float
+            previous error between the target speed and the current speed
+
+        Returns
+        -------
+        acc : float
+            acceleration to be applied to the vehicle
+        """
+        self.error = targetSpeed - currentSpeed
+
+        self.acc = (
+            KP * self.error
+            + KD * ((self.error - prevError) / DT)
+            + KI * (prevError + (self.error * DT))
+        )
+
+        return self.acc, self.error
+
+    def throttleControl(self, acc: float) -> float:
+        """
+        Throttle Control to convert acceleration to throttle,
+        to regulate acceleration to be within the limits [-1,1]
+
+        Parameters
+        ----------
+        acc : float
+            acceleration result from the PID controller
+
+        Returns
+        -------
+        throttle : float
+            throttle to be applied to the vehicle
+        """
+
+        self.throttle = float(min(math.tanh(acc), math.tanh(MAXACC)))
+        return self.throttle
