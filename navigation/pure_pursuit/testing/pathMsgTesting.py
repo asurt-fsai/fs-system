@@ -10,7 +10,7 @@ pathPub = rospy.Publisher("/path", Path, queue_size=10)
 path = Path()
 path.header.frame_id = "map"
 path.header.stamp = rospy.Time.now()
-
+point = path.poses
 pose = PoseStamped()
 pose.pose.position.x = 1.0
 pose.pose.position.y = 2.0
@@ -27,7 +27,7 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
             pathPub.publish(path)
             rospy.sleep(1)
-            print(type(path.poses[0]))
+            print((point[0].pose.position.x))
 
     except rospy.ROSInterruptException:
         pass
