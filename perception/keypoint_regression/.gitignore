@@ -1,0 +1,5 @@
+*.zip
+data
+data_1
+./plots
+/*/.ipynb_checkpoints

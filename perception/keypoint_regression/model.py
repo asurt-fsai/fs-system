@@ -1,4 +1,4 @@
-""" this file provdides the implementation for keypoint regression
+""" this file provides the implementation for keypoint regression model
 """
 # mypy: ignore-errors
 from typing import Union, Tuple
@@ -13,7 +13,7 @@ from torch import nn  # pylint: disable=import-error
 class KeypointNet(nn.Module):
     """keypoint regression class"""
 
-    def __init__(self, outKeypoints: int = 8):
+    def __init__(self, inputChannels, outKeypoints: int = 8):
         """constructor
 
         Parameters:
@@ -21,25 +21,27 @@ class KeypointNet(nn.Module):
             outKeypoints: Default=8.
         """
         super().__init__()
-
         self.outKeypoints = outKeypoints
-        self.convolutionalNet = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=(7, 5), stride=2, dilation=(4, 2)),
-            nn.ELU(),
+        self.convPart = nn.Sequential(
+            nn.Conv2d(inputChannels, 64, kernel_size=(7, 7), stride=3, dilation=(2, 2)),
+            nn.ReLU(),
             nn.BatchNorm2d(64),
             ResBlock(dims=64, kernelSize=(3, 3)),
-            nn.Conv2d(64, 128, kernel_size=(3, 3), stride=2, dilation=(4, 2)),
-            nn.ELU(),
+            nn.Conv2d(64, 128, kernel_size=(3, 3), padding=1),
+            nn.ReLU(),
             nn.BatchNorm2d(128),
             ResBlock(dims=128, kernelSize=(3, 3)),
-            nn.Conv2d(128, 256, kernel_size=(3, 3), dilation=(3, 2)),
-            nn.ELU(),
+            nn.Conv2d(128, 256, kernel_size=(3, 3), padding=1),
+            nn.ReLU(),
             nn.BatchNorm2d(256),
             ResBlock(dims=256, kernelSize=(3, 3)),
-            nn.Conv2d(256, 1, kernel_size=(3, 3)),
-            nn.ELU(),
+            nn.Conv2d(256, 512, kernel_size=(3, 3), padding=1),
+            nn.ReLU(),
+            nn.BatchNorm2d(512),
+            ResBlock(dims=512, kernelSize=(3, 3)),
         )
-        self.fcNet = nn.Linear(12 * 13, self.outKeypoints * 2)
+
+        self.fcNet = nn.Linear(512 * 23 * 23, self.outKeypoints * 2)
 
     def forward(self, img: torch.Tensor) -> torch.Tensor:
         """performs forward propagation
@@ -56,11 +58,11 @@ class KeypointNet(nn.Module):
             shape = (batch_size, self.outKeypoints) representing the keypoints
                 of the cone in the input image relative to the image frame
         """
-        img = self.convolutionalNet(img)
-        batchSize, *_ = img.shape
-        img = img.view(batchSize, -1)
+        # convolutional part
+        img = self.convPart(img)
+        # fc part
+        img = img.view(img.size(0), -1)
         img = self.fcNet(img)
-        img = nn.functional.relu(img)
 
         return img
 
@@ -82,15 +84,17 @@ class ResBlock(nn.Module):
         """
         super().__init__()
         if isinstance(kernelSize, Tuple):
-            padding = (int(kernelSize[0] // 2) * 2, int(kernelSize[1] // 2) * 2)
+            padding = (int((kernelSize[0] - 1) / 2), int((kernelSize[1] - 1) / 2))
         else:
-            padding = int(kernelSize // 2) * 2
+            padding = int((kernelSize - 1) / 2)
 
         self.model = nn.Sequential(
-            nn.Conv2d(dims, dims, kernel_size=kernelSize, padding=padding, stride=1),
+            nn.Conv2d(in_channels=dims, out_channels=dims, kernel_size=kernelSize, padding=padding),
             nn.ReLU(),
-            nn.Conv2d(dims, dims, kernel_size=kernelSize, padding=padding, stride=1),
+            # nn.BatchNorm2d(dims),
+            nn.Conv2d(in_channels=dims, out_channels=dims, kernel_size=kernelSize, padding=padding),
             nn.ReLU(),
+            # nn.BatchNorm2d(dims),
         )
 
     def forward(self, featureVector: torch.Tensor) -> torch.Tensor:
@@ -107,21 +111,21 @@ class ResBlock(nn.Module):
             represents the features vector output
             of the resblock
         """
-        return self.model(featureVector)
+        out = self.model(featureVector)
+        return out + featureVector
 
 
 def miniTest():
     """tests little tests to the module"""
-    model = KeypointNet()
+    model = KeypointNet(1, 8)
     model = model.cuda()
 
     total = 0
-    ITERATIONS = 1000
+    ITERATIONS = 100
     model.eval()
 
     for _ in range(ITERATIONS):
-
-        imagesBatch = torch.randn(40, 3, 80, 50)  # pylint: disable=no-member
+        imagesBatch = torch.randn(80, 1, 80, 80)  # pylint: disable=no-member
         time1 = datetime.datetime.now()
 
         # put images on cuda
@@ -130,7 +134,7 @@ def miniTest():
 
         # computing time difference and calculating average execution time
         time2 = datetime.datetime.now()
-        total += (time2 - time1).microseconds / 1000
+        total += (time2 - time1).microseconds * 1e-3
 
     print(total / ITERATIONS, "ms")
 
