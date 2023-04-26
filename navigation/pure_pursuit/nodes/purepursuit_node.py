@@ -37,13 +37,13 @@ def main() -> None:
     position = Position(0.0, 0.0)
     state = State(position, 0.0)
     rospy.Subscriber("/state", Pose, callback=state.update)
-    rospy.Subscriber("/waypoints", Path, callback=waypoints.add)
+    rospy.Subscriber("/pathplanning/waypoints", Path, callback=waypoints.add)
 
     controlAction = AckermannDrive()
     pidController = PidController()
     rate = rospy.Rate(10)
     targetInd = 0
-    prevError = 0
+    prevError = 0.0
     while not rospy.is_shutdown():
 
         delta, targetInd = purepursuitSteercontrol(state, waypoints, targetInd)

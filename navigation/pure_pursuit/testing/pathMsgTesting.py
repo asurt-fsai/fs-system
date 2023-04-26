@@ -27,7 +27,7 @@ if __name__ == "__main__":
         while not rospy.is_shutdown():
             pathPub.publish(path)
             rospy.sleep(1)
-            print((point[0].pose.position.x))
+            print((path.poses) == [])
 
     except rospy.ROSInterruptException:
         pass

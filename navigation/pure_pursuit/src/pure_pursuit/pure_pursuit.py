@@ -231,15 +231,15 @@ def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> T
     trajY: float = 0
     if pind >= ind:
         ind = pind
+    if trajectory.points != []:  # trajectory.points is list type
+        if ind < len(trajectory.points):
+            trajX = trajectory.points[ind].pose.position.x
+            trajY = trajectory.points[ind].pose.position.y
 
-    if ind < len(trajectory.points):
-        trajX = trajectory.points[ind].pose.position.x
-        trajY = trajectory.points[ind].pose.position.y
-
-    else:  # toward goal
-        trajX = trajectory.points[-1].pose.position.x
-        trajY = trajectory.points[-1].pose.position.y
-        ind = len(trajectory.points) - 1
+        else:  # toward goal
+            trajX = trajectory.points[-1].pose.position.x
+            trajY = trajectory.points[-1].pose.position.y
+            ind = len(trajectory.points) - 1
 
     alpha: float = math.atan2(trajY - state.rearY, trajX - state.rearX) - state.yaw
 
