@@ -138,6 +138,7 @@ class WayPoints:
             waypoint of the vehicle received from the path planner
         """
         self.waypoints = waypointsMsg
+        self.firstLoop = False
         # self.xlist = waypoints.poses[0].pose.position.x
         # self.xList.append(waypoints.position.x)
         # self.yList.append(waypoints.position.y)
