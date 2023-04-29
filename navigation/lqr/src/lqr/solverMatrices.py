@@ -55,8 +55,8 @@ class SolverMatrices:  # pylint: disable=too-few-public-methods
 
         for i in range(track.noSplines):
             extMatC[i, i * 4 + 2] = 2  # 2 * c_ix = D_x * x
-        # ax=b --> (track.alpha)*(T_C) = (extMatC)
-        tempTC = scipy.sparse.linalg.spsolve(track.alpha.T, extMatC.T)
+        # ax=b --> (track.trackCoeffs.alpha)*(T_C) = (extMatC)
+        tempTC = scipy.sparse.linalg.spsolve(track.trackCoeffs.alpha.T, extMatC.T)
         self.matT[0] = tempTC.T
         # set up matMX and matMY matrices
         matMX = np.zeros((track.noSplines * 4, track.noPoints))
@@ -66,17 +66,17 @@ class SolverMatrices:  # pylint: disable=too-few-public-methods
             j = i * 4
 
             if i < track.noPoints - 1:
-                matMX[j, i] = track.normVectors[i, 0]
-                matMX[j + 1, i + 1] = track.normVectors[i + 1, 0]
+                matMX[j, i] = track.trackCoeffs.normVectors[i, 0]
+                matMX[j + 1, i + 1] = track.trackCoeffs.normVectors[i + 1, 0]
 
-                matMY[j, i] = track.normVectors[i, 1]
-                matMY[j + 1, i + 1] = track.normVectors[i + 1, 1]
+                matMY[j, i] = track.trackCoeffs.normVectors[i, 1]
+                matMY[j + 1, i + 1] = track.trackCoeffs.normVectors[i + 1, 1]
             else:
-                matMX[j, i] = track.normVectors[i, 0]
-                matMX[j + 1, 0] = track.normVectors[0, 0]  # close spline
+                matMX[j, i] = track.trackCoeffs.normVectors[i, 0]
+                matMX[j + 1, 0] = track.trackCoeffs.normVectors[0, 0]  # close spline
 
-                matMY[j, i] = track.normVectors[i, 1]
-                matMY[j + 1, 0] = track.normVectors[0, 1]
+                matMY[j, i] = track.trackCoeffs.normVectors[i, 1]
+                matMY[j + 1, 0] = track.trackCoeffs.normVectors[0, 1]
 
         # set up self.matQ[0] and self.matQ[1] matrices including the point coordinate information
         self.matQ[0] = np.zeros((track.noSplines * 4, 1))
@@ -99,7 +99,7 @@ class SolverMatrices:  # pylint: disable=too-few-public-methods
                 self.matQ[1][j + 1, 0] = track.path[0, 1]
 
         # set up self.matP[0], self.matP[1], self.matP[2] matrices
-        tempTB = scipy.sparse.linalg.spsolve(track.alpha.T, extMatB.T)
+        tempTB = scipy.sparse.linalg.spsolve(track.trackCoeffs.alpha.T, extMatB.T)
         matTB = tempTB.T
         self.matPrime = np.array([None, None, None, None, None])
         self.matPrime[0] = np.eye(track.noPoints, track.noPoints) * np.matmul(matTB, self.matQ[0])

@@ -6,7 +6,7 @@ import rospy
 import numpy as np
 import numpy.typing as npt
 from nav_msgs.msg import Path
-from lqr import SmoothTrack, OptimizedTrack, SolverMatrices, OriginalTrack
+from lqr import SmoothTrack, OptimizedTrack, SolverMatrices
 
 TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/handler/track_width")
 SAFETY_MARGIN: float = rospy.get_param("/navigation/lqr/handler/safety_margin")
@@ -22,10 +22,9 @@ class Track:
     """
 
     def __init__(self, receivedPathMsg: Path):
-        self.receivedPathMsg = receivedPathMsg
-        self.receivedPath = self.pathToNumpy(self.receivedPathMsg)
+        self.receivedPath = self.pathToNumpy(receivedPathMsg)
         self.path = self.addWidth(self.receivedPath)
-        self.original, self.smooth, self.solveMatrices, self.optimized = self.handler()
+        self.smooth, self.solveMatrices, self.optimized = self.handler()
 
     def pathToNumpy(self, path: Path) -> npt.NDArray[np.float64]:
         """
@@ -75,13 +74,12 @@ class Track:
         wideTrack = np.reshape(path, (-1, 4))
         return wideTrack
 
-    def handler(self) -> Tuple[OriginalTrack, SmoothTrack, SolverMatrices, OptimizedTrack]:
+    def handler(self) -> Tuple[SmoothTrack, SolverMatrices, OptimizedTrack]:
         """
         This function go through all the track processing stages
         """
-        original = OriginalTrack(self.path)
-        smooth = SmoothTrack(original)
+        smooth = SmoothTrack(self.path)
         solveMatrices = SolverMatrices(smooth)
-        optimized = OptimizedTrack(original, smooth)
+        optimized = OptimizedTrack(smooth)
 
-        return original, smooth, solveMatrices, optimized
+        return smooth, solveMatrices, optimized

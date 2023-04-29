@@ -8,11 +8,11 @@ It consists of 3 steps:
 """
 import math
 from typing import Tuple, List
+from dataclasses import dataclass
 from scipy import interpolate, optimize, spatial
 import rospy
 import numpy.typing as npt
 import numpy as np
-from lqr import OriginalTrack
 
 K_REG: int = rospy.get_param("/navigation/lqr/prepare_track/k_reg")
 S_REG: int = rospy.get_param("/navigation/lqr/prepare_track/s_reg")
@@ -22,9 +22,26 @@ TRACK_WIDTH: float = rospy.get_param("/navigation/lqr/handler/track_width")
 SAFETY_MARGIN: float = rospy.get_param("/navigation/lqr/handler/safety_margin")
 
 
+@dataclass
+class SmoothTrackCoeffs:
+    """
+    This class contains the smooth track coeffecients and the normal vectors.
+    xCoeff: The x-coefficients of the track spline
+    yCoeff: The y-coefficients of the track spline
+    alpha: The alpha values of the smooth track
+    normVectors: The normal vectors of the smooth path
+    """
+
+    xCoeff: npt.NDArray[np.float64] = np.array(None)
+    yCoeff: npt.NDArray[np.float64] = np.array(None)
+    alpha: npt.NDArray[np.float64] = np.array(None)
+    normVectors: npt.NDArray[np.float64] = np.array(None)
+
+
 class SmoothTrack:
     """
     This class contains the smoothed track data.
+    refDistCum: The cumulative distance along the original ref path.
     path: Coordinate points of the + right and left widths.
     alpha: The alpha values for the track points
     xCoeff: The x coefficients for the splines
@@ -34,26 +51,24 @@ class SmoothTrack:
     noSplines: The number of splines in the track
     """
 
-    def __init__(self, originalTrack: OriginalTrack) -> None:
+    def __init__(self, originalPath: npt.NDArray[np.float64]) -> None:
+        self.refDistCum: npt.NDArray[np.float64] = self.calcDistCum(originalPath)
         self.path: npt.NDArray[np.float64] = np.array(None)
-        self.alpha: npt.NDArray[np.float64] = np.array(None)
-        self.xCoeff: npt.NDArray[np.float64] = np.array(None)
-        self.yCoeff: npt.NDArray[np.float64] = np.array(None)
-        self.normVectors: npt.NDArray[np.float64] = np.array(None)
+        self.trackCoeffs: SmoothTrackCoeffs = SmoothTrackCoeffs()
         self.noPoints: int = 0
 
-        self.originalToSmooth(originalTrack)
+        self.originalToSmooth(originalPath)
 
     def originalToSmooth(
         self,
-        refTrack: OriginalTrack,
+        refTrack: npt.NDArray[np.float64],
     ) -> None:
         """
         Prepares the track
 
         Parameters
         ----------
-        refTrack: OriginalTrack
+        refTrack: originalPath
             The original input track.
 
         Return
@@ -66,16 +81,16 @@ class SmoothTrack:
         # calculate splines
         refPathInterpClosed = np.vstack((self.path[:, :2], self.path[0, :2]))
         (
-            self.xCoeff,
-            self.yCoeff,
-            self.alpha,
-            self.normVectors,
+            self.trackCoeffs.xCoeff,
+            self.trackCoeffs.yCoeff,
+            self.trackCoeffs.alpha,
+            self.trackCoeffs.normVectors,
         ) = self.calcSplines(path=refPathInterpClosed)
 
         self.noPoints = self.path.shape[0]
         self.noSplines = self.noPoints
 
-    def splineApprox(self, track: OriginalTrack) -> npt.NDArray[np.float64]:
+    def splineApprox(self, track: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
         """
         Smooth spline approximation for track
 
@@ -102,7 +117,7 @@ class SmoothTrack:
 
         # calculate total length of smooth approximate spline
         # based on euclidian distance at every 0.25m
-        noPointsLenCalc = math.ceil(track.distCum[-1]) * 4
+        noPointsLenCalc = math.ceil(self.refDistCum[-1]) * 4
         smoothPath = np.array(
             interpolate.splev(np.linspace(0.0, 1.0, noPointsLenCalc), pathSpline)
         ).T  # Temp smooth path
@@ -119,17 +134,17 @@ class SmoothTrack:
 
         # find the closest points on the B spline to input points
         distsClosest = np.zeros(
-            track.noPoints
+            track.shape[0]
         )  # contains (min) distances between input points and spline
-        pointsClosest = np.zeros((track.noPoints, 2))  # contains the closest points on the spline
-        tGlobClosest = np.zeros(track.noPoints)  # containts the tGlob values for closest points
-        for i in range(track.noPoints):
+        pointsClosest = np.zeros((track.shape[0], 2))  # contains the closest points on the spline
+        tGlobClosest = np.zeros(track.shape[0])  # containts the tGlob values for closest points
+        for i in range(track.shape[0]):
             # get tGlob value for the point on the B spline
             # with a minimum distance to the input points
             tGlobClosest[i] = optimize.fmin(
                 self.distToP,
-                x0=track.distCum[i] / track.distCum[-1],
-                args=(pathSpline, track.path[i, :2]),
+                x0=self.refDistCum[i] / self.refDistCum[-1],
+                args=(pathSpline, track[i, :2]),
                 disp=False,
             )
 
@@ -138,17 +153,17 @@ class SmoothTrack:
 
             # save distance from closest point to input point
             distsClosest[i] = math.sqrt(
-                math.pow(pointsClosest[i, 0] - track.path[i, 0], 2)
-                + math.pow(pointsClosest[i, 1] - track.path[i, 1], 2)
+                math.pow(pointsClosest[i, 0] - track[i, 0], 2)
+                + math.pow(pointsClosest[i, 1] - track[i, 1], 2)
             )
 
         # get side of smoothed track compared to the inserted track
-        sides = np.zeros(track.noPoints - 1)
+        sides = np.zeros(track.shape[0] - 1)
 
-        for i in range(track.noPoints - 1):
+        for i in range(track.shape[0] - 1):
             sides[i] = self.sideofLine(
-                lineStart=track.path[i, :2],
-                lineEnd=track.path[i + 1, :2],
+                lineStart=track[i, :2],
+                lineEnd=track[i + 1, :2],
                 pointZ=pointsClosest[i],
             )
 
@@ -156,8 +171,8 @@ class SmoothTrack:
 
         # calculate new track widths on the basis of the new reference line
         # but not interpolated to new stepsize yet
-        trackWidthRightInterp = track.path[:, 2] + sides * distsClosest
-        trackWidthLeftInterp = track.path[:, 3] - sides * distsClosest
+        trackWidthRightInterp = track[:, 2] + sides * distsClosest
+        trackWidthLeftInterp = track[:, 3] - sides * distsClosest
 
         # interpolate track widths after smoothing (linear)
         trackWidthRightInterp = np.interp(
@@ -169,7 +184,9 @@ class SmoothTrack:
 
         return np.column_stack((smoothPath, trackWidthRightInterp[:-1], trackWidthLeftInterp[:-1]))
 
-    def interpTrack(self, originalTrack: OriginalTrack, stepsize: float) -> npt.NDArray[np.float64]:
+    def interpTrack(
+        self, originalPath: npt.NDArray[np.float64], stepsize: float
+    ) -> npt.NDArray[np.float64]:
         """
         Interpolate track points linearly to a new stepsize.
 
@@ -185,28 +202,20 @@ class SmoothTrack:
         interpTrack: np.array, shape=(N,4)
             interpolated track [x,y,right width,left width]
         """
-        # create closed track
-        # track = np.vstack((track, track[0]))
-        # sum up total distance (from start) to every element
-        distsCumulative = np.cumsum(
-            np.sqrt(np.sum(np.power(np.diff(originalTrack.path[:, :2], axis=0), 2), axis=1))
-        )
-        distsCumulative = np.insert(distsCumulative, 0, 0.0)
-
         # calculate desired lengths using specified stepsize (+1 because last element is included)
-        noPointsInterp = math.ceil(distsCumulative[-1] / stepsize) + 1
-        distsInterp = np.linspace(0.0, distsCumulative[-1], noPointsInterp)
+        noPointsInterp = math.ceil(self.refDistCum[-1] / stepsize) + 1
+        distsInterp = np.linspace(0.0, self.refDistCum[-1], noPointsInterp)
 
         # interpolate closed track points
-        trackInterp = np.zeros((noPointsInterp, originalTrack.path.shape[1]))
+        trackInterp = np.zeros((noPointsInterp, originalPath.shape[1]))
 
-        trackInterp[:, 0] = np.interp(distsInterp, distsCumulative, originalTrack.path[:, 0])
-        trackInterp[:, 1] = np.interp(distsInterp, distsCumulative, originalTrack.path[:, 1])
-        trackInterp[:, 2] = np.interp(distsInterp, distsCumulative, originalTrack.path[:, 2])
-        trackInterp[:, 3] = np.interp(distsInterp, distsCumulative, originalTrack.path[:, 3])
+        trackInterp[:, 0] = np.interp(distsInterp, self.refDistCum, originalPath[:, 0])
+        trackInterp[:, 1] = np.interp(distsInterp, self.refDistCum, originalPath[:, 1])
+        trackInterp[:, 2] = np.interp(distsInterp, self.refDistCum, originalPath[:, 2])
+        trackInterp[:, 3] = np.interp(distsInterp, self.refDistCum, originalPath[:, 3])
 
-        if originalTrack.path.shape[1] == 5:
-            trackInterp[:, 4] = np.interp(distsInterp, distsCumulative, originalTrack.path[:, 4])
+        if originalPath.shape[1] == 5:
+            trackInterp[:, 4] = np.interp(distsInterp, self.refDistCum, originalPath[:, 4])
 
         return trackInterp[:-1]
 
@@ -300,10 +309,10 @@ class SmoothTrack:
         normVec = np.stack((yCoeffs[:, 1], -xCoeffs[:, 1]), axis=1)
 
         # normalize normal vectors
-        self.normVectors = (
+        self.trackCoeffs.normVectors = (
             np.expand_dims(1.0 / np.sqrt(np.sum(np.power(normVec, 2), axis=1)), axis=1) * normVec
         )
-        return xCoeffs, yCoeffs, splineAlpha, self.normVectors
+        return xCoeffs, yCoeffs, splineAlpha, self.trackCoeffs.normVectors
 
     def distToP(
         self, tGlob: npt.NDArray[np.float64], path: List[float], pathPoint: npt.NDArray[np.float64]
@@ -359,6 +368,25 @@ class SmoothTrack:
             - (lineEnd[1] - lineStart[1]) * (pointZ[0] - lineStart[0])
         )
         return side
+
+    def calcDistCum(self, path: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+        """
+        Calculates the cumulative distance of each point of the input path
+
+        Parameters
+        ----------
+        self
+
+        Returns
+        -------
+        distsCumulative: np.array, shape=(N,1)
+            Cumulative distances of the points.
+        """
+        distsCumulative: npt.NDArray[np.float64] = np.cumsum(
+            np.sqrt(np.sum(np.power(np.diff(path[:, :2], axis=0), 2), axis=1))
+        )
+        distsCumulative = np.insert(distsCumulative, 0, 0.0)
+        return distsCumulative
 
     if __name__ == "__main__":
         pass

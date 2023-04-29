@@ -13,7 +13,7 @@ from scipy import interpolate
 import numpy.typing as npt
 import numpy as np
 from nav_msgs.msg import Path
-from lqr import OriginalTrack, SmoothTrack, SolverMatrices
+from lqr import SmoothTrack, SolverMatrices
 
 
 STEPSIZE_INTERP = rospy.get_param("/navigation/lqr/raceline/stepsize_interp")
@@ -58,17 +58,15 @@ class OptimizedTrack:
     trackCoeffs: The track coeffecients
     bounds: The track bounds
     smoothTrack: The smooth track
-    originalTrack: The original track
     solverMat: The solver matrices
 
     """
 
-    def __init__(self, originalTrack: OriginalTrack, smoothTrack: SmoothTrack):
+    def __init__(self, smoothTrack: SmoothTrack):
         self.interpRaceline: npt.NDArray[np.float64] = np.array(None)
         self.trackCoeffs: TrackCoeffs = TrackCoeffs()
         self.bounds: TrackBounds = TrackBounds()
         self.smoothTrack: SmoothTrack = smoothTrack
-        self.originalTrack: OriginalTrack = originalTrack
         self.solverMat: SolverMatrices = SolverMatrices(self.smoothTrack)
         self.optimizeMinCurve()
         self.createRaceLine()
@@ -208,9 +206,10 @@ class OptimizedTrack:
         # calculate raceline on the basis of the optimized alpha values
         print("refline shape: ", refline.shape)
         print("alpha shape: ", self.trackCoeffs.yCoeff.shape)
-        print("normVectors shape: ", self.smoothTrack.normVectors.shape)
+        print("normVectors shape: ", self.smoothTrack.trackCoeffs.normVectors.shape)
         raceline = (
-            refline + np.expand_dims(self.trackCoeffs.yCoeff, 1) * self.smoothTrack.normVectors
+            refline
+            + np.expand_dims(self.trackCoeffs.yCoeff, 1) * self.smoothTrack.trackCoeffs.normVectors
         )
 
         # calculate new splines on the basis of the raceline
@@ -367,14 +366,18 @@ class OptimizedTrack:
         trackLowBound: np.ndarray, shape=(n, 2)
             Lower bound of the track
         """
-        trackUpBound = self.smoothTrack.path[:, :2] + self.smoothTrack.normVectors * np.expand_dims(
+        trackUpBound = self.smoothTrack.path[
+            :, :2
+        ] + self.smoothTrack.trackCoeffs.normVectors * np.expand_dims(
             self.smoothTrack.path[:, 2], 1
         )
         trackUpBound = np.vstack((trackUpBound, trackUpBound[0]))
 
         trackLowBound = self.smoothTrack.path[
             :, :2
-        ] - self.smoothTrack.normVectors * np.expand_dims(self.smoothTrack.path[:, 3], 1)
+        ] - self.smoothTrack.trackCoeffs.normVectors * np.expand_dims(
+            self.smoothTrack.path[:, 3], 1
+        )
         trackLowBound = np.vstack((trackLowBound, trackLowBound[0]))
         return (trackUpBound, trackLowBound)
 
