@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find lqr)/launch/lqr_params.launch" />
+	<node name = "optRaceLine" pkg = "lqr" type = "lqr_node.py" output="screen"/>
+</launch>
