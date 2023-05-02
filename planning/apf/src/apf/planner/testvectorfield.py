@@ -11,6 +11,7 @@ import rospy
 from asurt_msgs.msg import LandmarkArray
 from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
+from visualization_msgs.msg import Marker, MarkerArray
 
 
 class APF:  # pylint: disable=too-many-instance-attributes
@@ -200,9 +201,13 @@ class APF:  # pylint: disable=too-many-instance-attributes
             nearestBlue, nearestToBlueObstacle = self.nearest(self.obsBlue)
 
             nearestYellow, nearestToYellowObstacle = self.nearest(self.obsYellow)
+            # print(
+            #     "self.length(nearestBlue - nearestYellow)", self.length(nearestBlue - nearestYellow)
+            # )
+            # print("yellow.x,yellow.y", nearestYellow[0], nearestYellow[1])
 
             if (
-                self.length(nearestBlue - nearestYellow) <= 5.5
+                self.length(nearestBlue - nearestYellow) <= 4.7
                 and self.currentPosition[0] < ((nearestBlue + nearestYellow) / 2)[0]
             ):
                 print("two sides")
@@ -214,7 +219,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
             else:
                 self.flag = True
                 if (self.length(nearestToBlueObstacle) < self.length(nearestToYellowObstacle)) and (
-                    self.length(nearestBlue - nearestYellow) > 5.5
+                    self.length(nearestBlue - nearestYellow) > 4.7
                 ):
                     # this means that yellow/blue are from different tracks will be deleted
                     # will delete yellow
@@ -224,7 +229,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
 
                 elif (
                     self.length(nearestToBlueObstacle) > self.length(nearestToYellowObstacle)
-                ) and (self.length(nearestBlue - nearestYellow) > 5.5):
+                ) and (self.length(nearestBlue - nearestYellow) > 4.7):
                     yellow = True
 
                 if self.plot is True:
@@ -236,10 +241,10 @@ class APF:  # pylint: disable=too-many-instance-attributes
 
         if self.flag is True or oneSide:
             if self.flag and not oneSide:
-                xCoordsBlue = [obsBlue[0] for obsBlue in self.obsBlue]
-                xCoordsYellow = [obsYellow[0] for obsYellow in self.obsYellow]
-                if np.all(self.currentPosition[0] > xCoordsBlue) or np.all(
-                    self.currentPosition[0] > xCoordsYellow
+                xCoordsBlue = np.array([obsBlue[0] for obsBlue in self.obsBlue])
+                xCoordsYellow = np.array([obsYellow[0] for obsYellow in self.obsYellow])
+                if np.all(self.currentPosition[0] > 1.2 * xCoordsBlue) or np.all(
+                    self.currentPosition[0] > 1.2 * xCoordsYellow
                 ):
                     print("passed all blue/yellow cones")
                     # passed all blue/yellow cones ,only yellow/blue cones left
@@ -296,8 +301,8 @@ class APF:  # pylint: disable=too-many-instance-attributes
         rep : npt.NDArray[np.float64]
             The repulsive force vector.
         """
-        rep = np.array([0.0, 0.0])
-        total = np.array([0.0, 0.0])
+        rep = np.zeros(2, dtype=np.float128)
+        total = np.zeros(2, dtype=np.float128)
 
         for obstacle in self.obstacles:
             obsToRob = self.currentPosition - obstacle
@@ -340,7 +345,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         """
         Plots the path plan.
         """
-        resultantForceVector = np.array([0.0, 0.0])
+        resultantForceVector = np.zeros(2, dtype=np.float128)
         if self.plot is True:
             fig4 = plt.figure(4)
             start = (0, 0)
@@ -366,13 +371,23 @@ class APF:  # pylint: disable=too-many-instance-attributes
                     subplot.plot(obstacle[0], obstacle[1], "xk")
 
         while self.iterations < self.maxIterations:
-            if self.oneSide is True and not self.passedCones:
+            if self.oneSide or (self.passedCones and self.oneSide):
                 print("oneside")
-                self.pNode = 2.0
-                resultantForceVector = 0.000000000000000001 + self.repulsion() ** 3
+                self.pNode = 1.8
+
+                attractive = self.newAttractive()
+                attractiveNorm = np.linalg.norm(attractive)  # compute the norm of the vector
+                if attractiveNorm > 0:
+                    attractiveUnit = attractive / attractiveNorm  # normalize the vector
+                else:
+                    attractiveUnit = np.zeros(2)  # handle the case where the vector is zero
+
+                resultantForceVector = attractiveUnit + self.repulsion()
+
+                # resultantForceVector = 0.000000000000000001 + self.repulsion() ** 3
 
             else:
-                resultantForceVector = (self.newAttractive()) + self.repulsion()
+                resultantForceVector = self.newAttractive() + self.repulsion()
 
             self.currentPosition += (
                 np.array(
@@ -385,7 +400,14 @@ class APF:  # pylint: disable=too-many-instance-attributes
             )
             self.iterations += 1
             # extend / append
-            np.append(self.path, np.array([self.currentPosition[0], self.currentPosition[1]]))
+
+            self.path = np.vstack(
+                (
+                    self.path,
+                    np.array([self.currentPosition[0], self.currentPosition[1]]),
+                )
+            )
+
             if self.plot is True:
                 subplot.plot(self.currentPosition[0], self.currentPosition[1], ".b")
                 fig4.canvas.draw()
@@ -394,47 +416,78 @@ class APF:  # pylint: disable=too-many-instance-attributes
         self.isPathPlanSuccess = True
 
 
-def perceptionCallback(landmarkArray: npt.NDArray[np.float64]) -> None:
-    """
-    This callback function is called whenever a new message of type LandmarkArray is
-    received by the subscriber.
-
-    Parameters
-    ----------
-    LandmarkArray : LandmarkArray
-        The message received by the subscriber.
-
-    Returns
-    -------
-    None.
-
-    """
+def marker_callback(msg):
     global YELLOW_CONES, BLUE_CONES, ALL_CONES
-    YELLOW_CONES = np.array([])
-    BLUE_CONES = np.array([])
-    ALL_CONES = np.array([])
-    for landmark in landmarkArray.landmarks:
-        if landmark.type == 0:
-            List(BLUE_CONES).append(np.array([landmark.position.x, landmark.position.y]))
-            List(ALL_CONES).append(np.array([landmark.position.x, landmark.position.y]))
-        elif landmark.type == 1:
-            List(YELLOW_CONES).append(np.array([landmark.position.x, landmark.position.y]))
-            List(ALL_CONES).append(np.array([landmark.position.x, landmark.position.y]))
-        elif landmark.type == 2:
-            List(YELLOW_CONES).append(np.array([landmark.position.x, landmark.position.y]))
-            List(ALL_CONES).append(np.array([landmark.position.x, landmark.position.y]))
+    # print(len(msg.markers))
+    YELLOW_CONES = []
+    BLUE_CONES = []
+    ALL_CONES = []
+    for marker in msg.markers:
+        # print("marker",marker.color)
+        # print(marker.pose)
+        r, g, b = marker.color.r, marker.color.g, marker.color.b
+        # print(r,g,b)
+        x, y = marker.pose.position.x, marker.pose.position.y
+        if r == 1 and g == 1 and b == 0:
+            YELLOW_CONES.append([x, y])
+            ALL_CONES.append([x, y])
+        elif r == 0 and b == 1:
+            BLUE_CONES.append([x, y])
+            ALL_CONES.append([x, y])
+    # time.sleep(0.1)
 
 
-YELLOW_CONES: npt.NDArray[np.float64] = np.array([])
-BLUE_CONES: npt.NDArray[np.float64] = np.array([])
-ALL_CONES: npt.NDArray[np.float64] = np.array([])
+BLUE_CONES = []
+ALL_CONES = []
+YELLOW_CONES = []
+rospy.init_node("object_list_to_array")
 
-rospy.init_node("apf_test")
-# for rosbag
-rospy.Subscriber("/perception/smornn/detected", LandmarkArray, perceptionCallback, queue_size=10)
+object_list_sub = rospy.Subscriber(
+    "/carmaker/ObjectList", MarkerArray, marker_callback, queue_size=10
+)
+waypointsPub = rospy.Publisher("/pathplanning/waypoints", Path, queue_size=10)
+
+
+# def perceptionCallback(landmarkArray: npt.NDArray[np.float64]) -> None:
+#     """
+#     This callback function is called whenever a new message of type LandmarkArray is
+#     received by the subscriber.
+
+#     Parameters
+#     ----------
+#     LandmarkArray : LandmarkArray
+#         The message received by the subscriber.
+
+#     Returns
+#     -------
+#     None.
+
+#     """
+#     global YELLOW_CONES, BLUE_CONES, ALL_CONES
+#     YELLOW_CONES = []
+#     BLUE_CONES = []
+#     ALL_CONES = []
+#     for landmark in landmarkArray.landmarks:
+#         if landmark.type == 0:
+#             BLUE_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+#         elif landmark.type == 1:
+#             YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+#         elif landmark.type == 2:
+#             YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+
+
+# YELLOW_CONES: npt.NDArray[np.float64] = []
+# BLUE_CONES: npt.NDArray[np.float64] = []
+# ALL_CONES: npt.NDArray[np.float64] = []
+
+# rospy.init_node("apf_test")
+# # for rosbag
+# rospy.Subscriber("/perception/smornn/detected", LandmarkArray, perceptionCallback, queue_size=10)
 
 # rospy.Subscriber("/cones_map", LandmarkArray, perceptionCallback, queue_size=10)
-waypointsPub = rospy.Publisher("/pathplanning/waypoints", Path, queue_size=10)
 
 
 def numpyToPath(pathArray: npt.NDArray[np.float64]) -> Path:
@@ -464,23 +517,6 @@ def numpyToPath(pathArray: npt.NDArray[np.float64]) -> Path:
 if __name__ == "__main__":
     startTest, goalTest = (0, 0), (0, 0)
     while not rospy.is_shutdown():
-        ALL_CONES = np.array(
-            [
-                [0.09293468, 1.73253326],
-                [0.1952141, -1.36600503],
-                [1.9995906, -3.29901956],
-                [2.70648805, 0.35663739],
-                [4.94527198, -1.76515908],
-            ]
-        )
-        YELLOW_CONES = np.array([[0.1952141, -1.36600503], [1.9995906, -3.29901956]])
-        BLUE_CONES = np.array(
-            [
-                [0.09293468, 1.73253326],
-                [2.70648805, 0.35663739],
-                [4.94527198, -1.76515908],
-            ]
-        )
         if len(ALL_CONES) > 0:
             apfTest = APF(
                 (0, 0),
@@ -488,7 +524,7 @@ if __name__ == "__main__":
                 ALL_CONES,
                 3.5,
                 30,
-                0.9,
+                1.3,
                 0.2,
                 25,
                 0.2,
@@ -500,8 +536,7 @@ if __name__ == "__main__":
 
             path = Path()
             npath = np.array(apfTest.path)
-            test_array = np.array([[0, 1], [1, 1], [2, 1]])
             path = numpyToPath(npath)
-            print("Pathshape: ", npath.shape)
-            print("Path: ", path)
-            # without colors
+            waypointsPub.publish(path)
+
+        # print(path)
