@@ -48,7 +48,7 @@ def train(trainingParameters: TrainingParameters):  # pylint: disable=too-many-l
     epochs = trainingParameters.epochs
     printEvery = trainingParameters.printEvery
     savedModelName = trainingParameters.savedModelName
-    scheduler = trainingParameters.scTrainingParameterss.validTracker
+    scheduler = trainingParameters.scheduler
     trainingTracker = trainingParameters.trainingTracker
     validTracker = trainingParameters.validTracker
 
