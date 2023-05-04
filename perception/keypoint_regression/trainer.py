@@ -110,7 +110,7 @@ def train(trainingParameters: TrainingParameters):  # pylint: disable=too-many-l
         if validloss < bestValidLoss:
             print(
                 f"Validation loss decreased ({bestValidLoss:.6f}"
-                " --> {validloss:.6f}).  Saving model ..."
+                f" --> {validloss:.6f}).  Saving model ..."
             )
             bestValidLoss = validloss
             torch.save(model.state_dict(), savedModelName)
