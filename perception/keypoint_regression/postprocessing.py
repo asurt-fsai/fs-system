@@ -16,8 +16,6 @@ class PostProcessor:
     ) -> npt.NDArray:
         """
         calls the postProcessingStep function
-
-
         """
         self.postProcessingStep(keyPointArray, imageSize, topLeftBbox)
 

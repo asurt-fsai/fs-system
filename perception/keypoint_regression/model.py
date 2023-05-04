@@ -3,11 +3,10 @@
 # mypy: ignore-errors
 from typing import Union, Tuple
 
-import datetime
-
 # pylint: disable=too-few-public-methods
 import torch  # pylint: disable=import-error
 from torch import nn  # pylint: disable=import-error
+from torch.nn.functional import sigmoid
 
 
 class KeypointNet(nn.Module):
@@ -64,7 +63,7 @@ class KeypointNet(nn.Module):
         img = img.view(img.size(0), -1)
         img = self.fcNet(img)
 
-        return img
+        return sigmoid(img)
 
 
 class ResBlock(nn.Module):
@@ -113,31 +112,3 @@ class ResBlock(nn.Module):
         """
         out = self.model(featureVector)
         return out + featureVector
-
-
-def miniTest():
-    """tests little tests to the module"""
-    model = KeypointNet(1, 8)
-    model = model.cuda()
-
-    total = 0
-    ITERATIONS = 100
-    model.eval()
-
-    for _ in range(ITERATIONS):
-        imagesBatch = torch.randn(80, 1, 80, 80)  # pylint: disable=no-member
-        time1 = datetime.datetime.now()
-
-        # put images on cuda
-        imagesBatch = imagesBatch.cuda()
-        _ = model(imagesBatch)
-
-        # computing time difference and calculating average execution time
-        time2 = datetime.datetime.now()
-        total += (time2 - time1).microseconds * 1e-3
-
-    print(total / ITERATIONS, "ms")
-
-
-if __name__ == "__main__":
-    miniTest()
