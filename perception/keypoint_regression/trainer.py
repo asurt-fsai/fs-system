@@ -82,6 +82,8 @@ def train(trainingParameters: TrainingParameters):  # pylint: disable=too-many-l
             # update the training tracker
             trainloss += loss.item() * batchSize
 
+            trainingTracker.append(loss.item() * batchSize)
+
         # validate the model
         model.eval()
         with torch.no_grad():
@@ -91,12 +93,13 @@ def train(trainingParameters: TrainingParameters):  # pylint: disable=too-many-l
                 imgs, keypoints = imgs.to(device), keypoints.to(device)
                 out = model(imgs)
                 loss = criterion(keypoints, out)
+
                 validloss += loss.item() * batchSize
+                validTracker.append(loss.item() * batchSize)
 
         trainloss /= len(trainloader.dataset)
         validloss /= len(validloader.dataset)
 
-        trainingTracker.append(trainloss)
         validTracker.append(validloss)
 
         # prompt model progress
