@@ -133,7 +133,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         length : float
             The length of the force vector.
         """
-        value: float = np.linalg.norm(force, axis=0)
+        value: float = np.linalg.norm(force)
         return value
 
     def direction(self, force: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
@@ -156,7 +156,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         return np.array([force[0], force[1]]) * (1 / self.length(force))
 
     def nearest(
-        self, obstacles: npt.NDArray[np.float64]
+        self, obstacles: npt.NDArray[np.float64], currentPosition: npt.NDArray[np.float64]
     ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
         """
         Find the nearest obstacle.
@@ -176,10 +176,11 @@ class APF:  # pylint: disable=too-many-instance-attributes
         """
         nearestObstacle = self.obstacles[0]
         nearestToObstacle = np.full((2,), np.inf)
+
         for obstacle in obstacles:
-            if self.length((obstacle) - self.currentPosition) < self.length(nearestToObstacle):
+            if self.length(obstacle - currentPosition) < self.length(nearestToObstacle):
                 nearestObstacle = obstacle
-                nearestToObstacle = nearestObstacle - self.currentPosition
+                nearestToObstacle = nearestObstacle - currentPosition
 
         return nearestObstacle, nearestToObstacle
 
@@ -198,9 +199,11 @@ class APF:  # pylint: disable=too-many-instance-attributes
 
         if self.flag is False and (np.any(self.obsBlue) and np.any(self.obsYellow)):
             # two sides are visible or if only blue is seen from the other track
-            nearestBlue, nearestToBlueObstacle = self.nearest(self.obsBlue)
+            nearestBlue, nearestToBlueObstacle = self.nearest(self.obsBlue, self.currentPosition)
 
-            nearestYellow, nearestToYellowObstacle = self.nearest(self.obsYellow)
+            nearestYellow, nearestToYellowObstacle = self.nearest(
+                self.obsYellow, self.currentPosition
+            )
             # print(
             #     "self.length(nearestBlue - nearestYellow)", self.length(nearestBlue - nearestYellow)
             # )
@@ -251,10 +254,44 @@ class APF:  # pylint: disable=too-many-instance-attributes
                     # equivalent to one side
                     oneSide = True
                     self.passedCones = True
-
             if oneSide:
-                self.kRepulsive *= 10
+                # self.kRepulsive *= 10
                 self.oneSide = True
+                # print("nearestCone", nearestCone)
+                for obstacle in self.unduplicatedObstacles:
+                    nearestCone, _ = self.nearest(self.unduplicatedObstacles, self.currentPosition)
+
+                    attractiveToObstacle += (nearestCone - self.currentPosition) * self.kAttractive
+                    # nearestToCurrentPosition,_= self.nearest(self.unduplicatedObstacles, self.currentPosition)
+                    # attractiveToObstacle += (
+                    #     nearestToCurrentPosition
+                    #     - self.currentPosition
+                    # ) * self.kAttractive
+                    print(
+                        "self.length(self.currentPosition - obstacle) ",
+                        self.length(self.currentPosition - obstacle),
+                    )
+                    # delete obstacles after you reach them within a certain distance
+                    print(
+                        "obstacle[0] < self.currentPosition[0]",
+                        obstacle[0] < self.currentPosition[0],
+                    )
+                    if (
+                        # ezayy obstacle? msh nearest cone???????
+                        nearestCone[0] < self.currentPosition[0]
+                        or self.length(self.currentPosition - nearestCone) <= 1.3
+                    ):
+                        self.unduplicatedObstacles = self.unduplicatedObstacles[
+                            (self.unduplicatedObstacles != nearestCone).all(axis=1)
+                        ]
+                        print("will be deleted!!!")
+                        print("nearestConebefore", nearestCone)
+                        # nearestCone, _ = self.nearest(self.unduplicatedObstacles, self.currentposition)
+                        print("nearestConetoConeafter", nearestCone)
+                    else:
+                        continue
+
+                return attractiveToObstacle
             # only one side visible
             if blue is True:
                 print("deleting yellow")
@@ -373,7 +410,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         while self.iterations < self.maxIterations:
             if self.oneSide or (self.passedCones and self.oneSide):
                 print("oneside")
-                self.pNode = 1.8
+                self.pNode = 1.3
 
                 attractive = self.newAttractive()
                 attractiveNorm = np.linalg.norm(attractive)  # compute the norm of the vector
@@ -382,7 +419,8 @@ class APF:  # pylint: disable=too-many-instance-attributes
                 else:
                     attractiveUnit = np.zeros(2)  # handle the case where the vector is zero
 
-                resultantForceVector = attractiveUnit + self.repulsion()
+                # resultantForceVector = attractiveUnit + self.repulsion() ** 3
+                resultantForceVector = self.newAttractive() + self.repulsion()
 
                 # resultantForceVector = 0.000000000000000001 + self.repulsion() ** 3
 
@@ -448,46 +486,46 @@ object_list_sub = rospy.Subscriber(
 waypointsPub = rospy.Publisher("/pathplanning/waypoints", Path, queue_size=10)
 
 
-# def perceptionCallback(landmarkArray: npt.NDArray[np.float64]) -> None:
-#     """
-#     This callback function is called whenever a new message of type LandmarkArray is
-#     received by the subscriber.
+def perceptionCallback(landmarkArray: npt.NDArray[np.float64]) -> None:
+    """
+    This callback function is called whenever a new message of type LandmarkArray is
+    received by the subscriber.
 
-#     Parameters
-#     ----------
-#     LandmarkArray : LandmarkArray
-#         The message received by the subscriber.
+    Parameters
+    ----------
+    LandmarkArray : LandmarkArray
+        The message received by the subscriber.
 
-#     Returns
-#     -------
-#     None.
+    Returns
+    -------
+    None.
 
-#     """
-#     global YELLOW_CONES, BLUE_CONES, ALL_CONES
-#     YELLOW_CONES = []
-#     BLUE_CONES = []
-#     ALL_CONES = []
-#     for landmark in landmarkArray.landmarks:
-#         if landmark.type == 0:
-#             BLUE_CONES.append(np.array([landmark.position.x, landmark.position.y]))
-#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
-#         elif landmark.type == 1:
-#             YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
-#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
-#         elif landmark.type == 2:
-#             YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
-#             ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+    """
+    global YELLOW_CONES, BLUE_CONES, ALL_CONES
+    YELLOW_CONES = []
+    BLUE_CONES = []
+    ALL_CONES = []
+    for landmark in landmarkArray.landmarks:
+        if landmark.type == 0:
+            BLUE_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+            ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+        elif landmark.type == 1:
+            YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+            ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+        elif landmark.type == 2:
+            YELLOW_CONES.append(np.array([landmark.position.x, landmark.position.y]))
+            ALL_CONES.append(np.array([landmark.position.x, landmark.position.y]))
 
 
-# YELLOW_CONES: npt.NDArray[np.float64] = []
-# BLUE_CONES: npt.NDArray[np.float64] = []
-# ALL_CONES: npt.NDArray[np.float64] = []
+YELLOW_CONES: npt.NDArray[np.float64] = []
+BLUE_CONES: npt.NDArray[np.float64] = []
+ALL_CONES: npt.NDArray[np.float64] = []
 
 # rospy.init_node("apf_test")
-# # for rosbag
+# for rosbag
 # rospy.Subscriber("/perception/smornn/detected", LandmarkArray, perceptionCallback, queue_size=10)
 
-# rospy.Subscriber("/cones_map", LandmarkArray, perceptionCallback, queue_size=10)
+rospy.Subscriber("/cones_map", LandmarkArray, perceptionCallback, queue_size=10)
 
 
 def numpyToPath(pathArray: npt.NDArray[np.float64]) -> Path:
@@ -517,6 +555,60 @@ def numpyToPath(pathArray: npt.NDArray[np.float64]) -> Path:
 if __name__ == "__main__":
     startTest, goalTest = (0, 0), (0, 0)
     while not rospy.is_shutdown():
+        ALL_CONES = np.array(
+            [
+                [0.98233197, 3.34084396],
+                [2.06172745, -0.25418158],
+                [3.17271854, -2.91884012],
+                [3.31806228, 1.51986518],
+                [5.44841786, -0.40125609],
+            ]
+        )
+        YELLOW_CONES = np.array(
+            [
+                [0.98233197, 3.34084396],
+                [2.06172745, -0.25418158],
+                [3.17271854, -2.91884012],
+                [3.31806228, 1.51986518],
+                [5.44841786, -0.40125609],
+            ]
+        )
+        BLUE_CONES = np.array([])
+
+        # ALL_CONES = np.array(
+        #     [[0.3581216, 2.84986267], [1.00005216, 0.95608985], [1.58769022, -1.68913192]]
+        # )
+        # YELLOW_CONES = np.array([])
+        # BLUE_CONES = np.array(
+        #     [[0.3581216, 2.84986267], [1.00005216, 0.95608985], [1.58769022, -1.68913192]]
+        # )
+        # ALL_CONES = np.array(
+        #     [
+        #         [1.57290447, 0.80198179],
+        #         [1.84968545, -2.61953547],
+        #         [3.00159238, 3.27621463],
+        #         [3.26586388, -0.20189689],
+        #         [4.8517129, -2.89316974],
+        #     ]
+        # )
+        # YELLOW_CONES = np.array(
+        #     [
+        #         [1.57290447, 0.80198179],
+        #         [1.84968545, -2.61953547],
+        #         [3.00159238, 3.27621463],
+        #         [3.26586388, -0.20189689],
+        #     ]
+        # )
+        # BLUE_CONES = np.array([[4.8517129, -2.89316974]])
+
+        # ALL_CONES = np.array(
+        #     [[0.45161877, -1.62417198], [1.68937838, 0.60422665], [4.37869124, 1.48568201]]
+        # )
+        # YELLOW_CONES = np.array(
+        #     [[0.45161877, -1.62417198], [1.68937838, 0.60422665], [4.37869124, 1.48568201]]
+        # )
+        # BLUE_CONES = np.array([])
+
         if len(ALL_CONES) > 0:
             apfTest = APF(
                 (0, 0),
@@ -524,9 +616,9 @@ if __name__ == "__main__":
                 ALL_CONES,
                 3.5,
                 30,
-                1.3,
+                0.9,
                 0.2,
-                25,
+                35,
                 0.2,
                 YELLOW_CONES,
                 BLUE_CONES,
