@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<node name = "planner_node" pkg = "planning_apf" type = "planning_node.py" output="screen"/>
+</launch>
