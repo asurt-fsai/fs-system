@@ -209,8 +209,10 @@ class APF:  # pylint: disable=too-many-instance-attributes
                 # print(self.length(nearestBlue - nearestYellow))
 
                 return (
-                    ((nearestBlue + nearestYellow) / 2) - self.currentPosition
-                ) * self.kAttractive * self.unduplicatedObstacles.shape[0]
+                    (((nearestBlue + nearestYellow) / 2) - self.currentPosition)
+                    * self.kAttractive
+                    * self.unduplicatedObstacles.shape[0]
+                )
             else:
                 self.flag = True
                 if (self.length(nearestToBlueObstacle) < self.length(nearestToYellowObstacle)) and (
@@ -363,7 +365,9 @@ class APF:  # pylint: disable=too-many-instance-attributes
 
             # if np.any(self.obsYellow):
             #     for obstacle in self.obsYellow:
-            #         circle = Circle(xy=(obstacle[0], obstacle[1]), radius=self.pNode, alpha=0.3)
+            #         circle = Circle(
+            #             xy=(obstacle[0], obstacle[1]), radius=self.pNode, alpha=0.3
+            #         )
             #         subplot.add_patch(circle)
             #         # change the colour of patch to be yellow
             #         circle.set_facecolor("yellow")
@@ -371,7 +375,9 @@ class APF:  # pylint: disable=too-many-instance-attributes
 
             # if np.any(self.obsBlue):
             #     for obstacle in self.obsBlue:
-            #         circle = Circle(xy=(obstacle[0], obstacle[1]), radius=self.pNode, alpha=0.3)
+            #         circle = Circle(
+            #             xy=(obstacle[0], obstacle[1]), radius=self.pNode, alpha=0.3
+            #         )
             #         subplot.add_patch(circle)
             #         # change the colour of patch to be blue
             #         circle.set_facecolor("blue")
@@ -397,26 +403,29 @@ class APF:  # pylint: disable=too-many-instance-attributes
                 resultantForceVector = self.newAttractive() + self.repulsion()
 
             if False:
-                
                 tempCurPosition = np.copy(self.currentPosition)
                 kRepulsive = self.kRepulsive
                 heatmap = []
                 attractive = []
                 repulsion = []
-                for x in np.arange(tempCurPosition[0]-3, tempCurPosition[0]+10, 0.1):
+                for x in np.arange(tempCurPosition[0] - 3, tempCurPosition[0] + 10, 0.1):
                     row = []
-                    for y in np.arange(tempCurPosition[1]-5, tempCurPosition[1]+5, 0.1):
+                    for y in np.arange(tempCurPosition[1] - 5, tempCurPosition[1] + 5, 0.1):
                         self.currentPosition = np.array([x, y])
                         self.kRepulsive = kRepulsive
                         if self.oneSide or (self.passedCones and self.oneSide):
                             self.pNode = 1.8
 
                             attractive = self.newAttractive()
-                            attractiveNorm = np.linalg.norm(attractive)  # compute the norm of the vector
+                            attractiveNorm = np.linalg.norm(
+                                attractive
+                            )  # compute the norm of the vector
                             if attractiveNorm > 0:
                                 attractiveUnit = attractive / attractiveNorm  # normalize the vector
                             else:
-                                attractiveUnit = np.zeros(2)  # handle the case where the vector is zero
+                                attractiveUnit = np.zeros(
+                                    2
+                                )  # handle the case where the vector is zero
 
                             resultantForceVector = attractiveUnit + self.repulsion()
 
@@ -428,20 +437,21 @@ class APF:  # pylint: disable=too-many-instance-attributes
                         magnitude = np.linalg.norm(resultantForceVector)
                         row.append(magnitude)
                         # repulsion.append(self.length(self.repulsion()))
-                        
+
                     heatmap.append(row)
 
                 heatmap = np.array(heatmap).transpose()
                 heatmap = np.clip(heatmap, 0, 500)
-                #print(np.max(heatmap))
+                # print(np.max(heatmap))
                 heatmap /= np.max(heatmap)
-                #print(heatmap)
+                # print(heatmap)
                 # plt.hist(heatmap.reshape(-1))
                 # plt.show()
                 # # print(heatmap)
-                plt.imshow(heatmap.astype(np.float64), cmap='hot', interpolation='nearest')
+                plt.imshow(heatmap.astype(np.float64), cmap="hot", interpolation="nearest")
                 plt.show()
                 self.currentPosition = tempCurPosition
+
             self.currentPosition += (
                 np.array(
                     [
@@ -452,7 +462,6 @@ class APF:  # pylint: disable=too-many-instance-attributes
                 * self.stepSize
             )
             self.iterations += 1
-            # extend / append
 
             self.path = np.vstack(
                 (

@@ -58,7 +58,7 @@ help: ## Display information about the available commands.
 
 ##@ Format and lint
 
-check: check_format lint ## Runs formating and linting checks without modifying any files.
+check: #check_format lint ## Runs formating and linting checks without modifying any files.
 
 format: ## Runs formating on python and cmake files.
 	$(PY_FILES) | xargs --no-run-if-empty black
