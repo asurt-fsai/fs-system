@@ -6,11 +6,10 @@ import math
 from dataclasses import dataclass
 from typing import List, Tuple
 import numpy as np
-from geometry_msgs.msg import Pose
 import rospy
-from nav_msgs.msg import Path
+from nav_msgs.msg import Path, Odometry
 
-BASEWIDTH = rospy.get_param("/base_width")  # [m] car length
+BASELENGTH = rospy.get_param("/base_length")  # [m] car length
 LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant")  # look ahead constant
 
 
@@ -54,11 +53,11 @@ class State:
         self.position: Position = Position(position.x, position.y)
         self.yaw: float = yaw
         self.currentSpeed: float = currentSpeed
-        self.rearX: float = self.position.x - ((BASEWIDTH / 2) * math.cos(self.yaw))
-        self.rearY: float = self.position.y - ((BASEWIDTH / 2) * math.sin(self.yaw))
-        self.poseList: List[Tuple[float, float, float]] = []
+        self.rearX: float = self.position.x - ((BASELENGTH / 2) * math.cos(self.yaw))
+        self.rearY: float = self.position.y - ((BASELENGTH / 2) * math.sin(self.yaw))
+        self.poseList: List[Tuple[float, float]] = []
 
-    def update(self, currentState: Pose) -> None:
+    def update(self, currentState: Odometry) -> None:
         """
         update the state of the vehicle to the new state
 
@@ -68,13 +67,13 @@ class State:
             new state of the vehicle received from SLAM
         """
 
-        self.position.x = currentState.position.x
-        self.position.y = currentState.position.y
-        self.yaw = currentState.orientation.z
-        self.currentSpeed = currentState.orientation.x
-        self.rearX = self.position.x - ((BASEWIDTH / 2) * math.cos(self.yaw))
-        self.rearY = self.position.y - ((BASEWIDTH / 2) * math.sin(self.yaw))
-        self.poseList.append((self.position.x, self.position.y, self.yaw))
+        self.position.x = currentState.pose.pose.position.x
+        self.position.y = currentState.pose.pose.position.y
+        self.yaw = currentState.pose.pose.orientation.z
+        self.currentSpeed = currentState.twist.twist.linear.x
+        self.rearX = self.position.x - ((BASELENGTH / 2) * math.cos(self.yaw))
+        self.rearY = self.position.y - ((BASELENGTH / 2) * math.sin(self.yaw))
+        self.poseList.append((self.position.x, self.position.y))
 
     def calcDistance(self, pointX: float, pointY: float) -> float:
         """
@@ -127,6 +126,7 @@ class WayPoints:
         self.yList: List[float] = []
         self.oldNearestPointIndex: int = 0
         self.firstLoop: bool = False
+        self.mapGiven: bool = rospy.get_param("/map_given")
 
     def add(self, waypointsMsg: Path) -> None:
         """
@@ -138,10 +138,7 @@ class WayPoints:
             waypoint of the vehicle received from the path planner
         """
         self.waypoints = waypointsMsg
-        self.firstLoop = False
-        # self.xlist = waypoints.poses[0].pose.position.x
-        # self.xList.append(waypoints.position.x)
-        # self.yList.append(waypoints.position.y)
+        self.points = self.waypoints.poses
 
     def searchTargetIndex(self, state: State) -> Tuple[int, float]:
         """
@@ -162,43 +159,51 @@ class WayPoints:
         """
 
         lookAhead: float = LOOKAHEADCONSTANT
+        if self.mapGiven:  # if map is given in first message
+            if self.firstLoop is False:
+                # search nearest point index
+                for index, _ in enumerate(self.waypoints.poses):
+                    # Extracting and storing X and Y coordinates seperately in a list
+                    # to get minimum distance in first loop only
 
-        if self.firstLoop is False:
-            # search nearest point index
-            for index in enumerate(self.waypoints.poses):
-                # Extracting and storing X and Y coordinates seperately in a list
-                # to get minimum distance in first loop only
+                    self.xList.append(self.waypoints.poses[index].pose.position.x)
+                    self.yList.append(self.waypoints.poses[index].pose.position.y)
+                distanceX = [state.rearX - icx for icx in self.xList]
+                distanceY = [state.rearY - icy for icy in self.yList]
+                distance = np.hypot(distanceX, distanceY)
+                if len(distance) != 0:
+                    ind: int = int(np.argmin(distance))
+                    self.oldNearestPointIndex = ind
+                    self.firstLoop = True
+
+            else:
+                ind = self.oldNearestPointIndex
+                distanceThisIndex = state.calcDistance(self.xList[ind], self.yList[ind])
+
+                while ind < len(self.xList) - 1:
+                    distanceNextIndex = state.calcDistance(self.xList[ind + 1], self.yList[ind + 1])
+
+                    if distanceThisIndex < lookAhead:
+                        ind = ind + 1
+
+                    else:
+                        break
+
+                    distanceThisIndex = distanceNextIndex
+                self.oldNearestPointIndex = ind
+        else:  # if map is not given in first message
+            self.xList = []
+            self.yList = []
+            ind = 0
+            for index, _ in enumerate(self.waypoints.poses):
 
                 self.xList.append(self.waypoints.poses[index].pose.position.x)
                 self.yList.append(self.waypoints.poses[index].pose.position.y)
-            distanceX = [state.rearX - icx for icx in self.xList]
-            distanceY = [state.rearY - icy for icy in self.yList]
-            distance = np.hypot(distanceX, distanceY)
-            if len(distance) != 0:
-                ind: int = int(np.argmin(distance))
-                self.oldNearestPointIndex = ind
-                self.firstLoop = True
-
-        else:
-            ind = self.oldNearestPointIndex
-            # distanceThisIndex = state.calcDistance(self.xList[ind], self.yList[ind])
-            distanceThisIndex = state.calcDistance(
-                self.points[ind].pose.position.x, self.points[ind].pose.position.y
-            )
             while ind < len(self.xList) - 1:
-                # distanceNextIndex = state.calcDistance(self.xList[ind + 1], self.yList[ind + 1])
-                distanceNextIndex = state.calcDistance(
-                    self.points[ind + 1].pose.position.x, self.points[ind + 1].pose.position.y
-                )
-                if distanceThisIndex < lookAhead:
-                    ind = ind + 1
-
-                else:
-
+                distanceThisIndex = state.calcDistance(self.xList[ind], self.yList[ind])
+                if distanceThisIndex > lookAhead:
                     break
-
-                distanceThisIndex = distanceNextIndex
-            self.oldNearestPointIndex = ind
+                ind = ind + 1
 
         return ind, lookAhead
 
@@ -232,10 +237,11 @@ def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> T
     trajY: float = 0
     if pind >= ind:
         ind = pind
-    if trajectory.points != []:  # trajectory.points is list type
-        if ind < len(trajectory.points):
-            trajX = trajectory.points[ind].pose.position.x
-            trajY = trajectory.points[ind].pose.position.y
+    if trajectory.points != []:
+
+        if ind < len(trajectory.xList):
+            trajX = trajectory.xList[ind]
+            trajY = trajectory.yList[ind]
 
         else:  # toward goal
             trajX = trajectory.points[-1].pose.position.x
@@ -244,6 +250,6 @@ def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> T
 
     alpha: float = math.atan2(trajY - state.rearY, trajX - state.rearX) - state.yaw
 
-    delta: float = math.atan2(2.0 * BASEWIDTH * math.sin(alpha) / lookAhead, 1.0)
+    delta: float = math.atan2(2.0 * BASELENGTH * math.sin(alpha) / lookAhead, 1.0)
 
     return delta, ind
