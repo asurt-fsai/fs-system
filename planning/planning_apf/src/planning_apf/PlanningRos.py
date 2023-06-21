@@ -1,35 +1,113 @@
+"""
+This module contains the PlanningRos class which is used to subscribe to cone
+positions and colors, and publish a planned path.
+"""
+
 from nav_msgs.msg import Path
-import rospy
 from visualization_msgs.msg import MarkerArray
 from asurt_msgs.msg import LandmarkArray, Landmark
-from .APF import APF
+from geometry_msgs.msg import PoseStamped
 import numpy as np
 import numpy.typing as npt
-from geometry_msgs.msg import PoseStamped
+import rospy
+from .APF import APF
 
 
-class PlanningRos:
+class PlanningRos:  # pylint: disable=too-many-instance-attributes
+    """
+    Initializes the PlanningRos class.
+
+    Parameters
+    ----------
+    conesTopic : str
+        The topic to subscribe to for cone positions.
+    pubTopic : str
+        The topic to publish the planned path to.
+    tfHelper : tfHelper
+        The tfHelper object to transform cone positions to the world frame.
+    frameId : str
+        The frame id of the world frame.
+    kAttractive : float
+        The attractive force constant.
+    kRepulsive : float
+        The repulsive force constant.
+    repulsiveRadius : float
+        The repulsiveRadius constant.
+    stepSize : float
+        The step size.
+    maxIterations : int
+        The maximum number of iterations.
+    goalThreshold : float
+        The threshold distance from the goal.
+    isIpg : bool
+        True if the cones are from IPG, false otherwise.
+    plot : bool, optional
+        True if the path should be plotted, false otherwise.
+
+    parameters
+    ----------
+    pub : rospy.Publisher
+        The publisher to publish the planned path to.
+
+    tfHelper : tfHelper
+        The tfHelper object to transform cone positions to the world frame.
+    frameId : str
+        The frame id of the world frame.
+    kAttractive : float
+        The attractive force constant.
+    kRepulsive : float
+        The repulsive force constant.
+    repulsiveRadius : float
+        The repulsiveRadius constant.
+    stepSize : float
+        The step size.
+    maxIterations : int
+        The maximum number of iterations.
+    goalThreshold : float
+        The threshold distance from the goal.
+    blueCones : list
+        A list of blue cones in the form of [(x1, y1), (x2, y2), ..., (xn, yn)].
+    yellowCones : list
+        A list of yellow cones in the form of [(x1, y1), (x2, y2), ..., (xn, yn)].
+    allCones : list
+        A list of all cones in the form of [(x1, y1), (x2, y2), ..., (xn, yn)].
+    plot : bool, optional
+        True if the path should be plotted, false otherwise.
+
+    """
+
     def __init__(
         self,
-        cones_topic: str,
-        pub_topic: str,
-        tf_helper,
-        frame_id: str,
-        is_ipg: bool = False,
+        conesTopic: str,
+        pubTopic: str,
+        tfHelper,
+        frameId: str,
+        kAttractive: float,
+        kRepulsive: float,
+        repulsiveRadius: float,
+        stepSize: float,
+        maxIterations: int,
+        goalThreshold: float,
+        isIpg: bool,
         plot: bool = False,
-    ):
+    ):  # pylint: disable=too-many-arguments
         self.plot = plot
-        self.pub = rospy.Publisher(pub_topic, Path, queue_size=10)
-        if is_ipg:
-            rospy.Subscriber(cones_topic, MarkerArray, self.markerCallback, queue_size=10)
+        self.pub = rospy.Publisher(pubTopic, Path, queue_size=10)
+        if isIpg:
+            rospy.Subscriber(conesTopic, MarkerArray, self.markerCallback, queue_size=10)
         else:
-            rospy.Subscriber(cones_topic, LandmarkArray, self.perceptionCallback, queue_size=10)
-        self.tf_helper = tf_helper
-        self.frame_id = frame_id
-
-        self.blue_cones = []
-        self.yellow_cones = []
-        self.all_cones = []
+            rospy.Subscriber(conesTopic, LandmarkArray, self.perceptionCallback, queue_size=10)
+        self.tfHelper = tfHelper
+        self.frameId = frameId
+        self.kAttractive = kAttractive
+        self.kRepulsive = kRepulsive
+        self.repulsiveRadius = repulsiveRadius
+        self.stepSize = stepSize
+        self.maxIterations = maxIterations
+        self.goalThreshold = goalThreshold
+        self.blueCones = []
+        self.yellowCones = []
+        self.allCones = []
 
     def numpyToPath(self, pathArray: npt.NDArray[np.float64]) -> Path:
         """
@@ -49,25 +127,37 @@ class PlanningRos:
             pose = PoseStamped()
             pose.pose.position.x = pathArray[i][0]
             pose.pose.position.y = pathArray[i][1]
-            pose.header.frame_id = self.frame_id
+            pose.header.frame_id = self.frameId
             pose.header.stamp = rospy.Time.now()
             achievedPath.poses.append(pose)
-        achievedPath.header.frame_id = self.frame_id
+        achievedPath.header.frame_id = self.frameId
         return achievedPath
 
-    def markerCallback(self, msg):
-        self.yellow_cones = []
-        self.blue_cones = []
-        self.all_cones = []
+    def markerCallback(self, msg: MarkerArray) -> None:
+        """
+        Callback function to process marker messages and extract cone positions.
+
+        Parameters
+        ----------
+        msg : Marker
+            The marker message containing cone information.
+
+        Returns
+        -------
+        None.
+        """
+        self.yellowCones = []
+        self.blueCones = []
+        self.allCones = []
         for marker in msg.markers:
-            r, g, b = marker.color.r, marker.color.g, marker.color.b
-            x, y = marker.pose.position.x, marker.pose.position.y
-            if r == 1 and g == 1 and b == 0:
-                self.yellow_cones.append([x, y])
-                self.all_cones.append([x, y])
-            elif r == 0 and b == 1:
-                self.blue_cones.append([x, y])
-                self.all_cones.append([x, y])
+            red, green, blue = marker.color.r, marker.color.g, marker.color.b
+            xPosition, yPosition = marker.pose.position.x, marker.pose.position.y
+            if red == 1 and green == 1 and blue == 0:
+                self.yellowCones.append([xPosition, yPosition])
+                self.allCones.append([xPosition, yPosition])
+            elif red == 0 and blue == 1:
+                self.blueCones.append([xPosition, yPosition])
+                self.allCones.append([xPosition, yPosition])
 
     def perceptionCallback(self, landmarkArray: npt.NDArray[np.float64]) -> None:
         """
@@ -84,39 +174,45 @@ class PlanningRos:
         None.
 
         """
-        landmarkArray = self.tf_helper.transformMsg(landmarkArray, self.frame_id)
-        self.yellow_cones = []
-        self.blue_cones = []
-        self.all_cones = []
+        landmarkArray = self.tfHelper.transformMsg(landmarkArray, self.frameId)
+        self.yellowCones = []
+        self.blueCones = []
+        self.allCones = []
         for landmark in landmarkArray.landmarks:
             if landmark.type == Landmark.BLUE_CONE:
-                self.blue_cones.append(np.array([landmark.position.x, landmark.position.y]))
-                self.all_cones.append(np.array([landmark.position.x, landmark.position.y]))
+                self.blueCones.append(np.array([landmark.position.x, landmark.position.y]))
+                self.allCones.append(np.array([landmark.position.x, landmark.position.y]))
             elif landmark.type == Landmark.YELLOW_CONE:
-                self.yellow_cones.append(np.array([landmark.position.x, landmark.position.y]))
-                self.all_cones.append(np.array([landmark.position.x, landmark.position.y]))
+                self.yellowCones.append(np.array([landmark.position.x, landmark.position.y]))
+                self.allCones.append(np.array([landmark.position.x, landmark.position.y]))
             elif landmark.type in [
                 Landmark.CONE_TYPE_UNKOWN,
                 Landmark.ORANGE_CONE,
                 Landmark.LARGE_CONE,
             ]:
-                self.all_cones.append(np.array([landmark.position.x, landmark.position.y]))
+                self.allCones.append(np.array([landmark.position.x, landmark.position.y]))
 
-    def run(self):
-        print(len(self.all_cones))
-        if len(self.all_cones) > 0:
+    def run(self) -> None:
+        """
+        Runs the path planning algorithm and publishes the planned path.
+
+        Returns:
+        - None.
+        """
+        print(len(self.allCones))
+        if len(self.allCones) > 0:
             apfTest = APF(
                 (0, 0),
                 (0, 0),
-                self.all_cones,
-                3.5,
-                30,
-                0.9,
-                0.2,
-                25,
-                0.2,
-                self.yellow_cones,
-                self.blue_cones,
+                self.allCones,
+                self.kAttractive,
+                self.kRepulsive,
+                self.repulsiveRadius,
+                self.stepSize,
+                self.maxIterations,
+                self.goalThreshold,
+                self.yellowCones,
+                self.blueCones,
                 self.plot,
             )
             apfTest.pathPlanPlot()
