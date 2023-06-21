@@ -1,10 +1,8 @@
 """
 Initilization Pure Pursuit node for vehicle control
 """
-# import math
 import rospy
-from ackermann_msgs.msg import AckermannDrive
-from geometry_msgs.msg import Pose
+from ackermann_msgs.msg import AckermannDriveStamped
 from pure_pursuit import (
     WayPoints,
     State,
@@ -14,7 +12,7 @@ from pure_pursuit import (
     plot,
 )
 
-from nav_msgs.msg import Path
+from nav_msgs.msg import Path, Odometry
 
 
 PLOTTING = rospy.get_param("/plotting")
@@ -30,18 +28,18 @@ def main() -> None:
     """
     rospy.init_node("purepursuit_controller", anonymous=True)
 
-    controlActionPub = rospy.Publisher("/control_actions", AckermannDrive, queue_size=10)
+    controlActionPub = rospy.Publisher("/control_actions", AckermannDriveStamped, queue_size=10)
     waypoints = WayPoints()
-    waypoints.xList = [0.0]
-    waypoints.yList = [0.0]
+
     position = Position(0.0, 0.0)
     state = State(position, 0.0)
-    rospy.Subscriber("/state", Pose, callback=state.update)
+    rospy.Subscriber("/state", Odometry, callback=state.update)
     rospy.Subscriber("/pathplanning/waypoints", Path, callback=waypoints.add)
+    rospy.wait_for_message("/pathplanning/waypoints", Path)
 
-    controlAction = AckermannDrive()
+    controlAction = AckermannDriveStamped()
     pidController = PidController()
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(rospy.get_param("/rate"))
     targetInd = 0
     prevError = 0.0
     while not rospy.is_shutdown():
@@ -49,14 +47,11 @@ def main() -> None:
         delta, targetInd = purepursuitSteercontrol(state, waypoints, targetInd)
 
         acc, error = pidController.proportionalControl(TARGETSPEED, state.currentSpeed, prevError)
-        # longitudinal controller
         prevError = error
-        # deltaDegree = math.degrees(delta)
-        controlAction.acceleration = acc  # proportionalControl(targetSpeed, state.currentSpeed)
-        controlAction.steering_angle = delta
-        controlAction.jerk = targetInd
-        controlAction.speed = TARGETSPEED
-        controlAction.steering_angle_velocity = waypoints.yList[targetInd]
+
+        controlAction.drive.acceleration = acc
+        controlAction.drive.steering_angle = delta
+        controlAction.drive.speed = TARGETSPEED
 
         controlActionPub.publish(controlAction)
         if PLOTTING:
@@ -69,5 +64,6 @@ def main() -> None:
 if __name__ == "__main__":
     try:
         main()
+
     except rospy.ROSInterruptException:
         pass
