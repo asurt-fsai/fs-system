@@ -33,10 +33,11 @@ if __name__ == "__main__":
         stepSize,
         maxIterations,
         goalThreshold,
-        isIpg=True,
-        plot=True,
+        isIpg=False,
+        plot=False,
     )
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         planner.run()
+        
         rate.sleep()

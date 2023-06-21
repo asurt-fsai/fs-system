@@ -90,7 +90,9 @@ class APF:  # pylint: disable=too-many-instance-attributes
         self.start = np.array([start[0], start[1]])
         self.currentPosition = np.array([float(start[0]), float(start[1])])
         self.goal = np.array([goal[0], goal[1]])
-        self.obstacles = [np.array([obstacle[0], obstacle[1]]) for obstacle in obstacles]
+        self.obstacles = [
+            np.array([obstacle[0], obstacle[1]]) for obstacle in obstacles
+        ]
         self.kAttractive = kAttractive
         self.kRepulsive = kRepulsive
         self.repulsiveRadius = repulsiveRadius
@@ -171,7 +173,9 @@ class APF:  # pylint: disable=too-many-instance-attributes
         nearestObstacle = self.obstacles[0]
         nearestToObstacle = np.full((2,), np.inf)
         for obstacle in obstacles:
-            if self.length((obstacle) - self.currentPosition) < self.length(nearestToObstacle):
+            if self.length((obstacle) - self.currentPosition) < self.length(
+                nearestToObstacle
+            ):
                 nearestObstacle = obstacle
                 nearestToObstacle = nearestObstacle - self.currentPosition
 

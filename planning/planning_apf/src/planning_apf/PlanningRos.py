@@ -1,5 +1,5 @@
 """
-This module contains the PlanningRos class which is used to subscribe to cone
+This module contains the PlanningRos class which is used to subscribe to cone 
 positions and colors, and publish a planned path.
 """
 
@@ -192,12 +192,12 @@ class PlanningRos:  # pylint: disable=too-many-instance-attributes
             ]:
                 self.allCones.append(np.array([landmark.position.x, landmark.position.y]))
 
-    def run(self) -> None:
+    def run(self):
         """
         Runs the path planning algorithm and publishes the planned path.
 
         Returns:
-        - None.
+        path.
         """
         print(len(self.allCones))
         if len(self.allCones) > 0:
@@ -221,3 +221,4 @@ class PlanningRos:  # pylint: disable=too-many-instance-attributes
             npath = np.array(apfTest.path)
             path = self.numpyToPath(npath)
             self.pub.publish(path)
+            return path

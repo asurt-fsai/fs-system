@@ -1,0 +1,20 @@
+numWaypointsToReturn = 2  # Number of equally distanced waypoints on the path to extract and return
+numFramesToUse = 5  # Number of frames from the past to use waypoints from
+euclideanDistOutlier = 6  # If distance to a waypoint is this, it is rejected (taken as an outlier)
+minDistUnique = 2  # If distance between 2 waypoints is less than this, they are combined
+thetaLookahead = 2.0
+
+# Interpolation Parameters
+interpolateSmoothing = 10
+numInterpolationPoints = 20
+
+minObservationsBeforeUsingWaypoint = 2  # A waypoint needs to be seen this number of times before being used
+
+# Num Readings filter
+maxNumReadings = 15  # Number of readings for each waypoint is clipped at the max value
+meanNumReadingsSlack = 3
+
+# Front of car filter
+filterBehindCar = True
+
+plot = False

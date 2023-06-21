@@ -16,5 +16,5 @@ include_directories(
 )
 catkin_python_setup()
 
-catkin_install_python(PROGRAMS nodes/planning_node.py DESTINATION
+catkin_install_python(PROGRAMS nodes/planning_node.py nodes/planning_cleaner_node.py DESTINATION
                       ${CATKIN_PACKAGE_BIN_DESTINATION})
