@@ -4,7 +4,7 @@
 import math
 import rospy
 import numpy as np
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, PoseStamped
 from ackermann_msgs.msg import AckermannDrive
 
 BaseLength = 2.9
@@ -19,7 +19,7 @@ class State:
     """
 
     def __init__(
-        self, x: float = 0.0, y: float = 0.0, yaw: float = 0.0, currentSpeed: float = 0.0
+        self, x: float = -2.0, y: float = 0.0, yaw: float = 0.0, currentSpeed: float = 0.0
     ) -> None:
         self.x = x
         self.y = y
@@ -59,13 +59,14 @@ if __name__ == "__main__":
     state = State()
     rospy.init_node("statepublisher", anonymous=True)
     rospy.Subscriber("/control_actions", AckermannDrive, state.update)
-    pub = rospy.Publisher("/state", Pose, queue_size=10)
+    pub = rospy.Publisher("/state", PoseStamped, queue_size=10)
     rate = rospy.Rate(10)
-    message = Pose()
+    message = PoseStamped()
     while not rospy.is_shutdown():
-        message.position.x = state.x
-        message.position.y = state.y
-        message.orientation.x = state.currentSpeed
-        message.orientation.z = state.yaw
+        message.pose.position.x = state.x
+        message.pose.position.y = state.y
+        message.pose.orientation.x = state.currentSpeed
+        message.pose.orientation.z = state.yaw
+        message.header.frame_id = "map"
         pub.publish(message)
         rate.sleep()

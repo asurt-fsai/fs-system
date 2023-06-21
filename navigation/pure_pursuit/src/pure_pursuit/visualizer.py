@@ -18,12 +18,19 @@ def plot(waypoints: WayPoints, state: State, name: str, targetInd: int) -> None:
 
         name (str): name of the plot
     """
-    plt.plot(waypoints.xList, waypoints.yList, "-r", label="course")
-    # plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
-    plt.plot(state.position.x, state.position.y, "ob", label="state")
+    # plt.plot(waypoints.waypoints.poses[-1].pose.position.x, waypoints.waypoints.poses[-1]
+    # .pose.position.y, "or", label="course")
+    plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xr", label="target")
+    plt.plot(state.position.x, state.position.y, "og", label="state")
     plt.grid(True)
-    plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
+    plt.plot(
+        waypoints.waypoints.poses[targetInd].pose.position.x,
+        waypoints.waypoints.poses[targetInd].pose.position.y,
+        "ob",
+        label="path",
+    )
     plt.axis("equal")
+
     plt.title(name)
     # plt.legend()
     plt.pause(0.001)
