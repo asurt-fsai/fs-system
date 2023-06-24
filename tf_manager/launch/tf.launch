@@ -1,0 +1,10 @@
+<launch>
+    <!-- TODO set these actual transform values based on real robot!!! -->
+    <node pkg="tf" type="static_transform_publisher" name="lidar_to_kit" args="0 0 0 -1.570796 0 -1.570796 camera camera_optical 10" />
+    <node pkg="tf" type="static_transform_publisher" name="flir_to_kit" args="0 0 0 0 0 0 base_footprint base_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="zed_to_kit" args="0 0 0 0 0 0 base_footprint base_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="imu_to_kit" args="0 0 0 0 0 0 base_footprint base_link 10" />
+    <node pkg="tf" type="static_transform_publisher" name="kit_to_baselink" args="0 0 1.0 0 0.78539816339 0 base_link camera 10" />
+    <node pkg="tf" type="static_transform_publisher" name="rear_axle_to_baselink" args="0 0 1.0 0 0.78539816339 0 base_link camera 10" />
+    <node pkg="tf" type="static_transform_publisher" name="front_axle_to_baselink" args="0 0 1.0 0 0.78539816339 0 base_link camera 10" />
+</launch>
