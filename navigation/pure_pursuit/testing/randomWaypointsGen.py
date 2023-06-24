@@ -987,7 +987,7 @@ y_coord = [
 # y_coord = [0, 0, 0, 0, 0]
 # spline [array of x, array of y]
 rospy.init_node("waypoints", anonymous=True)
-rate = rospy.Rate(20)  # hz
+rate = rospy.Rate(10)  # hz
 path = PoseStamped()
 pathMsg = Path()
 path_pub = rospy.Publisher("/pathplanning/waypoints", Path, queue_size=10)
@@ -999,14 +999,22 @@ if __name__ == "__main__":
     color = "ob"
     # rate.sleep()
     # print(x_coord)
+    frame_id = "map"
+    pathMsg.header.frame_id = frame_id
     for i in range(len(x_coord)):
         path.pose.position.x = x_coord[i]
         path.pose.position.y = y_coord[i]
         # path.header.seq = i
         # path.header.stamp = rospy.Time.now()
-        path.header.frame_id = "map"
+        # print("x: ", x_coord[i], "y: ", y_coord[i])
+        for j in range(10):
+            path.pose.position.x = x_coord[i + j]
+            path.pose.position.y = y_coord[i + j]
+
+            pathMsg.poses.append(path)
+        path.header.frame_id = frame_id
         # print("index:", i)
-        pathMsg.poses.append(path)
+        # pathMsg.poses.append(path)
         # print(path)
         # print("x: ", x_coord[i], "y: ", y_coord[i])
         # print(pathMsg.poses[-1])
@@ -1014,43 +1022,50 @@ if __name__ == "__main__":
         # plt.plot(x_coord[i], y_coord[i], "ob", label="state")
         # plt.plot(pathMsg.poses[j].pose.position.x, pathMsg.poses[j].pose.position.y, color, label="course")
         # plt.pause(0.001)
-        j += 1
-        if i % 5 == 0:
-            # y_coord.append(20 * math.sin(x_coord[i]/3))
-            # print("x: ", x_coord[i], "y: ", y_coord[i])
-            # print("length of pose message:",len(pathMsg.poses), "index:",i)
-            # for j in range(len(pathMsg.poses)):
-            #     plt.plot(pathMsg.poses[j].pose.position.x, pathMsg.poses[j].pose.position.y, "ob", label="course")
-            #     plt.pause(0.001)
-            #     print(len(pathMsg.poses))
-            # print(pathMsg.poses[-1])
-            if colorseq % 2:
-                color = "ob"
-            else:
-                color = "or"
+        # j += 1
+        # if i % 5 == 0:
+        #     # y_coord.append(20 * math.sin(x_coord[i]/3))
+        #     # print("x: ", x_coord[i], "y: ", y_coord[i])
+        #     # print("length of pose message:",len(pathMsg.poses), "index:",i)
+        #     # for j in range(len(pathMsg.poses)):
+        #     #     plt.plot(pathMsg.poses[j].pose.position.x, pathMsg.poses[j].pose.position.y, "ob", label="course")
+        #     #     plt.pause(0.001)
+        #     #     print(len(pathMsg.poses))
+        #     # print(pathMsg.poses[-1])
+        #     if colorseq % 2:
+        #         color = "ob"
+        #     else:
+        #         color = "or"
 
-            # print("firstpose:\n",pathMsg.poses[-1].pose.position , "lastpose:\n", pathMsg.poses[0].pose.position)
+        #     # print("firstpose:\n",pathMsg.poses[-1].pose.position , "lastpose:\n", pathMsg.poses[0].pose.position)
 
-            # pathMsg.poses = []
-            # plt.clf()
-            colorseq += 1
-            j = 0
-        if i % 10:
-            path_pub.publish(pathMsg)
-            print("published path: ", pathMsg.poses)
+        #     # pathMsg.poses = []
+        #     # plt.clf()
+        #     colorseq += 1
+        #     j = 0
+        # if i % 10:
+
+        #     pathMsg.poses = []
+        # i = i - 100
+        # break
+
+        # bya5od a5er point mab3ota ka index
+        # """
+        # plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
+        # plt.plot(state.position.x, state.position.y, "ob", label="state")
+        # plt.grid(True)
+        # plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
+        # plt.axis("equal")
+        # plt.title(name)
+        # plt.legend()
+        path_pub.publish(pathMsg)
+        # print("published path: ", pathMsg.poses)
+        pathMsg.poses = []
+
+        if len(pathMsg.poses) > 100:
             pathMsg.poses = []
-            # i = i - 100
-            # break
-            """
-            bya5od a5er point mab3ota ka index
-            """
-            # plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
-            # plt.plot(state.position.x, state.position.y, "ob", label="state")
-            # plt.grid(True)
-            # plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xg", label="target")
-            # plt.axis("equal")
-            # plt.title(name)
-            # plt.legend()
+            print("cleared path")
+            break
         rate.sleep()
 
     zip_object = list(zip(x_coord, y_coord))

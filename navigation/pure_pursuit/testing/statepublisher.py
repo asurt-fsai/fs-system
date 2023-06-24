@@ -4,8 +4,11 @@
 import math
 import rospy
 import numpy as np
-from geometry_msgs.msg import Pose, PoseStamped
-from ackermann_msgs.msg import AckermannDrive
+from geometry_msgs.msg import Pose, PoseStamped, PoseWithCovariance
+from ackermann_msgs.msg import AckermannDriveStamped
+from nav_msgs.msg import Odometry
+from tf_helper import TFHelper
+import tf
 
 BaseLength = 2.9
 dt = 0.1
@@ -28,17 +31,19 @@ class State:
         self.rearX = self.x - ((BaseLength / 2) * math.cos(self.yaw))
         self.rearY = self.y - ((BaseLength / 2) * math.sin(self.yaw))
 
-    def update(self, controlActions: AckermannDrive) -> None:
+    def update(self, controlActions: AckermannDriveStamped) -> None:
         """
 
         update the state of the vehicle
 
         """
 
-        self.currentSpeed += controlActions.acceleration * dt
+        self.currentSpeed += controlActions.drive.acceleration * dt
         self.x += self.currentSpeed * math.cos(self.yaw) * dt
         self.y += self.currentSpeed * math.sin(self.yaw) * dt
-        self.yaw += self.currentSpeed / BaseLength * math.tan(controlActions.steering_angle) * dt
+        self.yaw += (
+            self.currentSpeed / BaseLength * math.tan(controlActions.drive.steering_angle) * dt
+        )
 
         self.rearX = self.x - ((BaseLength / 2) * math.cos(self.yaw))
         self.rearY = self.y - ((BaseLength / 2) * math.sin(self.yaw))
@@ -55,18 +60,32 @@ class State:
         return math.hypot(dx, dy)
 
 
+def handle__pose(msg: PoseStamped, frameename):
+    br = tf.TransformBroadcaster()
+    br.sendTransform(
+        (msg.pose.position.x, msg.pose.position.y, 0),
+        tf.transformations.quaternion_from_euler(0, 0, msg.pose.orientation.z),
+        rospy.Time.now(),
+        frameename,
+        "map",
+    )
+
+
 if __name__ == "__main__":
     state = State()
     rospy.init_node("statepublisher", anonymous=True)
-    rospy.Subscriber("/control_actions", AckermannDrive, state.update)
-    pub = rospy.Publisher("/state", PoseStamped, queue_size=10)
+
+    rospy.Subscriber("/control_actions", AckermannDriveStamped, state.update)
+    pub = rospy.Publisher("/state", Odometry, queue_size=10)
     rate = rospy.Rate(10)
-    message = PoseStamped()
+    message = Odometry()
+
     while not rospy.is_shutdown():
-        message.pose.position.x = state.x
-        message.pose.position.y = state.y
-        message.pose.orientation.x = state.currentSpeed
-        message.pose.orientation.z = state.yaw
+        message.pose.pose.position.x = state.x
+        message.pose.pose.position.y = state.y
+        message.pose.pose.orientation.x = state.currentSpeed
+        message.pose.pose.orientation.z = state.yaw
         message.header.frame_id = "map"
         pub.publish(message)
+        handle__pose(message, "base_link")
         rate.sleep()

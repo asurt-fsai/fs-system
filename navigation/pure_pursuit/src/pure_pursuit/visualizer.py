@@ -23,6 +23,7 @@ def plot(waypoints: WayPoints, state: State, name: str, targetInd: int) -> None:
     plt.plot(waypoints.xList[targetInd], waypoints.yList[targetInd], "xr", label="target")
     plt.plot(state.position.x, state.position.y, "og", label="state")
     plt.grid(True)
+    print(targetInd)
     plt.plot(
         waypoints.waypoints.poses[targetInd].pose.position.x,
         waypoints.waypoints.poses[targetInd].pose.position.y,

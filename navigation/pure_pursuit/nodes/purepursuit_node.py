@@ -12,12 +12,25 @@ from pure_pursuit import (
     plot,
 )
 
-from nav_msgs.msg import Path, Odometry
+# from tf_helper.TFHelper import TFHelper
+# helper = TFHelper("control")
 
+# localPath = helper.transformMsg(pathMsgFromCallback, "base_link")
 
-PLOTTING = rospy.get_param("/plotting")
-PLOTNAME = rospy.get_param("/plotName")
-TARGETSPEED = rospy.get_param("/targetSpeed")
+from nav_msgs.msg import Path
+
+try:
+    PLOTTING = rospy.get_param("/plotting", True)
+    PLOTNAME = rospy.get_param("/plotName", "purepursuit")
+    TARGETSPEED = rospy.get_param("/speed/target", 10)
+except ConnectionRefusedError:
+    PLOTTING = True
+    PLOTNAME = "purepursuit"
+    TARGETSPEED = 10.0
+except KeyError:
+    PLOTTING = True
+    PLOTNAME = "purepursuit"
+    TARGETSPEED = 10.0
 
 
 def main() -> None:
@@ -33,13 +46,13 @@ def main() -> None:
 
     position = Position(0.0, 0.0)
     state = State(position, 0.0)
-    rospy.Subscriber("/state", Odometry, callback=state.update)
+    # rospy.Subscriber("/state", Odometry, callback=state.update)
     rospy.Subscriber("/pathplanning/waypoints", Path, callback=waypoints.add)
     rospy.wait_for_message("/pathplanning/waypoints", Path)
 
     controlAction = AckermannDriveStamped()
     pidController = PidController()
-    rate = rospy.Rate(rospy.get_param("/rate"))
+    rate = rospy.Rate(rospy.get_param("/rate", 10))
     targetInd = 0
     prevError = 0.0
     while not rospy.is_shutdown():
@@ -52,6 +65,7 @@ def main() -> None:
         controlAction.drive.acceleration = acc
         controlAction.drive.steering_angle = delta
         controlAction.drive.speed = TARGETSPEED
+        controlAction.drive.jerk = targetInd
 
         controlActionPub.publish(controlAction)
         if PLOTTING:

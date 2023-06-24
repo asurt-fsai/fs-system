@@ -8,9 +8,11 @@ from typing import List, Tuple
 import numpy as np
 import rospy
 from nav_msgs.msg import Path, Odometry
+from tf_helper.TFHelper import TFHelper
 
-BASELENGTH = rospy.get_param("/base_length")  # [m] car length
-LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant")  # look ahead constant
+
+BASELENGTH = rospy.get_param("/base_length", 2.5)  # [m] car length
+LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant", 2.0)  # look ahead constant
 
 
 @dataclass
@@ -126,7 +128,7 @@ class WayPoints:
         self.yList: List[float] = []
         self.oldNearestPointIndex: int = 0
         self.firstLoop: bool = False
-        self.mapGiven: bool = rospy.get_param("/map_given")
+        self.mapGiven: bool = False
 
     def add(self, waypointsMsg: Path) -> None:
         """
@@ -137,7 +139,11 @@ class WayPoints:
         waypoints : Pose
             waypoint of the vehicle received from the path planner
         """
-        self.waypoints = waypointsMsg
+        helper = TFHelper("control")
+        # print("waypoint",waypointsMsg.poses[0])
+        self.waypoints = helper.transformMsg(waypointsMsg, "base_link")
+        # print("transformed waypoint",self.waypoints.poses[0])
+        # self.waypoints = waypointsMsg
         self.points = self.waypoints.poses
 
     def searchTargetIndex(self, state: State) -> Tuple[int, float]:
@@ -157,6 +163,8 @@ class WayPoints:
         lookahead : float
             lookahead distance to the target point
         """
+
+        self.mapGiven = rospy.get_param("/map_given", False)
 
         lookAhead: float = LOOKAHEADCONSTANT
         if self.mapGiven:  # if map is given in first message
