@@ -30,7 +30,7 @@ import math
 from typing import Tuple
 import rospy
 
-# try:
+
 KP = rospy.get_param("/gains/proportional", 0.1)  # propotional gain
 KD = rospy.get_param("/gains/differential", 0.1)  # differential gain
 KI = rospy.get_param("/gains/integral", 0.1)  # integral gain
@@ -40,26 +40,6 @@ MINSPEED = rospy.get_param("/speed/min", 5.0)  # [m/s] min speed
 TARGETSPEED = rospy.get_param("/speed/target", 20.0)  # [m/s] target speed
 MAXACC = rospy.get_param("/acceleration/max", 15.0)  # [m/ss] max acceleration
 MINACC = rospy.get_param("/acceleration/min", -15.0)  # [m/ss] min acceleration
-# except ConnectionRefusedError:
-#     KP = 0.1
-#     KD = 0.1
-#     KI = 0.1
-#     DT = 0.1
-#     MAXSPEED = 40.0
-#     MINSPEED = 5.0
-#     TARGETSPEED = 20.0
-#     MAXACC = 15.0
-#     MINACC = -15.0
-# except KeyError:
-#     KP = 0.1
-#     KD = 0.1
-#     KI = 0.1
-#     DT = 0.1
-#     MAXSPEED = 40.0
-#     MINSPEED = 5.0
-#     TARGETSPEED = 20.0
-#     MAXACC = 15.0
-#     MINACC = -15.0
 
 
 class PidController:

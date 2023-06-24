@@ -19,18 +19,9 @@ from pure_pursuit import (
 
 from nav_msgs.msg import Path
 
-try:
-    PLOTTING = rospy.get_param("/plotting", True)
-    PLOTNAME = rospy.get_param("/plotName", "purepursuit")
-    TARGETSPEED = rospy.get_param("/speed/target", 10)
-except ConnectionRefusedError:
-    PLOTTING = True
-    PLOTNAME = "purepursuit"
-    TARGETSPEED = 10.0
-except KeyError:
-    PLOTTING = True
-    PLOTNAME = "purepursuit"
-    TARGETSPEED = 10.0
+PLOTTING = rospy.get_param("/plotting", True)
+PLOTNAME = rospy.get_param("/plotName", "purepursuit")
+TARGETSPEED = rospy.get_param("/speed/target", 10)
 
 
 def main() -> None:
@@ -46,9 +37,8 @@ def main() -> None:
 
     position = Position(0.0, 0.0)
     state = State(position, 0.0)
-    # rospy.Subscriber("/state", Odometry, callback=state.update)
+
     rospy.Subscriber("/pathplanning/waypoints", Path, callback=waypoints.add)
-    # rospy.wait_for_message("/pathplanning/waypoints", Path)
 
     controlAction = AckermannDriveStamped()
     pidController = PidController()
@@ -65,7 +55,6 @@ def main() -> None:
         controlAction.drive.acceleration = acc
         controlAction.drive.steering_angle = delta
         controlAction.drive.speed = TARGETSPEED
-        controlAction.drive.jerk = targetInd
 
         controlActionPub.publish(controlAction)
         if PLOTTING:

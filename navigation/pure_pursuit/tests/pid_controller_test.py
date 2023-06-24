@@ -31,7 +31,6 @@ class test_pid_controller(unittest.TestCase):
         state.rearX = 5
         state.rearY = 4
         state.currentSpeed = 1
-        # waypoint.searchTargetIndex(state)
         self.assertAlmostEqual(waypoint.searchTargetIndex(state)[1], 1)
 
 
