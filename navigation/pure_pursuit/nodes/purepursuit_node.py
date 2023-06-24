@@ -48,7 +48,7 @@ def main() -> None:
     state = State(position, 0.0)
     # rospy.Subscriber("/state", Odometry, callback=state.update)
     rospy.Subscriber("/pathplanning/waypoints", Path, callback=waypoints.add)
-    rospy.wait_for_message("/pathplanning/waypoints", Path)
+    # rospy.wait_for_message("/pathplanning/waypoints", Path)
 
     controlAction = AckermannDriveStamped()
     pidController = PidController()
