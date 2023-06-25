@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Topics -->
+    <param name="/zed/disparity_topic" value="/zed/zed_node/disparity/disparity_image"/>
+    <param name="/zed/cones_topic" value="zed/detected_cones"/>
+    <param name="/zed/camera_info_topic" value="/zed/zed_node/left/camera_info"/>
+    <param name = "darknet_ros/bounding_boxes_topic" value="/darknet_ros/bounding_boxes"/>
+
+    <!-- Parameters -->
+    <param name = "/zed/pixels_to_consider"  value = "10"/>
+
+    <!-- Nodes-->
+    <node name="zed_cones" pkg="zed" type="wrapper.py" output="screen"/>
+</launch>
