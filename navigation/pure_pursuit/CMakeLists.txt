@@ -9,7 +9,8 @@ find_package(
              std_msgs
              asurt_msgs
              geometry_msgs
-             nav_msgs)
+             nav_msgs
+             tf_helper)
 
 catkin_package(
   # INCLUDE_DIRS include
@@ -23,6 +24,7 @@ catkin_package(
   asurt_msgs
   geometry_msgs
   nav_msgs
+  tf_helper
   # DEPENDS system_lib
 )
 
