@@ -20,7 +20,7 @@ class CrossRatioLoss(nn.Module):
         include_geo: bool,
         geo_loss_gamma_horz: float,
         geo_loss_gamma_vert: float,
-    ):
+    ) -> None:
         """initialize the cross ratio loss class
 
         Parameters:
@@ -48,7 +48,7 @@ class CrossRatioLoss(nn.Module):
         points: torch.Tensor,
         target_hm: torch.Tensor,
         target_points: torch.Tensor,
-    ):
+    ) -> torch.Tensor:
         """compute the cross ratio loss
 
         Parameters:
