@@ -140,10 +140,9 @@ class WayPoints:
             waypoint of the vehicle received from the path planner
         """
         helper = TFHelper("control")
-        # print("waypoint",waypointsMsg.poses[0])
+
         self.waypoints = helper.transformMsg(waypointsMsg, "base_link")
-        # print("transformed waypoint",self.waypoints.poses[0])
-        # self.waypoints = waypointsMsg
+
         self.points = self.waypoints.poses
 
     def searchTargetIndex(self, state: State) -> Tuple[int, float]:

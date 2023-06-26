@@ -12,10 +12,6 @@ from pure_pursuit import (
     plot,
 )
 
-# from tf_helper.TFHelper import TFHelper
-# helper = TFHelper("control")
-
-# localPath = helper.transformMsg(pathMsgFromCallback, "base_link")
 
 from nav_msgs.msg import Path
 
@@ -57,7 +53,7 @@ def main() -> None:
         controlAction.drive.speed = TARGETSPEED
 
         controlActionPub.publish(controlAction)
-        if PLOTTING:
+        if PLOTTING and len(waypoints.xList) != 0:
 
             plot(waypoints, state, PLOTNAME, targetInd)
 
