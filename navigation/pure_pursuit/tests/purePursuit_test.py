@@ -7,7 +7,8 @@ from pure_pursuit import WayPoints, State, purepursuitSteercontrol, Position
 
 
 import numpy as np
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path
+from geometry_msgs.msg import PoseStamped
 
 
 class test_purepursuit_controller(unittest.TestCase):
@@ -25,40 +26,91 @@ class test_purepursuit_controller(unittest.TestCase):
 
         state.update(nextpose)
 
-        self.assertAlmostEqual(state.rearX, 7.0, -1)
+        self.assertAlmostEqual(state.rearX, 10.75)
 
     def test_calcDistance(self):
         state = State(Position(0, 0), 0, 0)
         state.rearX = 0.0
         state.rearY = 0.0
-        self.assertAlmostEqual(state.calcDistance(3.0, 4.0), 7.0, 1)
+        self.assertAlmostEqual(state.calcDistance(3.0, 4.0), 5.0)
 
     def test_purepursuitController(self):
         state = State(Position(0, 0), 0, 0)
         state.rearX = 0.0
         state.rearY = 0.0
         waypoints = WayPoints()
-        waypoints.xList = [1, 20, 30, 40, 50]
-        waypoints.yList = [19, 20, 33, 40, 50]
-        self.assertAlmostEqual(purepursuitSteercontrol(state, waypoints, 1)[0], 7.0)
+        pathSend = Path()
+        pose1 = PoseStamped()
+        pose2 = PoseStamped()
+        pose3 = PoseStamped()
+        pose4 = PoseStamped()
+        pose5 = PoseStamped()
+        pose1.pose.position.x = 0.1
+        pose1.pose.position.y = 0.1
+        pose2.pose.position.x = 0.4
+        pose2.pose.position.y = 0.5
+        pose3.pose.position.x = 0.6
+        pose3.pose.position.y = 0.8
+        pose4.pose.position.x = 40
+        pose4.pose.position.y = 40
+        pose5.pose.position.x = 50
+        pose5.pose.position.y = 50
 
-    def test_purepursuit(self):
+        pathSend.poses = [pose1, pose2, pose3, pose4, pose5]
+        waypoints.waypoints = pathSend
+        waypoints.points = pathSend.poses
+
+        _, ind = purepursuitSteercontrol(state, waypoints, 5)
+        self.assertAlmostEqual(ind, 4)
+
+    def test_searchTargetIndexMethod(self):
 
         state = State(Position(0, 0), 0, 0)
         state.currentSpeed = 0.0
         waypoints = WayPoints()
-        waypoints.xList = [1, 20, 30, 40, 50]
-        waypoints.yList = [19, 20, 33, 40, 50]
-        self.assertAlmostEqual(purepursuitSteercontrol(state, waypoints, 2)[0], 200.0, 1)
+        pathSend = Path()
+        pose1 = PoseStamped()
+        pose2 = PoseStamped()
+        pose3 = PoseStamped()
+        pose4 = PoseStamped()
+        pose5 = PoseStamped()
+        pose1.pose.position.x = 0.1
+        pose1.pose.position.y = 0.1
+        pose2.pose.position.x = 0.4
+        pose2.pose.position.y = 0.5
+        pose3.pose.position.x = 0.6
+        pose3.pose.position.y = 0.8
+        pose4.pose.position.x = 40
+        pose4.pose.position.y = 40
+        pose5.pose.position.x = 50
+        pose5.pose.position.y = 50
+        pathSend.poses = [pose1, pose2, pose3, pose4, pose5]
+        waypoints.waypoints = pathSend
+        waypoints.points = pathSend.poses
+        ind, _ = waypoints.searchTargetIndex(state)
+        self.assertAlmostEqual(ind, 3)
 
     def test_steerControlMethod(self):
         waypoints = WayPoints()
-        waypoints.xList = [1, 20, 30, 40, 50]
-        waypoints.yList = [19, 20, 33, 40, 50]
+        pathSend = Path()
+        pose1 = PoseStamped()
+        pose2 = PoseStamped()
+        pose3 = PoseStamped()
+        pose1.pose.position.x = 0.0
+        pose1.pose.position.y = 0.0
+        pose2.pose.position.x = 6.1
+        pose2.pose.position.y = 6.5
+        pose3.pose.position.x = 30
+        pose3.pose.position.y = 33
+        pathSend.poses = [pose1, pose2, pose3]
+        waypoints.waypoints = pathSend
+        waypoints.points = pathSend.poses
         state = State(Position(0, 0), 0, 0)
-        delta = purepursuitSteercontrol(state, waypoints, 0)
+        state.rearX = 0.0
+        state.rearY = 0.0
+        delta, _ = purepursuitSteercontrol(state, waypoints, 0)
 
-        self.assertAlmostEqual(delta, 0.0)
+        self.assertAlmostEqual(delta, 0.97, places=2)
 
 
 if __name__ == "__main__":

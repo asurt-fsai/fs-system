@@ -3,8 +3,8 @@
     <param name="/gains/lookahead"  value="2.0"/>
     <param name="/gains/look_forward"  value="0.3"/>
 
-    <param name="/look_ahead_constant"  value="5.0"/>
-    <param name="/base_length"  value="2.9"/>
+    <param name="/look_ahead_constant"  value="2.5"/>
+    <param name="/base_length"  value="2.5"/>
     <param name="/map_given"  value="False"/>
 
     <param name="/time_step"  value="0.1"/>

@@ -12,7 +12,7 @@ from tf_helper.TFHelper import TFHelper
 
 
 BASELENGTH = rospy.get_param("/base_length", 2.5)  # [m] car length
-LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant", 2.0)  # look ahead constant
+LOOKAHEADCONSTANT = rospy.get_param("/look_ahead_constant", 2.5)  # look ahead constant
 
 
 @dataclass
@@ -206,7 +206,8 @@ class WayPoints:
 
                 self.xList.append(self.waypoints.poses[index].pose.position.x)
                 self.yList.append(self.waypoints.poses[index].pose.position.y)
-            while ind < len(self.xList) - 1:
+
+            while ind <= len(self.xList) - 1:
                 distanceThisIndex = state.calcDistance(self.xList[ind], self.yList[ind])
                 if distanceThisIndex > lookAhead:
                     break
@@ -240,8 +241,8 @@ def purepursuitSteercontrol(state: State, trajectory: WayPoints, pind: int) -> T
         index of the target point
     """
     ind, lookAhead = trajectory.searchTargetIndex(state)
-    trajX: float = 0
-    trajY: float = 0
+    trajX: float = 0.0
+    trajY: float = 0.0
     if pind >= ind:
         ind = pind
     if trajectory.points != []:
