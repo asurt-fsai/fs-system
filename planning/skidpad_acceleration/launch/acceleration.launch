@@ -1,0 +1,6 @@
+<launch>
+    <!-- <include file = "$(find pkg_acc)/src/acceleration.py"/> -->
+    <node pkg="skidpad_acceleration" type="acceleration.py" name="acceleration_node" output="screen">
+        <param name="len_of_line" type="double" value="2000"/>
+    </node>
+</launch>
