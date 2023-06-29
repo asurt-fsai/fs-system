@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+    <param name="/look_ahead_constant"  value="2.5"/>
+    <param name="/base_length"  value="2.5"/>
+    <param name="/speed/target"  value="2.0"/>
+    <param name="/rate"  value="10"/>
+
+</launch>
