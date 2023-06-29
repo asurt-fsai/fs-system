@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Launch the ROS node -->
+    <node name="waypoints_node" pkg ="skidpad" type="skidpad_node.py" output="screen">
+        <param name="distance" type="double" value="18.25"/>
+        <param name="inner_radius" type="double" value="7.625"/>
+        <param name="outer_radius" type="double" value="10.625"/>
+        <param name="len_of_line_t" type="double" value="3.0"/>
+        <param name="len_of_line_b" type="double" value="6.0"/>
+    </node>
+</launch>
