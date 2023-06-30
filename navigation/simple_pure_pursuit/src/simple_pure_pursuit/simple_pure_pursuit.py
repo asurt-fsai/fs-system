@@ -8,7 +8,8 @@ from typing import List, Tuple
 
 import rospy
 from nav_msgs.msg import Path
-from tf_helper.TFHelper import TFHelper
+
+# from tf_helper.TFHelper import TFHelper
 
 
 BASELENGTH = rospy.get_param("/base_length", 2.5)  # [m] car length
@@ -54,10 +55,10 @@ class WayPoints:
         points : List[PoseStamped]
             list of waypoints of the vehicle received from the path planner
         """
-        helper = TFHelper("control")
+        # helper = TFHelper("control")
 
-        self.waypoints = helper.transformMsg(waypointsMsg, "rear_axle")
-
+        # self.waypoints = helper.transformMsg(waypointsMsg, "rear_axle")
+        self.waypoints = waypointsMsg
         self.points = self.waypoints.poses
 
     def searchTargetIndex(self) -> Tuple[int, float]:
