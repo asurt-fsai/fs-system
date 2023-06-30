@@ -15,7 +15,7 @@ find_package(
 catkin_package(
   # INCLUDE_DIRS include
   LIBRARIES
-  pure_pursuit
+
   CATKIN_DEPENDS
   rospy
   ros_numpy
@@ -37,5 +37,5 @@ install(
 
 catkin_python_setup()
 
-catkin_install_python(PROGRAMS nodes/purepursuit_node.py DESTINATION
+catkin_install_python(PROGRAMS nodes/simple_pp_node.py DESTINATION
                       ${CATKIN_PACKAGE_BIN_DESTINATION})
