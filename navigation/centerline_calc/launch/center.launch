@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<node name = "centerline_calc" pkg = "centerline_calc" type = "node.py" output="screen"/>
+</launch>
