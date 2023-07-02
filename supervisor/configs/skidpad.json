@@ -1,0 +1,9 @@
+{
+    "modules": [
+        {
+            "pkg": "planning",
+            "launch_file": "skidpad.launch",
+            "heartbeats_topic": "/status/skidpad"
+        }
+    ]
+}

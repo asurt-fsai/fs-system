@@ -1,0 +1,9 @@
+{
+    "modules": [
+        {
+            "pkg": "supervisor",
+            "launch_file": "staticB.launch",
+            "heartbeats_topic": "/status/staticB"
+        }
+    ]
+}

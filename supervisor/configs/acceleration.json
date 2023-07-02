@@ -1,0 +1,9 @@
+{
+    "modules": [
+        {
+            "pkg": "planning",
+            "launch_file": "acceleration.launch",
+            "heartbeats_topic": "/status/acceleration"
+        }
+    ]
+}
