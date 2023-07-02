@@ -9,6 +9,8 @@
 	<param name="/supervisor/driving_flag" value="/supervisor/driving_flag"/>
 	<param name="/supervisor/mission_flag" value="/supervisor/mission_flag"/>
 	<param name="/finisher/is_finished" value="/finisher/is_finished"/>
+	<param name="/state" value="/state"/>
+
 
 
 	<param name="/vcu/curr_vel" value="/vcu/curr_vel"/>

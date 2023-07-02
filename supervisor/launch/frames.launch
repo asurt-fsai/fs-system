@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="aloam_map" args="0 0 0 0 0 0 map aloam_map"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="hdl_map" args="0 0 0 0 0 0 map hdl_map"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="kit_zed" args="0.164 0 0 0 0 0 kit zed"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="kit_velodyne" args="-0.074 0 0 0 0 0 velodyne_fixed kit"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="zed_left" args="0 0.062 0 0 0 0 zed zed_left"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="zed_right" args="0 -0.062 0 0 0 0 zed zed_right"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="fixed_velodyne_link" args="0 0 0 0 0 0 velodyne_fixed velodyne "/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_kit" args="-1 0 0 0 0 0 kit base_link"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_rear" args="-1 0 0 0 0 0 base_link rear_link"/>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="kit_imu" args="0.105 0 0 0 0 0 kit imu"/>
+</launch>

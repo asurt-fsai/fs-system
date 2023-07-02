@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/maxSteer" value=27.2/>
+
+	<node name = "staticA" pkg = "supervisor" type = "staticA.py" output="screen"/>
+
+</launch>
