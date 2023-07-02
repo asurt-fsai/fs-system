@@ -90,9 +90,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         self.start = np.array([start[0], start[1]])
         self.currentPosition = np.array([float(start[0]), float(start[1])])
         self.goal = np.array([goal[0], goal[1]])
-        self.obstacles = [
-            np.array([obstacle[0], obstacle[1]]) for obstacle in obstacles
-        ]
+        self.obstacles = [np.array([obstacle[0], obstacle[1]]) for obstacle in obstacles]
         self.kAttractive = kAttractive
         self.kRepulsive = kRepulsive
         self.repulsiveRadius = repulsiveRadius
@@ -114,6 +112,8 @@ class APF:  # pylint: disable=too-many-instance-attributes
         self.plot = plot
         self.oneSide = False
         self.passedCones = False
+        self.extraYellow = np.array([])
+        self.extraBlue = np.array([])
 
     def length(self, force: npt.NDArray[np.float64]) -> float:
         """
@@ -151,6 +151,11 @@ class APF:  # pylint: disable=too-many-instance-attributes
             return np.array([0.0, 0.0])
         return np.array([force[0], force[1]]) * (1 / self.length(force))
 
+    def distanceToObstacles(self, obstacles: npt.NDArray[np.float64]):
+        distances = [np.linalg.norm(cone - self.currentPosition) for cone in obstacles]
+        sorted_cones = [cone for _, cone in sorted(zip(distances, obstacles))]
+        return np.array(sorted_cones)
+
     def nearest(
         self, obstacles: npt.NDArray[np.float64]
     ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64]]:
@@ -173,9 +178,7 @@ class APF:  # pylint: disable=too-many-instance-attributes
         nearestObstacle = self.obstacles[0]
         nearestToObstacle = np.full((2,), np.inf)
         for obstacle in obstacles:
-            if self.length((obstacle) - self.currentPosition) < self.length(
-                nearestToObstacle
-            ):
+            if self.length((obstacle) - self.currentPosition) < self.length(nearestToObstacle):
                 nearestObstacle = obstacle
                 nearestToObstacle = nearestObstacle - self.currentPosition
 
@@ -191,19 +194,57 @@ class APF:  # pylint: disable=too-many-instance-attributes
             The attractive force vector to the goal.
         """
         attractiveToObstacle = np.zeros(2, dtype=np.float128)
-        for obstacle in self.unduplicatedObstacles:
-            attractiveToObstacle += (obstacle - self.currentPosition) * self.kAttractive
+        nearestCone1, _ = self.nearest(self.unduplicatedObstacles)
+        obstaclesWithoutNearestCone1 = self.unduplicatedObstacles[
+            (self.unduplicatedObstacles != nearestCone1).all(axis=1)
+        ]
+        nearestCone2, _ = self.nearest(obstaclesWithoutNearestCone1)
+        if (
+            nearestCone1 in self.obsYellow
+            and nearestCone2 in self.obsYellow
+            or nearestCone1 in self.obsBlue
+            and nearestCone2 in self.obsBlue
+        ):
+            obstaclesWithoutNearestCone2 = obstaclesWithoutNearestCone1[
+                (obstaclesWithoutNearestCone1 != nearestCone2).all(axis=1)
+            ]
+            nearestCone3, _ = self.nearest(obstaclesWithoutNearestCone2)
+            nearestCones = np.array([nearestCone1, nearestCone3])
 
+        else:
+            # if different colors
+            nearestCones = np.array([nearestCone1, nearestCone2])
+
+        for obstacle in nearestCones:
             if obstacle[0] < (self.currentPosition[0]):
                 # this means current position is past the nearest obstacle
                 self.unduplicatedObstacles = self.unduplicatedObstacles[
                     (self.unduplicatedObstacles != obstacle).all(axis=1)
                 ]
+                nearestCones = nearestCones[(nearestCones != obstacle).all(axis=1)]
+            else:
+                attractiveToObstacle += (obstacle - self.currentPosition) * self.kAttractive
 
-                if self.unduplicatedObstacles.size == 2:
-                    self.isPathPlanSuccess = True
-                    break
+            # if self.unduplicatedObstacles.size == 2:
+            #     self.isPathPlanSuccess = True
+            #     break
 
+        return attractiveToObstacle
+
+    def attractive2(self) -> npt.NDArray[np.float128]:
+        attractiveToObstacle = np.zeros(2, dtype=np.float128)
+        for obstacle in self.unduplicatedObstacles:
+            if obstacle[0] < (self.currentPosition[0]):
+                # this means current position is past the nearest obstacle
+                self.unduplicatedObstacles = self.unduplicatedObstacles[
+                    (self.unduplicatedObstacles != obstacle).all(axis=1)
+                ]
+            else:
+                attractiveToObstacle += (obstacle - self.currentPosition) * self.kAttractive
+
+            if self.unduplicatedObstacles.size == 2:
+                self.isPathPlanSuccess = True
+                break
         return attractiveToObstacle
 
     def repulsion(self) -> npt.NDArray[np.float128]:
@@ -217,12 +258,75 @@ class APF:  # pylint: disable=too-many-instance-attributes
         """
         rep = np.zeros(2, dtype=np.float128)
         total = np.zeros(2, dtype=np.float128)
+        for obstacle in self.extraYellow:
+            obsToRob = self.currentPosition - obstacle
+
+            robToObs = obstacle - self.currentPosition
+
+            if self.length(obsToRob) > self.repulsiveRadius:
+                pass
+            else:
+                rep = (
+                    np.array(
+                        [
+                            self.direction(obsToRob)[0],
+                            self.direction(obsToRob)[1],
+                        ]
+                    )
+                    * self.kRepulsive
+                    * (1.0 / self.length(obsToRob) - 1.0 / 2.0)
+                    / (self.length(obsToRob) ** 2)
+                )
+
+                rep2 = (
+                    np.array(
+                        [
+                            self.direction(robToObs)[0],
+                            self.direction(robToObs)[1],
+                        ]
+                    )
+                    * self.kRepulsive
+                    * ((1.0 / self.length(robToObs) - 1.0 / 2.0) ** 2)
+                    * self.length(obsToRob)
+                )
+                total = total + rep + rep2
+
+        for obstacle in self.extraBlue:
+            obsToRob = self.currentPosition - obstacle
+
+            robToObs = obstacle - self.currentPosition
+            if self.length(obsToRob) > 2.0:
+                pass
+            else:
+                rep = (
+                    np.array(
+                        [
+                            self.direction(obsToRob)[0],
+                            self.direction(obsToRob)[1],
+                        ]
+                    )
+                    * self.kRepulsive
+                    * (1.0 / self.length(obsToRob) - 1.0 / 2.0)
+                    / (self.length(obsToRob) ** 2)
+                )
+
+                rep2 = (
+                    np.array(
+                        [
+                            self.direction(robToObs)[0],
+                            self.direction(robToObs)[1],
+                        ]
+                    )
+                    * self.kRepulsive
+                    * ((1.0 / self.length(robToObs) - 1.0 / 2.0) ** 2)
+                    * self.length(obsToRob)
+                )
+                total = total + rep + rep2
 
         for obstacle in self.obstacles:
             obsToRob = self.currentPosition - obstacle
 
             robToObs = obstacle - self.currentPosition
-
             if self.length(obsToRob) > self.repulsiveRadius:
                 pass
             else:
@@ -265,14 +369,63 @@ class APF:  # pylint: disable=too-many-instance-attributes
             subplot.set_xlabel("X-distance: m")
             subplot.set_ylabel("Y-distance: m")
             subplot.plot(start[0], start[1], "*r")
-            for obstacle in self.obstacles:
+            for obstacle in self.obsYellow:
                 circle = Circle(
                     xy=(obstacle[0], obstacle[1]),
                     radius=self.repulsiveRadius,
                     alpha=0.3,
                 )
                 subplot.add_patch(circle)
-                circle.set_facecolor("grey")
+                circle.set_facecolor("yellow")
+                subplot.plot(obstacle[0], obstacle[1], "xk")
+            for obstacle in self.obsBlue:
+                circle = Circle(
+                    xy=(obstacle[0], obstacle[1]),
+                    radius=self.repulsiveRadius,
+                    alpha=0.3,
+                )
+                subplot.add_patch(circle)
+                circle.set_facecolor("blue")
+                subplot.plot(obstacle[0], obstacle[1], "xk")
+            for obstacle in self.obstacles:
+                if obstacle not in self.obsBlue and obstacle not in self.obsYellow:
+                    circle = Circle(
+                        xy=(obstacle[0], obstacle[1]),
+                        radius=self.repulsiveRadius,
+                        alpha=0.3,
+                    )
+                    subplot.add_patch(circle)
+                    circle.set_facecolor("grey")
+                    subplot.plot(obstacle[0], obstacle[1], "xk")
+            self.obsBlue = self.distanceToObstacles(self.obsBlue)
+            if len(self.obsBlue) > 1:
+                self.extraBlue = np.array([(self.obsBlue[0] + self.obsBlue[1]) / 2])
+                for i, _ in enumerate(self.obsBlue[1:-1], start=1):
+                    midpoint = (self.obsBlue[i] + self.obsBlue[i + 1]) / 2
+                    self.extraBlue = np.vstack((self.extraBlue, midpoint))
+            for obstacle in self.extraBlue:
+                circle = Circle(
+                    xy=(obstacle[0], obstacle[1]),
+                    radius=self.repulsiveRadius / 2,
+                    alpha=0.3,
+                )
+                subplot.add_patch(circle)
+                circle.set_facecolor((0, 0, 0.8))
+                subplot.plot(obstacle[0], obstacle[1], "xk")
+            # sortedYellow = self.distanceToObstacles(self.obsYellow)
+            if len(self.obsYellow) > 1:
+                self.extraYellow = np.array([(self.obsYellow[0] + self.obsYellow[1]) / 2])
+                for i, _ in enumerate(self.obsYellow[1:-1], start=1):
+                    midpoint = (self.obsYellow[i] + self.obsYellow[i + 1]) / 2
+                    self.extraYellow = np.vstack((self.extraYellow, midpoint))
+            for obstacle in self.extraYellow:
+                circle = Circle(
+                    xy=(obstacle[0], obstacle[1]),
+                    radius=self.repulsiveRadius / 2,
+                    alpha=0.3,
+                )
+                subplot.add_patch(circle)
+                circle.set_facecolor((0.8, 0.8, 0))
                 subplot.plot(obstacle[0], obstacle[1], "xk")
 
         while self.iterations < self.maxIterations:

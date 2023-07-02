@@ -6,6 +6,7 @@ initializes planning node
 from planning_apf import PlanningRos
 from tf_helper.TFHelper import TFHelper
 import rospy
+import time
 
 
 if __name__ == "__main__":
@@ -34,10 +35,15 @@ if __name__ == "__main__":
         maxIterations,
         goalThreshold,
         isIpg=False,
-        plot=False,
+        plot=True,
     )
+    # conesLength = planner.getConesLength()
+    # print("conesLength: ", conesLength)
     rate = rospy.Rate(10)
+    counter = 0
     while not rospy.is_shutdown():
-        planner.run()
-        
+        if len(planner.allCones) > 0:
+            counter += 1
+            planner.run(counter)
+
         rate.sleep()

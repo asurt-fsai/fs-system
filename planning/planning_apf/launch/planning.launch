@@ -4,12 +4,12 @@
 	<!-- <param name="/planning/cones_topic" value="/carmaker/ObjectList"/> -->
 	<param name="/planning/waypoints_topic" value="/pathplanning/waypoints"/>
 	<param name="/planning/frame_id" value="velodyne"/>
-	<param name="/planning/kAttractive" value="3.5"/>
-	<param name="/planning/kRepulsive" value="150"/>
-	<param name="/planning/repulsiveRadius" value="1.2"/>
+	<param name="/planning/kAttractive" value="1.0"/>
+	<param name="/planning/kRepulsive" value="1000"/>
+	<param name="/planning/repulsiveRadius" value="1.25"/>
 	<param name="/planning/stepSize" value="0.2"/>
-	<param name="/planning/maxIterations" value="25"/>
+	<param name="/planning/maxIterations" value="30"/>
 	<param name="/planning/goalThreshold" value="0.2"/>
-	<node name = "waypoints_cleaner_node" pkg = "planning_apf" type = "planning_cleaner_node.py" output="screen"/>
+	<!-- <node name = "waypoints_cleaner_node" pkg = "planning_apf" type = "planning_cleaner_node.py" output="screen"/> -->
 	<node name = "planner_node" pkg = "planning_apf" type = "planning_node.py" output="screen"/>
 </launch>

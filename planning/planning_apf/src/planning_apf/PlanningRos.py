@@ -10,7 +10,11 @@ from geometry_msgs.msg import PoseStamped
 import numpy as np
 import numpy.typing as npt
 import rospy
+import time
 from .APF import APF
+
+prevTime = 0
+prevTimeCPU = 0
 
 
 class PlanningRos:  # pylint: disable=too-many-instance-attributes
@@ -191,8 +195,14 @@ class PlanningRos:  # pylint: disable=too-many-instance-attributes
                 Landmark.LARGE_CONE,
             ]:
                 self.allCones.append(np.array([landmark.position.x, landmark.position.y]))
+                print(self.allCones)
+                print("---------------------")
 
-    def run(self):
+    def getConesLength(self):
+        return len(self.allCones)
+
+    def run(self, counter):
+        global prevTime, prevTimeCPU
         """
         Runs the path planning algorithm and publishes the planned path.
 
@@ -215,8 +225,22 @@ class PlanningRos:  # pylint: disable=too-many-instance-attributes
                 self.blueCones,
                 self.plot,
             )
+            start = time.time()
+            startCPU = time.process_time()
             apfTest.pathPlanPlot()
-
+            end = time.time()
+            endCPU = time.process_time()
+            # execution Time calculation
+            print("Time: ", end - start)
+            print("CPU Time: ", endCPU - startCPU)
+            totalTime = end - start
+            totalTimeCPU = endCPU - startCPU
+            prevTime += totalTime
+            prevTimeCPU += totalTimeCPU
+            average = prevTime / counter
+            averageCPU = prevTimeCPU / counter
+            print("Average: ", average)
+            print("Average CPU: ", averageCPU)
             path = Path()
             npath = np.array(apfTest.path)
             path = self.numpyToPath(npath)
