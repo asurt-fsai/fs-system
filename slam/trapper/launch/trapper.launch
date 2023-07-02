@@ -1,0 +1,12 @@
+<launch>
+  <!-- ROS Topics-->
+  <param name="Odometry_Topic" value="/odom"/>
+  <param name="Roadstate_Topic" value="/trapper/road_state"/>
+  <param name="Landmarks_Topic" value="/perception/smornn/detected"/>
+  <param name="Map_Topic" value="/trapper/detected"/>
+  <param name="Map_Viz_Topic" value="/trapper/detected_markers"/>
+  <param name="toID" value="map"/>
+  <param name="frames_threshold" value="10"/>
+
+  <node name="trapper" pkg="trapper" type="supervisor.py" output="screen"/>
+</launch>

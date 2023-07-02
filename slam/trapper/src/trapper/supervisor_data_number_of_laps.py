@@ -1,56 +1,54 @@
-#!/usr/bin/env python
 """
 indication for the interpreter that should be used to run the script.
 """
 # pylint: disable=too-many-instance-attributes
+# pylint: disable=global-variable-not-assigned
+# pylint: disable=global-statement
 
+import functools
+from typing import Callable, List, Any
 import typing
-import time
 from threading import Lock
-from typing import Callable, List
-from typing import Any
+import rospy
 from nav_msgs.msg import Odometry
+from asurt_msgs.msg import Roadstate, LandmarkArray
+from tf_helper.MarkerViz import MarkerViz
+from tf_helper.utils import parseLandmarks, createLandmarkMessage
+from tf_helper.TFHelper import TFHelper
+from visualization_msgs.msg import MarkerArray
 import numpy as np
 from numpy.typing import NDArray
+from trapper.srv import ResetAttributes
+
 
 # from tf_helper import *
 from tf.transformations import euler_from_quaternion
 
-mutex = Lock()
 
-
-def mutexLock(func: "Callable[...,Any]") -> "Callable[...,Any]":
+def mutexLock(lock: Lock) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
-    The function is used to secure shared resources between functions by creating a mutex
-    once the function is called and releasing it after function exceution
+    Decorator to lock a function with a given mutex
+
+    Parameters
+    ----------
+    lock : threading.Lock
+        Mutex lock to fetch and release
     """
 
-    def newFunc(*args: "int", **kwargs: "int") -> "Any":
-        with mutex:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        @functools.wraps(func)
+        def newFunc(*args: Any, **kwargs: Any) -> Any:
+            lock.acquire()
             val = None
-            val = func(*args, **kwargs)
+            try:
+                val = func(*args, **kwargs)
+            finally:
+                lock.release()
             return val
 
-    return newFunc
+        return newFunc
 
-
-def timeit(func: "Callable[...,Any]") -> "Callable[...,Any]":
-    """
-    returns the execution time of a function
-    """
-
-    def newFunc(*args: "int", **kwargs: "int") -> "Any":
-        tic = time.time()
-        val = None
-        try:
-            val = func(*args, **kwargs)
-        finally:
-            pass
-        toc = time.time()
-        print(func.__name__, ":", (toc - tic) * 1000, "ms")
-        return val
-
-    return newFunc
+    return decorator
 
 
 class SlamData:
@@ -64,17 +62,20 @@ class SlamData:
        Moreover, it has an attribute used to determine if the current position is far from the
        first position
 
-    it has 5 Methods save_odometry,parse,add_cones,cluster_cones,get_cones
+    it has 5 Methods saveOdometry,parse,addCones,clusteredCones,get_cones
 
     """
+
+    mutex = Lock()
 
     def __init__(self) -> None:
         # self.didClosure = True
         # self.gtPositions: NDArray[Any] = np.array([])
-        self.clusteredCones: List["float"]
+        self.clusteredCone: List[float] = []
         self.unclusteredCones: List[List["float"]] = []
+        self.framesCones: List[List[List[float]]] = []
         self.clusteredColors: List[List["int"]] = []
-        self.clusteredConescount: List["int"] = []
+        self.clusteredconesCount: List["int"] = []
         # self.conePoseids: NDArray[Any] = np.array([])
         # self.pointclouds: NDArray[Any] = np.array([])
         self.lastPosition = np.zeros(3)
@@ -83,11 +84,35 @@ class SlamData:
         self.distTravelled: float = 0
         self.lapsCompleted = 0
         self.firstPosition = [0, 0, 0]
-        self.isFarfromfirst = False
+        self.isfarFromfirst = False
+        self.callbackCount = 0
+        self.tfHelper = TFHelper("trapper")
         # self.minOccurcount = 3
         # self.coneRaduis = 1
 
-    @mutexLock
+    def resetAttributes(self, req: Any) -> None:  # pylint: disable=unused-argument
+        """
+        ResetAttributes service callback function
+        """
+        self.clusteredCone = []
+        self.unclusteredCones = []
+        self.framesCones = []
+        self.clusteredColors = []
+        self.clusteredconesCount = []
+        self.lastPosition = np.zeros(3)
+        self.distTravelled = 0
+        self.lapsCompleted = 0
+        self.firstPosition = [0, 0, 0]
+        self.isfarFromfirst = False
+        self.callbackCount = 0
+
+    def run(self) -> None:
+        """
+        The run method is used to initialize the node and the service
+        """
+        serviceName = "reset"
+        rospy.Service(serviceName, ResetAttributes, self.resetAttributes)
+
     def saveOdometry(self, positionX: "float", positionY: "float", yaw: "float") -> None:
         """
         1-saves the first odometry message array in first position attribute to have a reference for
@@ -110,13 +135,11 @@ class SlamData:
             if self.firstPosition is not None:
                 distTofirst = np.linalg.norm(lastPose[:2] - self.firstPosition[:2])
                 if distTofirst > 10:
-                    self.isFarfromfirst = True
+                    self.isfarFromfirst = True
 
-                print(self.isFarfromfirst, distTofirst)
-                if self.isFarfromfirst and distTofirst < 3:
-                    self.isFarfromfirst = False
+                if self.isfarFromfirst and distTofirst < 3:
+                    self.isfarFromfirst = False
                     self.lapsCompleted += 1
-                    print("HI")
 
     def parse(self, odomMsg: Odometry) -> typing.Tuple[float, float, float]:
         """
@@ -134,8 +157,7 @@ class SlamData:
         euler = euler_from_quaternion((positionX, positionY, positionZ, positionW))
         return position.x, position.y, euler[2]  # (x, y, yaw)
 
-    @mutexLock
-    def addCones(self, parsedCones: List[List[Any]]) -> None:
+    def addCones(self, parsedCones: NDArray[Any]) -> None:
         """
         Transforms the given cones from the robot's local coordinate system
         to the global coordinate system,
@@ -158,21 +180,26 @@ class SlamData:
         rotMat[1][0] = np.sin(yaw)
         rotMat[1][1] = np.cos(yaw)
 
-        transformedCones: List[List[float]] = []
+        transformedCones = []
         for cone in parsedCones:
-            coneX, coneY, coneType = cone
+            conex, coneY, coneType = cone
 
             # Transform point
-            point = np.array([coneX, coneY, 1]).reshape(3, 1)
+            point = np.array([conex, coneY, 1]).reshape(3, 1)
             transformed = rotMat @ point
-            coneX = transformed[0][0] + poseX
+            conex = transformed[0][0] + poseX
             coneY = transformed[1][0] + poseY
 
-            transformedCones.append([coneX, coneY, coneType])  # ask karim
+            transformedCones.append([conex, coneY, coneType])
 
-        self.unclusteredCones.extend(transformedCones)
+        self.framesCones.append(transformedCones)
+        self.framesCones = self.framesCones[-10:]
+        self.unclusteredCones = []
+        for cones in self.framesCones:
+            self.unclusteredCones.extend(cones)
 
-    def clusterCones(self) -> None:
+    @mutexLock(mutex)
+    def clusteredCones(self) -> None:
         """
         Method Workflow:
         1. Check if there are any unclustered cones available for processing.
@@ -199,8 +226,8 @@ class SlamData:
             newCones = np.copy(np.array(self.unclusteredCones)).astype(float)
             self.unclusteredCones = []
             clusteredCones: NDArray[Any] = np.array([])
-            if len(self.clusteredCones) > 0:
-                clusteredCones = np.array(self.clusteredCones)[:, :2].astype(float)
+            if len(self.clusteredCone) > 0:
+                clusteredCones = np.array(self.clusteredCone)[:, :2].astype(float)
 
             for newCone in newCones:
                 minDist = 9999
@@ -213,31 +240,31 @@ class SlamData:
                     minDist = dists[minIdx]
 
                 if minDist < 1:
-                    coneCount = self.clusteredConescount[minIdx]
-                    self.clusteredCones[minIdx] = (
+                    coneCount = self.clusteredconesCount[minIdx]
+                    self.clusteredCone[minIdx] = (
                         clusteredCones[minIdx] * coneCount + newCone[:2]
                     ) / (coneCount + 1)
                     self.clusteredColors[minIdx][int(newCone[2])] += 1
                     clusteredCones = np.array(self.clusteredCones)[:, :2].astype(float)  # Very slow
-                    self.clusteredConescount[minIdx] += 1
+                    self.clusteredconesCount[minIdx] += 1
                 else:
-                    self.clusteredCones.append(newCone[:2])
-                    self.clusteredConescount.append(1)
+                    self.clusteredCone.append(newCone[:2])
+                    self.clusteredconesCount.append(1)
                     self.clusteredColors.append([0, 0, 0, 0, 0])
                     self.clusteredColors[minIdx][int(newCone[2])] += 1
-                    clusteredCones = np.array(self.clusteredCones)[:, :2].astype(float)  # Very slow
+                    clusteredCones = np.array(self.clusteredCone)[:, :2].astype(float)  # Very slow
 
     def getCones(self) -> typing.Tuple[NDArray[Any], NDArray[Any]]:
         """
         The getCones method takes the clustered cones and their colors,
         filters them based on a threshold, and returns the filtered cones and their colors.
         """
-        self.clusterCones()
-        if len(self.clusteredCones) == 0:
+        self.clusteredCones()
+        if len(self.clusteredCone) == 0:
             return np.array([]), np.array([])
 
-        counts = np.array(self.clusteredConescount)
-        clusteredCones = np.array(self.clusteredCones)[:, :2].astype(float)[counts > 3]
+        counts = np.array(self.clusteredconesCount)
+        clusteredCones = np.array(self.clusteredCone)[:, :2].astype(float)[counts > 3]
         clusteredColors = np.array(self.clusteredColors)[counts > 3]
         probsColors: List["float"] = []
         for clusterC in clusteredColors:
@@ -250,3 +277,72 @@ class SlamData:
             bestColors[np.max(probsColors, axis=1) < 0.4] = 4
 
         return clusteredCones, bestColors
+
+    @mutexLock(mutex)
+    def odomCallback(self, odomMsg: Odometry) -> None:
+        """
+        Callback function to be exceuted on subscribing to odometry message
+        """
+        reqFrame = rospy.get_param("toID")
+        transformedOdom = self.tfHelper.transformMsg(odomMsg, reqFrame)
+        positionX, positionY, yaw = self.parse(transformedOdom)
+        self.saveOdometry(positionX, positionY, yaw)
+
+    @mutexLock(mutex)
+    def conesCallback(self, conesMsg: LandmarkArray) -> None:
+        """
+        Callback function to be exceuted on subscribing to landmark array message
+        landmarks are stored in an array which is afterwards used to
+        Perform the process of clustring the cones
+        """
+        self.callbackCount += 1
+        reqFrame = rospy.get_param("toID")
+        transformedCones = self.tfHelper.transformMsg(conesMsg, reqFrame)
+        cones = parseLandmarks(transformedCones)
+        if len(cones) > 0:
+            self.addCones(cones[:, :3])
+
+
+class RosTrapper(SlamData):
+    """
+    roswrapper for SlamData class
+    """
+
+    def __init__(self) -> None:
+        super().__init__()
+        odometryTopic = rospy.get_param("Odometry_Topic")
+        roadstateTopic = rospy.get_param("Roadstate_Topic")
+        landmarkTopic = rospy.get_param("Landmarks_Topic")
+        mapTopic = rospy.get_param("Map_Topic")
+        visualizationTopic = rospy.get_param("Map_Viz_Topic")
+        self.frameId = rospy.get_param("toID")
+        self.odomSub = rospy.Subscriber(odometryTopic, Odometry, self.odomCallback)
+        self.conesSub = rospy.Subscriber(landmarkTopic, LandmarkArray, self.conesCallback)
+        self.roadstatePub = rospy.Publisher(roadstateTopic, Roadstate, queue_size=1)
+        self.landmarkPub = rospy.Publisher(mapTopic, LandmarkArray, queue_size=1)
+        self.markerPub = rospy.Publisher(visualizationTopic, MarkerArray, queue_size=1)
+        self.markerViz = MarkerViz(0.2, 0.4)
+
+    def runClustercones(self) -> None:
+        """
+        publishes the clustered cones and the number of completed laps
+        """
+        clusteredCones, bestColors = self.getCones()
+        landmarks = createLandmarkMessage(
+            clusteredCones, bestColors, np.ones(bestColors.shape), self.frameId
+        )
+        self.landmarkPub.publish(landmarks)
+        conesVisual = self.markerViz.conesToMarkers(landmarks)
+        self.markerPub.publish(conesVisual)
+
+    def publishSupervisordata(self) -> None:
+        """
+        Method Workflow:
+        publish the number of completed laps and the distance travelled
+        """
+        laps, distance = self.lapsCompleted, self.distTravelled
+        roadState = Roadstate()
+        roadState.header.stamp = rospy.Time.now()
+        roadState.laps = laps
+        roadState.distance = distance
+        self.roadstatePub.publish(roadState)
