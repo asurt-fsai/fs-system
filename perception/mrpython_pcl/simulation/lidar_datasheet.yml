@@ -1,0 +1,45 @@
+# ANGLES
+LIDAR_VERTICAL_ANGLES: [
+    15,
+    10.333,
+    7,
+    4.667,
+    3.333,
+    2.333,
+    1.667,
+    1.333,
+    1.167,
+    1.333,
+    1.000,
+    0.667,
+    0.333,
+    0,
+    -0.333,
+    -0.667,
+    -1,
+    -1.333,
+    -1.667,
+    -2,
+    -2.333,
+    -2.667,
+    -3,
+    -3.333,
+    -3.667,
+    -4,
+    -4.667,
+    -5.333,
+    -6.148,
+    -7.254,
+    -8.843,
+    -11.310,
+    -15.639,
+    -25.000,
+  ] # DEGREES
+
+LIDAR_MIN_DISTANCE: 0 # METERS
+LIDAR_MAX_DISTANCE: 200 # METERS
+LIDAR_POSITION_ACCURACY: 0.03 # METERS
+LIDAR_HORIZONTAL_FOV: 360 # DEGREES
+# RATE
+LIDAR_RATE: 600 #RPM
+LIDAR_RATE_ACCURACY: 3 #RPM
