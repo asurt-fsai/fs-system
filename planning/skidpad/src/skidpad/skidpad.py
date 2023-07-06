@@ -4,10 +4,10 @@ Skidpad class is used to visulaize skid-pad and the waypoints of it,
 in addition to calculate waypoints
 """
 import math
-import numpy as np
-import matplotlib.pyplot as plt
 from typing import Optional, Tuple
 import numpy.typing as npt
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Skidpad:  # pylint: disable=R0902
@@ -61,99 +61,6 @@ class Skidpad:  # pylint: disable=R0902
                 + self.lengthOfLineB,
             ]
         )
-        self.waypoints = np.empty((0, 2))
-        self.calculate()
-
-    def calculate(self) -> None:  # pylint: disable=R0914
-        """
-        Calculate the waypoints of the skidpad path.
-
-        Returns:
-        -----------
-        None
-        """
-
-        thetaWayR = np.linspace(np.pi, -np.pi, 100)
-        thetaWayL = np.linspace(0, 2 * np.pi, 100)
-        waypointsR = np.empty((0, 2))
-        waypointsL = np.empty((0, 2))
-        line1Waypoints = np.empty((0, 2))
-        line2Waypoints = np.empty((0, 2))
-
-        # Calculate waypoints for the right circle
-        for theta in thetaWayR:
-            waypointsXR = self.center2[0] + (self.outerRadius + self.innerRadius) / 2 * np.cos(
-                theta
-            )
-            waypointsLR = self.center2[1] + (self.outerRadius + self.innerRadius) / 2 * np.sin(
-                theta
-            )
-            waypointsR = np.vstack((waypointsR, [waypointsXR, waypointsLR]))
-
-        # Calculate waypoints for the left circle
-        for theta in thetaWayL:
-            waypointsXL = self.center1[0] + (self.outerRadius + self.innerRadius) / 2 * np.cos(
-                theta
-            )
-            waypointsYL = self.center1[1] + (self.outerRadius + self.innerRadius) / 2 * np.sin(
-                theta
-            )
-            waypointsL = np.vstack((waypointsL, [waypointsXL, waypointsYL]))
-
-        step = math.sqrt(
-            math.pow(waypointsL[1, 0] - waypointsL[0, 0], 2)
-            + math.pow(waypointsL[1, 1] - waypointsL[0, 1], 2)
-        )
-        theta = np.arccos((self.innerRadius) / self.outerRadius)
-        line1Y = np.linspace(
-            self.center1[1],
-            self.center1[1] + self.outerRadius * np.sin(theta) + self.lengthOfLineT,
-            int(
-                abs(self.center2[1] + self.outerRadius * np.sin(theta) + self.lengthOfLineT) / step
-            ),
-        )
-        line2Y = np.linspace(
-            0,
-            self.center1[1],
-            int(
-                abs(self.center1[1] + self.outerRadius * np.sin(theta) + self.lengthOfLineB) / step
-            ),
-        )
-        lineX = (self.center1[0] + self.center2[0]) / 2
-
-        # Calculate waypoints for the top and bottom lines
-        for lineY in line1Y:
-            line1Waypoints = np.vstack((line1Waypoints, [lineX, lineY]))
-        for lineY in line2Y:
-            line2Waypoints = np.vstack((line2Waypoints, [lineX, lineY]))
-
-        lastPoint = line2Waypoints[-1]
-        reshapedLastPoint = np.reshape(lastPoint, (1, lastPoint.shape[0]))
-
-        # Concatenate all waypoints
-        self.waypoints = np.concatenate(
-            (
-                line2Waypoints,
-                waypointsR,
-                waypointsR,
-                reshapedLastPoint,
-                waypointsL,
-                waypointsL,
-                line1Waypoints,
-            )
-        )
-
-    def getWaypoints(self) -> npt.NDArray[np.float64]:
-        """
-        Get the waypoints of the skidpad path.
-
-        Returns:
-        -----------
-        numpy.ndarray
-            Array of waypoints representing the skidpad path.
-        """
-
-        return self.waypoints
 
     def getIntersections(  # pylint: disable=R0914
         self,
@@ -230,60 +137,192 @@ class Skidpad:  # pylint: disable=R0902
             intersectionPoint2Y,
         )
 
-    def drawSkidpad(self) -> None:  # pylint: disable=R0914
+    def getWaypoints(self, step: float) -> npt.NDArray[np.float64]:  # pylint: disable=R0902, R0914
         """
-        Draw the skidpad path using Matplotlib.
+        Get the waypoints of the skidpad path.
+        Parameters:
+        ------------
+        step:float
+        distance between each two points of the waypoints
+
+        Returns:
+        -----------
+        numpy.ndarray
+            Array of waypoints representing the skidpad path.
         """
-        theta = np.linspace(0, 2 * np.pi, 1000)
+
+        thetaWayR = np.linspace(
+            np.pi,
+            -np.pi,
+            int(
+                2
+                * np.pi
+                / np.arccos(
+                    (2 * ((self.outerRadius + self.innerRadius) / 2) ** 2 - step**2)
+                    / (2 * ((self.outerRadius + self.innerRadius) / 2) ** 2)
+                )
+            ),
+        )
+        thetaWayL = np.linspace(
+            0,
+            2 * np.pi,
+            int(
+                2
+                * np.pi
+                / np.arccos(
+                    (2 * ((self.outerRadius + self.innerRadius) / 2) ** 2 - step**2)
+                    / (2 * ((self.outerRadius + self.innerRadius) / 2) ** 2)
+                )
+            ),
+        )
+        waypoints = np.empty((0, 2))
+        waypointsR = np.empty((0, 2))
+        waypointsL = np.empty((0, 2))
+        line1Waypoints = np.empty((0, 2))
+        line2Waypoints = np.empty((0, 2))
+
+        # Calculate waypoints for the right circle
+        for theta in thetaWayR:
+            waypointsXR = self.center2[0] + (self.outerRadius + self.innerRadius) / 2 * np.cos(
+                theta
+            )
+            waypointsYR = self.center2[1] + (self.outerRadius + self.innerRadius) / 2 * np.sin(
+                theta
+            )
+            waypointsR = np.vstack((waypointsR, [waypointsXR, waypointsYR]))
+
+        # Calculate waypoints for the left circle
+        for theta in thetaWayL:
+            waypointsXL = self.center1[0] + (self.outerRadius + self.innerRadius) / 2 * np.cos(
+                theta
+            )
+            waypointsYL = self.center1[1] + (self.outerRadius + self.innerRadius) / 2 * np.sin(
+                theta
+            )
+            waypointsL = np.vstack((waypointsL, [waypointsXL, waypointsYL]))
+
+        theta = np.arccos((self.innerRadius) / self.outerRadius)
+        line1Y = np.linspace(
+            self.center1[1],
+            self.center1[1] + self.outerRadius * np.sin(theta) + self.lengthOfLineT,
+            math.ceil((self.outerRadius * np.sin(theta) + self.lengthOfLineT) / step),
+        )
+        line2Y = np.linspace(
+            0,
+            self.center1[1],
+            math.ceil(self.center1[1] / step),
+        )
+        lineX = (self.center1[0] + self.center2[0]) / 2
+
+        # Calculate waypoints for the top and bottom lines
+        for lineY in line1Y:
+            line1Waypoints = np.vstack((line1Waypoints, [lineX, lineY]))
+        for lineY in line2Y:
+            line2Waypoints = np.vstack((line2Waypoints, [lineX, lineY]))
+
+        lastPoint = line2Waypoints[-1]
+        reshapedLastPoint = np.reshape(lastPoint, (1, lastPoint.shape[0]))
+
+        # Concatenate all waypoints
+        waypoints = np.concatenate(
+            (
+                line2Waypoints,
+                waypointsR,
+                waypointsR,
+                reshapedLastPoint,
+                waypointsL,
+                waypointsL,
+                line1Waypoints,
+            )
+        )
+        return waypoints
+
+    def getConesPosition(  # pylint: disable=R0902, R0914
+        self, step: float
+    ) -> npt.NDArray[np.float64]:
+        """
+        Get the position of skidpad cones .
+        Parameters:
+        ------------
+        step:float
+        distance between two adjacent cones
+        Returns:
+        -----------
+        numpy.ndarray
+            Array of cone positions .
+        """
+        conesPosition = np.empty((0, 2))
+        lineTopLeftCones = np.empty((0, 2))
+        lineTopRightCones = np.empty((0, 2))
+        linebottomLeftCones = np.empty((0, 2))
+        linebottomRightCones = np.empty((0, 2))
+        thetaInner = np.linspace(
+            0,
+            2 * np.pi,
+            math.ceil(
+                2
+                * np.pi
+                / np.arccos((2 * self.innerRadius**2 - step**2) / (2 * self.innerRadius**2))
+            ),
+        )
+        thetaOuter = np.linspace(
+            0,
+            2 * np.pi,
+            math.ceil(
+                2
+                * np.pi
+                / np.arccos((2 * self.outerRadius**2 - step**2) / (2 * self.outerRadius**2))
+            ),
+        )
+
         inner1 = np.array(
             [
-                self.center1[0] + self.innerRadius * np.cos(theta),
-                self.center1[1] + self.innerRadius * np.sin(theta),
+                self.center1[0] + self.innerRadius * np.cos(thetaInner),
+                self.center1[1] + self.innerRadius * np.sin(thetaInner),
             ]
         )
         inner2 = np.array(
             [
-                self.center2[0] + self.innerRadius * np.cos(theta),
-                self.center2[1] + self.innerRadius * np.sin(theta),
+                self.center2[0] + self.innerRadius * np.cos(thetaInner),
+                self.center2[1] + self.innerRadius * np.sin(thetaInner),
             ]
         )
         outer1 = np.array(
             [
-                self.center1[0] + self.outerRadius * np.cos(theta),
-                self.center1[1] + self.outerRadius * np.sin(theta),
+                self.center1[0] + self.outerRadius * np.cos(thetaOuter),
+                self.center1[1] + self.outerRadius * np.sin(thetaOuter),
             ]
         )
         outer2 = np.array(
             [
-                self.center2[0] + self.outerRadius * np.cos(theta),
-                self.center2[1] + self.outerRadius * np.sin(theta),
+                self.center2[0] + self.outerRadius * np.cos(thetaOuter),
+                self.center2[1] + self.outerRadius * np.sin(thetaOuter),
             ]
         )
-        theta1 = np.arccos((self.innerRadius) / self.outerRadius)
-        lineTopLeft = np.array(
-            [
-                self.center1[0] + self.innerRadius,
-                self.center1[1] + self.outerRadius * np.sin(theta1),
-            ]
+
+        lineLeftX = self.center1[0] + self.innerRadius
+        lineRightX = self.center2[0] - self.innerRadius
+        lineTopY = np.linspace(
+            self.center1[1]
+            + self.outerRadius * np.sin(np.arccos((self.innerRadius) / self.outerRadius)),
+            self.center1[1]
+            + self.outerRadius * np.sin(np.arccos((self.innerRadius) / self.outerRadius))
+            + self.lengthOfLineT,
+            math.ceil(self.lengthOfLineT / step),
         )
-        lineTopRight = np.array(
-            [
-                self.center2[0] - self.innerRadius,
-                self.center2[1] + self.outerRadius * np.sin(theta1),
-            ]
+
+        lineBottomY = np.linspace(
+            0,
+            self.lengthOfLineB,
+            math.ceil(self.lengthOfLineB / step),
         )
-        lineBottomLeft = np.array(
-            [
-                self.center1[0] + self.innerRadius,
-                self.center1[1] - self.outerRadius * np.sin(theta1),
-            ]
-        )
-        lineBottomRight = np.array(
-            [
-                self.center2[0] - self.innerRadius,
-                self.center2[1] - self.outerRadius * np.sin(theta1),
-            ]
-        )
+        for lineY in lineTopY:
+            lineTopLeftCones = np.vstack((lineTopLeftCones, [lineLeftX, lineY]))
+            lineTopRightCones = np.vstack((lineTopRightCones, [lineRightX, lineY]))
+        for lineY in lineBottomY:
+            linebottomLeftCones = np.vstack((linebottomLeftCones, [lineLeftX, lineY]))
+            linebottomRightCones = np.vstack((linebottomRightCones, [lineRightX, lineY]))
+
         intersections = self.getIntersections(
             self.center1[0],
             self.center1[1],
@@ -292,15 +331,21 @@ class Skidpad:  # pylint: disable=R0902
             self.center2[1],
             self.outerRadius,
         )
+
         if intersections:
-            intersection1X, intersection1Y, intersection2X, intersection2Y = intersections
+            (
+                intersection1X,
+                intersection1Y,
+                intersection2X,
+                intersection2Y,
+            ) = intersections
 
             indices1 = (intersection1X - self.distance / 2 < outer1[0]) & (
                 outer1[0] < intersection2X + self.distance / 2
             ) & (intersection1Y < outer1[1]) & (outer1[1] < intersection2Y) & (
                 outer1[0] != intersection1X
             ) | (
-                (outer1[0] > lineTopLeft[0]) & (outer1[0] < lineTopRight[0])
+                (outer1[0] > lineLeftX) & (outer1[0] < lineRightX)
             )
 
             indices2 = (intersection1X - self.distance / 2 < outer2[0]) & (
@@ -308,69 +353,85 @@ class Skidpad:  # pylint: disable=R0902
             ) & (intersection1Y < outer2[1]) & (outer2[1] < intersection2Y) & (
                 outer2[0] != intersection1X
             ) | (
-                (outer2[0] > lineTopLeft[0]) & (outer2[0] < lineTopRight[0])
+                (outer2[0] > lineLeftX) & (outer2[0] < lineRightX)
             )
 
-            # Plot the circles
-            plt.plot(inner1[0], inner1[1])
-            plt.plot(inner2[0], inner2[1])
+            # Concatenate all Cones Position
 
-            # Plot the trimmed region
-            plt.plot(outer1[0][~indices1], outer1[1][~indices1], "b.")
-            plt.plot(outer2[0][~indices2], outer2[1][~indices2], "b.")
-
+            conesPosition = np.concatenate(
+                (
+                    linebottomLeftCones,
+                    linebottomRightCones,
+                    np.array([inner1[0][0:-1], inner1[1][0:-1]]).T,
+                    np.array([inner2[0][0:-1], inner2[1][0:-1]]).T,
+                    np.array([outer1[0][~indices1], outer1[1][~indices1]]).T,
+                    np.array([outer2[0][~indices2], outer2[1][~indices2]]).T,
+                    lineTopLeftCones,
+                    lineTopRightCones,
+                )
+            )
         else:
-            # Plot the circles if there are no intersections
-            plt.plot(inner1[0], inner1[1])
-            plt.plot(inner2[0], inner2[1])
-            plt.plot(outer1[0], outer1[1], "b.")
-            plt.plot(outer2[0], outer2[1], "b.")
+            conesPosition = np.concatenate(
+                (
+                    linebottomLeftCones,
+                    linebottomRightCones,
+                    np.array([inner1[0][0:-1], inner1[1][0:-1]]).T,
+                    np.array([inner2[0][0:-1], inner2[1][0:-1]]).T,
+                    np.array([outer1[0][0:-1], outer1[1][0:-1]]).T,
+                    np.array([outer2[0][0:-1], outer2[1][0:-1]]).T,
+                    lineTopLeftCones,
+                    lineTopRightCones,
+                )
+            )
+        return conesPosition
 
-        # Plot the centers
-        plt.plot(self.waypoints[:, 0], self.waypoints[:, 1], "ro")
-        plt.plot(self.center1[0], self.center1[1], "ro")
-        plt.plot(self.center2[0], self.center2[1], "bo")
-        plt.plot(
-            [lineTopLeft[0], lineTopLeft[0]],
-            [lineTopLeft[1], lineTopLeft[1] + self.lengthOfLineT],
-            "b-",
-            linewidth=4.0,
-        )
-        plt.plot(
-            [lineTopRight[0], lineTopRight[0]],
-            [lineTopRight[1], lineTopRight[1] + self.lengthOfLineT],
-            "b-",
-            linewidth=4.0,
-        )
-        plt.plot(
-            [lineBottomLeft[0], lineBottomLeft[0]],
-            [lineBottomLeft[1], lineBottomLeft[1] - self.lengthOfLineB],
-            "b-",
-            linewidth=4.0,
-        )
-        plt.plot(
-            [lineBottomRight[0], lineBottomRight[0]],
-            [lineBottomRight[1], lineBottomRight[1] - self.lengthOfLineB],
-            "b-",
-            linewidth=4.0,
-        )
-
+    def drawSkidpadCones(self, step: float) -> None:  # pylint: disable=R0914
+        """
+        Draw the skidpad path using Matplotlib.
+        Parameters:
+        ------------
+        step:float
+        Returns:
+        -----------
+        None
+        """
+        conePositions = self.getConesPosition(step)
+        plt.plot(conePositions[:, 0], conePositions[:, 1], "b.")
         plt.grid(True)
-        plt.gca().set_aspect("equal", adjustable="box")
+        plt.show()
+
+    def drawSkidpadwaypoints(self, step: float) -> None:  # pylint: disable=R0914
+        """
+        Draw the skidpad path using Matplotlib.
+        Parameters:
+        ------------
+        step:float
+        distance between two adjacent ponints
+        Returns:
+        -----------
+        None
+        """
+        waypoints = self.getWaypoints(step)
+        plt.plot(waypoints[:, 0], waypoints[:, 1], "b.")
+        plt.grid(True)
         plt.show()
 
 
 # distance = 18.25
-#  Radius of the circles
+# #  Radius of the circles
 # innerRadius = 15.25 / 2
 # outerRadius = 21.25 / 2
 # len_of_line_t = 3.0
 # lengthOfLineB = 6.0
 
 
-# skidpad = Skidpad(distance, innerRadius, outer_radius, lengthOfLineB, len_of_line_t)
-# skidpad.drawSkidpad()
-# waypoints = skidpad.getWaypoints()
+# skidpad = Skidpad(distance, innerRadius, outerRadius, lengthOfLineB, len_of_line_t)
+# # skidpad.drawSkidpad()
+# waypoints = skidpad.getWaypoints(0.1)
+# cones = skidpad.getConesPosition(0.1)
+# skidpad.drawSkidpadCones(0.5)
+# # skidpad.drawSkidpadwaypoints(0.5)
+
 
 # for i in range(10,waypoints.shape[0]):
 #     plt.scatter(waypoints[i][0], waypoints[i][1])
