@@ -204,5 +204,5 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-catkin_install_python(PROGRAMS nodes/skidpad_node.py DESTINATION
+catkin_install_python(PROGRAMS nodes/skidpad_cones_node.py nodes/skidpad_waypoint_node.py DESTINATION
                       ${CATKIN_PACKAGE_BIN_DESTINATION})

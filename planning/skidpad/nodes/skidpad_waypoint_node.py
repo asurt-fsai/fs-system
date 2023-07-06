@@ -3,9 +3,8 @@
 Main ROS node for publishing skidpad waypoints
 """
 
-
-import rospy
 from typing import Any
+import rospy
 import numpy as np
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Path
@@ -64,14 +63,15 @@ class WaypointsNode:
         outerRadius = rospy.get_param("/waypoints_node/outer_radius")
         lengthOfLineT = rospy.get_param("/waypoints_node/len_of_line_t")
         lengthOfLineB = rospy.get_param("/waypoints_node/len_of_line_b")
+        step = rospy.get_param("/waypoints_node/step")
 
         skidpad = Skidpad(distance, innerRadius, outerRadius, lengthOfLineB, lengthOfLineT)
-        self.waypoints = skidpad.getWaypoints()
+        self.waypoints = skidpad.getWaypoints(step)
 
         while not rospy.is_shutdown():
             pathMsg = Path()
             points = []
-            if self.index + 11 < len(self.waypoints):
+            if self.index + 10 < len(self.waypoints):
                 for point in self.waypoints[self.index : self.index + 10]:
                     pointMsg = PoseStamped()
                     pointMsg.pose.position.x = point[0]
