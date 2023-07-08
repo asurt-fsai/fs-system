@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/physical/cone_radius"  value="0.16"/>
+	<param name="/physical/cone_height"  value="0.4"/>
+	<param name="/physical/lidar_height"  value="0.6"/>
+    <param name="/physical/car_base_length"  value="2.2"/>
+	<param name="/physical/track_width"  value="3"/>
+	<param name="/physical/camera_height_from_ground"  value="0.6"/>
+</launch>
