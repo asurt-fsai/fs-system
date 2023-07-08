@@ -4,8 +4,10 @@ A ros wrapper for the Smornn class
 from typing import Dict, Any, Optional
 
 import rospy
+import numpy as np
 from asurt_msgs.msg import LandmarkArray
 
+from tf_helper.TFHelper import TFHelper
 from tf_helper.utils import parseLandmarks, createLandmarkMessage
 from .Smornn import Smornn
 
@@ -35,6 +37,7 @@ class SmornnRos(Smornn):
         self.publishers = publishers
         self.markerViz = markerViz
         self.frameId = frameId
+        self.tfHelper = TFHelper("smornn")
 
         # Parameter Validation
         try:
@@ -50,10 +53,17 @@ class SmornnRos(Smornn):
             raise TypeError(errMsg) from exp
 
     def lidarCallback(self, cones: LandmarkArray) -> None:
-        cones = parseLandmarks(cones)[:, :2]  # Use only x, y of the cones without color for lidar
-        super().lidarCallback(cones)
+        cones = self.tfHelper.transformLandmarkArrayMsg(cones, self.frameId)
+        cones = parseLandmarks(cones)
+        if len(cones) == 0:
+            super().lidarCallback([])
+        else:
+            super().lidarCallback(
+                cones[:, :2]
+            )  # Use only x, y of the cones without color for lidar
 
     def smoreoCallback(self, cones: LandmarkArray) -> None:
+        cones = self.tfHelper.transformLandmarkArrayMsg(cones, self.frameId)
         cones = parseLandmarks(cones)
         super().smoreoCallback(cones)
 
@@ -64,7 +74,9 @@ class SmornnRos(Smornn):
         cones = super().run()
         if cones is None:
             return None
-        landmarks = createLandmarkMessage(cones[:, :2], cones[:, 2], self.frameId)
+
+        coneProbs = np.ones((cones.shape[0], 1))
+        landmarks = createLandmarkMessage(cones[:, :2], cones[:, 2], coneProbs, self.frameId)
         self.publishers["detected"].publish(landmarks)
         detectedMarkers = self.markerViz.conesToMarkers(landmarks)
         self.publishers["detected_markers"].publish(detectedMarkers)

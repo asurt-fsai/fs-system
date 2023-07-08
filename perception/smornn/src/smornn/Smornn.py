@@ -8,6 +8,7 @@ from threading import Lock
 import numpy as np
 import numpy.typing as npt
 
+from asurt_msgs.msg import Landmark
 from .helpers import mutexLock
 
 
@@ -34,6 +35,7 @@ class Smornn:
         self.minDistNeighbor = minDistNeighbor
         self.lidarCones: Optional[npt.NDArray[np.float64]] = None
         self.smoreoCones: Optional[npt.NDArray[np.float64]] = None
+        self.sameMsgCount = 0
 
     @mutexLock(mutex)
     def lidarCallback(self, cones: npt.NDArray[np.float64]) -> None:
@@ -60,6 +62,7 @@ class Smornn:
                 [cone_x, cone_y, cone_color, cone_color_prob]
         """
         self.smoreoCones = cones[~np.isnan(cones).any(axis=1)]  # Remove nans
+        self.sameMsgCount = 0
 
     @mutexLock(mutex)
     def run(self) -> Optional[npt.NDArray[np.float64]]:
@@ -97,14 +100,17 @@ class Smornn:
         coneProbs = self.smoreoCones[:, 3][bestCones]
 
         toLargeDistIdx = mins > self.minDistNeighbor
-        coneColors[toLargeDistIdx] = 4  # Unknown type
+        coneColors[toLargeDistIdx] = Landmark.CONE_TYPE_UNKNOWN
         coneProbs[toLargeDistIdx] = 1  # Unknown type, prob = 1
 
         coloredCones = self.constructConesWithColors(self.lidarCones, coneColors, coneProbs)
 
         # Remove detections to prevent repeating the same message
-        self.lidarCones = None
-        self.smoreoCones = None
+        self.sameMsgCount += 1
+        if self.sameMsgCount >= 5:
+            self.lidarCones = None
+            self.smoreoCones = None
+            self.sameMsgCount = 0
 
         return coloredCones
 
@@ -135,7 +141,7 @@ class Smornn:
             Each row contains [cone_x, cone_y, cone_color, cone_color_prob]
         """
         if colors is None or probs is None:
-            colors = np.ones(len(cones)) * 4  # Unknown type
+            colors = np.ones(len(cones)) * Landmark.CONE_TYPE_UNKNOWN
             probs = np.ones(len(cones))
         coloredCones = np.zeros((len(cones), 4))
         coloredCones[:, :2] = cones
