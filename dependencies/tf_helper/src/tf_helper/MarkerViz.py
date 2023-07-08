@@ -13,9 +13,10 @@ class MarkerViz:
     Class for visualizing cones using ROS markers
     """
 
-    def __init__(self, coneRadius: float, coneHeight: float):
+    def __init__(self, coneRadius: float, coneHeight: float, zShift: float = 0):
         self.coneRadius = coneRadius
         self.coneHeight = coneHeight
+        self.zShift = zShift
         self.counter = 0
 
     def createDeleteMsg(self, frameId: str) -> Marker:
@@ -63,8 +64,8 @@ class MarkerViz:
         if coneType == Landmark.YELLOW_CONE:
             return [255, 255, 0]
         if coneType in [Landmark.ORANGE_CONE, Landmark.LARGE_CONE]:
-            return [255, 120, 120]
-        if coneType == Landmark.CONE_TYPE_UNKOWN:
+            return [255, 0, 0]
+        if coneType == Landmark.CONE_TYPE_UNKNOWN:
             return [0, 0, 0]
         raise ValueError(f"Unknown cone type: {coneType}")
 
@@ -97,10 +98,15 @@ class MarkerViz:
         # Cone position
         msg.pose.position.x = landmark.position.x
         msg.pose.position.y = landmark.position.y
+        msg.pose.position.z = self.zShift
+        msg.pose.orientation.x = 0
+        msg.pose.orientation.y = 0
+        msg.pose.orientation.z = 0
+        msg.pose.orientation.w = 1
 
         # Cone size
-        msg.scale.x = self.coneRadius
-        msg.scale.y = self.coneRadius
+        msg.scale.x = self.coneRadius * 2
+        msg.scale.y = self.coneRadius * 2
         msg.scale.z = self.coneHeight
 
         # Set marker color

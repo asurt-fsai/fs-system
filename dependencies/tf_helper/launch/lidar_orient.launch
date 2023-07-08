@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/tf_helper/velodyne_topic" value="/carmaker/pointcloud"/>
+    <param name="/tf_helper/velodyne_fixed_topic" value="/velodyne_points"/>
+    <param name="/tf_helper/velodyne_fixed_frame" value="velodyne_fixed"/>
+    <node name="lidar_orient" pkg="tf_helper" type="lidar_orient.py" output="screen"/>
+</launch>
