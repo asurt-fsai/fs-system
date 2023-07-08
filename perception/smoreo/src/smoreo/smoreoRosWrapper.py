@@ -42,8 +42,8 @@ class SmoreoRosWrapper:
         try:
             for key in [
                 "/smoreo/cut_off_y",
-                "/smoreo/camera_height_from_ground",
-                "/smoreo/cone_height",
+                "/physical/camera_height_from_ground",
+                "/physical/cone_height",
                 "/smoreo/camera_info",
                 "/smoreo/hardcode_params",
             ]:
@@ -74,16 +74,11 @@ class SmoreoRosWrapper:
             cameraCx = cameraInfo.K[2]
             camerCy = cameraInfo.K[5]
 
-        coneHeight = rospy.get_param("smoreo/cone_height", 0.4)
+        coneHeight = rospy.get_param("physical/cone_height", 0.4)
 
         cutOffY = rospy.get_param("smoreo/cut_off_y")
-        listener = tf.TransformListener()
-        listener.waitForTransform(
-            "/worldcoordinates", "/cameracoordinates", rospy.Time(), rospy.Duration(4.0)
-        )
-        _, worldToCameraRotation = listener.lookupTransform(
-            "/worldcoordinates", "/cameracoordinates", rospy.Time(0)
-        )
+
+        worldToCameraRotation = [0.5, -0.5, 0.5, 0.5]
         params = {
             "cx": cameraCx,
             "cy": camerCy,
@@ -95,7 +90,7 @@ class SmoreoRosWrapper:
             "worldCords_inCamera": np.array(
                 tf.transformations.quaternion_matrix(worldToCameraRotation)[:3, :3], dtype=int
             ),
-            "camera_height_from_ground": rospy.get_param("smoreo/camera_height_from_ground"),
+            "camera_height_from_ground": rospy.get_param("/physical/camera_height_from_ground"),
             "cut_off_y": float(cutOffY),
             "cone_height": coneHeight,
         }
@@ -145,10 +140,8 @@ class SmoreoRosWrapper:
             if self.inTuning:
                 newParams = self.getParams()
                 self.smoreo.updateParams(newParams)
-            if self.useConeBase:
-                predictedLandmarks = self.smoreo.predictWithBase(self.boundingBoxes)
-            else:
-                predictedLandmarks = self.smoreo.predictWithTop(self.boundingBoxes)
+            predictedLandmarks = self.smoreo.predictLandmarks(self.boundingBoxes)
+            self.boundingBoxes = None
 
             try:
                 predictedLandmarks.header.stamp = rospy.Time.now()
@@ -168,10 +161,12 @@ class SmoreoRosWrapper:
         self.inTuning = inTuning
         self.createPublishers()
         self.params = self.getParams()
-        coneRadius = 0.228
-        self.markerViz = MarkerViz(coneRadius, self.params["cone_height"])
+        coneRadius = rospy.get_param("/physical/cone_radius")
+        coneHeight = rospy.get_param("/physical/cone_height")
+        lidarHeight = rospy.get_param("/physical/lidar_height")
+        self.markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         self.boundingBoxes = None
-        self.smoreo = Smoreo(self.params)
+        self.smoreo = Smoreo(self.params, rospy.get_param("/smoreo/camera_frame"))
         if "/smoreo/bounding_boxes" not in rospy.get_param_names():
             raise ValueError("smoreo: bounding boxes topic not provided")
         rospy.Subscriber(
