@@ -12,6 +12,7 @@ from pcl import PointCloud, PointCloud_PointXYZI
 from asurt_msgs.msg import Landmark, LandmarkArray
 from sensor_msgs.msg import PointField, PointCloud2
 
+
 # pylint: disable-msg=too-many-locals
 def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> PointCloud:
     """
@@ -75,6 +76,10 @@ def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> PointCloud:
     dtypeList = npDtypeList
 
     # parse the cloud into an array
+    if len(rosPc2.data) == 0:
+        return PointCloud()
+
+    # parse the cloud into an array
     cloudArr = np.fromstring(rosPc2.data, dtypeList)  # type: ignore[call-overload]
 
     # remove the dummy fields that were added
@@ -130,7 +135,7 @@ def npToPcl(cloudArray: npt.NDArray[np.float64]) -> PointCloud:
     return cloud
 
 
-def pclToRos(cloudPcl: PointCloud) -> PointCloud2:
+def pclToRos(cloudPcl: PointCloud, frameId: str = "velodyne") -> PointCloud2:
     """
     Converts a pcl Point cloud to a ros PointCloud2 message
 
@@ -138,6 +143,8 @@ def pclToRos(cloudPcl: PointCloud) -> PointCloud2:
     ----------
     cloudPcl : PointCloud
         Point cloud to convert
+    frameId: str, default "velodyne"
+        Frame id to use for the message
 
     Returns
     -------
@@ -148,10 +155,10 @@ def pclToRos(cloudPcl: PointCloud) -> PointCloud2:
     # -NEVER DO THIS- cloud = np.asarray(cloudPcl)
     cloud = cloudPcl.to_array()
 
-    return npToRos(cloud)
+    return npToRos(cloud, frameId)
 
 
-def npToRos(cloudArray: npt.NDArray[np.float64]) -> PointCloud2:
+def npToRos(cloudArray: npt.NDArray[np.float64], frameId: str = "velodyne") -> PointCloud2:
     """
     Converts a numpy array of points to a ros PointCloud2 message
 
@@ -159,6 +166,8 @@ def npToRos(cloudArray: npt.NDArray[np.float64]) -> PointCloud2:
     ----------
     cloudArray : np.array
         Numpy array of points to convert
+    frameId: str, default "velodyne"
+        Frame id to use for the message
 
     Returns
     -------
@@ -177,7 +186,7 @@ def npToRos(cloudArray: npt.NDArray[np.float64]) -> PointCloud2:
     except rospy.exceptions.ROSInitException:
         rospy.logwarn("ROS not initialized, using time 0 for header")
 
-    cloudRos.header.frame_id = "velodyne"
+    cloudRos.header.frame_id = frameId
 
     # width & height
     points, dim = cloudArray.shape
@@ -211,7 +220,9 @@ def npToRos(cloudArray: npt.NDArray[np.float64]) -> PointCloud2:
     return cloudRos
 
 
-def npConesToRos(cones: npt.NDArray[np.float64], addIDs: bool = False) -> LandmarkArray:
+def npConesToRos(
+    cones: npt.NDArray[np.float64], frameId: str = "velodyne", addIDs: bool = False
+) -> LandmarkArray:
     """
     Converts a list of cones to a LandmarkArray message
 
@@ -219,6 +230,8 @@ def npConesToRos(cones: npt.NDArray[np.float64], addIDs: bool = False) -> Landma
     ----------
     cones : npt.NDArray[np.float64]
         Locations of the cones
+    frameId: str, default "velodyne"
+        Frame id to use for the message
     addIDs : bool, by default False
         If true, the cone IDs are added to the message
 
@@ -240,7 +253,7 @@ def npConesToRos(cones: npt.NDArray[np.float64], addIDs: bool = False) -> Landma
 
     msg = LandmarkArray()
     msg.landmarks = landmarks
-    msg.header.frame_id = "velodyne"
+    msg.header.frame_id = frameId
     try:
         msg.header.stamp = rospy.Time.now()
     except rospy.exceptions.ROSInitException:

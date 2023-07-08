@@ -30,6 +30,7 @@ class LidarRosWrapper(LidarPipeline):
         super().__init__(*args, **kwargs)
         self.publishers = publishers
         self.markerViz = markerViz
+        self.frameId = ""
 
         # Parameter Validation
         try:
@@ -47,6 +48,7 @@ class LidarRosWrapper(LidarPipeline):
             raise TypeError(errMsg) from exp
 
     def setPointcloud(self, pointcloud: PointCloud2) -> None:
+        self.frameId = pointcloud.header.frame_id
         pointcloud = rosToPcl(pointcloud)
         super().setPointcloud(pointcloud)
 
@@ -55,10 +57,10 @@ class LidarRosWrapper(LidarPipeline):
         if output is None:
             return None
 
-        output["filtered"] = npToRos(output["filtered"])
-        output["clustered"] = npToRos(output["clustered"])
-        output["clusterCenters"] = npConesToRos(output["clusterCenters"])
-        output["detected"] = npConesToRos(output["detected"])
+        output["filtered"] = npToRos(output["filtered"], self.frameId)
+        output["clustered"] = npToRos(output["clustered"], self.frameId)
+        output["clusterCenters"] = npConesToRos(output["clusterCenters"], self.frameId)
+        output["detected"] = npConesToRos(output["detected"], self.frameId)
 
         self.publishers["filtered"].publish(output["filtered"])
         self.publishers["clustered"].publish(output["clustered"])
@@ -69,7 +71,7 @@ class LidarRosWrapper(LidarPipeline):
         self.publishers["detected_markers"].publish(detectedMarkers)
 
         if "tracked" in output:
-            output["tracked"] = npConesToRos(output["tracked"], addIDs=True)
+            output["tracked"] = npConesToRos(output["tracked"], self.frameId, addIDs=True)
             self.publishers["tracked"].publish(output["tracked"])
 
             trackedMarkers = self.markerViz.conesToMarkers(output["tracked"])

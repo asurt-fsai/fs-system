@@ -3,27 +3,23 @@ project(mrpython_pcl)
 
 find_package(
   catkin REQUIRED
-  COMPONENTS roscpp
-             rospy
-             sensor_msgs
+  COMPONENTS rospy
              std_msgs
              asurt_msgs
+             sensor_msgs
              ros_numpy
              tf_helper)
 
 catkin_package(
-  # INCLUDE_DIRS include
   LIBRARIES
   mrpython_pcl
   CATKIN_DEPENDS
-  roscpp
   rospy
-  sensor_msgs
   std_msgs
   asurt_msgs
-  tf_helper
+  sensor_msgs
   ros_numpy
-  # DEPENDS system_lib
+  tf_helper
 )
 
 include_directories(${catkin_INCLUDE_DIRS})

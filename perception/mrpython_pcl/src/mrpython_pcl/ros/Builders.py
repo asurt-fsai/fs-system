@@ -72,7 +72,7 @@ class Builder:
         clusterer = self.buildClusterer()
         coneClassifier = self.buildConeClassifier()
         tracker = None
-        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
+        lidarHeight = self.getParam("/physical/lidar_height", 0.1)
         subsample = self.getParam("/perception/lidar/subsample", False)
 
         lidarPipeline = LidarRosWrapper(
@@ -156,6 +156,9 @@ class Builder:
         Filter
             The created Filter object
         """
+        ransacThreshold = self.getParam("/perception/lidar/ransac_threshold", 0.1)
+        lidarHeight = self.getParam("/physical/lidar_height", 0.1)
+
         viewBounds = {"x": [0.0, 0.0], "y": [0.0, 0.0], "z": [0.0, 0.0]}
         viewBounds["x"][0] = self.getParam("/perception/lidar/view_bounds/xmin", -10)
         viewBounds["x"][1] = self.getParam("/perception/lidar/view_bounds/xmax", 10)
@@ -163,8 +166,8 @@ class Builder:
         viewBounds["y"][0] = self.getParam("/perception/lidar/view_bounds/ymin", -6)
         viewBounds["y"][1] = self.getParam("/perception/lidar/view_bounds/ymax", 6)
 
-        viewBounds["z"][0] = self.getParam("/perception/lidar/view_bounds/zmin", -2)
-        viewBounds["z"][1] = self.getParam("/perception/lidar/view_bounds/xmax", 2)
+        viewBounds["z"][0] = -1 * lidarHeight + ransacThreshold
+        viewBounds["z"][1] = self.getParam("/perception/lidar/view_bounds/zmax", 2)
 
         carBounds = {"x": [0.0, 0.0], "y": [0.0, 0.0]}
 
@@ -174,10 +177,8 @@ class Builder:
         carBounds["y"][0] = self.getParam("/perception/lidar/car_bounds/ymin", -0.75)
         carBounds["y"][1] = self.getParam("/perception/lidar/car_bounds/ymax", 0.75)
 
-        reconstructParam = self.getParam("/perception/lidar/cone_radius", 0.228)
+        reconstructParam = self.getParam("/perception/lidar/reconst_radius", 0.228)
 
-        ransacThreshold = self.getParam("/perception/lidar/ransac_threshold", 0.1)
-        lidarHeight = self.getParam("/perception/lidar/lidar_height", 0.1)
         groundRemover = SimpleGroundRemoval([0, 0, -1, -1 * lidarHeight], ransacThreshold, nIters=1)
 
         return Filter(groundRemover, reconstructParam, viewBounds, carBounds)
@@ -191,8 +192,8 @@ class Builder:
         ConeClassifier
             The created cone classifier object
         """
-        coneRadius = self.getParam("/perception/lidar/cone_radius", 0.228)
-        coneHeight = self.getParam("/perception/lidar/cone_height", 0.4)
+        coneRadius = self.getParam("/physical/cone_radius", 0.228)
+        coneHeight = self.getParam("/physical/cone_height", 0.4)
         minPoints = self.getParam("/perception/lidar/cone_filter/min_points", 5)
         l2Th = self.getParam("/perception/lidar/cone_filter/l2_th", 0.03)
         linTh = self.getParam("/perception/lidar/cone_filter/lin_th", 1e-4)
@@ -241,7 +242,8 @@ class Builder:
         MarkerViz
             The created marker viz object
         """
-        coneRadius = self.getParam("/perception/lidar/cone_radius", 0.228)
-        coneHeight = self.getParam("/perception/lidar/cone_height", 0.4)
-        markerViz = MarkerViz(coneRadius, coneHeight)
+        coneRadius = self.getParam("/physical/cone_radius", 0.228)
+        coneHeight = self.getParam("/physical/cone_height", 0.4)
+        lidarHeight = self.getParam("/physical/lidar_height", 0.1)
+        markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         return markerViz
