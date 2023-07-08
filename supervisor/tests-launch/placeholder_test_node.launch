@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<node name="placeholder_test_node" pkg="supervisor" type="placeholder_test_node.py"/>
+</launch>
