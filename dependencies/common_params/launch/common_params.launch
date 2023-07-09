@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<include file="$(find common_params)/launch/golf.launch"/>
+</launch>

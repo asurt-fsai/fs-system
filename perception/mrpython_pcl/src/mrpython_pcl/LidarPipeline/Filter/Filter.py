@@ -221,7 +221,7 @@ class Filter(metaclass=SingletonMeta):
         return cloud
 
     @staticmethod
-    def subsample(cloud: PointCloud, ratio: float = 0.8, temperature: float = 500) -> PointCloud:
+    def subsample(cloud: PointCloud, ratio: float = 0.4, temperature: float = 500) -> PointCloud:
         """
         Subsample a ratio of points from the pointcloud weighted, where near
         points are more likely to be sampled

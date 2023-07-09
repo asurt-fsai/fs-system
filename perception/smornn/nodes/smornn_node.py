@@ -27,11 +27,16 @@ def main() -> None:
         "detected": rospy.Publisher(publishTopic, LandmarkArray, queue_size=1),
         "detected_markers": rospy.Publisher(markerTopic, MarkerArray, queue_size=1),
     }
-    markerViz = MarkerViz(0.1, 0.4)
+
+    lidarHeight = rospy.get_param("/physical/lidar_height")
+    coneHeight = rospy.get_param("/physical/cone_height")
+    coneRadius = rospy.get_param("/physical/cone_radius")
+    markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
 
     minDistNeighbor = rospy.get_param("/perception/smornn/min_dist_neighbor")
+    frameId = rospy.get_param("/perception/smornn/frame_id")
 
-    smornn = SmornnRos(publishers, markerViz, "velodyne", minDistNeighbor)
+    smornn = SmornnRos(publishers, markerViz, frameId, minDistNeighbor)
 
     lidarTopic = rospy.get_param("/perception/lidar/detected")
     smoreoTopic = rospy.get_param("/perception/smoreo/detected")
@@ -42,7 +47,7 @@ def main() -> None:
     status.ready()
 
     # Main loop
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(100)
     while not rospy.is_shutdown():
         rate.sleep()
         out = smornn.run()

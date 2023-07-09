@@ -1,7 +1,7 @@
 """
 Helper class to help with transforming messages between different tf frames
 """
-from typing import Optional, Tuple, Any
+from typing import Optional, Tuple, Any, Dict
 import tf
 import tf2_ros
 import rospy
@@ -10,8 +10,11 @@ import numpy as np
 import numpy.typing as npt
 
 from nav_msgs.msg import Path
+from sensor_msgs.msg import PointCloud2
 from asurt_msgs.msg import LandmarkArray
 from visualization_msgs.msg import MarkerArray
+
+from .utils import npToRos, rosToPcl
 
 
 class TFHelper:
@@ -24,8 +27,11 @@ class TFHelper:
         self.tfBuffer = tf2_ros.Buffer()
         tf2_ros.TransformListener(self.tfBuffer)
         rospy.sleep(0.2)  # To ensure a tf has been received
+        self.warningPrinted: Dict[str, int] = {}
 
-    def getTransform(self, fromId: str, toId: str) -> Optional[Tuple[Tuple[float, float], float]]:
+    def getTransform(
+        self, fromId: str, toId: str
+    ) -> Tuple[Tuple[float, float, float], Tuple[float, float, float]]:
         """
         Fetches the transform (translation and rotation around z) if avaiable between the
         two given frames
@@ -48,21 +54,27 @@ class TFHelper:
         try:
             trans = self.tfBuffer.lookup_transform(toId, fromId, rospy.Time(0))
             trans = trans.transform
-            translation = trans.translation.x, trans.translation.y
-            yaw = tf.transformations.euler_from_quaternion(
+            translation = trans.translation.x, trans.translation.y, trans.translation.z
+            rot = tf.transformations.euler_from_quaternion(
                 [trans.rotation.x, trans.rotation.y, trans.rotation.z, trans.rotation.w]
-            )[2]
-            return translation, yaw
+            )
+            return translation, rot
 
         except (
             tf2_ros.LookupException,
             tf2_ros.ConnectivityException,
             tf2_ros.ExtrapolationException,
         ):
-            rospy.logwarn(self.nodeName + ": Couldn't get tf from " + fromId + " to " + toId)
-            return None
+            if fromId + toId not in self.warningPrinted:
+                rospy.logwarn(self.nodeName + ": Couldn't get tf from " + fromId + " to " + toId)
+                self.warningPrinted[fromId + toId] = 1
+            else:
+                self.warningPrinted[fromId + toId] += 1
+                if self.warningPrinted[fromId + toId] > 10:
+                    self.warningPrinted.pop(fromId + toId)
+            return (0.0, 0.0, 0.0), (0.0, 0.0, 0.0)
 
-    def transformArr(
+    def transformArr2d(
         self, arr: npt.NDArray[np.float64], fromId: str, toId: str
     ) -> Optional[npt.NDArray[np.float64]]:
         """
@@ -86,12 +98,55 @@ class TFHelper:
         transform = self.getTransform(fromId, toId)
         if transform is None:
             return None
-        trans, yaw = transform
-        sinYaw, cosYaw = np.sin(yaw), np.cos(yaw)
+        trans, rot = transform
+        sinYaw, cosYaw = np.sin(rot[2]), np.cos(rot[2])
         rotMat = np.array([[cosYaw, -sinYaw], [sinYaw, cosYaw]])
 
         arr = (rotMat @ arr.transpose()).transpose()
-        arr += np.array([*trans]).reshape(1, 2)
+        arr += np.array([*trans[:2]]).reshape(1, 2)
+        return arr
+
+    def transformArr3d(
+        self, arr: npt.NDArray[np.float64], fromId: str, toId: str
+    ) -> Optional[npt.NDArray[np.float64]]:
+        """
+        Transform a given numpy array from a given frame to another
+
+        Parameters
+        ----------
+        arr : npt.NDArray[np.float64]
+            Array to transform, shape = (N, 3)
+        fromId : str
+            Frame to transform from
+        toId : str
+            Frame to transform to
+
+        Returns
+        -------
+        npt.NDArray[np.float64] or None
+            Transformed array
+            Returns None if no transformation is possible between the given frames
+        """
+        transform = self.getTransform(fromId, toId)
+        if transform is None:
+            return None
+        trans, rot = transform
+        cos1 = np.cos(rot[0])
+        sin1 = np.sin(rot[0])
+        cos2 = np.cos(rot[1])
+        sin2 = np.sin(rot[1])
+        cos3 = np.cos(rot[2])
+        sin3 = np.sin(rot[2])
+        rotMat = np.array(
+            [
+                [cos2 * cos3, -cos2 * sin3, sin2],
+                [cos1 * sin3 + cos3 * sin1 * sin2, cos1 * cos3 - sin1 * sin2 * sin3, -cos2 * sin1],
+                [sin1 * sin3 - cos1 * cos3 * sin2, cos3 * sin1 + cos1 * sin2 * sin3, cos1 * cos2],
+            ]
+        )
+
+        arr = (rotMat @ arr.transpose()).transpose()
+        arr += np.array([*trans]).reshape(1, 3)
         return arr
 
     def transformLandmarkArrayMsg(
@@ -122,7 +177,7 @@ class TFHelper:
         # Apply transformations
         if len(conesArr) > 0:
             fromId = rosMsg.header.frame_id
-            transformedCones = self.transformArr(conesArr, fromId, toId)
+            transformedCones = self.transformArr2d(conesArr, fromId, toId)
             if transformedCones is None:
                 return rosMsg
 
@@ -160,7 +215,7 @@ class TFHelper:
         # Apply transformations
         if len(conesArr) > 0:
             fromId = rosMsg.markers[0].header.frame_id
-            transformedCones = self.transformArr(conesArr, fromId, toId)
+            transformedCones = self.transformArr2d(conesArr, fromId, toId)
             if transformedCones is None:
                 return rosMsg
 
@@ -197,7 +252,7 @@ class TFHelper:
         # Apply transformations
         if len(pointsArr) > 0:
             fromId = rosMsg.header.frame_id
-            transformedPoints = self.transformArr(pointsArr, fromId, toId)
+            transformedPoints = self.transformArr2d(pointsArr, fromId, toId)
             if transformedPoints is None:
                 return rosMsg
 
@@ -210,6 +265,28 @@ class TFHelper:
         rosMsg.header.frame_id = toId
 
         return rosMsg
+
+    def transformPointcloud(self, rosMsg: PointCloud2, toId: str) -> Optional[PointCloud2]:
+        """
+        Transform a ros message of type PointCloud2 from its frame to another
+
+        Parameters
+        ----------
+        rosMsg : PointCloud2
+            The ros message to transform
+        toId : str
+            The frame to transform to
+
+        Returns
+        -------
+        PointCloud2
+            The transformed ros message
+            If the transformation is not possible, the message is returned as is (with old frame_id)
+        """
+        fromId = rosMsg.header.frame_id
+        npPc = rosToPcl(rosMsg).to_array()
+        npPc[:, :3] = self.transformArr3d(npPc[:, :3], fromId, toId)
+        return npToRos(npPc, toId)
 
     def transformMsg(self, rosMsg: Any, toId: str) -> Any:
         """
@@ -237,6 +314,9 @@ class TFHelper:
 
         if isinstance(rosMsg, Path):
             return self.transformPathMsg(rosMsg, toId)
+
+        if isinstance(rosMsg, PointCloud2):
+            return self.transformPointcloud(rosMsg, toId)
 
         rospy.logerr(type(rosMsg), " not implemented in tf_helper")
         return None

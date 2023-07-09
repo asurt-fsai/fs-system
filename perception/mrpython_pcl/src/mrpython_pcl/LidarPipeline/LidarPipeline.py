@@ -5,6 +5,7 @@ LidarPipeline class to integrate the following classes:
     - ConeClassifier
     - Sort3D
 """
+import copy
 from typing import Optional, Dict, Any
 from threading import Lock
 
@@ -105,25 +106,32 @@ class LidarPipeline(metaclass=SingletonMeta):
             return None
 
         # Preprocessing: filtering the point cloud
-        cloud = self.filterer.removeIntensity(cloud)
-        cloud = self.filterer.filterViewableArea(cloud)
-        cloud = self.filterer.removeCar(cloud)
-        cloud = self.filterer.removeGround(cloud)
-        if self.subsample:
-            cloud = self.filterer.subsample(cloud)
-        cloudFil = cloud.to_array()
+        try:
+            cloud = self.filterer.removeIntensity(cloud)
+            cloudOrig = copy.deepcopy(cloud)
+            cloud = self.filterer.filterViewableArea(cloud)
+            cloud = self.filterer.removeCar(cloud)
+            cloud = self.filterer.removeGround(cloud)
+            if self.subsample:
+                cloud = self.filterer.subsample(cloud)
+            cloudFil = cloud.to_array()
 
-        clusterCenters = self.clusterer.cluster(cloudFil)
+            clusterCenters = self.clusterer.cluster(cloudFil)
+        except Exception as exp:  # pylint: disable=broad-except
+            raise RuntimeError("Error in preprocessing") from exp
 
-        clusters = np.empty((0, 3))
+        clusters = np.empty((0, 4))
         cones = np.empty((0, 3))
+        randomColor = 0
 
         # Extract true cones and their centers from the clusters
         for center in clusterCenters:
-            points = self.filterer.reconstruct(cloud, center[0], center[1])
+            points = self.filterer.reconstruct(cloudOrig, center[0], center[1])
             points = points.to_array()
 
             status, coneCentroids = self.coneClassifier.isCone(points)
+            randomColor = (randomColor + 10) % 255
+            points = np.hstack((points, randomColor * np.ones((points.shape[0], 1))))
             clusters = np.vstack((clusters, points))
             if status[0] and coneCentroids is not None:
                 if len(cones) == 0:

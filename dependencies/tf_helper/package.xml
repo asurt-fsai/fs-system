@@ -2,7 +2,11 @@
 <package format="2">
   <name>tf_helper</name>
   <version>1.0.0</version>
-  <description>The tf_helper package</description>
+  <description>The tf_helper package.
+  Contains the TFHelper class to help with transforming messages to different frames.
+  Contains the StatusPublisher class to publish the heartbeats.
+  Contains the MarkerViz class to help with visualizin detected cones.
+  Contains the lidar_orient node used to publish a pointcloud in the horizontally aligned velodyne_frame</description>
 
   <maintainer email="asurt.fsai@gmail.com">ASU Racing Team, Formula AI Team</maintainer>
 
@@ -10,6 +14,12 @@
   <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>nav_msgs</depend>
+  <depend>asurt_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>visualization_msgs</depend>
 
   <export>
   </export>

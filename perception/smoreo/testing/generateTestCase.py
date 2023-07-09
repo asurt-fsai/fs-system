@@ -124,7 +124,7 @@ class TestCaseGeneration:
         Generate a test case for smoreo
         """
         self.fetchBag()
-        smoreo = Smoreo(self.params)
+        smoreo = Smoreo(self.params, "flir")
         lastGroundTruth = None
         for topic, msg, _ in self.bag.read_messages(topics=self.subTopics):
             if topic == self.boundingBoxtopic:

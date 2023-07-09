@@ -28,7 +28,7 @@ def main() -> None:
     status.ready()
 
     # Main loop
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(100)
     while not rospy.is_shutdown():
         rate.sleep()
         out = smoreo.run()

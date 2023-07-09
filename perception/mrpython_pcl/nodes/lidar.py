@@ -27,7 +27,11 @@ def main() -> None:
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         rate.sleep()
-        out = lidar.run()
+        try:
+            out = lidar.run()
+        except Exception as exp:  # pylint: disable=broad-except
+            rospy.logwarn("Lidar Pipeline failed: " + str(exp))
+            continue
         if out is None:
             continue
 

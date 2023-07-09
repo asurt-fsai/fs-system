@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/switching_node/lidar_topic" value="/velodyne_points"/>
+	<param name="/switching_node/slam_lidar_topic" value="/slam_manager/velodyne_points"/>
+	<param name="/switching_node/road_state_topic" value="/trapper/road_state"/>
+	<param name="/switching_node/aloam_odom_topic" value="/aloam/aft_mapped_to_init"/>
+	<param name="/switching_node/hdl_odom_topic" value="/hdl_odom"/>
+	<param name="/switching_node/init_pose_topic" value="/request_init_pose"/>
+	<param name="/switching_node/odom_pub_topic" value="/odom"/>
+	<param name="/switching_node/load_map_topic" value="/map_request/pcd"/>
+	<param name="/switching_node/init_pose_pub_topic" value="/initialpose"/>
+	<param name="/switching_node/data_dir" value="$(find slam_manager)/data/latest/"/>
+	<param name="/switching_node/min_pc_count_to_start" value="20"/>
+
+	<node name="switching_node" pkg="slam_manager" type = "switching_node.py" output="screen"/>
+</launch>
