@@ -3,7 +3,8 @@
         {
             "pkg": "supervisor",
             "launch_file": "staticB.launch",
-            "heartbeats_topic": "/status/staticB"
+            "heartbeats_topic": "/status/staticB",
+            "is_node_msg":true
         }
     ]
 }

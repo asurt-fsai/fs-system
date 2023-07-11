@@ -3,7 +3,8 @@
         {
             "pkg": "planning",
             "launch_file": "skidpad.launch",
-            "heartbeats_topic": "/status/skidpad"
+            "heartbeats_topic": "/status/skidpad",
+            "is_node_msg":true
         }
     ]
 }

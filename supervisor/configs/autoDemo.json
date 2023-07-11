@@ -65,6 +65,12 @@
             "launch_file": "zed.launch",
             "heartbeats_topic": "/zed/zed_node/left/image_rect_color",
             "is_node_msg": false
+        },
+        {
+            "pkg": "supervisor",
+            "launch_file": "autoDemo.launch",
+            "heartbeats_topic": "/status/autonomous_demo",
+            "is_node_msg": true
         }
     ]
 }

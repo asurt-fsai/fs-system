@@ -65,6 +65,12 @@
             "launch_file": "zed.launch",
             "heartbeats_topic": "/zed/zed_node/left/image_rect_color",
             "is_node_msg": false
+        },
+        {
+            "pkg": "supervisor",
+            "launch_file": "autocross.launch",
+            "heartbeats_topic": "/status/autocross",
+            "is_node_msg": true
         }
     ]
 }
