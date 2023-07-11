@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node name = "autocross_finisher" pkg = "supervisor" type = "autocross.py" output="screen"/>
+
+</launch>

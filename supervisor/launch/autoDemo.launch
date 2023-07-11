@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-	<param name="/maxSteer" value=27.2/>
+	<param name="/maxSteer" value="27.2"/>
 
     <node name = "autonomous_demo" pkg = "supervisor" type = "autonomous_demo.py" output="screen"/>
 
