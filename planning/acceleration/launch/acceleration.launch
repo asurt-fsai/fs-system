@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+<!-- Parameters -->
+    <param name="/physical/track_width" type="double" value="3.0"/>
+    <param name="/acceleration_planning/length_of_path" type="double" value="20"/>
+    <param name="/acceleration_planning/path_resolution" type="double" value="0.1"/>
+    <param name="/acceleration_planning/filter_range" type="double" value="2"/>
+
+<!-- Published topics -->
+    <param name="/acceleration_planning/path_topic" type="string" value="/planning/acceleration/path"/>
+    <param name="/acceleration_planning/cones_topic" type="string" value="/planning/acceleration/cones"/>
+<!-- Subscribed topics -->
+    <param name="/acceleration_planning/map_topic" type="string" value="/trapper/detected"/>
+    <param name="/acceleration_planning/odom_topic" type="string" value="/odom"/>
+
+<!-- Nodes -->
+    <node name="acceleration_planning" pkg="acceleration" type="planning.py" output="screen"/>
+</launch>
