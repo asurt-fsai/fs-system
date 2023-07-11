@@ -37,7 +37,7 @@ class MissionLauncher:
         The visualizer topic to publish the buttons to
     """
 
-    def __init__(self, visualizer: Optional[Visualizer]) -> None:
+    def __init__(self, visualizer: Optional[Visualizer] = None) -> None:
         self.visualizer = visualizer
         self.missionType = "Not Selected"
         self.isLaunched = False

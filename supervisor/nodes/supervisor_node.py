@@ -28,7 +28,12 @@ def main() -> None:
     controlVelTopic = rospy.get_param("/control/velocity")
     controlSteerTopic = rospy.get_param("/control/steering")
 
-    supervisor = Supervisor(rosCanCmdTopic, drivingFlagTopic, missionFLagTopic)
+    markerTopic = rospy.get_param("/visualizer/markers")
+    btnTopic = rospy.get_param("/visualizer/button")
+
+    supervisor = Supervisor(
+        rosCanCmdTopic, drivingFlagTopic, missionFLagTopic, markerTopic, btnTopic
+    )
 
     rospy.Subscriber(rosCanStateTopic, CanState, supervisor.canStateCallback)
     rospy.Subscriber(isFinishedTopic, Bool, supervisor.isFinishedCallback)
