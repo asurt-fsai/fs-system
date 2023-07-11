@@ -124,6 +124,7 @@ class Supervisor:  # pylint: disable=too-many-instance-attributes
                 targetVel = 0
             cmdMsg.drive.speed = targetVel
         cmdMsg.header.stamp = rospy.Time.now()
+        return cmdMsg
 
     def canStateCallback(self, msg: CanState) -> None:
         """

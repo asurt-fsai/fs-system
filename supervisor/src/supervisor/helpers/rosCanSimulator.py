@@ -60,7 +60,7 @@ class RosCanSimulator:  # pylint: disable=too-many-instance-attributes
         self.curState = VCUState.AS_OFF
         rospy.Service("vcu_next_state", Trigger, self.nextState)
         rospy.Service("vcu_prev_state", Trigger, self.prevState)
-        rospy.Service("vcu_EBS", Trigger, self.ebs)
+        rospy.Service("/ros_can/ebs", Trigger, self.ebs)
 
     def nextState(self, _: Any) -> str:
         """

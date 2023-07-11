@@ -25,7 +25,7 @@ def main() -> None:
     rosCanVelTopic = rospy.get_param("/ros_can/twist")
 
     rosCanSimulator = RosCanSimulator(
-        11, vcuVelTopic, vcuSteerTopic, rosCanStateTopic, rosCanVelTopic
+        15, vcuVelTopic, vcuSteerTopic, rosCanStateTopic, rosCanVelTopic
     )
     rospy.Subscriber(drivingFlagTopic, Bool, rosCanSimulator.drivingFlagCallback)
     rospy.Subscriber(missionFLagTopic, Bool, rosCanSimulator.missionFlagCallback)
