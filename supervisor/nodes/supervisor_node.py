@@ -7,7 +7,7 @@ import rospy
 from std_msgs.msg import Bool, Float32
 from eufs_msgs.msg import CanState
 from geometry_msgs.msg import TwistWithCovarianceStamped
-
+from tf_helper.StatusPublisher import StatusPublisher
 from supervisor import Supervisor  # type: ignore
 
 
@@ -17,6 +17,9 @@ def main() -> None:
     """
 
     rospy.init_node("supervisor")
+
+    status = StatusPublisher("/status/supervisor")
+    status.starting()
 
     rosCanCmdTopic = rospy.get_param("/ros_can/cmd")
     drivingFlagTopic = rospy.get_param("/supervisor/driving_flag")
@@ -46,6 +49,8 @@ def main() -> None:
     while not rospy.is_shutdown():
         supervisor.run()
         rate.sleep()
+
+        status.running()
 
 
 if __name__ == "__main__":
