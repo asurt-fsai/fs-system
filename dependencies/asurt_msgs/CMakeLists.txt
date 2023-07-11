@@ -5,7 +5,7 @@ find_package(catkin REQUIRED COMPONENTS message_generation roscpp rospy
                                         std_msgs geometry_msgs sensor_msgs)
 
 # Generate messages in the 'msg' folder
-add_message_files(FILES Landmark.msg LandmarkArray.msg NodeStatus.msg)
+add_message_files(FILES Landmark.msg LandmarkArray.msg NodeStatus.msg RoadState.msg)
 
 # Generate added messages and services with any dependencies listed here
 generate_messages(DEPENDENCIES std_msgs geometry_msgs asurt_msgs sensor_msgs)

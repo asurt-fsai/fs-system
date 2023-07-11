@@ -39,6 +39,13 @@ catkin_python_setup()
 
 catkin_install_python(PROGRAMS
 testing/nodes/placeholder_test_node.py
+nodes/supervisor_node.py
+nodes/staticA.py
+nodes/staticB.py
+nodes/autocross.py
+nodes/autonomous_demo.py
+nodes/track_drive.py
+nodes/ros_can_simulator.py
 DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 # Install launch files used for tests
