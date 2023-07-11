@@ -12,7 +12,8 @@
 	<param name="/finisher/is_finished" value="/finisher/is_finished"/>
 	<param name="/state" value="/state"/>
 
-
+	<param name="/visualizer/marker" value="/visualizer/marker"/>
+	<param name="/visualizer/button" value="/visualizer/button"/>
 
 
 	<param name="/vcu/curr_vel" value="/vcu/curr_vel"/>

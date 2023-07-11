@@ -1,6 +1,7 @@
 """
 Supervisor main module
 """
+from typing import Optional
 from enum import Enum
 
 import rospy
@@ -10,6 +11,7 @@ from eufs_msgs.msg import CanState
 from geometry_msgs.msg import TwistWithCovarianceStamped
 from ackermann_msgs.msg import AckermannDriveStamped
 from .helpers import MissionLauncher  # type: ignore
+from .helpers import Visualizer  # type: ignore
 
 
 class SuperState(Enum):
@@ -35,6 +37,8 @@ class Supervisor:  # pylint: disable=too-many-instance-attributes
         rosCanCmdTopic: str,
         drivingFlagTopic: str,
         missionFlagTopic: str,
+        markersTopic: Optional[str] = None,
+        btnTopic: Optional[str] = None,
     ) -> None:
         self.asState = CanState.AS_OFF
         self.amiState = CanState.AMI_NOT_SELECTED
@@ -49,7 +53,11 @@ class Supervisor:  # pylint: disable=too-many-instance-attributes
         self.missionFlagPub = rospy.Publisher(missionFlagTopic, Bool, queue_size=10)
         self.cmd = rospy.Publisher(rosCanCmdTopic, AckermannDriveStamped, queue_size=10)
 
-        self.launcher = MissionLauncher(None)
+        if markersTopic is not None and btnTopic is not None:
+            self.visualizer = Visualizer(markersTopic, btnTopic)
+            self.launcher = MissionLauncher(self.visualizer)
+        else:
+            self.launcher = MissionLauncher()
 
     def run(self) -> None:
         """
