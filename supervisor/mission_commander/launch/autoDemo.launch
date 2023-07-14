@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <param name="/maxSteer" value="27.2"/>
+    <param name="/mission_type" value="autonomousDemo"/>
+
+    <node name = "autonomous_demo" pkg = "mission_commander" type = "mission_commander_node.py" output="screen"/>
+
+</launch>

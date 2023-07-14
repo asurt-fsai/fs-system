@@ -1,0 +1,10 @@
+{
+    "modules": [
+        {
+            "pkg": "mission_commander",
+            "launch_file": "staticA.launch",
+            "heartbeats_topic": "/status/staticA",
+            "is_node_msg": true
+        }
+    ]
+}

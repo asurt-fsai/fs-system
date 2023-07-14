@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+    <param name="/mission_type" value="autocross"/>
+
+    <node name = "autocross_finisher" pkg = "mission_commander" type = "mission_commander_node.py" output="screen"/>
+
+</launch>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+	<param name="/mission_type" value="trackDrive"/>
+
+
+	<node name = "track_drive_finisher" pkg = "mission_commander" type = "mission_commander_node.py" output="screen"/>
+
+</launch>

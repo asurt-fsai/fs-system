@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/mission_type" value="staticB"/>
+
+	<node name = "staticB" pkg = "mission_commander" type = "mission_commander_node.py" output="screen"/>
+
+</launch>
