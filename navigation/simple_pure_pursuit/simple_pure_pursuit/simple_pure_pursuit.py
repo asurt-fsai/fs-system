@@ -36,21 +36,7 @@ class SimplePurePursuit:
         # self.helper = TFHelper("control")
         self.lookAhead = 6.1#rclpy.Parameter.get_parameter_value('/control/look_ahead_constant')
         self.baseLength = 2.5#rclpy.Parameter.get_parameter_value('/physical/car_base_length')  # [m] car length
-    def add(self, waypointsMsg: Path) -> None:
-        """
-        Add each waypoint element to it's corrosponding list
-
-        Points must be given in rear axle frame
-
-        Parameters
-        ----------
-        waypoints : Path
-            waypoint of the vehicle received from the path planner
-
-        points : List[PoseStamped]
-            list of waypoints of the vehicle received from the path planner
-        """
-
+    def add(self, waypointsMsg):
         #self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
         print("Went Here")
         self.waypoints = waypointsMsg
