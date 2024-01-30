@@ -1,10 +1,10 @@
 import numpy as np
 
 from planning_centerline_calculation.utils.cone_types import ConeTypes
-from planning_centerline_calculation.utils.math_utils import my_njit, rotate
+from planning_centerline_calculation.utils.math_utils import myNjit, rotate
 
 
-@my_njit
+@myNjit
 def calculateSearchDirectionForOne(cones, idxs, cone_type):
     """
     Calculates the search direction for one cone
