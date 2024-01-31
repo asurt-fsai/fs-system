@@ -247,7 +247,7 @@ def traceAnglesBetween(trace: np.ndarray) -> np.ndarray:
 
 
 @myNjit
-def unit_2d_vector_from_angle(rad: np.ndarray) -> np.ndarray:
+def unit2dVectorFromAngle(rad: np.ndarray) -> np.ndarray:
     """
     Creates unit vectors for each value in the rad array
 
@@ -489,7 +489,7 @@ def quaternion_to_euler_angles(quaternion: np.ndarray) -> np.ndarray:
 
 
 @myNjit
-def points_inside_ellipse(
+def pointsInsideEllipse(
     points: np.ndarray,
     center: np.ndarray,
     major_direction: np.ndarray,
@@ -648,10 +648,10 @@ def circle_fit(coords: np.ndarray, max_iter: int = 99) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    p1, p2, p3 = unit_2d_vector_from_angle(np.array([0, 0.3, 0.31]))
+    p1, p2, p3 = unit2dVectorFromAngle(np.array([0, 0.3, 0.31]))
     print(center_of_circle_from_3_points(p1, p2, p3))
 
-    p1, p2, p3 = unit_2d_vector_from_angle(np.array([0, 0.8, 4])) + 10
+    p1, p2, p3 = unit2dVectorFromAngle(np.array([0, 0.8, 4])) + 10
     print(center_of_circle_from_3_points(p1, p2, p3))
 
     p1, p2, p3 = np.array([-1, 0.0]), np.array([0, 1.0]), np.array([1.0, 0.0])
