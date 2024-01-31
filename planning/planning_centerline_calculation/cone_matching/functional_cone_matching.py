@@ -3,8 +3,6 @@
 """
 Description: Match cones from left and right trace to facilitate
 more stable path calculation
-
-Project: fsd_path_planning
 """
 
 from __future__ import annotations
