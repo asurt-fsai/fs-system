@@ -3,10 +3,8 @@ import torch.nn as nn
 from typing import Optional
 
 class MyPlannerTransformer(nn.Module):
-    """_summary_
-
-    Args:
-        nn (_type_): _description_
+    """
+    Deep learning based planning model using transformers
     """    
     def __init__(self, num_features=6, numOfEncoderLayers = 6, numOfDecoderLayers=6) -> None:
         super().__init__()
