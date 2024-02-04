@@ -214,7 +214,7 @@ def trace_calculate_consecutive_radii(trace: np.ndarray) -> np.ndarray:
     return radii
 
 
-def trace_distance_to_next(trace: np.ndarray) -> np.ndarray:
+def traceDistanceToNext(trace: np.ndarray) -> np.ndarray:
     """
     Calculates the distance of one point in the trace to the next. Obviously the last
     point doesn't have any distance associated
@@ -301,7 +301,7 @@ def angleFrom2dVector(vecs: np.ndarray) -> np.ndarray:
 
 
 @myNjit
-def normalize_last_axis(vecs: np.ndarray) -> np.ndarray:
+def normalizeLastAxis(vecs: np.ndarray) -> np.ndarray:
     """
     Returns a normalized version of vecs
 
@@ -369,7 +369,7 @@ def calculate_radius_from_points(points: np.ndarray) -> np.ndarray:
     # assert points.shape[-2:] == (3, 2)
     # get side lengths
     points_circular = points[..., [0, 1, 2, 0], :]
-    len_sides = trace_distance_to_next(points_circular)
+    len_sides = traceDistanceToNext(points_circular)
 
     # calc prod of sides
     prod_of_sides = np.prod(len_sides, axis=-1, keepdims=True)
@@ -578,7 +578,7 @@ def center_of_circle_from_3_points(
 
 
 @myNjit
-def circle_fit(coords: np.ndarray, max_iter: int = 99) -> np.ndarray:
+def circleFit(coords: np.ndarray, max_iter: int = 99) -> np.ndarray:
     """
     Fit a circle to a set of points. This function is adapted from the hyper_fit function
     in the circle-fit package (https://pypi.org/project/circle-fit/). The function is
