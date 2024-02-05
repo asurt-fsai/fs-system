@@ -16,7 +16,7 @@ from icecream import ic  # pylint: disable=unused-import
 from planning_centerline_calculation.calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
 )
-from planning_centerline_calculation.calculate_path.path_parameterization import PathParameterizer
+#from planning_centerline_calculation.calculate_path.path_parameterization import PathParameterizer
 from planning_centerline_calculation.types import BoolArray, FloatArray, IntArray
 from planning_centerline_calculation.utils.cone_types import ConeTypes
 from planning_centerline_calculation.utils.math_utils import (
