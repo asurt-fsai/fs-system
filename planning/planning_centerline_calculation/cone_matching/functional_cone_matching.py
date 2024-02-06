@@ -12,7 +12,7 @@ from typing import Literal, Tuple, cast
 import numpy as np
 from icecream import ic  # pylint: disable=unused-import
 
-from cone_matching.match_directions import (
+from match_directions import (
     calculateMatchSearchDirection,
 )
 from types import BoolArray, FloatArray, IntArray, SortableConeTypes
