@@ -6,15 +6,14 @@ Core path calculation.
 Description: A module for path update calculation that will be used in combination with
 the existing path
 
-Project: fsd_path_planning
 """
 import numpy as np
 from icecream import ic  # pylint: disable=unused-import
 from typing_extensions import Literal
 
-from planning_centerline_calculation.types import FloatArray
-from planning_centerline_calculation.utils.cone_types import ConeTypes
-from planning_centerline_calculation.utils.math_utils import rotate, unit2dVectorFromAngle
+from types import FloatArray
+from utils.cone_types import ConeTypes
+from utils.math_utils import rotate, unit2dVectorFromAngle
 
 ConeTypesForPathCalculation = Literal[ConeTypes.LEFT, ConeTypes.RIGHT]
 
