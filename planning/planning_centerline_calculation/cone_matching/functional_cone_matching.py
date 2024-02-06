@@ -12,12 +12,12 @@ from typing import Literal, Tuple, cast
 import numpy as np
 from icecream import ic  # pylint: disable=unused-import
 
-from planning_centerline_calculation.cone_matching.match_directions import (
+from cone_matching.match_directions import (
     calculateMatchSearchDirection,
 )
-from planning_centerline_calculation.types import BoolArray, FloatArray, IntArray, SortableConeTypes
-from planning_centerline_calculation.utils.cone_types import ConeTypes
-from planning_centerline_calculation.utils.math_utils import (
+from types import BoolArray, FloatArray, IntArray, SortableConeTypes
+from utils.cone_types import ConeTypes
+from utils.math_utils import (
     angleFrom2dVector,
     myCdistSqEuclidean,
     myNjit,
