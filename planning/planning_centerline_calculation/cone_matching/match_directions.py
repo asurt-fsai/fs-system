@@ -1,7 +1,7 @@
 import numpy as np
 
-from planning_centerline_calculation.utils.cone_types import ConeTypes
-from planning_centerline_calculation.utils.math_utils import myNjit, rotate
+from utils.cone_types import ConeTypes
+from utils.math_utils import myNjit, rotate
 
 
 @myNjit
