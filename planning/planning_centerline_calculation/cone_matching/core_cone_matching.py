@@ -13,11 +13,11 @@ from typing import Tuple
 import numpy as np
 from icecream import ic  # pylint: disable=unused-import
 
-from planning_centerline_calculation.cone_matching.functional_cone_matching import (
+from cone_matching.functional_cone_matching import (
     calculateVirtualConesForBothSides,
 )
-from planning_centerline_calculation.types import FloatArray, IntArray
-from planning_centerline_calculation.utils.cone_types import ConeTypes
+from types import FloatArray, IntArray
+from utils.cone_types import ConeTypes
 
 MatchedCones = Tuple[FloatArray, FloatArray, IntArray, IntArray]
 
