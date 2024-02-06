@@ -13,7 +13,7 @@ from typing import Tuple
 import numpy as np
 from icecream import ic  # pylint: disable=unused-import
 
-from cone_matching.functional_cone_matching import (
+from functional_cone_matching import (
     calculateVirtualConesForBothSides,
 )
 from types import FloatArray, IntArray
