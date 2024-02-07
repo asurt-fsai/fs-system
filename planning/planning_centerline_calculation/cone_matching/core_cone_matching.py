@@ -11,26 +11,28 @@ from dataclasses import dataclass, field
 from typing import Tuple
 
 import numpy as np
+from numpy.typing import NDArray
+
 from icecream import ic  # pylint: disable=unused-import
 
-from functional_cone_matching import (
+from .functional_cone_matching import (
     calculateVirtualConesForBothSides,
 )
-from types import FloatArray, IntArray
+#from ..types import NDArray[np.float_], NDArray[np.int_]
 from utils.cone_types import ConeTypes
 
-MatchedCones = Tuple[FloatArray, FloatArray, IntArray, IntArray]
+MatchedCones = Tuple[NDArray[np.float_], NDArray[np.float_], NDArray[np.int_], NDArray[np.int_]]
 
 
 @dataclass
 class ConeMatchingInput:
     """Dataclass holding inputs."""
 
-    sortedCones: list[FloatArray] = field(
+    sortedCones: list[NDArray[np.float_]] = field(
         default_factory=lambda: [np.zeros((0, 2)) for _ in ConeTypes]
     )
-    slamPosition: FloatArray = field(default_factory=lambda: np.zeros((2)))
-    slamDirection: FloatArray = field(default_factory=lambda: np.zeros((2)))    #might be float
+    slamPosition: NDArray[np.float_] = field(default_factory=lambda: np.zeros((2)))
+    slamDirection: NDArray[np.float_] = field(default_factory=lambda: np.zeros((2)))    #might be float
 
 
 @dataclass
@@ -41,10 +43,10 @@ class ConeMatchingState:
     maxSearchRange: float
     maxSearchAngle: float
     matchesShouldBeMonotonic: bool
-    sortedLeft: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
-    sortedRight: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
-    positionGlobal: FloatArray = field(init=False) #might be float
-    directionGlobal: FloatArray = field(init=False)
+    sortedLeft: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
+    sortedRight: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
+    positionGlobal: NDArray[np.float_] = field(init=False) #might be float
+    directionGlobal: NDArray[np.float_] = field(init=False)
 
 
 class ConeMatching:
@@ -102,10 +104,7 @@ class ConeMatching:
         majorRadius = self.state.maxSearchRange * 1.5
         minorRadius = self.state.minTrackWidth
 
-        (
-            (leftConesWithVirtual, _, leftToRightMatch),
-            (rightConesWithVirtual, _, rightToLeftMatch),
-        ) = calculateVirtualConesForBothSides(
+        ((leftConesWithVirtual, _, leftToRightMatch),(rightConesWithVirtual, _, rightToLeftMatch)) = calculateVirtualConesForBothSides(
             self.state.sortedLeft,
             self.state.sortedRight,
             self.state.positionGlobal,
@@ -115,7 +114,10 @@ class ConeMatching:
             self.state.maxSearchAngle,
             self.state.matchesShouldBeMonotonic,
         )
-
+        #leftResults, rightResults = results
+        #(leftConesWithVirtual, _, leftToRightMatch) = leftResults
+        #(rightConesWithVirtual, _, rightToLeftMatch) = rightResults
+        
         return (
             leftConesWithVirtual,
             rightConesWithVirtual,

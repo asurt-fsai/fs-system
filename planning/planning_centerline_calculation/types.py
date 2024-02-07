@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any, Literal
 import numpy as np
 from numpy.typing import NDArray
 
-from planning_centerline_calculation.utils.cone_types import ConeTypes
+from utils.cone_types import ConeTypes
 
 if TYPE_CHECKING:
     GenericArray = NDArray[Any]
