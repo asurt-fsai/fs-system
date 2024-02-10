@@ -280,7 +280,7 @@ class CalculatePath:
                 maskPathIsInFrontOfCar[i:] = True
                 break
 
-        maskPathIsInFrontOfCar[-20:] = True
+        maskPathIsInFrontOfCar[-10:] = True
 
         if not maskPathIsInFrontOfCar.any():
             return pathUpdate
@@ -295,7 +295,7 @@ class CalculatePath:
             return pathUpdate
 
         # select n last points of the path and estimate the circle they form
-        relevantPath = pathInfrontOfCar[-20:]
+        relevantPath = pathInfrontOfCar[-6:]
         centerX, centerY, radius = circleFit(relevantPath)
         center = np.array([centerX, centerY])
 
@@ -316,7 +316,7 @@ class CalculatePath:
             orientationSign = np.sign(orientation)
 
             # create the circular arc
-            startAngle = float(angleFrom2dVector(threePoints[0]))
+            startAngle = float(angleFrom2dVector(threePoints[0])) + orientationSign * np.pi/4
             endAngle = startAngle + orientationSign * np.pi
             newPointsAngles = np.linspace(startAngle, endAngle)
             newPointsRaw = (
@@ -378,7 +378,11 @@ class CalculatePath:
             pathWithNoPathBehindCar
         )
 
-        return pathWithLengthForMpc
+        pathAfterIncreasingPoints = self.increasePoints(
+            pathWithLengthForMpc
+        )
+
+        return pathAfterIncreasingPoints
 
     '''def doAllMpcParameterCalculations(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
         """
@@ -429,6 +433,41 @@ class CalculatePath:
             self.input.positionGlobal - pathLengthFixed, axis=1
         )
         return distanceCost
+
+    def increasePoints(self, path: NDArray[np.float_]) -> NDArray[np.float_]:
+        """
+        Inserts new points in a path array at locations exceeding a distance threshold.
+
+        Args:
+            path: A NumPy array representing the path coordinates (x, y).
+
+        Returns:
+            A new NumPy array with interpolated points added.
+        """
+
+        maxDistance = 2  # Distance threshold for inserting points
+        flagToRepeat = 0
+        newPath = list(path[:1])  # Start with the first point in the new path
+        for i in range(1, len(path) - 1):  # Iterate over pairs of points (avoiding first and last)
+            point1 = path[i]
+            point2 = path[i + 1]
+            distance = np.linalg.norm(point1 - point2)  # Efficient distance calculation
+
+            if distance > maxDistance:
+                newPoint = (point1 + point2) / 2  # Midpoint between points
+                newPath.append(newPoint)
+
+            if distance > maxDistance*2:
+                i = i - 1
+                flagToRepeat = 1
+
+            newPath.append(point2)  # Append the current point
+
+        if flagToRepeat:
+            return self.increasePoints(np.array(newPath))
+
+        return np.array(newPath)
+
 
     def connectPathToCar(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
         """
