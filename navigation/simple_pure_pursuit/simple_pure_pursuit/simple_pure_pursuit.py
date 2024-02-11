@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Simple Pure Pursuit Controller for lateral control of the vehicle
-"""
+
 import math
 
 from typing import List, Tuple
