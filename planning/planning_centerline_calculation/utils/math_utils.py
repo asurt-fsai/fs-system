@@ -6,7 +6,10 @@ Description: A module with common mathematical functions
 from typing import Tuple, TypeVar, cast
 
 import numpy as np
+from numpy.typing import NDArray
 from numba import jit
+
+import math
 
 T = TypeVar("T")
 
@@ -56,6 +59,27 @@ def normOfLastAxis(arr: np.ndarray) -> np.ndarray:
 
     return result
 
+def angleToVector(angle: np.float_) -> NDArray[np.float_]:
+    """
+    Converts an angle in radians to a 2D unit vector.
+
+    Args:
+        angle: The angle in radians.
+
+    Returns:
+        A 2D unit vector representing the direction of the angle.
+    """
+
+    x = math.cos(angle)
+    y = math.sin(angle)
+
+    # Normalize to create a unit vector
+    magnitude = math.sqrt(x**2 + y**2)
+    x /= magnitude
+    y /= magnitude
+    unitVector = np.array([x / magnitude, y / magnitude], dtype=np.float_)
+
+    return unitVector
 
 @myNjit
 def vecAngleBetween(
@@ -74,8 +98,8 @@ def vecAngleBetween(
         np.ndarray: A vector, such that each element i contains the angle between
         vectors vecs1[i] and vecs2[i]
     """
-    assert vecs1.shape[-1] == 2
-    assert vecs2.shape[-1] == 2
+    '''assert vecs1.shape[-1] == 2
+    assert vecs2.shape[-1] == 2'''
 
     cosTheta = vec_dot(vecs1, vecs2)
 
