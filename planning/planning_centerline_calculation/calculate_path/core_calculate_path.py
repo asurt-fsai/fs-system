@@ -28,6 +28,7 @@ from utils.math_utils import (
     traceDistanceToNext,
     unit2dVectorFromAngle,
     vecAngleBetween,
+    angleToVector
 )
 #from planning_centerline_calculation.utils.spline_fit import SplineEvaluator, SplineFitterFactory
 
@@ -48,7 +49,8 @@ class PathCalculationInput:
         default_factory=lambda: np.zeros(0, dtype=int)
     )
     positionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    directionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.array([1, 0]))
+    #directionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.array([1, 0]))
+    directionGlobal: np.float_ = 0
     globalPath: Optional[NDArray[np.float_]] = field(default=None)
 
 
@@ -131,7 +133,7 @@ class CalculatePath:
     def calculateTrivialPath(self) -> NDArray[np.float_]:
         "Calculate a path that points straight from the car position and direction"
         originPath = self.pathCalculatorHelpers.calculate_almost_straight_path()[1:]
-        yaw = angleFrom2dVector(self.input.directionGlobal)
+        yaw = self.input.directionGlobal
         pathRotated: NDArray[np.float_] = rotate(originPath, yaw)  # type: ignore
         finalTrivialPath: NDArray[np.float_] = pathRotated + self.input.positionGlobal
         return finalTrivialPath
@@ -271,7 +273,7 @@ class CalculatePath:
         # find angle to each point in the path
         carToPath = pathUpdate - self.input.positionGlobal
         maskPathIsInFrontOfCar = (
-            np.dot(carToPath, self.input.directionGlobal) > 0
+            np.dot(carToPath, angleToVector(self.input.directionGlobal)) > 0
         )
         # as soon as we find a point that is in front of the car, we can mark all the
         # points after it as being in front of the car
@@ -481,8 +483,10 @@ class CalculatePath:
 
         carToFirstPoint = pathUpdate[0] - self.input.positionGlobal
 
+        vectorVehicleDirection = angleToVector(self.input.directionGlobal)
+
         angleToFirstPoint = vecAngleBetween(
-            carToFirstPoint, self.input.directionGlobal
+            carToFirstPoint, vectorVehicleDirection
         )
 
         # there is path behind car or start is close enough
@@ -553,7 +557,7 @@ class CalculatePath:
         #self.mpcPaths = self.mpcPaths[-10:] + [pathWithLengthForMpc]
         self.pathIsTrivialList = self.pathIsTrivialList[-10:] + [pathIsTrivial]
 
-    def runPathCalculation(self) -> Tuple[NDArray[np.float_], NDArray[np.float_]]:
+    def runPathCalculation(self) -> NDArray[np.float_]:
         """Calculate path."""
         if len(self.input.leftCones) < 3 and len(self.input.rightCones) < 3:
             if len(self.previousPaths) > 0:
