@@ -143,7 +143,7 @@ def myCdistSqEuclidean(arr_a: np.ndarray, arr_b: np.ndarray) -> np.ndarray:
 
 
 @myNjit
-def calc_pairwise_distances(
+def calcPairwiseDistances(
     points: np.ndarray, dist_to_self: float = 0.0
 ) -> np.ndarray:
     """
@@ -166,7 +166,7 @@ def calc_pairwise_distances(
 
 
 @myNjit
-def my_in1d(test_values: np.ndarray, source_container: np.ndarray) -> np.ndarray:
+def myIn1d(test_values: np.ndarray, source_container: np.ndarray) -> np.ndarray:
     """
     Calculate a boolean mask for a 1d array indicating if an element in `test_values` is
     present in `source container` which is also 1d

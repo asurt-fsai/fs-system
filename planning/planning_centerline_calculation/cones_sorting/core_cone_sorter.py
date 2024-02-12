@@ -2,12 +2,13 @@
 Description: This module provides functionality for sorting a trace of cones into aplausible track
 """
 
+import sys
 from typing import Optional, Tuple
 
 import numpy as np
 
 from planning_centerline_calculation.utils.cone_types import ConeTypes, invertConeType
-from planning_centerline_calculation.types import FloatArray
+from planning_centerline_calculation.types import FloatArray, IntArray, BoolArray, SortableConeTypes
 from planning_centerline_calculation.utils.math_utils import (
     angleFrom2dVector,
     rotate,
@@ -16,6 +17,7 @@ from planning_centerline_calculation.utils.math_utils import (
     vecAngleBetween,
     myCdistSqEuclidean
 )
+from planning_centerline_calculation.cone_sorting.adjecency_matrix import AdjacencyMatrix
 from planning_centerline_calculation.cone_matching.functional_cone_matching import combineAndSortVirtualWithReal
 
 
@@ -213,3 +215,54 @@ class ConeSorter:
         maskIsValid = maskIsInEllipse * maskSide * maskIsNotOppositeConeType
 
         return traceDistance, maskIsValid
+    
+    def calcScoresAndEndConfigurations(
+            trace: FloatArray,
+            coneType: SortableConeTypes,
+            nNeighbors: int,
+            startIdx: int,
+            thresholdDirectionalAngle: float,
+            vehiclePosition: FloatArray,
+            vehicleDirection: FloatArray,
+            maxDist: float = np.inf,
+            maxLenth: int = sys.maxsize,
+            firstKIndicesMustBe: Optional[IntArray] = None,
+            returnHistory: bool = False,
+    ) -> tuple[FloatArray, IntArray, Optional[tuple[IntArray, BoolArray]]]:
+        """
+            Sorts a set of points such that the sum of the angles between the points is minimal.
+            If a point is too far away, from any neighboring points, it is considered an outlier
+            and is removed from the ordering
+            Args:
+                trace: The points to be ordered
+                cone_type: The type of cone to be sorted (left/right)
+                n_neighbors: The number of neighbors to be considered. For exhaustive
+                search set to `len(trace) - 1`
+                start_idx: The index of the point to be set first in the ordering.
+                max_dist: The maximum valid distance between neighbors
+                Defaults to np.inf
+                max_length: The maximum valid length of the tree
+                Defaults to np.inf
+                cone_type:: The type of cone that is being sorted (left or right
+                trace)
+            Raises:
+                ValueError: If `n_neighbors` is greater than len(trace) - 1
+                RuntimeError: If no valid path can be computed
+            Returns:
+                A list of indexes of the points in the optimal ordering, as well as the
+                the costs of all end configurations and their corresponding indices
+            """
+        matrixObj = AdjacencyMatrix(maxDist)
+        adjecencyMatrix, reachableNodes = matrixObj.createAdjacencyMatrix(
+            cones = trace,
+            nNeighbors = nNeighbors,
+            startIdx = startIdx,
+            coneType = coneType,
+        )
+        targetLength = min(reachableNodes.shape[0], maxLenth)
+
+        if firstKIndicesMustBe is None:
+            firstKIndicesMustBe = np.arange(0)
+
+        
+            
