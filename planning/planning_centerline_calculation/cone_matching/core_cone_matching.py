@@ -32,7 +32,7 @@ class ConeMatchingInput:
         default_factory=lambda: [np.zeros((0, 2)) for _ in ConeTypes]
     )
     slamPosition: NDArray[np.float_] = field(default_factory=lambda: np.zeros((2)))
-    slamDirection: NDArray[np.float_] = field(default_factory=lambda: np.zeros((2)))    #might be float
+    slamDirection: np.float_ = 0
 
 
 @dataclass
@@ -46,7 +46,7 @@ class ConeMatchingState:
     sortedLeft: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
     sortedRight: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
     positionGlobal: NDArray[np.float_] = field(init=False) #might be float
-    directionGlobal: NDArray[np.float_] = field(init=False)
+    directionGlobal: np.float_ = 0
 
 
 class ConeMatching:
