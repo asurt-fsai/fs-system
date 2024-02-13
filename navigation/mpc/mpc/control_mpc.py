@@ -9,6 +9,11 @@ from nav_msgs.msg import Odometry, Path
 from ackermann_msgs.msg import AckermannDrive
 from tf_transformations import euler_from_quaternion
 
+#dynamic model
+#tazbet elconstrains
+#meen input w meen output w hygolna mnen
+#eh elhagat ely da5la 3al mpc w by5arag eh w no3 eldata ely 5arga eh
+#output (Target Speed, Steering)
 
 class control_mpc(Node):
     def _init_(self):
@@ -26,7 +31,7 @@ class control_mpc(Node):
     def state_callback(self, state: Odometry):
         Vx = state.twist.twist.linear.x
         Vy = state.twist.twist.linear.y
-        self.velocity = math.sqrt(Vx * 2 + Vy * 2)
+        self.velocity = math.sqrt(Vx ** 2 + Vy ** 2)
         X = state.pose.pose.position.x
         Y = state.pose.pose.position.y
         orientation_list = [
@@ -38,7 +43,7 @@ class control_mpc(Node):
         _, _, yaw = euler_from_quaternion(orientation_list)
         self.state = (X, Y, yaw)
         throttle_msg = Float32()
-        throttle_msg.data, steer_msg = self.mpc_control()
+        throttle_msg.data, steer_msg.data = self.mpc_control()
         self.control_pub.publish()
 
     def path_callback(self, path: Path):
