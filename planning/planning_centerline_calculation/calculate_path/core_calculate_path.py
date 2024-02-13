@@ -14,6 +14,8 @@ import numpy as np
 from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
 
+import math
+
 from calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
 )
@@ -364,7 +366,10 @@ class CalculatePath:
             The path for MPC
         """
         pathConnectedToCar = self.connectPathToCar(pathUpdate)
-        pathWithEnoughLength = self.extendPath(pathConnectedToCar)
+        pathAfterIncreasingPoints = self.increasePoints(
+            pathConnectedToCar
+        )
+        pathWithEnoughLength = self.extendPath(pathAfterIncreasingPoints)
         pathWithNoPathBehindCar = self.removePathBehindCar(
             pathWithEnoughLength
         )
@@ -380,11 +385,7 @@ class CalculatePath:
             pathWithNoPathBehindCar
         )
 
-        pathAfterIncreasingPoints = self.increasePoints(
-            pathWithLengthForMpc
-        )
-
-        return pathAfterIncreasingPoints
+        return pathWithLengthForMpc
 
     '''def doAllMpcParameterCalculations(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
         """
@@ -436,6 +437,7 @@ class CalculatePath:
         )
         return distanceCost
 
+
     def increasePoints(self, path: NDArray[np.float_]) -> NDArray[np.float_]:
         """
         Inserts new points in a path array at locations exceeding a distance threshold.
@@ -447,21 +449,20 @@ class CalculatePath:
             A new NumPy array with interpolated points added.
         """
 
-        maxDistance = 2  # Distance threshold for inserting points
+        maxDistance = 1  # Distance threshold for inserting points
         flagToRepeat = 0
         newPath = list(path[:1])  # Start with the first point in the new path
-        for i in range(1, len(path) - 1):  # Iterate over pairs of points (avoiding first and last)
+        for i in range(len(path) - 1):  # Iterate over pairs of points (avoiding first and last)
             point1 = path[i]
             point2 = path[i + 1]
             distance = np.linalg.norm(point1 - point2)  # Efficient distance calculation
 
+            if distance > maxDistance*2:
+                flagToRepeat = 1
+
             if distance > maxDistance:
                 newPoint = (point1 + point2) / 2  # Midpoint between points
                 newPath.append(newPoint)
-
-            if distance > maxDistance*2:
-                i = i - 1
-                flagToRepeat = 1
 
             newPath.append(point2)  # Append the current point
 
@@ -623,7 +624,7 @@ class CalculatePath:
         '''
         
         self.storePaths(pathWithLengthForMpc, False)
-        print(pathWithLengthForMpc.shape)
+        #print(pathWithLengthForMpc.shape)
         self.previousPaths = np.concatenate((self.previousPaths[-15:], pathWithLengthForMpc), axis=0)
 
         return pathWithLengthForMpc
