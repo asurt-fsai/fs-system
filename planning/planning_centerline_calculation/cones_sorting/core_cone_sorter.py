@@ -3,7 +3,7 @@ Description: This module provides functionality for sorting a trace of cones int
 """
 
 import sys
-from typing import Optional, Tuple
+from typing import Optional, Tuple, cast
 
 import numpy as np
 
@@ -17,10 +17,35 @@ from planning_centerline_calculation.utils.math_utils import (
     vecAngleBetween,
     myCdistSqEuclidean
 )
-from planning_centerline_calculation.cone_sorting.adjecency_matrix import AdjacencyMatrix
+from planning_centerline_calculation.cones_sorting.combine_traces import calcFinalConfigsForLeftAndRight
+from planning_centerline_calculation.cones_sorting.adjecency_matrix import AdjacencyMatrix
+from planning_centerline_calculation.cones_sorting.end_configurations import findAllEndConfigurations, NoPathError
+from planning_centerline_calculation.cones_sorting.cost_function import costConfigurations
 from planning_centerline_calculation.cone_matching.functional_cone_matching import combineAndSortVirtualWithReal
 
+def flattenConesByTypeArray(conesByType: list[FloatArray]) -> FloatArray:
+    """Ravel the conesByType array"""
 
+    if(
+        isinstance(conesByType, np.ndarray)
+        and conesByType.ndim == 2
+        and conesByType.shape[1] == 3
+    ):
+        return conesByType
+
+    nAllCones = sum(map(len, conesByType))
+
+    # (x, y, color)
+    out = np.empty((nAllCones, 3))
+    nStart = 0
+    for coneType in ConeTypes:
+        nCones = len(conesByType[coneType])
+        out[nStart : nStart + nCones, :2] = conesByType[coneType].reshape(-1, 2)
+        out[nStart : nStart + nCones, 2] = coneType
+        nStart += nCones
+
+    return out
+    
 class ConeSorter:
     """
     Wraps the cone sorting functionality into a class
@@ -28,14 +53,22 @@ class ConeSorter:
 
     def __init__(
             self,
+            maxNNeighbors:int,
             maxDist: float,
             maxDistToFirst: float,
+            maxLength: int,
+            thresholdDirectionalAngle: float,
+            thresholdAbsoluteAngle: float,
             ) -> None:
         """
         Constructor for ConeSorter class
         """
+        self.maxNNeighbors = maxNNeighbors
         self.maxDist = maxDist
         self.maxDistToFirst = maxDistToFirst
+        self.maxLength = maxLength
+        self.thresholdDirectionalAngle = thresholdDirectionalAngle
+        self.thresholdAbsoluteAngle = thresholdAbsoluteAngle
 
     def selectFirstKStartingCones(
             self,
@@ -222,6 +255,7 @@ class ConeSorter:
             nNeighbors: int,
             startIdx: int,
             thresholdDirectionalAngle: float,
+            thresholdAbsoluteAngle: float,
             vehiclePosition: FloatArray,
             vehicleDirection: FloatArray,
             maxDist: float = np.inf,
@@ -263,6 +297,146 @@ class ConeSorter:
 
         if firstKIndicesMustBe is None:
             firstKIndicesMustBe = np.arange(0)
-
         
-            
+        allEndConfigurations, history = findAllEndConfigurations(
+            trace,
+            coneType,
+            startIdx,
+            adjecencyMatrix,
+            targetLength,
+            thresholdDirectionalAngle,
+            thresholdAbsoluteAngle,
+            firstKIndicesMustBe,
+            vehiclePosition,
+            vehicleDirection,
+            carSize=2.1,
+            storeAllEndConfigurations=returnHistory,
+        )
+
+        costs = costConfigurations(
+            points=trace,
+            configurations=allEndConfigurations,
+            coneType=coneType,
+            vehiclePosition=vehiclePosition,
+            vehicleDirection=vehicleDirection,
+            returnIndividualCosts=False,
+        )
+        costSortIdx = np.argsort(costs)
+        costs = cast(FloatArray, costs[costSortIdx])
+        allEndConfigurations = cast(IntArray, allEndConfigurations[costSortIdx])
+
+        return (costs, allEndConfigurations, history)
+
+    def calcConfigurationWithScoresForOneSide(
+            self,
+            cones: FloatArray,
+            coneType: ConeTypes,
+            carPos: FloatArray,
+            carDir: FloatArray,
+    ) -> Tuple[Optional[FloatArray], Optional[FloatArray]]:
+        """
+        Args: 
+            cones: The trace to be sorted.
+            coneType: The type of cone to be sorted.
+            carPos: The position of the car.
+            carDir: The direction towards which the car is facing.
+        Returns:
+            np.ndarray: The sorted trace, 'len(returnValue) <= len(trace)'
+        """
+        assert coneType in (ConeTypes.LEFT, ConeTypes.RIGHT)
+
+        noResult = None, None
+
+        if len(cones) < 3:
+            return noResult
+
+        firstK = self.selectFirstKStartingCones(
+            carPos,
+            carDir,
+            cones,
+            coneType,
+        )
+        if firstK is not None:
+            startIdx = firstK[0]
+            if len(firstK) > 1:
+                firstKIndicesMustBe = firstK.copy()
+            else:
+                firstKIndicesMustBe = None
+        else:
+            startIdx = None
+            firstKIndicesMustBe = None
+
+        if startIdx is None and firstKIndicesMustBe is None:
+            return noResult
+        
+        nNeighbors = min(self.maxNNeighbors, len(cones) - 1)
+        try:
+            returnValue = self.calcScoresAndEndConfigurations(
+                cones,
+                coneType,
+                nNeighbors,
+                startIdx, 
+                self.thresholdDirectionalAngle,
+                self.thresholfAbsoluteAngle,
+                carPos,
+                carDir,
+                self.maxDist,
+                self.maxLength,
+                firstKIndicesMustBe,
+            )
+
+        # if no configuration can be found, then return nothing
+        except NoPathError:
+            return noResult
+        
+        return returnValue[:2]
+    
+    def sortLeftRight(
+            self,
+            conesByType: list[FloatArray],
+            carPos: FloatArray,
+            carDir: FloatArray,
+    ) -> tuple[FloatArray, FloatArray]:
+        conesFlat = flattenConesByTypeArray(conesByType)
+
+        (
+            leftScores,
+            leftConfigs
+        ) = self.calcConfigurationWithScoresForOneSide(
+            conesFlat,
+            ConeTypes.LEFT,
+            carPos,
+            carDir,
+        )
+
+        (
+            rightScores,
+            rightConfigs
+        ) = self.calcConfigurationWithScoresForOneSide(
+            conesFlat,
+            ConeTypes.RIGHT,
+            carPos,
+            carDir,
+        )
+
+        (leftConfig, rightConfig) = calcFinalConfigsForLeftAndRight(
+            leftScores,
+            leftConfigs,
+            rightScores,
+            rightConfigs,
+            conesFlat,
+            carPos,
+            carDir,
+        ) 
+        leftConfig = leftConfigs[leftConfig != -1]
+        rightConfig = rightConfigs[rightConfig!= -1]
+
+        # remove any placeholder position if they are present
+        leftConfig = leftConfig[leftConfig!= -1]
+        rightConfig = rightConfig[rightConfig!= -1]
+
+        leftSorted = conesFlat[leftConfig]
+        rightSorted = conesFlat[rightConfig]
+
+        return leftSorted[:, :2], rightSorted[:, :2]
+

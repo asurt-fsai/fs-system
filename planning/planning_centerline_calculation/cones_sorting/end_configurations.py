@@ -53,7 +53,9 @@ def findAllEndConfigurations(
     """
 
     neighborsFlat, borders = adjacecnyMatrixToBordersAndTargets(adjacencyMatrix)
-
+    # print(adjacencyMatrix)
+    # print(neighborsFlat)
+    # print(borders)
     pointsXY = points[:, :2]
 
     (
@@ -105,9 +107,12 @@ def findAllEndConfigurations(
     # keep only configs with at least 3 cones
     maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
     endConfigurations = endConfigurations[maskLengthIsAtleast3]
-
+    print(endConfigurations[0])
+    print(len(endConfigurations))
     # remove identical configurations
     endConfigurations = np.unique(endConfigurations, axis=0)
+    print(endConfigurations[0])
+    print(len(endConfigurations))
     # remove subsets
     areEqualMask = endConfigurations[:, None] == endConfigurations
     areMinus1Mask = endConfigurations == -1
@@ -170,7 +175,7 @@ def adjacecnyMatrixToBordersAndTargets(
             previous = borders[i - 1][1]
             borders[i] = [previous, previous]
 
-    finalBorders = np.concatenate((borders[:, 0], borders[-1][-1]))
+    finalBorders = np.concatenate((borders[:, 0], borders[-1:, -1]))
     
     return neighborsFlat, finalBorders
 
@@ -201,7 +206,7 @@ def implFindAllEndConfigurations(
     """
     endConfigurations: IntArray = np.full((10, targetLength), -1, dtype=np.int32)
     endConfigurationsPointer = 0
-    stack: IntArray = np.zeros((10, targetLength), dtype=np.int32)
+    stack: IntArray = np.zeros((10, 2), dtype=np.int32)
     stackEndPointer = 0
     currentAttempt: IntArray = np.zeros(targetLength, dtype=np.int32) -1
     if len(firstKIndicesMustBe) > 0:
@@ -227,7 +232,9 @@ def implFindAllEndConfigurations(
 
         # get the neighbors of the last node in the attempt
         neighbors = adjacecnyNeighbors[adjacencyBorders[nextIdx] : adjacencyBorders[nextIdx + 1]]
-
+        # print(len(adjacecnyNeighbors))
+        # print(adjacencyBorders)
+        # print(nextIdx)
         canBeAdded = neighborBoolMaskCanBeAddedToAttempt(
             trace,
             coneType,
@@ -244,7 +251,6 @@ def implFindAllEndConfigurations(
         hasValidNeighbors = positionInStack < targetLength -1 and np.any(
             canBeAdded
         )
-
         # check that we haven't hit target length and that we have neighbors to add
         if hasValidNeighbors:
             for i in range(len(canBeAdded)):
@@ -270,7 +276,7 @@ def implFindAllEndConfigurations(
             allConfigurations[allConfigurationsCounter] = currentAttempt
             configurationsIsEnd[allConfigurationsCounter] = not hasValidNeighbors
             allConfigurationsCounter += 1
-    
+
     returnValueEndConfigurations: IntArray = endConfigurations[:endConfigurationsPointer]
 
     maskEndConfigurationsWithMoreThanTwoNodes = (
@@ -312,7 +318,6 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
     # neighbor can be added if not in current attempt
     canBeAdded = ~myIn1d(neighbors, currentAttempt[: positionInStack + 1])
-
     neighborsPoints = trace[neighbors]
     if positionInStack >= 1:
         maskInEllipse = calculateMaskWithinEllipse(
@@ -327,7 +332,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
             coneType, carPosition, carDirectionNormalized, neighborsPoints
         )
 
-        canBeAdded = canBeAdded & maskInEllipse
+        canBeAdded = canBeAdded & maskSecondConeRightSide
 
     for i in range(len(canBeAdded)):
         if not canBeAdded[i]:
@@ -426,7 +431,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
                     lastInAttempt, candidateNeighborPos, carStart, carEnd
                 )
         
-        return canBeAdded
+    return canBeAdded
 
                 
 
@@ -494,7 +499,7 @@ def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
         candidateNeighbor: int,
 ):
     for neighbor in neighbors:
-        if neighbor == neighbor[i]:
+        if neighbor == neighbors[i]:
             continue
 
         neighborToLastInAttempt = (
@@ -510,11 +515,11 @@ def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
         # cone is between the last cone in the attemot and the candidate neighbor to the
         # attempt
         if (
-            distToCandidate < 0.6
-            and distToLastInAttempt < 0.6
+            distToCandidate < 6.0
+            and distToLastInAttempt < 6.0
             and vecAngleBetween(neighborToLastInAttempt, neighborToCandidate) > np.deg2rad(150)
         ):
-            canBeAdded = False
+            canBeAdded[i] = False
             break
 
 _DEFAULT_EPSILON = 1e-6
