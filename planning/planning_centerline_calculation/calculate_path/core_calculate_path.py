@@ -14,6 +14,8 @@ import numpy as np
 from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
 
+import math
+
 from calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
 )
@@ -28,6 +30,7 @@ from utils.math_utils import (
     traceDistanceToNext,
     unit2dVectorFromAngle,
     vecAngleBetween,
+    angleToVector
 )
 #from planning_centerline_calculation.utils.spline_fit import SplineEvaluator, SplineFitterFactory
 
@@ -48,7 +51,8 @@ class PathCalculationInput:
         default_factory=lambda: np.zeros(0, dtype=int)
     )
     positionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    directionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.array([1, 0]))
+    #directionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.array([1, 0]))
+    directionGlobal: np.float_ = 0
     globalPath: Optional[NDArray[np.float_]] = field(default=None)
 
 
@@ -131,7 +135,7 @@ class CalculatePath:
     def calculateTrivialPath(self) -> NDArray[np.float_]:
         "Calculate a path that points straight from the car position and direction"
         originPath = self.pathCalculatorHelpers.calculate_almost_straight_path()[1:]
-        yaw = angleFrom2dVector(self.input.directionGlobal)
+        yaw = self.input.directionGlobal
         pathRotated: NDArray[np.float_] = rotate(originPath, yaw)  # type: ignore
         finalTrivialPath: NDArray[np.float_] = pathRotated + self.input.positionGlobal
         return finalTrivialPath
@@ -271,7 +275,7 @@ class CalculatePath:
         # find angle to each point in the path
         carToPath = pathUpdate - self.input.positionGlobal
         maskPathIsInFrontOfCar = (
-            np.dot(carToPath, self.input.directionGlobal) > 0
+            np.dot(carToPath, angleToVector(self.input.directionGlobal)) > 0
         )
         # as soon as we find a point that is in front of the car, we can mark all the
         # points after it as being in front of the car
@@ -362,7 +366,10 @@ class CalculatePath:
             The path for MPC
         """
         pathConnectedToCar = self.connectPathToCar(pathUpdate)
-        pathWithEnoughLength = self.extendPath(pathConnectedToCar)
+        pathAfterIncreasingPoints = self.increasePoints(
+            pathConnectedToCar
+        )
+        pathWithEnoughLength = self.extendPath(pathAfterIncreasingPoints)
         pathWithNoPathBehindCar = self.removePathBehindCar(
             pathWithEnoughLength
         )
@@ -378,11 +385,7 @@ class CalculatePath:
             pathWithNoPathBehindCar
         )
 
-        pathAfterIncreasingPoints = self.increasePoints(
-            pathWithLengthForMpc
-        )
-
-        return pathAfterIncreasingPoints
+        return pathWithLengthForMpc
 
     '''def doAllMpcParameterCalculations(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
         """
@@ -434,6 +437,7 @@ class CalculatePath:
         )
         return distanceCost
 
+
     def increasePoints(self, path: NDArray[np.float_]) -> NDArray[np.float_]:
         """
         Inserts new points in a path array at locations exceeding a distance threshold.
@@ -445,21 +449,20 @@ class CalculatePath:
             A new NumPy array with interpolated points added.
         """
 
-        maxDistance = 2  # Distance threshold for inserting points
+        maxDistance = 1  # Distance threshold for inserting points
         flagToRepeat = 0
         newPath = list(path[:1])  # Start with the first point in the new path
-        for i in range(1, len(path) - 1):  # Iterate over pairs of points (avoiding first and last)
+        for i in range(len(path) - 1):  # Iterate over pairs of points (avoiding first and last)
             point1 = path[i]
             point2 = path[i + 1]
             distance = np.linalg.norm(point1 - point2)  # Efficient distance calculation
 
+            if distance > maxDistance*2:
+                flagToRepeat = 1
+
             if distance > maxDistance:
                 newPoint = (point1 + point2) / 2  # Midpoint between points
                 newPath.append(newPoint)
-
-            if distance > maxDistance*2:
-                i = i - 1
-                flagToRepeat = 1
 
             newPath.append(point2)  # Append the current point
 
@@ -481,8 +484,10 @@ class CalculatePath:
 
         carToFirstPoint = pathUpdate[0] - self.input.positionGlobal
 
+        vectorVehicleDirection = angleToVector(self.input.directionGlobal)
+
         angleToFirstPoint = vecAngleBetween(
-            carToFirstPoint, self.input.directionGlobal
+            carToFirstPoint, vectorVehicleDirection
         )
 
         # there is path behind car or start is close enough
@@ -553,7 +558,7 @@ class CalculatePath:
         #self.mpcPaths = self.mpcPaths[-10:] + [pathWithLengthForMpc]
         self.pathIsTrivialList = self.pathIsTrivialList[-10:] + [pathIsTrivial]
 
-    def runPathCalculation(self) -> Tuple[NDArray[np.float_], NDArray[np.float_]]:
+    def runPathCalculation(self) -> NDArray[np.float_]:
         """Calculate path."""
         if len(self.input.leftCones) < 3 and len(self.input.rightCones) < 3:
             if len(self.previousPaths) > 0:
@@ -619,7 +624,7 @@ class CalculatePath:
         '''
         
         self.storePaths(pathWithLengthForMpc, False)
-        print(pathWithLengthForMpc.shape)
+        #print(pathWithLengthForMpc.shape)
         self.previousPaths = np.concatenate((self.previousPaths[-15:], pathWithLengthForMpc), axis=0)
 
         return pathWithLengthForMpc
