@@ -1,3 +1,3 @@
 int32 laps
 float32 distance
-Header header
+std_msgs/Header header
