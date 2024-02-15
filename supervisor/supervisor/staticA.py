@@ -57,6 +57,7 @@ class StaticA(Node):
         maxSteer = Float32()#float(self.get_parameter("/maxSteer").get_parameter_value())
         #maxSteer.data =float(self.get_parameter("/maxSteer").get_parameter_value()) #30.0
         maxSteer.data = 30.0
+        
         velocity = Float32()
         velocity.data = 10.0
         velPub.publish(velocity)
