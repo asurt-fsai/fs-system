@@ -60,19 +60,31 @@ class AdaptivePurePursuit:
 
 
     def search_target_point(self):
-        min_distance = float('inf')
-        target_index = None
-        for i, waypoint in enumerate(self.waypoints):
-            distance = self.calculate_distance(self.state[:2], waypoint)
-            if distance < min_distance:
-                min_distance = distance
-                min_index = i
-        look_ahead_distance = 1.0
-        for i in range(min_index,len(self.waypoints) - 1):
-            distance = self.calculate_distance(self.state[:2], waypoint)
-            if distance > look_ahead_distance :
-                target_index = i
-                break
+        #awel mra 3la loop 3shan tgeb a2rb index lek
+        #if awelmraFlag is true:
+            #loop 3la elwaypoints w tgeb elindex ely 3andha elmin distance 
+         #  awelmraflag = False
+
+        #loop (For(targetIndex -> waypoints -1)
+            # if (distance targetind > look_ahead_distance)
+                #target_index = i(a5er i enta we2eft 3andha) , break  
+            
+        #return target_index
+        
+        
+        # min_distance = float('inf')
+        # target_index = None
+        # for i, waypoint in enumerate(self.waypoints):
+        #     distance = self.calculate_distance(self.state[:2], waypoint)
+        #     if distance < min_distance:
+        #         min_distance = distance
+        #         min_index = i
+        # look_ahead_distance = 1.0
+        # for i in range(min_index,len(self.waypoints) - 1):
+        #     distance = self.calculate_distance(self.state[:2], waypoint)
+        #     if distance > look_ahead_distance :
+        #         target_index = i
+        #         break
         return target_index
     @staticmethod
 
