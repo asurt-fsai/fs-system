@@ -9,7 +9,21 @@ from ackermann_msgs.msg import AckermannDriveStamped
 from std_msgs.msg import Float32
 from simple_pure_pursuit import SimplePurePursuit  # type: ignore[attr-defined]
 
+import rclpy
+from rclpy.node import Node
 
+class SimplePurePursuitNode(Node):
+
+    def __init__(self):
+        super().__init__('simple_pure_pursuit_node')
+        self.controller = SimplePurePursuit()
+        self.markerPub = self.create_publisher(Marker, '/marker_viz', 10)
+        self.controlActionPub = self.create_publisher(AckermannDriveStamped, '/control/actions', 10)
+        self.steeringPub = self.create_publisher(Float32, '/steer', 10)
+        self.create_subscription(Path, '/waypoints', self.callback, 10)
+        self.targetSpeed = rclpy.Parameter.get_parameter_value('/control/speed_target')
+        self.controlRate = rclpy.Parameter.get_parameter_value('/control/rate')
+        self.rate = self.create_rate(self.controlRate)
 def main() -> None:
     """
     Main function for simple pure pursuit vehicle control node, subscribes to
