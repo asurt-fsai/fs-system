@@ -250,6 +250,7 @@ class ConeSorter:
         return traceDistance, maskIsValid
     
     def calcScoresAndEndConfigurations(
+            self,
             trace: FloatArray,
             coneType: SortableConeTypes,
             nNeighbors: int,
@@ -377,7 +378,7 @@ class ConeSorter:
                 nNeighbors,
                 startIdx, 
                 self.thresholdDirectionalAngle,
-                self.thresholfAbsoluteAngle,
+                self.thresholdAbsoluteAngle,
                 carPos,
                 carDir,
                 self.maxDist,
@@ -428,8 +429,8 @@ class ConeSorter:
             carPos,
             carDir,
         ) 
-        leftConfig = leftConfigs[leftConfig != -1]
-        rightConfig = rightConfigs[rightConfig!= -1]
+        leftConfig = leftConfig[leftConfig != -1]
+        rightConfig = rightConfig[rightConfig!= -1]
 
         # remove any placeholder position if they are present
         leftConfig = leftConfig[leftConfig!= -1]

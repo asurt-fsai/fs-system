@@ -28,7 +28,7 @@ class PathPlanner:
             maxNNeighbors=5,
             maxDist=6.5,
             maxDistToFirst=6.0,
-            maxLength=9, #default=12
+            maxLength=12, #default=12
             thresholdDirectionalAngle=np.deg2rad(40),
             thresholdAbsoluteAbgle=np.deg2rad(65),
             useUnknownCones=True,

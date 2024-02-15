@@ -7,7 +7,7 @@ from typing import Optional
 
 import numpy as np
 
-from planning_centerline_calculation.cones_sorting.end_configurations import linesSegmentsIntersectIndicators
+# from planning_centerline_calculation.cones_sorting.end_configurations import linesSegmentsIntersectIndicator
 
 from planning_centerline_calculation.types import FloatArray, IntArray
 from planning_centerline_calculation.utils.cone_types import ConeTypes
