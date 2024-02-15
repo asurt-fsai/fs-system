@@ -5,69 +5,45 @@ from nav_msgs.msg import Odometry, Path
 import math
 from tf_transformations import euler_from_quaternion
 
+# node file , purepursuit file
+# launch file with parameters
+# search index function
+# pkg folder structure
 
-class Controller(Node):
+class AdaptivePurePursuit:
     def __init__(self):
-        super().__init__('controller')
-        self.steer_pub = self.create_publisher(Float32, 'steer', 10)
-        self.throttle_pub = self.create_publisher(Float32, 'throttle', 10)
-        self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
-        self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
-        self.timer = self.create_timer(0.1,self.publish_control_signals)
-
         #state_callback function initialization
         self.velocity = 0.0
         self.x = 0.0
         self.y = 0.0
         self.yaw = 0.0
-        self.state = (self.x, self.y, self.yaw)
-
+        self.target_speed = 0.0
+        self.prev_error = 0.0
+        self.error_sum = 0.0
         #path_callback function initialization
         self.waypoints = []
         self.pathFlag = False
 
+
         #pid_controller function initialization
-        self.target_speed = 0.0
-        self.kp = 0.5
+        #From launch file
+        self.kp = rclpy.Node.get_parameter_value('/control/kp')
         self.ki = 1.0
         self.kd = 0.5
-        self.prev_error = 0.0
         self.dt = 0.1
-        self.error_sum = 0.0
-
-        #adaptivePurepursuit function initialization
         self.lookahead_distance = 4.2
         self.lookaheadconstant = 2.0
         self.gain = 0.3
-
-        #speedControl function initialization
         self.minspeed = 0.5
         self.maxspeed = 3.5
 
+       
+        #adaptivePurepursuit function initialization
+        
 
-    def state_callback(self, state: Odometry):
-        Vx = state.twist.twist.linear.x
-        Vy = state.twist.twist.linear.y
-        self.velocity = math.sqrt(Vx ** 2 + Vy ** 2)
-        self.x = state.pose.pose.position.x
-        self.y = state.pose.pose.position.y
-        orientation_list = [
-            state.pose.pose.orientation.x,
-            state.pose.pose.orientation.y,
-            state.pose.pose.orientation.z,
-            state.pose.pose.orientation.w
-        ]
-        _, _, self.yaw = euler_from_quaternion(orientation_list)
-        self.state = (self.x, self.y, self.yaw)
-        throttle_msg = Float32()
-        throttle_msg.data = self.pid_controller()
-        self.throttle_pub.publish(throttle_msg)
-
-
-    def path_callback(self, path: Path):
-        self.waypoints = [(pose.pose.position.x, pose.pose.position.y) for pose in path.poses]
-        self.pathFlag = True
-    
+        #speedControl function initialization
+        
+# (path, state hy5osholak) -> function purepursuit -> steering -> pid -> throttle -> publish(steering, throttle)
 
     def pid_controller(self,steering):
         self.target_speed = self.speedControl(steering)
@@ -143,11 +119,3 @@ class Controller(Node):
             self.throttle_pub.publish(throttle)
             log = "tracking waypoint: " + str(self.waypoints[self.i])
             self.get_logger().info(log)
-
-
-def main(args=None):
-    rclpy.init(args=args)
-    controller = Controller()
-    rclpy.spin(controller)
-    controller.destroy_node()
-    rclpy.shutdown()
