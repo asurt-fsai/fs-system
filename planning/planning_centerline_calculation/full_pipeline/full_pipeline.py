@@ -15,16 +15,24 @@ from typing import Any, List, Optional, Union
 import numpy as np
 from numpy.typing import NDArray
 
-#from cones_sorting.core_cone_sorter import ConeSorter
+from cones_sorting.cone_sorting_wrapper import ConeSortingInput
+from cones_sorting.core_cone_sorter import ConeSorter
 from cone_matching.core_cone_matching import ConeMatching, ConeMatchingInput
 from calculate_path.core_calculate_path import CalculatePath, PathCalculationInput
 
+from utils.cone_types import ConeTypes
+
 class PathPlanner:
     def __init__(self):
-        '''self.coneSorting = ConeSorter(
-            maxDist=6.5, 
-            maxDistToFirst=6.0
-        )'''
+        self.coneSorting = ConeSorter(
+            maxNNeighbors=5,
+            maxDist=6.5,
+            maxDistToFirst=6.0,
+            maxLength=9, #default=12
+            thresholdDirectionalAngle=np.deg2rad(40),
+            thresholdAbsoluteAbgle=np.deg2rad(65),
+            useUnknownCones=True,
+        )
         self.coneMatching  = ConeMatching(
             minTrackWidth=3, 
             maxSearchRange=5, 
@@ -49,12 +57,19 @@ class PathPlanner:
     ) -> NDArray[np.float_]:
         
         ### Cones Sorting ###
-        matched_cones_input = cones 
+        coneSortingInput = ConeSortingInput(
+            cones, vehiclePosition, vehicleDirection
+        ) 
+        self.coneSorting.setNewInput(coneSortingInput)
+        sortedLeft, sortedRight = self.coneSorting.runConeSorting()
 
 
+        matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes] 
+        matchedConesInput[ConeTypes.LEFT] = sortedLeft
+        matchedConesInput[ConeTypes.RIGHT] = sortedRight
         ### Cone Matching ###
         coneMatchingInput = ConeMatchingInput(
-            matched_cones_input,vehiclePosition,vehicleDirection
+            matchedConesInput,vehiclePosition,vehicleDirection
         )
         self.coneMatching.setNewInput(coneMatchingInput)
         (

@@ -686,7 +686,7 @@ if __name__ == "__main__":
 
 
 # @my_njit
-def angle_difference(angle1: np.ndarray, angle2: np.ndarray) -> np.ndarray:
+def angleDifference(angle1: np.ndarray, angle2: np.ndarray) -> np.ndarray:
     """
     Calculate the difference between two angles. The range of the difference is [-pi, pi].
     The order of the angles *is* important.
