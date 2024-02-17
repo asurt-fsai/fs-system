@@ -299,7 +299,7 @@ class CalculatePath:
             return pathUpdate
 
         # select n last points of the path and estimate the circle they form
-        relevantPath = pathInfrontOfCar[-6:]
+        relevantPath = pathInfrontOfCar[-10:]
         centerX, centerY, radius = circleFit(relevantPath)
         center = np.array([centerX, centerY])
 
@@ -320,7 +320,7 @@ class CalculatePath:
             orientationSign = np.sign(orientation)
 
             # create the circular arc
-            startAngle = float(angleFrom2dVector(threePoints[0])) + orientationSign * np.pi/4
+            startAngle = float(angleFrom2dVector(threePoints[2])) #+ orientationSign * np.pi/4
             endAngle = startAngle + orientationSign * np.pi
             newPointsAngles = np.linspace(startAngle, endAngle)
             newPointsRaw = (
