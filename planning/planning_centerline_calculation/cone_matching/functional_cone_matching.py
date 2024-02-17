@@ -17,7 +17,7 @@ from icecream import ic  # pylint: disable=unused-import
 from .match_directions import (
     calculateMatchSearchDirection,
 )
-#from ..types import NDArray[np.bool_], NDArray[np.float_], NDArray[np.int_]
+from types_file.types import BoolArray, FloatArray, IntArray
 from utils.cone_types import ConeTypes
 from utils.math_utils import (
     angleFrom2dVector,
@@ -33,12 +33,12 @@ ic = lambda x: x  # pylint: disable=invalid-name
 
 @myNjit
 def conesInRangeAndPovMask(
-    cones: NDArray[np.float_],
-    searchDirections: NDArray[np.float_],
+    cones: FloatArray,
+    searchDirections: FloatArray,
     searchRange: float,
     searchAngle: float,
-    otherSideCones: NDArray[np.float_],
-) -> NDArray[np.bool_]:
+    otherSideCones: FloatArray,
+) -> BoolArray:
     """
     Calculates the indices of the visible cones according to the car position
 
@@ -48,18 +48,18 @@ def conesInRangeAndPovMask(
     searchRangeSquared = searchRange * searchRange
 
     # # (M, 2), (N, 2) -> (M,N)
-    distFromConesToOtherSideSquared: NDArray[np.float_] = myCdistSqEuclidean(
+    distFromConesToOtherSideSquared: FloatArray = myCdistSqEuclidean(
         otherSideCones, cones
     )
 
     # (M, N)
-    distMask: NDArray[np.bool_] = distFromConesToOtherSideSquared < searchRangeSquared
+    distMask: BoolArray = distFromConesToOtherSideSquared < searchRangeSquared
 
     # (M, 1, 2) - (N, 2) -> (M, N, 2)
     vecFromConesToOtherSide = np.expand_dims(otherSideCones, axis=1) - cones
 
     # (N, 2) -> (M, N, 2)
-    searchDirectionsBroadcasted: NDArray[np.float_] = np.broadcast_to(
+    searchDirectionsBroadcasted: FloatArray = np.broadcast_to(
         searchDirections, vecFromConesToOtherSide.shape
     ).copy()  # copy is needed in numba, otherwise a reshape error occurs
 
@@ -74,19 +74,19 @@ def conesInRangeAndPovMask(
 
     visibleConesMask = np.logical_and(distMask, maskAngles)
 
-    returnValue: NDArray[np.bool_] = visibleConesMask
+    returnValue: BoolArray = visibleConesMask
     return returnValue
 
 
 def findBooleanMaskOfAllPotentialMatches(
-    starPoints: NDArray[np.float_],
-    directions: NDArray[np.float_],
-    otherSideCones: NDArray[np.float_],
-    otherSideDirections: NDArray[np.float_],
+    starPoints: FloatArray,
+    directions: FloatArray,
+    otherSideCones: FloatArray,
+    otherSideDirections: FloatArray,
     majorRadius: float,
     minorRadius: float,
     maxSearchAngle: float,
-) -> NDArray[np.bool_]:
+) -> BoolArray:
     """
     Calculate a (M,N) boolean mask that indicates for each cone in the cones array
     if a cone on the other side can be match or not.
@@ -163,12 +163,12 @@ def findBooleanMaskOfAllPotentialMatches(
 
 
 def selectBestMatchCandidate(
-    matchableCones: NDArray[np.float_],
-    matchDirections: NDArray[np.float_],
-    matchBooleanMask: NDArray[np.bool_],
-    otherSideCones: NDArray[np.float_],
+    matchableCones: FloatArray,
+    matchDirections: FloatArray,
+    matchBooleanMask: BoolArray,
+    otherSideCones: FloatArray,
     matchesShouldBeMonotonic: bool,
-) -> NDArray[np.int_]:
+) -> IntArray:
     """
     For each cone select a matching cone from the other side. If a cone has no potential
     match, it is marked with -1.
@@ -177,7 +177,7 @@ def selectBestMatchCandidate(
     if len(otherSideCones) == 0:
         return np.full(len(matchableCones), -1, dtype=int)
 
-    matchedIndexForEachCone: NDArray[np.int_] = myCdistSqEuclidean(
+    matchedIndexForEachCone: IntArray = myCdistSqEuclidean(
         matchableCones, otherSideCones
     ).argmin(axis=1)
 
@@ -196,17 +196,17 @@ def selectBestMatchCandidate(
 
 
 def calculatePositionsOfVirtualCones(
-    cones: NDArray[np.float_],
-    indicesOfUnmatchedCones: NDArray[np.int_],
-    searchDirections: NDArray[np.float_],
+    cones: FloatArray,
+    indicesOfUnmatchedCones: IntArray,
+    searchDirections: FloatArray,
     minTrackWidth: float,
-) -> NDArray[np.float_]:
+) -> FloatArray:
     """
     Calculate the positions of the virtual cones given the unmatched cones and the
     direction of the match search.
     """
 
-    returnValue: NDArray[np.float_] = (
+    returnValue: FloatArray = (
         cones[indicesOfUnmatchedCones]
         + searchDirections[indicesOfUnmatchedCones] * minTrackWidth
     )
@@ -214,10 +214,10 @@ def calculatePositionsOfVirtualCones(
 
 
 def insertVirtualConesToExisting(
-    otherSideCones: NDArray[np.float_],
-    otherSideVirtualCones: NDArray[np.float_],
-    carPosition: NDArray[np.float_],
-) -> NDArray[np.float_]:
+    otherSideCones: FloatArray,
+    otherSideVirtualCones: FloatArray,
+    carPosition: FloatArray,
+) -> FloatArray:
     """
     Combine the virtual with the real cones into a single array.
     """
@@ -269,7 +269,7 @@ def insertVirtualConesToExisting(
                 coneIsBetweenClosestTwo,
             )
 
-        existingCones: NDArray[np.float_] = np.insert(  # type: ignore
+        existingCones: FloatArray = np.insert(  # type: ignore
             existingCones,
             indexToInsert,
             coneToInsert,
@@ -289,7 +289,7 @@ def insertVirtualConesToExisting(
 
 
 def calculateInsertIndexForOneCone(
-    carPosition: NDArray[np.float_], finalCones: NDArray[np.float_], virtualCone: NDArray[np.float_]
+    carPosition: FloatArray, finalCones: FloatArray, virtualCone: FloatArray
 ) -> int:
     """
     Insert a virtual cone into the real cones, when only one real cone is available.
@@ -331,10 +331,10 @@ def calculateInsertIndexOfNewCone(
 
 
 def combineAndSortVirtualWithReal(
-    otherSideCones: NDArray[np.float_],
-    otherSideVirtualCones: NDArray[np.float_],
-    carPos: NDArray[np.float_],
-) -> Tuple[NDArray[np.float_], NDArray[np.bool_]]: #removed history
+    otherSideCones: FloatArray,
+    otherSideVirtualCones: FloatArray,
+    carPos: FloatArray,
+) -> Tuple[FloatArray, BoolArray]: #removed history
     """
     Combine the existing cones with the newly calculated cones into a single array.
     """
@@ -358,21 +358,21 @@ def combineAndSortVirtualWithReal(
         sortedCombinedCones, otherSideCones
     )
     epsilon = 1e-2
-    virtualMask: NDArray[np.bool_] = distanceOfFinalConesToExisting > epsilon**2
-    maskIsVirtual: NDArray[np.bool_] = np.all(virtualMask, axis=1)
+    virtualMask: BoolArray = distanceOfFinalConesToExisting > epsilon**2
+    maskIsVirtual: BoolArray = np.all(virtualMask, axis=1)
 
     return sortedCombinedCones, maskIsVirtual
 
 
 def calculateMatchForSide(
-    cones: NDArray[np.float_],
+    cones: FloatArray,
     coneType: ConeTypes,
-    otherSideCones: NDArray[np.float_],
+    otherSideCones: FloatArray,
     majorRadius: float,
     minorRadius: float,
     maxSearchAngle: float,
     matchesShouldBeMonotonic: bool,
-) -> Tuple[NDArray[np.float_], NDArray[np.int_], NDArray[np.float_]]:
+) -> Tuple[FloatArray, IntArray, FloatArray]:
     """
     Find a match for each cone from one side to the other.
     """
@@ -414,16 +414,16 @@ def calculateMatchForSide(
 
 
 def calculateConesForOtherSide(
-    cones: NDArray[np.float_],
+    cones: FloatArray,
     coneType: ConeTypes,
     majorRadius: float,
     minorRadius: float,
     maxSearchAngle: float,
-    otherSideCones: NDArray[np.float_],
+    otherSideCones: FloatArray,
     minTrackWidth: float,
-    carPos: NDArray[np.float_],
+    carPos: FloatArray,
     matchesShouldBeMonotonic: bool,
-) -> Tuple[NDArray[np.float_], NDArray[np.bool_]]:
+) -> Tuple[FloatArray, BoolArray]:
     """
     Calculate the virtual cones for the other side.
     """
@@ -466,13 +466,13 @@ def calculateConesForOtherSide(
 
 
 def matchBothSidesWithVirtualCones(
-    leftConesWithVirtual: NDArray[np.float_],
-    rightConesWithVirtual: NDArray[np.float_],
+    leftConesWithVirtual: FloatArray,
+    rightConesWithVirtual: FloatArray,
     majorRadius: float,
     minorRadius: float,
     maxSearchAngle: float,
     matchesShouldBeMonotonic: bool,
-) -> Tuple[NDArray[np.int_], NDArray[np.int_]]:
+) -> Tuple[IntArray, IntArray]:
     """
     After virtual cones have been placed for each side, rerun matching algorithm
     to get final matches.
@@ -502,17 +502,17 @@ def matchBothSidesWithVirtualCones(
 
 
 def calculateVirtualConesForBothSides(
-    leftCones: NDArray[np.float_],
-    rightCones: NDArray[np.float_],
-    carPosition: NDArray[np.float_],
+    leftCones: FloatArray,
+    rightCones: FloatArray,
+    carPosition: FloatArray,
     minTrackWidth: float,
     majorRadius: float,
     minorRadius: float,
     maxSearchAngle: float,
     matchesShouldBeMonotonic: bool = True,
 ) -> Tuple[
-    Tuple[NDArray[np.float_], NDArray[np.bool_], NDArray[np.int_]],
-    Tuple[NDArray[np.float_], NDArray[np.bool_], NDArray[np.int_]],
+    Tuple[FloatArray, BoolArray, IntArray],
+    Tuple[FloatArray, BoolArray, IntArray],
 ]:
     """
     The main function of the module. It applies all the steps to return two results
@@ -522,9 +522,9 @@ def calculateVirtualConesForBothSides(
     """
     # if len(left_cones) > 20 or len(right_cones) > 20:
     #     print(locals())
-    emptyBoolArr: NDArray[np.bool_] = np.zeros(0, dtype=np.bool_)
-    emptyIntArr: NDArray[np.int_] = np.zeros(0, dtype=np.int_)
-    emptyConeArray: NDArray[np.float_] = np.zeros((0, 2), dtype=np.float_)
+    emptyBoolArr: BoolArray = np.zeros(0, dtype=np.bool_)
+    emptyIntArr: IntArray = np.zeros(0, dtype=np.int_)
+    emptyConeArray: FloatArray = np.zeros((0, 2), dtype=np.float_)
 
     dummyResult = emptyConeArray, emptyBoolArr, emptyIntArr
 
@@ -544,7 +544,7 @@ def calculateVirtualConesForBothSides(
             rightCones = emptyConeArray
 
     ic("calculate_virtual_cones_for_both_sides: left match right")
-    rightMaskIsVirtual: NDArray[np.bool_]
+    rightMaskIsVirtual: BoolArray
     rightConesWithVirtual, rightMaskIsVirtual = (
         calculateConesForOtherSide(
             leftCones,
@@ -565,7 +565,7 @@ def calculateVirtualConesForBothSides(
     )
 
     ic("calculate_virtual_cones_for_both_sides: right match left")
-    leftMaskIsVirtual: NDArray[np.bool_]
+    leftMaskIsVirtual: BoolArray
     leftConesWithVirtual, leftMaskIsVirtual = (
         calculateConesForOtherSide(
             rightCones,

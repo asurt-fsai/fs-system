@@ -18,20 +18,20 @@ from icecream import ic  # pylint: disable=unused-import
 from .functional_cone_matching import (
     calculateVirtualConesForBothSides,
 )
-#from ..types import NDArray[np.float_], NDArray[np.int_]
+from types_file.types import FloatArray, IntArray
 from utils.cone_types import ConeTypes
 
-MatchedCones = Tuple[NDArray[np.float_], NDArray[np.float_], NDArray[np.int_], NDArray[np.int_]]
+MatchedCones = Tuple[FloatArray, FloatArray, IntArray, IntArray]
 
 
 @dataclass
 class ConeMatchingInput:
     """Dataclass holding inputs."""
 
-    sortedCones: list[NDArray[np.float_]] = field(
+    sortedCones: list[FloatArray] = field(
         default_factory=lambda: [np.zeros((0, 2)) for _ in ConeTypes]
     )
-    slamPosition: NDArray[np.float_] = field(default_factory=lambda: np.zeros((2)))
+    slamPosition: FloatArray = field(default_factory=lambda: np.zeros((2)))
     slamDirection: np.float_ = 0
 
 
@@ -43,9 +43,9 @@ class ConeMatchingState:
     maxSearchRange: float
     maxSearchAngle: float
     matchesShouldBeMonotonic: bool
-    sortedLeft: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    sortedRight: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    positionGlobal: NDArray[np.float_] = field(init=False) #might be float
+    sortedLeft: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
+    sortedRight: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
+    positionGlobal: FloatArray = field(init=False) #might be float
     directionGlobal: np.float_ = 0
 
 

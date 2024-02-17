@@ -20,7 +20,7 @@ from calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
 )
 #from planning_centerline_calculation.calculate_path.path_parameterization import PathParameterizer
-#from planning_centerline_calculation.types import NDArray[np.bool_], NDArray[np.float_], NDArray[np.int_]
+from types_file.types import BoolArray, FloatArray, IntArray
 from utils.cone_types import ConeTypes
 from utils.math_utils import (
     angleFrom2dVector,
@@ -42,18 +42,18 @@ class PathCalculationInput:
     """Dataclass holding calculation variables."""
 
     # pylint: disable=too-many-instance-attributes
-    leftCones: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    rightCones: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    leftToRightMatches: NDArray[np.int_] = field(
+    leftCones: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
+    rightCones: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
+    leftToRightMatches: IntArray = field(
         default_factory=lambda: np.zeros(0, dtype=int)
     )
-    rightToLeftMatches: NDArray[np.int_] = field(
+    rightToLeftMatches: IntArray = field(
         default_factory=lambda: np.zeros(0, dtype=int)
     )
-    positionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.zeros((0, 2)))
-    #directionGlobal: NDArray[np.float_] = field(default_factory=lambda: np.array([1, 0]))
+    positionGlobal: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
+    #directionGlobal: FloatArray = field(default_factory=lambda: np.array([1, 0]))
     directionGlobal: np.float_ = 0
-    globalPath: Optional[NDArray[np.float_]] = field(default=None)
+    globalPath: Optional[FloatArray] = field(default=None)
 
 
 @dataclass
@@ -117,7 +117,7 @@ class CalculatePath:
         self.pathIsTrivialList = []
         self.pathUpdates = []
 
-    def calculateInitialPath(self) -> NDArray[np.float_]:
+    def calculateInitialPath(self) -> FloatArray:
         """
         Calculate the initial path.
         """
@@ -132,12 +132,12 @@ class CalculatePath:
         """Update the state of the calculation."""
         self.input = newInput
 
-    def calculateTrivialPath(self) -> NDArray[np.float_]:
+    def calculateTrivialPath(self) -> FloatArray:
         "Calculate a path that points straight from the car position and direction"
         originPath = self.pathCalculatorHelpers.calculate_almost_straight_path()[1:]
         yaw = self.input.directionGlobal
-        pathRotated: NDArray[np.float_] = rotate(originPath, yaw)  # type: ignore
-        finalTrivialPath: NDArray[np.float_] = pathRotated + self.input.positionGlobal
+        pathRotated: FloatArray = rotate(originPath, yaw)  # type: ignore
+        finalTrivialPath: FloatArray = pathRotated + self.input.positionGlobal
         return finalTrivialPath
 
     def numberOfMatchesOnOneSide(self, side: ConeTypes) -> int:
@@ -169,7 +169,7 @@ class CalculatePath:
         # where the indices increase the most
         return nMatches, nIndicesSum
 
-    def selectSideToUse(self) -> Tuple[NDArray[np.float_], NDArray[np.int_], NDArray[np.float_]]:
+    def selectSideToUse(self) -> Tuple[FloatArray, IntArray, FloatArray]:
         "Select the main side to use for path calculation"
 
         sideToPick = max([ConeTypes.LEFT, ConeTypes.RIGHT], key=self.sideScore)
@@ -191,10 +191,10 @@ class CalculatePath:
 
     def calculateCenterlinePointsOfMatches(
         self,
-        sideToUse: NDArray[np.float_],
-        matchesToOtherSide: NDArray[np.int_],
-        matchOnOtherSide: NDArray[np.float_],
-    ) -> NDArray[np.float_]:
+        sideToUse: FloatArray,
+        matchesToOtherSide: IntArray,
+        matchOnOtherSide: FloatArray,
+    ) -> FloatArray:
         """
         Calculate the basis of the new path by computing the middle between one side of
         the track and its corresponding match. If there are not enough cones with
@@ -212,8 +212,8 @@ class CalculatePath:
         return centerAlongMatchConnection
 
     '''def fitMatchesAsSpline(
-        self, centerAlongMatchConnection: NDArray[np.float_]
-    ) -> NDArray[np.float_]:
+        self, centerAlongMatchConnection: FloatArray
+    ) -> FloatArray:
         """
         Fit the calculated basis path as a spline. If the computation fails, use the
         path calculated in the previous step
@@ -230,8 +230,8 @@ class CalculatePath:
         return pathUpdate'''
 
     def overwritePathIfItIsTooFarAway(
-        self, pathUpdate: NDArray[np.float_]
-    ) -> NDArray[np.float_]:
+        self, pathUpdate: FloatArray
+    ) -> FloatArray:
         """
         If for some reason the calculated path is too far away from the position of the
         car (e.g. because of a bad sorting), the previously calculated path is used
@@ -244,8 +244,8 @@ class CalculatePath:
         return pathUpdate
 
     '''def refitPathForMpcWithSafetyFactor(
-        self, finalPath: NDArray[np.float_]
-    ) -> NDArray[np.float_]:
+        self, finalPath: FloatArray
+    ) -> FloatArray:
         """
         Refit the path for MPC with a safety factor. The length of the path is 1.5 times
         the length of the path required by MPC. The path will be trimmed to the correct length
@@ -265,7 +265,7 @@ class CalculatePath:
 
         return pathLengthFixed'''
 
-    def extendPath(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
+    def extendPath(self, pathUpdate: FloatArray) -> FloatArray:
         """
         If the path is not long enough, extend it with the path with a circular arc
         """
@@ -341,8 +341,8 @@ class CalculatePath:
         return np.row_stack((pathUpdate, newPoints))
 
     def createPathForMpcFromPathUpdate(
-        self, pathUpdate: NDArray[np.float_]
-    ) -> NDArray[np.float_]:
+        self, pathUpdate: FloatArray
+    ) -> FloatArray:
         """
         Calculate the path for MPC from the path update. The path update is the basis of
         the new path.
@@ -387,7 +387,7 @@ class CalculatePath:
 
         return pathWithLengthForMpc
 
-    '''def doAllMpcParameterCalculations(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
+    '''def doAllMpcParameterCalculations(self, pathUpdate: FloatArray) -> FloatArray:
         """
         Calculate the path that will be sent to the MPC. The general path that is
         calculated is based on the cones around the track and is also based on the
@@ -426,19 +426,19 @@ class CalculatePath:
 
         return pathParameterized'''
 
-    def costMpcPathStart(self, pathLengthFixed: NDArray[np.float_]) -> NDArray[np.float_]:
+    def costMpcPathStart(self, pathLengthFixed: FloatArray) -> FloatArray:
         """
         Cost function for start of MPC path. The cost is based on the distance from the
         car to the calculated path. Mission specific cost functions can be added here.
         """
 
-        distanceCost: NDArray[np.float_] = np.linalg.norm(
+        distanceCost: FloatArray = np.linalg.norm(
             self.input.positionGlobal - pathLengthFixed, axis=1
         )
         return distanceCost
 
 
-    def increasePoints(self, path: NDArray[np.float_]) -> NDArray[np.float_]:
+    def increasePoints(self, path: FloatArray) -> FloatArray:
         """
         Inserts new points in a path array at locations exceeding a distance threshold.
 
@@ -472,7 +472,7 @@ class CalculatePath:
         return np.array(newPath)
 
 
-    def connectPathToCar(self, pathUpdate: NDArray[np.float_]) -> NDArray[np.float_]:
+    def connectPathToCar(self, pathUpdate: FloatArray) -> FloatArray:
         """
         Connect the path update to the current path of the car. This is done by
         calculating the distance between the last point of the path update and the
@@ -503,17 +503,17 @@ class CalculatePath:
 
         return pathUpdate
 
-    def removePathBehindCar(self, pathLengthFixed: NDArray[np.float_]) -> NDArray[np.float_]:
+    def removePathBehindCar(self, pathLengthFixed: FloatArray) -> FloatArray:
         """
         Remove part of the path that is behind the car.
         """
         idxStartMpcPath = int(self.costMpcPathStart(pathLengthFixed).argmin())
-        pathLengthFixedForward: NDArray[np.float_] = pathLengthFixed[idxStartMpcPath:]
+        pathLengthFixedForward: FloatArray = pathLengthFixed[idxStartMpcPath:]
         return pathLengthFixedForward
 
     def removePathNotInPredictionHorizon(
-        self, pathLengthFixedForward: NDArray[np.float_]
-    ) -> NDArray[np.float_]:
+        self, pathLengthFixedForward: FloatArray
+    ) -> FloatArray:
         """
         If the path with fixed length is too long, for the needs of MPC, it is
         truncated to the desired length.
@@ -523,7 +523,7 @@ class CalculatePath:
         # the code crashes if cum_dist is smaller than mpc_path_length -->
         # atm mpc_path_length has to be long enough so that doesn't happen
         # TODO: change it so that it is not dependent on mpc_path_length
-        maskCumDistanceOverMcpPathLength: NDArray[np.bool_] = (
+        maskCumDistanceOverMcpPathLength: BoolArray = (
             cumDist > self.scalars.mpcPathLength
         )
         if len(maskCumDistanceOverMcpPathLength) <= 1:
@@ -540,15 +540,15 @@ class CalculatePath:
             and not maskCumDistanceOverMcpPathLength[0]
         ):
             firstPointOverDistance = len(cumDist)
-        pathWitLengthForMpc: NDArray[np.float_] = pathLengthFixedForward[
+        pathWitLengthForMpc: FloatArray = pathLengthFixedForward[
             :firstPointOverDistance
         ]
         return pathWitLengthForMpc
 
     def storePaths(
         self,
-        pathUpdate: NDArray[np.float_],
-        #pathWithLengthForMpc: NDArray[np.float_],
+        pathUpdate: FloatArray,
+        #pathWithLengthForMpc: FloatArray,
         pathIsTrivial: bool,
     ) -> None:
         """
@@ -558,7 +558,7 @@ class CalculatePath:
         #self.mpcPaths = self.mpcPaths[-10:] + [pathWithLengthForMpc]
         self.pathIsTrivialList = self.pathIsTrivialList[-10:] + [pathIsTrivial]
 
-    def runPathCalculation(self) -> NDArray[np.float_]:
+    def runPathCalculation(self) -> FloatArray:
         """Calculate path."""
         if len(self.input.leftCones) < 3 and len(self.input.rightCones) < 3:
             if len(self.previousPaths) > 0:

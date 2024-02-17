@@ -12,7 +12,7 @@ from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
 from typing_extensions import Literal
 
-#from types import NDArray[np.float_]
+from types_file.types import FloatArray
 from utils.cone_types import ConeTypes
 from utils.math_utils import rotate, unit2dVectorFromAngle
 
@@ -26,7 +26,7 @@ class PathCalculatorHelpers:
 
     def calculateChordPath(
         self, radius: float, maximumAngle: float, numberOfPoints: int
-    ) -> NDArray[np.float_]:
+    ) -> FloatArray:
         """
         Calculate a chord (part of circle) path with a specific radius.
 
@@ -39,22 +39,22 @@ class PathCalculatorHelpers:
             The arc path
         """
 
-        points: NDArray[np.float_] = (
+        points: FloatArray = (
             # create points on a circle
             unit2dVectorFromAngle(
                 np.linspace(0, np.abs(maximumAngle), numberOfPoints)
             )
         )
         # rotate so initial points, point to the right
-        pointsCentered: NDArray[np.float_] = points - [1, 0]  # bring x axis to center
-        pointsCenteredScaled: NDArray[np.float_] = pointsCentered * radius  # scale
+        pointsCentered: FloatArray = points - [1, 0]  # bring x axis to center
+        pointsCenteredScaled: FloatArray = pointsCentered * radius  # scale
         pointsCenteredScaledRotated = rotate(pointsCenteredScaled, -self.HALF_PI)
 
         # handle negative angles
         pointsCenteredScaledRotated[:, 1] *= np.sign(maximumAngle)
         return pointsCenteredScaledRotated
 
-    def calculate_almost_straight_path(self) -> NDArray[np.float_]:
+    def calculate_almost_straight_path(self) -> FloatArray:
         """
         Calculate a chord path with a very high radius and a very small chord angle.
 
