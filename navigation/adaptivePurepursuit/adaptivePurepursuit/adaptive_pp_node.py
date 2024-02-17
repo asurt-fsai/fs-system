@@ -5,7 +5,6 @@ from nav_msgs.msg import Odometry, Path
 import math
 from tf_transformations import euler_from_quaternion
 from adaptivePurepursuit import AdaptivePurePursuit
-
 from ackermann_msgs.msg import AckermannDrive
 
 # node file , purepursuit file
@@ -18,19 +17,14 @@ class Controller(Node):
         super().__init__('controller')
         self.steer_pub = self.create_publisher(Float32, 'steer', 10)
         self.throttle_pub = self.create_publisher(Float32, 'throttle', 10)
-        
         self.controlActionsPub = self.create_publisher(AckermannDrive, 'control/actions', 10)
         self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
         self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
         self.timer = self.create_timer(0.1,self.publish_control_signals)
 
-        #state_callback function initialization
 
         self.purepursuit = AdaptivePurePursuit()
-        #pid_controller function initialization
 
-
-        #adaptivePurepursuit function initialization
 
     def state_callback(self, state: Odometry):
         Vx = state.twist.twist.linear.x
@@ -51,14 +45,16 @@ class Controller(Node):
         self.purepursuit.waypoints = [(pose.pose.position.x, pose.pose.position.y) for pose in path.poses]
         self.purepursuit.pathFlag = True
 
+
     def publish_control_signals(self):
         steering_angle = Float32()
         steering_angle.data = self.purepursuit.adaptivePurepursuit()
-
         throttle = Float32()
         throttle.data = self.purepursuit.pid_controller(steering_angle.data)
         self.throttle_pub.publish(throttle)
         self.steer_pub.publish(steering_angle)
+
+        
         # if self.pathFlag == True :
         #     steering_angle = Float32()
         #     steering_angle.data = self.adaptivePurepursuit()*(180/math.pi)
