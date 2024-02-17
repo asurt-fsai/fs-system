@@ -28,7 +28,7 @@ def calcFinalConfigsForLeftAndRight(
 ) -> tuple[IntArray, IntArray]:
     leftScoresIsNone = leftScores is None
     rightScoresIsNone = rightScores is None
-    assert leftScoresIsNone == rightScoresIsNone
+    # assert leftScoresIsNone == rightScoresIsNone
 
     nNonNone = sum(x is not None for x in (leftScores, rightScores))
 
