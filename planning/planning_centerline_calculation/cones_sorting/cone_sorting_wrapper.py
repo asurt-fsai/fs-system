@@ -9,9 +9,9 @@ from typing import Tuple
 
 import numpy as np
 
-from planning_centerline_calculation.cones_sorting.core_cone_sorter import ConeSorter
-from planning_centerline_calculation.types import FloatArray
-from planning_centerline_calculation.utils.cone_types import ConeTypes
+from cones_sorting.core_cone_sorter import ConeSorter
+from types_file.types import FloatArray
+from utils.cone_types import ConeTypes
 
 
 class ConeSorting:

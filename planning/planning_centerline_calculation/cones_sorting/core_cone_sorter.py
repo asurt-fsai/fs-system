@@ -2,14 +2,15 @@
 Description: This module provides functionality for sorting a trace of cones into aplausible track
 """
 
+from __future__ import annotations
 import sys
 from typing import Optional, Tuple, cast
 
 import numpy as np
 
-from planning_centerline_calculation.utils.cone_types import ConeTypes, invertConeType
-from planning_centerline_calculation.types import FloatArray, IntArray, BoolArray, SortableConeTypes
-from planning_centerline_calculation.utils.math_utils import (
+from utils.cone_types import ConeTypes, invertConeType
+from types_file.types import FloatArray, IntArray, BoolArray, SortableConeTypes
+from utils.math_utils import (
     angleFrom2dVector,
     rotate,
     pointsInsideEllipse,
@@ -17,11 +18,11 @@ from planning_centerline_calculation.utils.math_utils import (
     vecAngleBetween,
     myCdistSqEuclidean
 )
-from planning_centerline_calculation.cones_sorting.combine_traces import calcFinalConfigsForLeftAndRight
-from planning_centerline_calculation.cones_sorting.adjecency_matrix import AdjacencyMatrix
-from planning_centerline_calculation.cones_sorting.end_configurations import findAllEndConfigurations, NoPathError
-from planning_centerline_calculation.cones_sorting.cost_function import costConfigurations
-from planning_centerline_calculation.cone_matching.functional_cone_matching import combineAndSortVirtualWithReal
+from cones_sorting.combine_traces import calcFinalConfigsForLeftAndRight
+from cones_sorting.adjecency_matrix import AdjacencyMatrix
+from cones_sorting.end_configurations import findAllEndConfigurations, NoPathError
+from cones_sorting.cost_function import costConfigurations
+from cone_matching.functional_cone_matching import combineAndSortVirtualWithReal
 
 def flattenConesByTypeArray(conesByType: list[FloatArray]) -> FloatArray:
     """Ravel the conesByType array"""
@@ -217,7 +218,7 @@ class ConeSorter:
         Return a mask of cones that can be the first in a configuration
         """
         conesXY = cones[:, :2] # remove cone type
-
+        # print(-carDirection)
         conesRelative = rotate(
             conesXY - carPosition, -carDirection
             ) # Rotate cones' positions to be relative to the car

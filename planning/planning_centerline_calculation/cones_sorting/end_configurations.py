@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING, Optional, Tuple, Any, cast
 
 import numpy as np
 
-from planning_centerline_calculation.types import BoolArray, FloatArray, GenericArray, IntArray
-from planning_centerline_calculation.utils.cone_types import ConeTypes
-from planning_centerline_calculation.utils.math_utils import (
+from types_file.types import BoolArray, FloatArray, GenericArray, IntArray
+from utils.cone_types import ConeTypes
+from utils.math_utils import (
     myNjit,
     myIn1d,
     pointsInsideEllipse,
@@ -107,12 +107,12 @@ def findAllEndConfigurations(
     # keep only configs with at least 3 cones
     maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
     endConfigurations = endConfigurations[maskLengthIsAtleast3]
-    print(endConfigurations[0])
-    print(len(endConfigurations))
+    # print(endConfigurations[0])
+    # print(len(endConfigurations))
     # remove identical configurations
     endConfigurations = np.unique(endConfigurations, axis=0)
-    print(endConfigurations[0])
-    print(len(endConfigurations))
+    # print(endConfigurations[0])
+    # print(len(endConfigurations))
     # remove subsets
     areEqualMask = endConfigurations[:, None] == endConfigurations
     areMinus1Mask = endConfigurations == -1
