@@ -1,0 +1,33 @@
+[1.612s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed
+[1.872s] running egg_info
+[1.873s] creating ../build/smoreo/smoreo.egg-info
+[1.873s] writing ../build/smoreo/smoreo.egg-info/PKG-INFO
+[1.873s] writing dependency_links to ../build/smoreo/smoreo.egg-info/dependency_links.txt
+[1.873s] writing entry points to ../build/smoreo/smoreo.egg-info/entry_points.txt
+[1.874s] writing requirements to ../build/smoreo/smoreo.egg-info/requires.txt
+[1.874s] writing top-level names to ../build/smoreo/smoreo.egg-info/top_level.txt
+[1.874s] writing manifest file '../build/smoreo/smoreo.egg-info/SOURCES.txt'
+[1.875s] reading manifest file '../build/smoreo/smoreo.egg-info/SOURCES.txt'
+[1.876s] writing manifest file '../build/smoreo/smoreo.egg-info/SOURCES.txt'
+[1.876s] running build
+[1.876s] running build_py
+[1.876s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build
+[1.877s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build/lib
+[1.877s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build/lib/smoreo
+[1.877s] copying smoreo/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build/lib/smoreo
+[1.877s] running install
+[1.877s] running install_lib
+[1.878s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages/smoreo
+[1.878s] copying /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build/lib/smoreo/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages/smoreo
+[1.878s] byte-compiling /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages/smoreo/__init__.py to __init__.cpython-310.pyc
+[1.878s] running install_data
+[1.879s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/ament_index
+[1.879s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/ament_index/resource_index
+[1.879s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/ament_index/resource_index/packages
+[1.879s] copying resource/smoreo -> /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/ament_index/resource_index/packages
+[1.879s] copying package.xml -> /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo
+[1.879s] running install_egg_info
+[1.881s] Copying ../build/smoreo/smoreo.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages/smoreo-0.0.0-py3.10.egg-info
+[1.882s] running install_scripts
+[1.902s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/install.log'
+[1.929s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed

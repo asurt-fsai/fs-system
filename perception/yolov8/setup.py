@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'smoreo'
+package_name = 'yolov8'
 
 setup(
     name=package_name,

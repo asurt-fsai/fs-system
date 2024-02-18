@@ -1,0 +1,35 @@
+[0.764s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[1.011s] running egg_info
+[1.011s] creating ../build/yolov8/yolov8.egg-info
+[1.011s] writing ../build/yolov8/yolov8.egg-info/PKG-INFO
+[1.012s] writing dependency_links to ../build/yolov8/yolov8.egg-info/dependency_links.txt
+[1.012s] writing entry points to ../build/yolov8/yolov8.egg-info/entry_points.txt
+[1.012s] writing requirements to ../build/yolov8/yolov8.egg-info/requires.txt
+[1.012s] writing top-level names to ../build/yolov8/yolov8.egg-info/top_level.txt
+[1.012s] writing manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[1.014s] reading manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[1.014s] writing manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[1.015s] running build
+[1.015s] running build_py
+[1.015s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build
+[1.015s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib
+[1.015s] creating /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib/yolov8
+[1.015s] copying yolov8/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib/yolov8
+[1.015s] running install
+[1.023s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.023s]   warnings.warn(
+[1.023s] running install_lib
+[1.025s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8
+[1.025s] copying /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib/yolov8/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8
+[1.025s] byte-compiling /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8/__init__.py to __init__.cpython-310.pyc
+[1.025s] running install_data
+[1.026s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/ament_index
+[1.026s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/ament_index/resource_index
+[1.026s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/ament_index/resource_index/packages
+[1.026s] copying resource/yolov8 -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/ament_index/resource_index/packages
+[1.026s] copying package.xml -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8
+[1.026s] running install_egg_info
+[1.028s] Copying ../build/yolov8/yolov8.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info
+[1.029s] running install_scripts
+[1.050s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log'
+[1.071s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed

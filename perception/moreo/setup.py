@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'smoreo'
+package_name = 'moreo'
 
 setup(
     name=package_name,

@@ -1,0 +1,6 @@
+source;share/moreo/hook/pythonpath.ps1
+source;share/moreo/hook/pythonpath.dsv
+source;share/moreo/hook/pythonpath.sh
+source;share/moreo/hook/ament_prefix_path.ps1
+source;share/moreo/hook/ament_prefix_path.dsv
+source;share/moreo/hook/ament_prefix_path.sh

@@ -1,0 +1,126 @@
+[0.000000] (-) TimerEvent: {}
+[0.000201] (mrpython_pcl) JobQueued: {'identifier': 'mrpython_pcl', 'dependencies': OrderedDict()}
+[0.000249] (smoreo) JobQueued: {'identifier': 'smoreo', 'dependencies': OrderedDict()}
+[0.000284] (smornn) JobQueued: {'identifier': 'smornn', 'dependencies': OrderedDict()}
+[0.000314] (yolov8) JobQueued: {'identifier': 'yolov8', 'dependencies': OrderedDict()}
+[0.001049] (mrpython_pcl) JobStarted: {'identifier': 'mrpython_pcl'}
+[0.077109] (smoreo) JobStarted: {'identifier': 'smoreo'}
+[0.099947] (-) TimerEvent: {}
+[0.141535] (smornn) JobStarted: {'identifier': 'smornn'}
+[0.200246] (-) TimerEvent: {}
+[0.206293] (yolov8) JobStarted: {'identifier': 'yolov8'}
+[0.300503] (-) TimerEvent: {}
+[0.314510] (mrpython_pcl) JobProgress: {'identifier': 'mrpython_pcl', 'progress': 'cmake'}
+[0.314975] (mrpython_pcl) Command: {'cmd': ['/usr/bin/cmake', '/home/mazen/ros2_ws/src/fs-system/perception/perception_23/mrpython_pcl', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/mazen/ros2_ws/src/fs-system/perception/install/mrpython_pcl'], 'cwd': '/home/mazen/ros2_ws/src/fs-system/perception/build/mrpython_pcl', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'mazen'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/mazen'), ('OLDPWD', '/home/mazen/ros2_ws/src/fs-system'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '1550'), ('SYSTEMD_EXEC_PID', '1773'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7194'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/mazen/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'mazen'), ('JOURNAL_STREAM', '8:21447'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'mazen'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/mazen-Legion-5-15ACH6H:@/tmp/.ICE-unix/1740,unix/mazen-Legion-5-15ACH6H:/tmp/.ICE-unix/1740'), ('INVOCATION_ID', '2f6d00c5be8a409ebc1a766f9b43725b'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.EVBCJ2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:fdf70c48-eda9-4ede-a9a0-abf55b0b8e9e'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/mazen/ros2_ws/src/fs-system/perception/build/mrpython_pcl'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800')]), 'shell': False}
+[0.318743] (smoreo) JobProgress: {'identifier': 'smoreo', 'progress': 'cmake'}
+[0.318916] (smoreo) Command: {'cmd': ['/usr/bin/cmake', '/home/mazen/ros2_ws/src/fs-system/perception/perception_23/smoreo', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo'], 'cwd': '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'mazen'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/mazen'), ('OLDPWD', '/home/mazen/ros2_ws/src/fs-system'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '1550'), ('SYSTEMD_EXEC_PID', '1773'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7194'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/mazen/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'mazen'), ('JOURNAL_STREAM', '8:21447'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'mazen'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/mazen-Legion-5-15ACH6H:@/tmp/.ICE-unix/1740,unix/mazen-Legion-5-15ACH6H:/tmp/.ICE-unix/1740'), ('INVOCATION_ID', '2f6d00c5be8a409ebc1a766f9b43725b'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.EVBCJ2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:fdf70c48-eda9-4ede-a9a0-abf55b0b8e9e'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800')]), 'shell': False}
+[0.321406] (smornn) JobProgress: {'identifier': 'smornn', 'progress': 'cmake'}
+[0.321444] (smornn) Command: {'cmd': ['/usr/bin/cmake', '/home/mazen/ros2_ws/src/fs-system/perception/perception_23/smornn', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/mazen/ros2_ws/src/fs-system/perception/install/smornn'], 'cwd': '/home/mazen/ros2_ws/src/fs-system/perception/build/smornn', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'mazen'), ('LC_TIME', 'en_US.UTF-8'), ('XDG_SESSION_TYPE', 'wayland'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/mazen'), ('OLDPWD', '/home/mazen/ros2_ws/src/fs-system'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/usr/share/applications/terminator.desktop'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'en_US.UTF-8'), ('MANAGERPID', '1550'), ('SYSTEMD_EXEC_PID', '1773'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('TERMINATOR_DBUS_NAME', 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '7194'), ('IM_CONFIG_PHASE', '1'), ('WAYLAND_DISPLAY', 'wayland-0'), ('COLCON_PREFIX_PATH', '/home/mazen/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'mazen'), ('JOURNAL_STREAM', '8:21447'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'mazen'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/mazen-Legion-5-15ACH6H:@/tmp/.ICE-unix/1740,unix/mazen-Legion-5-15ACH6H:/tmp/.ICE-unix/1740'), ('INVOCATION_ID', '2f6d00c5be8a409ebc1a766f9b43725b'), ('PAPERSIZE', 'letter'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'en_US.UTF-8'), ('GNOME_SETUP_DISPLAY', ':1'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('TERMINATOR_DBUS_PATH', '/net/tenshu/Terminator2'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('IBUS_DISABLE_SNOOPER', '1'), ('LC_TELEPHONE', 'en_US.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/.mutter-Xwaylandauth.EVBCJ2'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'en_US.UTF-8'), ('TERMINATOR_UUID', 'urn:uuid:fdf70c48-eda9-4ede-a9a0-abf55b0b8e9e'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'en_US.UTF-8'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'en_US.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/mazen/ros2_ws/src/fs-system/perception/build/smornn'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'en_US.UTF-8'), ('LC_PAPER', 'en_US.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800')]), 'shell': False}
+[0.400675] (-) TimerEvent: {}
+[0.437980] (smornn) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.438304] (smoreo) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.438463] (mrpython_pcl) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.500828] (-) TimerEvent: {}
+[0.536197] (smornn) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.536527] (smoreo) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.536646] (mrpython_pcl) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.549788] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.550135] (smornn) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.550249] (smoreo) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.600994] (-) TimerEvent: {}
+[0.643798] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.644187] (smoreo) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.644512] (smornn) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.652632] (smornn) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.653053] (smoreo) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.653391] (smoreo) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.654025] (smornn) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.654208] (smornn) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.654410] (smoreo) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.654571] (mrpython_pcl) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.654729] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.654971] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.658689] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.659021] (smoreo) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.659263] (smornn) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.701285] (-) TimerEvent: {}
+[0.761787] (smornn) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.762090] (smoreo) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.762283] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.770660] (smornn) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.770982] (smoreo) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.771167] (mrpython_pcl) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.771297] (smornn) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.771495] (smoreo) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.771705] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.771842] (smornn) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.771983] (mrpython_pcl) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.772070] (smoreo) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.787312] (smornn) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:4 (find_package):\n'}
+[0.787760] (smornn) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.787876] (smornn) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.787973] (smornn) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.788063] (smornn) StderrLine: {'line': b'\n'}
+[0.788149] (smornn) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.788234] (smornn) StderrLine: {'line': b'  of the following names:\n'}
+[0.788326] (smornn) StderrLine: {'line': b'\n'}
+[0.788410] (smornn) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.788491] (smornn) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.788573] (smornn) StderrLine: {'line': b'\n'}
+[0.788652] (smornn) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.788731] (smornn) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.788807] (smornn) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.788873] (smornn) StderrLine: {'line': b'  installed.\n'}
+[0.788938] (smornn) StderrLine: {'line': b'\n'}
+[0.789001] (smornn) StderrLine: {'line': b'\x1b[0m\n'}
+[0.789080] (mrpython_pcl) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:4 (find_package):\n'}
+[0.789175] (mrpython_pcl) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.789245] (mrpython_pcl) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.789311] (mrpython_pcl) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.789376] (mrpython_pcl) StderrLine: {'line': b'\n'}
+[0.789442] (mrpython_pcl) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.789509] (mrpython_pcl) StderrLine: {'line': b'  of the following names:\n'}
+[0.789574] (mrpython_pcl) StderrLine: {'line': b'\n'}
+[0.789641] (mrpython_pcl) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.789738] (mrpython_pcl) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.789838] (mrpython_pcl) StderrLine: {'line': b'\n'}
+[0.789903] (mrpython_pcl) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.789969] (mrpython_pcl) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.790035] (mrpython_pcl) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.790103] (mrpython_pcl) StderrLine: {'line': b'  installed.\n'}
+[0.790169] (mrpython_pcl) StderrLine: {'line': b'\n'}
+[0.790236] (mrpython_pcl) StderrLine: {'line': b'\x1b[0m\n'}
+[0.790303] (smoreo) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:4 (find_package):\n'}
+[0.790393] (smoreo) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.790463] (smoreo) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.790529] (smoreo) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.790594] (smoreo) StderrLine: {'line': b'\n'}
+[0.790659] (smoreo) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.790725] (smoreo) StderrLine: {'line': b'  of the following names:\n'}
+[0.790792] (smoreo) StderrLine: {'line': b'\n'}
+[0.790861] (smoreo) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.790928] (smoreo) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.790993] (smoreo) StderrLine: {'line': b'\n'}
+[0.791058] (smoreo) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.791123] (smoreo) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.791188] (smoreo) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.791254] (smoreo) StderrLine: {'line': b'  installed.\n'}
+[0.791319] (smoreo) StderrLine: {'line': b'\n'}
+[0.791384] (smoreo) StderrLine: {'line': b'\x1b[0m\n'}
+[0.791450] (smoreo) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.791557] (smoreo) StdoutLine: {'line': b'See also "/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/CMakeFiles/CMakeOutput.log".\n'}
+[0.791991] (mrpython_pcl) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.792275] (mrpython_pcl) StdoutLine: {'line': b'See also "/home/mazen/ros2_ws/src/fs-system/perception/build/mrpython_pcl/CMakeFiles/CMakeOutput.log".\n'}
+[0.792390] (smornn) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.792474] (smornn) StdoutLine: {'line': b'See also "/home/mazen/ros2_ws/src/fs-system/perception/build/smornn/CMakeFiles/CMakeOutput.log".\n'}
+[0.793635] (smoreo) CommandEnded: {'returncode': 1}
+[0.795443] (mrpython_pcl) CommandEnded: {'returncode': 1}
+[0.796841] (smornn) CommandEnded: {'returncode': 1}
+[0.801369] (-) TimerEvent: {}
+[0.856425] (mrpython_pcl) JobEnded: {'identifier': 'mrpython_pcl', 'rc': 1}
+[0.857593] (smoreo) JobEnded: {'identifier': 'smoreo', 'rc': 'SIGINT'}
+[0.858117] (smornn) JobEnded: {'identifier': 'smornn', 'rc': 'SIGINT'}
+[0.901545] (-) TimerEvent: {}
+[1.001833] (-) TimerEvent: {}
+[1.062703] (yolov8) JobEnded: {'identifier': 'yolov8', 'rc': 'SIGINT'}
+[1.063971] (-) EventReactorShutdown: {}
