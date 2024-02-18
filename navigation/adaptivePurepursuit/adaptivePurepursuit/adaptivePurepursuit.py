@@ -1,9 +1,5 @@
 import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Float32
-from nav_msgs.msg import Odometry, Path
 import math
-from tf_transformations import euler_from_quaternion
 
 # node file , purepursuit file
 # launch file with parameters
@@ -25,6 +21,8 @@ class AdaptivePurePursuit:
         self.waypoints = []
         self.pathFlag = False
         self.firstFlag = True
+        self.target_index = 0
+        self.steering_angle = 0.0
 
 
         #From launch file
@@ -54,15 +52,15 @@ class AdaptivePurePursuit:
                 distance = self.calculate_distance(self.state[:2], waypoint)
                 if distance < min_distance:
                     min_distance = distance
-                    target_index = i
+                    self.target_index = i
                     self.firstFlag = False
         
-        for i in range(target_index,len(self.waypoints) - 1):
+        for i in range(self.target_index,len(self.waypoints) - 1):
             distance = self.calculate_distance(self.state[:2], waypoint)
             if distance > self.lookahead_distance :
-                target_index = i
+                self.target_index = i
                 break
-        return target_index
+        return self.target_index
         #awel mra 3la loop 3shan tgeb a2rb index lek
         #if awelmraFlag is true:
             #loop 3la elwaypoints w tgeb elindex ely 3andha elmin distance 
@@ -74,8 +72,8 @@ class AdaptivePurePursuit:
     
 
     def adaptivePurepursuit(self):
-        target_index = self.search_target_point()
-        target_waypoint = self.waypoints[target_index]
+        self.target_index = self.search_target_point()
+        target_waypoint = self.waypoints[self.target_index]
         tx, ty = target_waypoint
         dx = tx - self.x
         dy = ty - self.y
@@ -83,9 +81,9 @@ class AdaptivePurePursuit:
         #         return 0
         alpha = math.atan2(dy, dx) - self.yaw
         lookahead_angle = math.atan2(2 * 0.5 * math.sin(alpha) / self.lookahead_distance, 1)
-        steering_angle = math.degrees(lookahead_angle)
-        steering_angle = max(-0.5, min(0.5, lookahead_angle))
-        return steering_angle
+        self.steering_angle = math.degrees(lookahead_angle)
+        self.steering_angle = max(-0.5, min(0.5, lookahead_angle))
+        return self.steering_angle
     
 
     def speedControl(self, steering_angle: float) -> float:

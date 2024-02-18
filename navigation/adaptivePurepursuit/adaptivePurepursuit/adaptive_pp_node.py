@@ -2,7 +2,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32
 from nav_msgs.msg import Odometry, Path
-import math
 from tf_transformations import euler_from_quaternion
 from adaptivePurepursuit import AdaptivePurePursuit
 from ackermann_msgs.msg import AckermannDrive
@@ -28,11 +27,9 @@ class Controller(Node):
 
     def state_callback(self, state: Odometry):
         Vx = state.twist.twist.linear.x
-        Vy = state.twist.twist.linear.y
-        self.purepursuit.velocity = math.sqrt(Vx ** 2 + Vy ** 2)
-        self.purepursuit.x = state.pose.pose.position.x
-        self.purepursuit.y = state.pose.pose.position.y
-        orientation_list = [
+        Vy = state.twist.twist.from rclpy.node import Node
+from std_msgs.msg import Float32
+from nav_msgs.msg import Odometry, Path
             state.pose.pose.orientation.x,
             state.pose.pose.orientation.y,
             state.pose.pose.orientation.z,
@@ -52,8 +49,9 @@ class Controller(Node):
         throttle = Float32()
         throttle.data = self.purepursuit.pid_controller(steering_angle.data)
         self.throttle_pub.publish(throttle)
+        self.controlActionsPub.publish(throttle)
         self.steer_pub.publish(steering_angle)
-
+        self.controlActionsPub.publish(steering_angle)
         
         # if self.pathFlag == True :
         #     steering_angle = Float32()
