@@ -4,7 +4,7 @@ import rclpy
 from rclpy.node import Node
 from dependencies.asurt_msgs.msg.LandmarkArray.msg import LandmarkArray
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Pose, PoseArray
+from geometry_msgs.msg import Pose, PoseStamped
 from utils.cone_types import ConeTypes
 import numpy as np
 
@@ -17,8 +17,8 @@ class PlanningNode(Node):
         self.get_logger().info("Path Planner instantiated...")
         self.path = None
         self.cones = None
-        self.car_position = None
-        self.car_direction = None
+        self.carPosition = None
+        self.carDirection = None
         self.subscriber1 = self.create_subscription(
             LandmarkArray, "/topic1", self.receive_from_perception, 10
         )
@@ -26,7 +26,7 @@ class PlanningNode(Node):
             Odometry, "/topic2", self.receive_from_localization, 10
         )
         self.publisher = self.create_publisher(
-            PoseArray, "/topic3", 10
+            PoseStamped, "/topic3", 10
         )
 
 
@@ -47,26 +47,32 @@ class PlanningNode(Node):
     def receive_from_localization(self, msg: Odometry):
         #get car_position, car_direction
         pose = msg.pose.pose
-        self.car_position = [pose.position.x, pose.position.y]
-        self.car_direction = [pose.orientation.x, pose.orientation.y]
+        self.carPosition = [pose.position.x, pose.position.y]
+        self.carDirection = [pose.orientation.x, pose.orientation.y]
 
     
     def send_to_control(self):
         pathPlanner = PathPlanner()
         self.path = pathPlanner.calculatePathInGlobalFrame(
-            vehiclePosition= self.car_position,
-            vehicleDirection= self.car_direction,
+            vehiclePosition= self.carPosition,
+            vehicleDirection= self.carDirection,
             cones= self.cones
         )
         if self.path is not None:
-            pose_array = PoseArray()
-            for data_point in self.path:
-                pose = Pose()
-                pose.position.x = data_point[0]
-                pose.position.y = data_point[1]
-                pose_array.poses.append(pose)
+            timestamp = rclpy.time.now()
 
-            self.publisher.publish(pose_array)
+            for dataPoint in self.path:
+                poseStamped = PoseStamped()
+                pose = Pose()
+                pose.position.x = dataPoint[0]
+                pose.position.y = dataPoint[1]
+
+                poseStamped.pose = pose
+                poseStamped.header.stamp = timestamp
+                poseStamped.header.frame_id = "path"
+
+                self.publisher.publish(poseStamped)
+
             self.get_logger().info('Path Sent...')
 
 
