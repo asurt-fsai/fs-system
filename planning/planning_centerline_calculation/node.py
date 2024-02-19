@@ -4,9 +4,9 @@ import rclpy
 from rclpy.node import Node
 from dependencies.asurt_msgs.msg.LandmarkArray.msg import LandmarkArray
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Pose, PoseArray
 from utils.cone_types import ConeTypes
 import numpy as np
-from types_file.types import FloatArray
 
 from full_pipeline.full_pipeline import PathPlanner
 
@@ -26,7 +26,7 @@ class PlanningNode(Node):
             Odometry, "/topic2", self.receive_from_localization, 10
         )
         self.publisher = self.create_publisher(
-            FloatArray, "/topic3", 10
+            PoseArray, "/topic3", 10
         )
 
 
@@ -59,7 +59,14 @@ class PlanningNode(Node):
             cones= self.cones
         )
         if self.path is not None:
-            self.publisher.publish(self.path)
+            pose_array = PoseArray()
+            for data_point in self.path:
+                pose = Pose()
+                pose.position.x = data_point[0]
+                pose.position.y = data_point[1]
+                pose_array.poses.append(pose)
+
+            self.publisher.publish(pose_array)
             self.get_logger().info('Path Sent...')
 
 
