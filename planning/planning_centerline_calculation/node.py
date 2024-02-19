@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from dependencies.asurt_msgs.msg.LandmarkArray.msg import LandmarkArray
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped
 from utils.cone_types import ConeTypes
 import numpy as np
@@ -60,18 +60,23 @@ class PlanningNode(Node):
         )
         if self.path is not None:
             timestamp = rclpy.time.now()
-
+            path = Path()
+            path.header.stamp = timestamp
+            path.header.frame_id = "path"
+            
             for dataPoint in self.path:
-                poseStamped = PoseStamped()
                 pose = Pose()
                 pose.position.x = dataPoint[0]
                 pose.position.y = dataPoint[1]
 
+                poseStamped = PoseStamped()
                 poseStamped.pose = pose
                 poseStamped.header.stamp = timestamp
                 poseStamped.header.frame_id = "path"
 
-                self.publisher.publish(poseStamped)
+                path.poses.append(poseStamped)
+
+            self.publisher.publish(path)
 
             self.get_logger().info('Path Sent...')
 
