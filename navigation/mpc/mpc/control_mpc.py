@@ -25,10 +25,12 @@ class control_mpc(Node):
         self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
         self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
         self.timer = self.create_timer(0.1,self.publish_control_signals)
+        self. pos_x = 0
+        self.vel_ref = None
         
         #hn3araf ay haga feha self , x_pos w kda
         
-    def state_callback(self, state: Odometry):
+    def state_callback(self, state: Odometry  ):
         Vx = state.twist.twist.linear.x
         Vy = state.twist.twist.linear.y
         self.velocity = math.sqrt(Vx ** 2 + Vy ** 2)
@@ -66,6 +68,7 @@ class control_mpc(Node):
             'n_robust': 0,
             'n_horizon': self.horizon,
             't_step': self.Ts,
+            'store_full_solution': True,
         }
         self.mpc.set_param(**setup_mpc)
 
@@ -73,7 +76,7 @@ class control_mpc(Node):
         self.objective_function_setup()
         self.constraints_setup()
 
-        # provide time-varing parameters: setpoints/references
+        # create a method to obtain new time-varying parameters at each iteration.
         self.tvp_template = self.mpc.get_tvp_template()
         self.mpc.set_tvp_fun(self.tvp_fun)
 
@@ -85,15 +88,15 @@ class control_mpc(Node):
         self.mpc.bounds['upper', '_x', 'pos_x'] = np.inf
         self.mpc.bounds['lower', '_x', 'pos_y'] = -np.inf
         self.mpc.bounds['upper', '_x', 'pos_y'] = np.inf
-        # self.mpc.bounds['lower', '_x', 'steer'] = - 30
-        # self.mpc.bounds['upper', '_x', 'steer'] = 30
+        self.mpc.bounds['lower', '_x', 'steer'] = - 30
+        self.mpc.bounds['upper', '_x', 'steer'] = 30
         self.mpc.bounds['lower', '_x', 'vel']   = -0.5            
         self.mpc.bounds['upper', '_x', 'vel']   = 0.5
        
 
         # input constraints
-        self.mpc.bounds['lower', '_u', 'acc'] = -0.5
-        self.mpc.bounds['upper', '_u', 'acc'] = 0.5
+        self.mpc.bounds['lower', '_u', 'acc']   = -0.5
+        self.mpc.bounds['upper', '_u', 'acc']   = 0.5
         self.mpc.bounds['lower', '_u', 'delta'] = -30
         self.mpc.bounds['upper', '_u', 'delta'] = 30
 
@@ -144,5 +147,15 @@ class control_mpc(Node):
 
         self.model.setup()
     
+    def tvp_fun(self , t_now , path: Odometry):
+
+            current_waypoint =  self.   ##at2kd  (last pose is the current)
+            # ashof hzbtha ezay
+            self.tvp_template['_tvp', 'x_ref']    = current_waypoint.x
+            self.tvp_template['_tvp',  'y_ref']   = current_waypoint.y
+            self.tvp_template['_tvp',  'psi_ref'] = current_waypoint.psi
+            self.tvp_template['_tvp',  'vel_ref'] = current_waypoint.v_ref
+    
+            return self.tvp_template
     
     
