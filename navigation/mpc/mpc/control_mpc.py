@@ -15,6 +15,13 @@ from tf_transformations import euler_from_quaternion
 #eh elhagat ely da5la 3al mpc w by5arag eh w no3 eldata ely 5arga eh
 #output (Target Speed, Steering)
 
+
+#Ngeb elvalues bta3t Iz w el mass 
+#Nshof elstates bta3tna hatb2a eh bzabt (X wla X dot wla X dot dot)
+#Elconstrains 3al state bne7tagha f eh
+#Forces ely 3ala eltires
+
+
 class control_mpc(Node):
     def _init_(self):
         super().__init__('control_mpc')
@@ -28,12 +35,13 @@ class control_mpc(Node):
         self. pos_x = 0
         self.vel_ref = None
         
+        self.state = (0.0,0.0,0.0,0.0)
         #hn3araf ay haga feha self , x_pos w kda
         
-    def state_callback(self, state: Odometry  ):
+    def state_callback(self, state: Odometry):
         Vx = state.twist.twist.linear.x
         Vy = state.twist.twist.linear.y
-        self.velocity = math.sqrt(Vx ** 2 + Vy ** 2)
+        velocity = math.sqrt(Vx ** 2 + Vy ** 2)
         X = state.pose.pose.position.x
         Y = state.pose.pose.position.y
         orientation_list = [
@@ -43,7 +51,7 @@ class control_mpc(Node):
             state.pose.pose.orientation.w
         ]
         _, _, yaw = euler_from_quaternion(orientation_list)
-        self.state = (X, Y, yaw)
+        self.state = (X, Y, yaw, velocity)
         throttle_msg = Float32()
         throttle_msg.data, steer_msg.data = self.mpc_control()
         self.control_pub.publish()
@@ -88,7 +96,7 @@ class control_mpc(Node):
         self.mpc.bounds['upper', '_x', 'pos_x'] = np.inf
         self.mpc.bounds['lower', '_x', 'pos_y'] = -np.inf
         self.mpc.bounds['upper', '_x', 'pos_y'] = np.inf
-        self.mpc.bounds['lower', '_x', 'steer'] = - 30
+        self.mpc.bounds['lower', '_x', 'steer'] = - 30 # Nshof m7tagenha f eh
         self.mpc.bounds['upper', '_x', 'steer'] = 30
         self.mpc.bounds['lower', '_x', 'vel']   = -0.5            
         self.mpc.bounds['upper', '_x', 'vel']   = 0.5
@@ -147,15 +155,15 @@ class control_mpc(Node):
 
         self.model.setup()
     
-    def tvp_fun(self , t_now , path: Odometry):
+    def tvp_fun(self ):
 
-            current_waypoint =  self.   ##at2kd  (last pose is the current)
-            # ashof hzbtha ezay
-            self.tvp_template['_tvp', 'x_ref']    = current_waypoint.x
-            self.tvp_template['_tvp',  'y_ref']   = current_waypoint.y
-            self.tvp_template['_tvp',  'psi_ref'] = current_waypoint.psi
-            self.tvp_template['_tvp',  'vel_ref'] = current_waypoint.v_ref
-    
-            return self.tvp_template
+        ##at2kd  (last pose is the current)
+        # ashof hzbtha ezay
+        self.tvp_template['_tvp', 'x_ref']    = self.state[0]
+        self.tvp_template['_tvp',  'y_ref']   = self.state[1]
+        self.tvp_template['_tvp',  'psi_ref'] = self.state[2]
+        self.tvp_template['_tvp',  'vel_ref'] = self.state[3]
+
+        return self.tvp_template
     
     
