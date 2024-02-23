@@ -1,0 +1,23 @@
+[2.620s] Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[2.991s] running egg_info
+[2.992s] writing ../build/yolov8/yolov8.egg-info/PKG-INFO
+[3.082s] writing dependency_links to ../build/yolov8/yolov8.egg-info/dependency_links.txt
+[3.083s] writing entry points to ../build/yolov8/yolov8.egg-info/entry_points.txt
+[3.083s] writing requirements to ../build/yolov8/yolov8.egg-info/requires.txt
+[3.083s] writing top-level names to ../build/yolov8/yolov8.egg-info/top_level.txt
+[3.087s] reading manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[3.113s] writing manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[3.113s] running build
+[3.114s] running build_py
+[3.114s] running install
+[3.114s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.114s]   warnings.warn(
+[3.115s] running install_lib
+[3.117s] running install_data
+[3.118s] running install_egg_info
+[3.121s] removing '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info' (and everything under it)
+[3.122s] Copying ../build/yolov8/yolov8.egg-info to /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info
+[3.175s] running install_scripts
+[3.215s] Installing test_node script to /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/yolov8
+[3.216s] writing list of installed files to '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/install.log'
+[3.363s] Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed

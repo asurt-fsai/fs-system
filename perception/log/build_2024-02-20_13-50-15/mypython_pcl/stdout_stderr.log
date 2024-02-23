@@ -1,0 +1,28 @@
+running egg_info
+creating ../build/mypython_pcl/mypython_pcl.egg-info
+writing ../build/mypython_pcl/mypython_pcl.egg-info/PKG-INFO
+writing dependency_links to ../build/mypython_pcl/mypython_pcl.egg-info/dependency_links.txt
+writing entry points to ../build/mypython_pcl/mypython_pcl.egg-info/entry_points.txt
+writing requirements to ../build/mypython_pcl/mypython_pcl.egg-info/requires.txt
+writing top-level names to ../build/mypython_pcl/mypython_pcl.egg-info/top_level.txt
+writing manifest file '../build/mypython_pcl/mypython_pcl.egg-info/SOURCES.txt'
+reading manifest file '../build/mypython_pcl/mypython_pcl.egg-info/SOURCES.txt'
+writing manifest file '../build/mypython_pcl/mypython_pcl.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build/lib
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build/lib/mypython_pcl
+copying mypython_pcl/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build/lib/mypython_pcl
+running install
+/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running install_lib
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages/mypython_pcl
+copying /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build/lib/mypython_pcl/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages/mypython_pcl
+byte-compiling /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages/mypython_pcl/__init__.py to __init__.cpython-310.pyc
+running install_data
+running install_egg_info
+Copying ../build/mypython_pcl/mypython_pcl.egg-info to /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages/mypython_pcl-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/install.log'
