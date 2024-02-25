@@ -1,0 +1,36 @@
+[0.067s] Invoking command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/ndt_omp_ros2 -- -j12 -l12
+[0.115s] [35m[1mConsolidate compiler generated dependencies of target ndt_omp[0m
+[0.158s] [ 66%] Built target ndt_omp
+[0.170s] [35m[1mConsolidate compiler generated dependencies of target align[0m
+[0.218s] [100%] Built target align
+[0.231s] Invoked command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/ndt_omp_ros2 -- -j12 -l12
+[0.283s] Invoking command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/ndt_omp_ros2
+[0.292s] -- Install configuration: "RELEASE"
+[0.293s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/ndt_omp_ros2/align
+[0.294s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin/align
+[0.294s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/gicp_omp_impl.hpp
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/ndt_omp.h
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp_impl.hpp
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp.h
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/gicp_omp.h
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/ndt_omp_impl.hpp
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/package_run_dependencies/ndt_omp_ros2
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/parent_prefix_path/ndt_omp_ros2
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.sh
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.dsv
+[0.295s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.sh
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.dsv
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.bash
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.sh
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.zsh
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.dsv
+[0.296s] -- Installing: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/packages/ndt_omp_ros2
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config.cmake
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config-version.cmake
+[0.296s] -- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.xml
+[0.297s] Invoked command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/ndt_omp_ros2

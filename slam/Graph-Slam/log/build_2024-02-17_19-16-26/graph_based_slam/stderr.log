@@ -1,0 +1,17 @@
+[0m** WARNING ** io features related to pcap will be disabled[0m
+[31mCMake Error at CMakeLists.txt:38 (find_package):
+  By not providing "Findg2o.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "g2o", but
+  CMake did not find one.
+
+  Could not find a package configuration file provided by "g2o" with any of
+  the following names:
+
+    g2oConfig.cmake
+    g2o-config.cmake
+
+  Add the installation prefix of "g2o" to CMAKE_PREFIX_PATH or set "g2o_DIR"
+  to a directory containing one of the above files.  If "g2o" provides a
+  separate development package or SDK, be sure it has been installed.
+
+[0m

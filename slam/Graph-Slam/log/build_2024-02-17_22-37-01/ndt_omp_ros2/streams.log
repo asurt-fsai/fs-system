@@ -1,0 +1,33 @@
+[0.063s] Invoking command in '/home/hazem/ros2_ws/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/build/ndt_omp_ros2 -- -j12 -l12
+[0.143s] [ 66%] Built target ndt_omp
+[0.179s] [100%] Built target align
+[0.190s] Invoked command in '/home/hazem/ros2_ws/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/build/ndt_omp_ros2 -- -j12 -l12
+[0.234s] Invoking command in '/home/hazem/ros2_ws/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/build/ndt_omp_ros2
+[0.241s] -- Install configuration: "RELEASE"
+[0.241s] -- Execute custom install script
+[0.242s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/lib/ndt_omp_ros2/align
+[0.242s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/bin/align
+[0.243s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/gicp_omp.h
+[0.243s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/gicp_omp_impl.hpp
+[0.243s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/ndt_omp.h
+[0.244s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/ndt_omp_impl.hpp
+[0.244s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp.h
+[0.244s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp_impl.hpp
+[0.244s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/package_run_dependencies/ndt_omp_ros2
+[0.245s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/parent_prefix_path/ndt_omp_ros2
+[0.245s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.sh
+[0.245s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.dsv
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.sh
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.dsv
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.bash
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.sh
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.zsh
+[0.246s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.dsv
+[0.247s] -- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv
+[0.255s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/packages/ndt_omp_ros2
+[0.255s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_dependencies-extras.cmake
+[0.255s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.256s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config.cmake
+[0.256s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config-version.cmake
+[0.256s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/package.xml
+[0.258s] Invoked command in '/home/hazem/ros2_ws/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/build/ndt_omp_ros2

@@ -1,0 +1,2 @@
+source;share/lidarslam/environment/ament_prefix_path.sh
+source;share/lidarslam/environment/path.sh

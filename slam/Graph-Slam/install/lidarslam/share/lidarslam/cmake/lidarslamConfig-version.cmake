@@ -1,0 +1,1 @@
+/home/hazem/ros2_ws/build/lidarslam/ament_cmake_core/lidarslamConfig-version.cmake

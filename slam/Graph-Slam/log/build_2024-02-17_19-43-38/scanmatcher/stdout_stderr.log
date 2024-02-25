@@ -1,0 +1,38 @@
+[35m[1mConsolidate compiler generated dependencies of target scanmatcher_component[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/scanmatcher_component.dir/src/scanmatcher_component.cpp.o[0m
+[ 50%] [32m[1mLinking CXX shared library libscanmatcher_component.so[0m
+[ 50%] Built target scanmatcher_component
+[35m[1mConsolidate compiler generated dependencies of target scanmatcher_node[0m
+[ 75%] [32m[1mLinking CXX executable scanmatcher_node[0m
+[100%] Built target scanmatcher_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/library_path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/library_path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/include/scanmatcher/lidar_undistortion.hpp
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/include/scanmatcher/scanmatcher_component.h
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/launch/mapping_car.launch.py
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/launch/mapping_robot.launch.py
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/param/mapping_car.yaml
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/param/mapping_robot.yaml
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/lib/libscanmatcher_component.so
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/lib/scanmatcher/scanmatcher_node
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/ament_index/resource_index/package_run_dependencies/scanmatcher
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/ament_index/resource_index/parent_prefix_path/scanmatcher
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/environment/path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/local_setup.bash
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/local_setup.sh
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/local_setup.zsh
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/local_setup.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/package.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/ament_index/resource_index/packages/scanmatcher
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/ament_index/resource_index/rclcpp_components/scanmatcher
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_libraries-extras.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig-version.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/scanmatcher/share/scanmatcher/package.xml

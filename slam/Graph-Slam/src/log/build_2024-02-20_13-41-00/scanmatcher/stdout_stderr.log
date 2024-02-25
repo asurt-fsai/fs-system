@@ -1,0 +1,43 @@
+[35m[1mConsolidate compiler generated dependencies of target scanmatcher_component[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/scanmatcher_component.dir/src/scanmatcher_component.cpp.o[0m
+[ 50%] [32m[1mLinking CXX shared library libscanmatcher_component.so[0m
+[ 50%] Built target scanmatcher_component
+[35m[1mConsolidate compiler generated dependencies of target scanmatcher_node[0m
+[ 75%] [32m[1mLinking CXX executable scanmatcher_node[0m
+[100%] Built target scanmatcher_node
+-- Install configuration: ""
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/library_path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/library_path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher/lidar_undistortion.hpp
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher/scanmatcher_component.h
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch/mapping_robot.launch.py
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch/mapping_car.launch.py
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param/mapping_robot.yaml
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param/mapping_car.yaml
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/lib/libscanmatcher_component.so
+-- Set runtime path of "/home/hazem/ros2_ws/src/install/scanmatcher/lib/libscanmatcher_component.so" to ""
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/lib/scanmatcher/scanmatcher_node
+-- Set runtime path of "/home/hazem/ros2_ws/src/install/scanmatcher/lib/scanmatcher/scanmatcher_node" to ""
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/package_run_dependencies/scanmatcher
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/parent_prefix_path/scanmatcher
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.bash
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.sh
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.zsh
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/package.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/packages/scanmatcher
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/rclcpp_components/scanmatcher
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig-version.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/package.xml

@@ -1,0 +1,1699 @@
+[0.000000] (-) TimerEvent: {}
+[0.000279] (lidarslam_msgs) JobQueued: {'identifier': 'lidarslam_msgs', 'dependencies': OrderedDict()}
+[0.000310] (ndt_omp_ros2) JobQueued: {'identifier': 'ndt_omp_ros2', 'dependencies': OrderedDict()}
+[0.000353] (graph_based_slam) JobQueued: {'identifier': 'graph_based_slam', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/src/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2')])}
+[0.000376] (scanmatcher) JobQueued: {'identifier': 'scanmatcher', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/src/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2')])}
+[0.000395] (lidarslam) JobQueued: {'identifier': 'lidarslam', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/src/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2'), ('graph_based_slam', '/home/hazem/ros2_ws/src/install/graph_based_slam'), ('scanmatcher', '/home/hazem/ros2_ws/src/install/scanmatcher')])}
+[0.000520] (lidarslam_msgs) JobStarted: {'identifier': 'lidarslam_msgs'}
+[0.072574] (ndt_omp_ros2) JobStarted: {'identifier': 'ndt_omp_ros2'}
+[0.099397] (-) TimerEvent: {}
+[0.129181] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'cmake'}
+[0.130461] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'build'}
+[0.131134] (lidarslam_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/src/build/lidarslam_msgs', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/src/build/lidarslam_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/lidarslam_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[0.135647] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'cmake'}
+[0.137099] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'build'}
+[0.137973] (ndt_omp_ros2) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/src/build/ndt_omp_ros2', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/src/build/ndt_omp_ros2', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/ndt_omp_ros2'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[0.185428] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_generator_c\x1b[0m\n'}
+[0.187557] (ndt_omp_ros2) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target ndt_omp\x1b[0m\n'}
+[0.194126] (lidarslam_msgs) StdoutLine: {'line': b'[  2%] Built target lidarslam_msgs__cpp\n'}
+[0.199525] (-) TimerEvent: {}
+[0.201102] (lidarslam_msgs) StdoutLine: {'line': b'[ 12%] Built target lidarslam_msgs__rosidl_generator_c\n'}
+[0.204935] (lidarslam_msgs) StdoutLine: {'line': b'[ 12%] Built target ament_cmake_python_copy_lidarslam_msgs\n'}
+[0.207950] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_fastrtps_cpp\x1b[0m\n'}
+[0.208361] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_introspection_cpp\x1b[0m\n'}
+[0.210072] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_cpp\x1b[0m\n'}
+[0.218794] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_fastrtps_c\x1b[0m\n'}
+[0.219185] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_c\x1b[0m\n'}
+[0.219370] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_introspection_c\x1b[0m\n'}
+[0.229047] (lidarslam_msgs) StdoutLine: {'line': b'[ 28%] Built target lidarslam_msgs__rosidl_typesupport_introspection_cpp\n'}
+[0.229295] (lidarslam_msgs) StdoutLine: {'line': b'[ 33%] Built target lidarslam_msgs__rosidl_typesupport_cpp\n'}
+[0.229556] (lidarslam_msgs) StdoutLine: {'line': b'[ 43%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[0.230255] (ndt_omp_ros2) StdoutLine: {'line': b'[ 66%] Built target ndt_omp\n'}
+[0.235565] (lidarslam_msgs) StdoutLine: {'line': b'[ 53%] Built target lidarslam_msgs__rosidl_typesupport_introspection_c\n'}
+[0.235975] (lidarslam_msgs) StdoutLine: {'line': b'[ 64%] Built target lidarslam_msgs__rosidl_typesupport_c\n'}
+[0.238295] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_c\n'}
+[0.242864] (ndt_omp_ros2) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target align\x1b[0m\n'}
+[0.257866] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs\n'}
+[0.280977] (lidarslam_msgs) StdoutLine: {'line': b'[ 76%] Built target lidarslam_msgs__py\n'}
+[0.290789] (ndt_omp_ros2) StdoutLine: {'line': b'[100%] Built target align\n'}
+[0.293304] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_generator_py\x1b[0m\n'}
+[0.299606] (-) TimerEvent: {}
+[0.303534] (ndt_omp_ros2) CommandEnded: {'returncode': 0}
+[0.308855] (lidarslam_msgs) StdoutLine: {'line': b'[ 84%] Built target lidarslam_msgs__rosidl_generator_py\n'}
+[0.322864] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_fastrtps_c__pyext\x1b[0m\n'}
+[0.323902] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_c__pyext\x1b[0m\n'}
+[0.324296] (lidarslam_msgs) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target lidarslam_msgs__rosidl_typesupport_introspection_c__pyext\x1b[0m\n'}
+[0.341111] (lidarslam_msgs) StdoutLine: {'line': b'[ 89%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.342864] (lidarslam_msgs) StdoutLine: {'line': b'[ 94%] Built target lidarslam_msgs__rosidl_typesupport_c__pyext\n'}
+[0.343052] (lidarslam_msgs) StdoutLine: {'line': b'[100%] Built target lidarslam_msgs__rosidl_typesupport_introspection_c__pyext\n'}
+[0.347010] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'install'}
+[0.355588] (ndt_omp_ros2) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/src/build/ndt_omp_ros2'], 'cwd': '/home/hazem/ros2_ws/src/build/ndt_omp_ros2', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/ndt_omp_ros2'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[0.364095] (ndt_omp_ros2) StdoutLine: {'line': b'-- Install configuration: "RELEASE"\n'}
+[0.365300] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/ndt_omp_ros2/align\n'}
+[0.366503] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin/align\n'}
+[0.366760] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include\n'}
+[0.367070] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp\n'}
+[0.367233] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/gicp_omp_impl.hpp\n'}
+[0.367391] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/ndt_omp.h\n'}
+[0.367467] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp_impl.hpp\n'}
+[0.367530] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp.h\n'}
+[0.367593] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/gicp_omp.h\n'}
+[0.367685] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/include/pclomp/ndt_omp_impl.hpp\n'}
+[0.367782] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/package_run_dependencies/ndt_omp_ros2\n'}
+[0.367855] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/parent_prefix_path/ndt_omp_ros2\n'}
+[0.367920] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.sh\n'}
+[0.367977] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.dsv\n'}
+[0.368034] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.sh\n'}
+[0.368091] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.dsv\n'}
+[0.368147] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.bash\n'}
+[0.368204] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.sh\n'}
+[0.368260] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.zsh\n'}
+[0.368316] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.dsv\n'}
+[0.368372] (ndt_omp_ros2) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv\n'}
+[0.368428] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ament_index/resource_index/packages/ndt_omp_ros2\n'}
+[0.368493] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[0.368551] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[0.368610] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config.cmake\n'}
+[0.368667] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config-version.cmake\n'}
+[0.368724] (ndt_omp_ros2) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.xml\n'}
+[0.369520] (ndt_omp_ros2) CommandEnded: {'returncode': 0}
+[0.399700] (-) TimerEvent: {}
+[0.459486] (lidarslam_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[0.460039] (lidarslam_msgs) StdoutLine: {'line': b'writing lidarslam_msgs.egg-info/PKG-INFO\n'}
+[0.460334] (lidarslam_msgs) StdoutLine: {'line': b'writing dependency_links to lidarslam_msgs.egg-info/dependency_links.txt\n'}
+[0.460469] (lidarslam_msgs) StdoutLine: {'line': b'writing top-level names to lidarslam_msgs.egg-info/top_level.txt\n'}
+[0.462601] (lidarslam_msgs) StdoutLine: {'line': b"reading manifest file 'lidarslam_msgs.egg-info/SOURCES.txt'\n"}
+[0.463348] (lidarslam_msgs) StdoutLine: {'line': b"writing manifest file 'lidarslam_msgs.egg-info/SOURCES.txt'\n"}
+[0.485917] (lidarslam_msgs) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_lidarslam_msgs_egg\n'}
+[0.499940] (-) TimerEvent: {}
+[0.576094] (ndt_omp_ros2) JobEnded: {'identifier': 'ndt_omp_ros2', 'rc': 0}
+[0.577048] (lidarslam_msgs) CommandEnded: {'returncode': 0}
+[0.600029] (-) TimerEvent: {}
+[0.655232] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'install'}
+[0.655287] (lidarslam_msgs) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/src/build/lidarslam_msgs'], 'cwd': '/home/hazem/ros2_ws/src/build/lidarslam_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/lidarslam_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[0.662549] (lidarslam_msgs) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[0.662794] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/ament_index/resource_index/rosidl_interfaces/lidarslam_msgs\n'}
+[0.662937] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.663133] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.663201] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_generator_c__visibility_control.h\n'}
+[0.663261] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.663330] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__functions.c\n'}
+[0.663394] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__functions.h\n'}
+[0.663452] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__functions.h\n'}
+[0.663508] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__struct.h\n'}
+[0.663565] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__functions.c\n'}
+[0.663621] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__struct.h\n'}
+[0.663775] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__type_support.h\n'}
+[0.663878] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__type_support.h\n'}
+[0.664038] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/sub_map.h\n'}
+[0.664114] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/map_array.h\n'}
+[0.664174] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/library_path.sh\n'}
+[0.664233] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/library_path.dsv\n'}
+[0.664291] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_c.so\n'}
+[0.664349] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.664407] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.664464] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.664520] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_fastrtps_c.h\n'}
+[0.664595] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_fastrtps_c.h\n'}
+[0.664655] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[0.664714] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[0.664786] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.664897] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.665017] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[0.665082] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.665139] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_introspection_c.h\n'}
+[0.665196] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_introspection_c.h\n'}
+[0.665284] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__type_support.c\n'}
+[0.665407] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__type_support.c\n'}
+[0.665510] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_c.so\n'}
+[0.666013] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_c.so\n'}
+[0.666253] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.666322] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.666429] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/map_array.hpp\n'}
+[0.666592] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.666717] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__traits.hpp\n'}
+[0.666778] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__struct.hpp\n'}
+[0.666837] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__struct.hpp\n'}
+[0.666900] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__traits.hpp\n'}
+[0.666967] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__builder.hpp\n'}
+[0.667033] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__builder.hpp\n'}
+[0.667099] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/sub_map.hpp\n'}
+[0.667176] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.667241] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.667305] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.667369] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.667433] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.667506] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/dds_fastrtps\n'}
+[0.667595] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[0.667660] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[0.667744] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs\n'}
+[0.667831] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg\n'}
+[0.667908] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail\n'}
+[0.667966] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_introspection_cpp.hpp\n'}
+[0.668025] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__type_support.cpp\n'}
+[0.668083] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__type_support.cpp\n'}
+[0.668141] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_introspection_cpp.hpp\n'}
+[0.668418] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[0.668981] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_cpp.so\n'}
+[0.669162] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/pythonpath.sh\n'}
+[0.669260] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/pythonpath.dsv\n'}
+[0.669377] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info\n'}
+[0.669450] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[0.669575] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[0.669642] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[0.669743] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[0.669925] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs\n'}
+[0.670228] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/__init__.py\n'}
+[0.670339] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.670447] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.670546] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_c.c\n'}
+[0.670645] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.670754] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[0.670853] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/liblidarslam_msgs__rosidl_generator_py.so\n'}
+[0.670953] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg\n'}
+[0.671051] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/__init__.py\n'}
+[0.671163] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_map_array.py\n'}
+[0.671259] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_sub_map.py\n'}
+[0.671355] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_sub_map_s.c\n'}
+[0.671451] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_map_array_s.c\n'}
+[0.671547] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[0.697948] (lidarslam_msgs) StdoutLine: {'line': b"Listing '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs'...\n"}
+[0.698088] (lidarslam_msgs) StdoutLine: {'line': b"Listing '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg'...\n"}
+[0.700124] (-) TimerEvent: {}
+[0.701783] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.702297] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.702838] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.703522] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_py.so\n'}
+[0.703702] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/msg/SubMap.idl\n'}
+[0.703943] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/msg/MapArray.idl\n'}
+[0.704099] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/msg/SubMap.msg\n'}
+[0.704236] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/msg/MapArray.msg\n'}
+[0.704334] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/ament_index/resource_index/package_run_dependencies/lidarslam_msgs\n'}
+[0.704429] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/ament_index/resource_index/parent_prefix_path/lidarslam_msgs\n'}
+[0.704542] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/ament_prefix_path.sh\n'}
+[0.704638] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/ament_prefix_path.dsv\n'}
+[0.704734] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/path.sh\n'}
+[0.704859] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/environment/path.dsv\n'}
+[0.704953] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.bash\n'}
+[0.705047] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.sh\n'}
+[0.705184] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.zsh\n'}
+[0.705282] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.dsv\n'}
+[0.705348] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.dsv\n'}
+[0.705410] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/ament_index/resource_index/packages/lidarslam_msgs\n'}
+[0.705481] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cExport.cmake\n'}
+[0.705571] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cExport-noconfig.cmake\n'}
+[0.705644] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[0.705707] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[0.705769] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cExport.cmake\n'}
+[0.705840] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[0.705929] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cExport.cmake\n'}
+[0.705992] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[0.706194] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cppExport.cmake\n'}
+[0.706514] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[0.706605] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[0.706951] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[0.707117] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[0.707236] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cppExport.cmake\n'}
+[0.707336] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[0.707623] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_pyExport.cmake\n'}
+[0.707749] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_pyExport-noconfig.cmake\n'}
+[0.707925] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake-extras.cmake\n'}
+[0.708062] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[0.708162] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[0.708261] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[0.708359] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[0.708457] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[0.708553] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[0.708650] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgsConfig.cmake\n'}
+[0.708747] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgsConfig-version.cmake\n'}
+[0.708843] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.xml\n'}
+[0.709858] (lidarslam_msgs) CommandEnded: {'returncode': 0}
+[0.800240] (-) TimerEvent: {}
+[0.900483] (-) TimerEvent: {}
+[0.919032] (lidarslam_msgs) JobEnded: {'identifier': 'lidarslam_msgs', 'rc': 0}
+[0.920069] (graph_based_slam) JobStarted: {'identifier': 'graph_based_slam'}
+[0.973584] (scanmatcher) JobStarted: {'identifier': 'scanmatcher'}
+[1.000601] (-) TimerEvent: {}
+[1.028527] (graph_based_slam) JobProgress: {'identifier': 'graph_based_slam', 'progress': 'cmake'}
+[1.030988] (graph_based_slam) JobProgress: {'identifier': 'graph_based_slam', 'progress': 'build'}
+[1.031039] (graph_based_slam) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/src/build/graph_based_slam', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/src/build/graph_based_slam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/graph_based_slam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[1.033667] (scanmatcher) JobProgress: {'identifier': 'scanmatcher', 'progress': 'cmake'}
+[1.035429] (scanmatcher) JobProgress: {'identifier': 'scanmatcher', 'progress': 'build'}
+[1.036449] (scanmatcher) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/src/build/scanmatcher', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/src/build/scanmatcher', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/scanmatcher'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[1.079383] (graph_based_slam) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target graph_based_slam_component\x1b[0m\n'}
+[1.079538] (scanmatcher) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target scanmatcher_component\x1b[0m\n'}
+[1.100728] (-) TimerEvent: {}
+[1.122743] (scanmatcher) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/scanmatcher_component.dir/src/scanmatcher_component.cpp.o\x1b[0m\n'}
+[1.123419] (graph_based_slam) StdoutLine: {'line': b'[ 25%] \x1b[32mBuilding CXX object CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o\x1b[0m\n'}
+[1.200829] (-) TimerEvent: {}
+[1.301165] (-) TimerEvent: {}
+[1.401433] (-) TimerEvent: {}
+[1.501708] (-) TimerEvent: {}
+[1.601990] (-) TimerEvent: {}
+[1.702265] (-) TimerEvent: {}
+[1.802542] (-) TimerEvent: {}
+[1.902824] (-) TimerEvent: {}
+[2.003112] (-) TimerEvent: {}
+[2.103376] (-) TimerEvent: {}
+[2.203631] (-) TimerEvent: {}
+[2.303896] (-) TimerEvent: {}
+[2.404160] (-) TimerEvent: {}
+[2.504420] (-) TimerEvent: {}
+[2.604680] (-) TimerEvent: {}
+[2.704934] (-) TimerEvent: {}
+[2.805206] (-) TimerEvent: {}
+[2.905433] (-) TimerEvent: {}
+[3.005696] (-) TimerEvent: {}
+[3.105964] (-) TimerEvent: {}
+[3.206213] (-) TimerEvent: {}
+[3.306481] (-) TimerEvent: {}
+[3.406762] (-) TimerEvent: {}
+[3.507028] (-) TimerEvent: {}
+[3.607297] (-) TimerEvent: {}
+[3.707570] (-) TimerEvent: {}
+[3.807875] (-) TimerEvent: {}
+[3.908202] (-) TimerEvent: {}
+[4.008480] (-) TimerEvent: {}
+[4.108753] (-) TimerEvent: {}
+[4.209017] (-) TimerEvent: {}
+[4.309296] (-) TimerEvent: {}
+[4.409604] (-) TimerEvent: {}
+[4.509918] (-) TimerEvent: {}
+[4.610228] (-) TimerEvent: {}
+[4.710542] (-) TimerEvent: {}
+[4.810858] (-) TimerEvent: {}
+[4.911250] (-) TimerEvent: {}
+[5.011571] (-) TimerEvent: {}
+[5.111890] (-) TimerEvent: {}
+[5.212229] (-) TimerEvent: {}
+[5.312551] (-) TimerEvent: {}
+[5.412875] (-) TimerEvent: {}
+[5.513201] (-) TimerEvent: {}
+[5.613567] (-) TimerEvent: {}
+[5.713912] (-) TimerEvent: {}
+[5.814267] (-) TimerEvent: {}
+[5.914574] (-) TimerEvent: {}
+[6.014861] (-) TimerEvent: {}
+[6.115154] (-) TimerEvent: {}
+[6.215442] (-) TimerEvent: {}
+[6.315729] (-) TimerEvent: {}
+[6.416042] (-) TimerEvent: {}
+[6.516348] (-) TimerEvent: {}
+[6.616662] (-) TimerEvent: {}
+[6.716951] (-) TimerEvent: {}
+[6.817319] (-) TimerEvent: {}
+[6.917607] (-) TimerEvent: {}
+[7.017917] (-) TimerEvent: {}
+[7.118191] (-) TimerEvent: {}
+[7.218475] (-) TimerEvent: {}
+[7.318789] (-) TimerEvent: {}
+[7.419075] (-) TimerEvent: {}
+[7.519362] (-) TimerEvent: {}
+[7.619667] (-) TimerEvent: {}
+[7.719957] (-) TimerEvent: {}
+[7.820291] (-) TimerEvent: {}
+[7.920600] (-) TimerEvent: {}
+[8.020894] (-) TimerEvent: {}
+[8.121201] (-) TimerEvent: {}
+[8.221621] (-) TimerEvent: {}
+[8.321992] (-) TimerEvent: {}
+[8.422360] (-) TimerEvent: {}
+[8.522739] (-) TimerEvent: {}
+[8.623048] (-) TimerEvent: {}
+[8.723398] (-) TimerEvent: {}
+[8.823706] (-) TimerEvent: {}
+[8.923997] (-) TimerEvent: {}
+[9.024293] (-) TimerEvent: {}
+[9.124561] (-) TimerEvent: {}
+[9.224831] (-) TimerEvent: {}
+[9.325142] (-) TimerEvent: {}
+[9.425494] (-) TimerEvent: {}
+[9.525774] (-) TimerEvent: {}
+[9.626094] (-) TimerEvent: {}
+[9.726371] (-) TimerEvent: {}
+[9.826639] (-) TimerEvent: {}
+[9.926939] (-) TimerEvent: {}
+[10.027258] (-) TimerEvent: {}
+[10.127575] (-) TimerEvent: {}
+[10.227888] (-) TimerEvent: {}
+[10.328177] (-) TimerEvent: {}
+[10.428494] (-) TimerEvent: {}
+[10.528789] (-) TimerEvent: {}
+[10.629096] (-) TimerEvent: {}
+[10.729404] (-) TimerEvent: {}
+[10.829694] (-) TimerEvent: {}
+[10.929981] (-) TimerEvent: {}
+[11.030275] (-) TimerEvent: {}
+[11.130572] (-) TimerEvent: {}
+[11.230870] (-) TimerEvent: {}
+[11.331172] (-) TimerEvent: {}
+[11.431515] (-) TimerEvent: {}
+[11.531802] (-) TimerEvent: {}
+[11.632093] (-) TimerEvent: {}
+[11.732397] (-) TimerEvent: {}
+[11.832685] (-) TimerEvent: {}
+[11.932994] (-) TimerEvent: {}
+[12.033366] (-) TimerEvent: {}
+[12.133658] (-) TimerEvent: {}
+[12.233946] (-) TimerEvent: {}
+[12.334246] (-) TimerEvent: {}
+[12.434549] (-) TimerEvent: {}
+[12.534842] (-) TimerEvent: {}
+[12.635175] (-) TimerEvent: {}
+[12.735468] (-) TimerEvent: {}
+[12.835754] (-) TimerEvent: {}
+[12.936043] (-) TimerEvent: {}
+[13.036325] (-) TimerEvent: {}
+[13.136585] (-) TimerEvent: {}
+[13.236843] (-) TimerEvent: {}
+[13.337109] (-) TimerEvent: {}
+[13.437432] (-) TimerEvent: {}
+[13.537725] (-) TimerEvent: {}
+[13.637997] (-) TimerEvent: {}
+[13.738241] (-) TimerEvent: {}
+[13.838515] (-) TimerEvent: {}
+[13.938939] (-) TimerEvent: {}
+[14.039229] (-) TimerEvent: {}
+[14.139569] (-) TimerEvent: {}
+[14.239850] (-) TimerEvent: {}
+[14.340126] (-) TimerEvent: {}
+[14.440404] (-) TimerEvent: {}
+[14.540678] (-) TimerEvent: {}
+[14.640961] (-) TimerEvent: {}
+[14.741287] (-) TimerEvent: {}
+[14.841679] (-) TimerEvent: {}
+[14.942012] (-) TimerEvent: {}
+[15.042331] (-) TimerEvent: {}
+[15.142617] (-) TimerEvent: {}
+[15.242924] (-) TimerEvent: {}
+[15.343265] (-) TimerEvent: {}
+[15.443563] (-) TimerEvent: {}
+[15.543937] (-) TimerEvent: {}
+[15.644231] (-) TimerEvent: {}
+[15.744531] (-) TimerEvent: {}
+[15.844825] (-) TimerEvent: {}
+[15.945121] (-) TimerEvent: {}
+[16.045426] (-) TimerEvent: {}
+[16.145741] (-) TimerEvent: {}
+[16.246054] (-) TimerEvent: {}
+[16.346345] (-) TimerEvent: {}
+[16.446632] (-) TimerEvent: {}
+[16.546947] (-) TimerEvent: {}
+[16.647245] (-) TimerEvent: {}
+[16.747525] (-) TimerEvent: {}
+[16.847826] (-) TimerEvent: {}
+[16.948122] (-) TimerEvent: {}
+[17.048413] (-) TimerEvent: {}
+[17.148717] (-) TimerEvent: {}
+[17.249052] (-) TimerEvent: {}
+[17.349344] (-) TimerEvent: {}
+[17.449620] (-) TimerEvent: {}
+[17.549943] (-) TimerEvent: {}
+[17.650283] (-) TimerEvent: {}
+[17.750586] (-) TimerEvent: {}
+[17.850900] (-) TimerEvent: {}
+[17.951209] (-) TimerEvent: {}
+[18.051525] (-) TimerEvent: {}
+[18.151842] (-) TimerEvent: {}
+[18.252155] (-) TimerEvent: {}
+[18.352474] (-) TimerEvent: {}
+[18.452790] (-) TimerEvent: {}
+[18.553100] (-) TimerEvent: {}
+[18.653398] (-) TimerEvent: {}
+[18.753674] (-) TimerEvent: {}
+[18.853980] (-) TimerEvent: {}
+[18.954254] (-) TimerEvent: {}
+[19.054566] (-) TimerEvent: {}
+[19.154878] (-) TimerEvent: {}
+[19.255198] (-) TimerEvent: {}
+[19.355513] (-) TimerEvent: {}
+[19.455805] (-) TimerEvent: {}
+[19.556120] (-) TimerEvent: {}
+[19.656419] (-) TimerEvent: {}
+[19.756730] (-) TimerEvent: {}
+[19.857046] (-) TimerEvent: {}
+[19.957353] (-) TimerEvent: {}
+[20.057665] (-) TimerEvent: {}
+[20.157980] (-) TimerEvent: {}
+[20.258299] (-) TimerEvent: {}
+[20.358611] (-) TimerEvent: {}
+[20.458904] (-) TimerEvent: {}
+[20.559203] (-) TimerEvent: {}
+[20.659510] (-) TimerEvent: {}
+[20.759811] (-) TimerEvent: {}
+[20.860110] (-) TimerEvent: {}
+[20.960399] (-) TimerEvent: {}
+[21.060688] (-) TimerEvent: {}
+[21.160972] (-) TimerEvent: {}
+[21.261251] (-) TimerEvent: {}
+[21.361579] (-) TimerEvent: {}
+[21.461909] (-) TimerEvent: {}
+[21.562207] (-) TimerEvent: {}
+[21.662513] (-) TimerEvent: {}
+[21.762885] (-) TimerEvent: {}
+[21.863215] (-) TimerEvent: {}
+[21.963548] (-) TimerEvent: {}
+[22.063842] (-) TimerEvent: {}
+[22.164131] (-) TimerEvent: {}
+[22.264417] (-) TimerEvent: {}
+[22.364714] (-) TimerEvent: {}
+[22.465090] (-) TimerEvent: {}
+[22.565448] (-) TimerEvent: {}
+[22.665745] (-) TimerEvent: {}
+[22.766040] (-) TimerEvent: {}
+[22.866329] (-) TimerEvent: {}
+[22.966624] (-) TimerEvent: {}
+[23.066960] (-) TimerEvent: {}
+[23.167249] (-) TimerEvent: {}
+[23.267550] (-) TimerEvent: {}
+[23.367835] (-) TimerEvent: {}
+[23.468118] (-) TimerEvent: {}
+[23.568413] (-) TimerEvent: {}
+[23.668702] (-) TimerEvent: {}
+[23.768998] (-) TimerEvent: {}
+[23.869372] (-) TimerEvent: {}
+[23.969664] (-) TimerEvent: {}
+[24.069998] (-) TimerEvent: {}
+[24.170302] (-) TimerEvent: {}
+[24.270649] (-) TimerEvent: {}
+[24.370936] (-) TimerEvent: {}
+[24.471222] (-) TimerEvent: {}
+[24.571509] (-) TimerEvent: {}
+[24.671788] (-) TimerEvent: {}
+[24.772060] (-) TimerEvent: {}
+[24.872326] (-) TimerEvent: {}
+[24.972590] (-) TimerEvent: {}
+[25.072861] (-) TimerEvent: {}
+[25.173135] (-) TimerEvent: {}
+[25.273530] (-) TimerEvent: {}
+[25.373875] (-) TimerEvent: {}
+[25.474160] (-) TimerEvent: {}
+[25.574507] (-) TimerEvent: {}
+[25.674793] (-) TimerEvent: {}
+[25.775079] (-) TimerEvent: {}
+[25.875369] (-) TimerEvent: {}
+[25.975668] (-) TimerEvent: {}
+[26.076006] (-) TimerEvent: {}
+[26.176303] (-) TimerEvent: {}
+[26.276585] (-) TimerEvent: {}
+[26.376866] (-) TimerEvent: {}
+[26.477169] (-) TimerEvent: {}
+[26.577553] (-) TimerEvent: {}
+[26.677842] (-) TimerEvent: {}
+[26.778130] (-) TimerEvent: {}
+[26.878421] (-) TimerEvent: {}
+[26.978721] (-) TimerEvent: {}
+[27.079017] (-) TimerEvent: {}
+[27.179320] (-) TimerEvent: {}
+[27.279630] (-) TimerEvent: {}
+[27.379925] (-) TimerEvent: {}
+[27.480235] (-) TimerEvent: {}
+[27.580530] (-) TimerEvent: {}
+[27.680819] (-) TimerEvent: {}
+[27.781116] (-) TimerEvent: {}
+[27.881448] (-) TimerEvent: {}
+[27.981738] (-) TimerEvent: {}
+[28.082023] (-) TimerEvent: {}
+[28.182307] (-) TimerEvent: {}
+[28.282596] (-) TimerEvent: {}
+[28.382879] (-) TimerEvent: {}
+[28.483147] (-) TimerEvent: {}
+[28.583425] (-) TimerEvent: {}
+[28.683707] (-) TimerEvent: {}
+[28.784034] (-) TimerEvent: {}
+[28.884307] (-) TimerEvent: {}
+[28.984580] (-) TimerEvent: {}
+[29.084852] (-) TimerEvent: {}
+[29.185155] (-) TimerEvent: {}
+[29.285538] (-) TimerEvent: {}
+[29.385839] (-) TimerEvent: {}
+[29.486155] (-) TimerEvent: {}
+[29.586514] (-) TimerEvent: {}
+[29.686843] (-) TimerEvent: {}
+[29.787152] (-) TimerEvent: {}
+[29.887466] (-) TimerEvent: {}
+[29.987780] (-) TimerEvent: {}
+[30.088086] (-) TimerEvent: {}
+[30.188402] (-) TimerEvent: {}
+[30.288717] (-) TimerEvent: {}
+[30.389028] (-) TimerEvent: {}
+[30.489393] (-) TimerEvent: {}
+[30.589705] (-) TimerEvent: {}
+[30.690003] (-) TimerEvent: {}
+[30.790297] (-) TimerEvent: {}
+[30.890569] (-) TimerEvent: {}
+[30.990845] (-) TimerEvent: {}
+[31.091139] (-) TimerEvent: {}
+[31.191431] (-) TimerEvent: {}
+[31.291722] (-) TimerEvent: {}
+[31.392017] (-) TimerEvent: {}
+[31.492314] (-) TimerEvent: {}
+[31.592610] (-) TimerEvent: {}
+[31.692945] (-) TimerEvent: {}
+[31.793242] (-) TimerEvent: {}
+[31.893626] (-) TimerEvent: {}
+[31.993913] (-) TimerEvent: {}
+[32.094204] (-) TimerEvent: {}
+[32.194490] (-) TimerEvent: {}
+[32.294767] (-) TimerEvent: {}
+[32.395019] (-) TimerEvent: {}
+[32.495289] (-) TimerEvent: {}
+[32.595521] (-) TimerEvent: {}
+[32.695857] (-) TimerEvent: {}
+[32.796084] (-) TimerEvent: {}
+[32.896413] (-) TimerEvent: {}
+[32.996770] (-) TimerEvent: {}
+[33.097136] (-) TimerEvent: {}
+[33.197441] (-) TimerEvent: {}
+[33.297729] (-) TimerEvent: {}
+[33.398020] (-) TimerEvent: {}
+[33.498305] (-) TimerEvent: {}
+[33.598616] (-) TimerEvent: {}
+[33.698904] (-) TimerEvent: {}
+[33.799195] (-) TimerEvent: {}
+[33.899498] (-) TimerEvent: {}
+[33.999794] (-) TimerEvent: {}
+[34.100083] (-) TimerEvent: {}
+[34.200352] (-) TimerEvent: {}
+[34.300646] (-) TimerEvent: {}
+[34.400904] (-) TimerEvent: {}
+[34.501201] (-) TimerEvent: {}
+[34.601563] (-) TimerEvent: {}
+[34.701836] (-) TimerEvent: {}
+[34.802121] (-) TimerEvent: {}
+[34.902407] (-) TimerEvent: {}
+[35.002695] (-) TimerEvent: {}
+[35.102990] (-) TimerEvent: {}
+[35.203279] (-) TimerEvent: {}
+[35.303565] (-) TimerEvent: {}
+[35.403851] (-) TimerEvent: {}
+[35.504167] (-) TimerEvent: {}
+[35.604486] (-) TimerEvent: {}
+[35.704805] (-) TimerEvent: {}
+[35.805089] (-) TimerEvent: {}
+[35.905393] (-) TimerEvent: {}
+[36.005683] (-) TimerEvent: {}
+[36.105998] (-) TimerEvent: {}
+[36.206296] (-) TimerEvent: {}
+[36.306585] (-) TimerEvent: {}
+[36.406869] (-) TimerEvent: {}
+[36.507147] (-) TimerEvent: {}
+[36.607422] (-) TimerEvent: {}
+[36.707693] (-) TimerEvent: {}
+[36.807986] (-) TimerEvent: {}
+[36.908348] (-) TimerEvent: {}
+[37.008641] (-) TimerEvent: {}
+[37.108912] (-) TimerEvent: {}
+[37.209181] (-) TimerEvent: {}
+[37.309421] (-) TimerEvent: {}
+[37.409687] (-) TimerEvent: {}
+[37.509917] (-) TimerEvent: {}
+[37.610182] (-) TimerEvent: {}
+[37.710444] (-) TimerEvent: {}
+[37.810704] (-) TimerEvent: {}
+[37.910972] (-) TimerEvent: {}
+[38.011240] (-) TimerEvent: {}
+[38.111504] (-) TimerEvent: {}
+[38.211776] (-) TimerEvent: {}
+[38.312048] (-) TimerEvent: {}
+[38.412363] (-) TimerEvent: {}
+[38.512625] (-) TimerEvent: {}
+[38.612911] (-) TimerEvent: {}
+[38.713171] (-) TimerEvent: {}
+[38.813558] (-) TimerEvent: {}
+[38.913842] (-) TimerEvent: {}
+[39.014101] (-) TimerEvent: {}
+[39.114364] (-) TimerEvent: {}
+[39.214624] (-) TimerEvent: {}
+[39.314883] (-) TimerEvent: {}
+[39.415119] (-) TimerEvent: {}
+[39.515382] (-) TimerEvent: {}
+[39.615651] (-) TimerEvent: {}
+[39.715911] (-) TimerEvent: {}
+[39.816188] (-) TimerEvent: {}
+[39.916447] (-) TimerEvent: {}
+[40.016703] (-) TimerEvent: {}
+[40.116957] (-) TimerEvent: {}
+[40.217218] (-) TimerEvent: {}
+[40.317451] (-) TimerEvent: {}
+[40.417703] (-) TimerEvent: {}
+[40.517948] (-) TimerEvent: {}
+[40.618212] (-) TimerEvent: {}
+[40.718465] (-) TimerEvent: {}
+[40.818714] (-) TimerEvent: {}
+[40.918928] (-) TimerEvent: {}
+[41.019187] (-) TimerEvent: {}
+[41.119438] (-) TimerEvent: {}
+[41.219693] (-) TimerEvent: {}
+[41.319911] (-) TimerEvent: {}
+[41.420171] (-) TimerEvent: {}
+[41.520419] (-) TimerEvent: {}
+[41.620661] (-) TimerEvent: {}
+[41.720927] (-) TimerEvent: {}
+[41.821188] (-) TimerEvent: {}
+[41.921446] (-) TimerEvent: {}
+[42.021722] (-) TimerEvent: {}
+[42.121979] (-) TimerEvent: {}
+[42.222286] (-) TimerEvent: {}
+[42.322548] (-) TimerEvent: {}
+[42.422773] (-) TimerEvent: {}
+[42.523008] (-) TimerEvent: {}
+[42.623270] (-) TimerEvent: {}
+[42.723533] (-) TimerEvent: {}
+[42.823795] (-) TimerEvent: {}
+[42.924058] (-) TimerEvent: {}
+[43.024331] (-) TimerEvent: {}
+[43.124601] (-) TimerEvent: {}
+[43.224899] (-) TimerEvent: {}
+[43.325185] (-) TimerEvent: {}
+[43.425531] (-) TimerEvent: {}
+[43.525791] (-) TimerEvent: {}
+[43.626054] (-) TimerEvent: {}
+[43.726342] (-) TimerEvent: {}
+[43.826616] (-) TimerEvent: {}
+[43.926909] (-) TimerEvent: {}
+[44.027199] (-) TimerEvent: {}
+[44.127466] (-) TimerEvent: {}
+[44.227743] (-) TimerEvent: {}
+[44.328025] (-) TimerEvent: {}
+[44.428293] (-) TimerEvent: {}
+[44.528544] (-) TimerEvent: {}
+[44.628791] (-) TimerEvent: {}
+[44.729040] (-) TimerEvent: {}
+[44.829322] (-) TimerEvent: {}
+[44.929553] (-) TimerEvent: {}
+[45.029840] (-) TimerEvent: {}
+[45.130093] (-) TimerEvent: {}
+[45.230376] (-) TimerEvent: {}
+[45.330628] (-) TimerEvent: {}
+[45.430925] (-) TimerEvent: {}
+[45.531189] (-) TimerEvent: {}
+[45.631448] (-) TimerEvent: {}
+[45.731718] (-) TimerEvent: {}
+[45.831976] (-) TimerEvent: {}
+[45.932280] (-) TimerEvent: {}
+[46.032531] (-) TimerEvent: {}
+[46.132786] (-) TimerEvent: {}
+[46.233040] (-) TimerEvent: {}
+[46.333294] (-) TimerEvent: {}
+[46.433574] (-) TimerEvent: {}
+[46.533832] (-) TimerEvent: {}
+[46.634083] (-) TimerEvent: {}
+[46.734346] (-) TimerEvent: {}
+[46.834634] (-) TimerEvent: {}
+[46.934927] (-) TimerEvent: {}
+[47.035177] (-) TimerEvent: {}
+[47.135432] (-) TimerEvent: {}
+[47.235690] (-) TimerEvent: {}
+[47.335934] (-) TimerEvent: {}
+[47.436183] (-) TimerEvent: {}
+[47.536428] (-) TimerEvent: {}
+[47.636669] (-) TimerEvent: {}
+[47.736913] (-) TimerEvent: {}
+[47.837161] (-) TimerEvent: {}
+[47.937461] (-) TimerEvent: {}
+[48.037733] (-) TimerEvent: {}
+[48.137974] (-) TimerEvent: {}
+[48.238247] (-) TimerEvent: {}
+[48.338486] (-) TimerEvent: {}
+[48.438736] (-) TimerEvent: {}
+[48.538976] (-) TimerEvent: {}
+[48.639213] (-) TimerEvent: {}
+[48.739457] (-) TimerEvent: {}
+[48.839724] (-) TimerEvent: {}
+[48.939958] (-) TimerEvent: {}
+[49.040206] (-) TimerEvent: {}
+[49.140447] (-) TimerEvent: {}
+[49.240706] (-) TimerEvent: {}
+[49.340959] (-) TimerEvent: {}
+[49.441222] (-) TimerEvent: {}
+[49.541502] (-) TimerEvent: {}
+[49.641767] (-) TimerEvent: {}
+[49.742053] (-) TimerEvent: {}
+[49.842318] (-) TimerEvent: {}
+[49.942572] (-) TimerEvent: {}
+[50.042815] (-) TimerEvent: {}
+[50.143081] (-) TimerEvent: {}
+[50.243338] (-) TimerEvent: {}
+[50.343585] (-) TimerEvent: {}
+[50.443840] (-) TimerEvent: {}
+[50.544087] (-) TimerEvent: {}
+[50.644341] (-) TimerEvent: {}
+[50.744609] (-) TimerEvent: {}
+[50.844876] (-) TimerEvent: {}
+[50.945121] (-) TimerEvent: {}
+[51.045415] (-) TimerEvent: {}
+[51.145669] (-) TimerEvent: {}
+[51.245918] (-) TimerEvent: {}
+[51.346233] (-) TimerEvent: {}
+[51.446495] (-) TimerEvent: {}
+[51.546736] (-) TimerEvent: {}
+[51.646999] (-) TimerEvent: {}
+[51.747248] (-) TimerEvent: {}
+[51.847488] (-) TimerEvent: {}
+[51.947742] (-) TimerEvent: {}
+[52.048046] (-) TimerEvent: {}
+[52.148282] (-) TimerEvent: {}
+[52.248520] (-) TimerEvent: {}
+[52.348776] (-) TimerEvent: {}
+[52.449017] (-) TimerEvent: {}
+[52.549283] (-) TimerEvent: {}
+[52.649530] (-) TimerEvent: {}
+[52.749781] (-) TimerEvent: {}
+[52.850036] (-) TimerEvent: {}
+[52.950311] (-) TimerEvent: {}
+[53.050581] (-) TimerEvent: {}
+[53.150828] (-) TimerEvent: {}
+[53.251086] (-) TimerEvent: {}
+[53.351377] (-) TimerEvent: {}
+[53.451639] (-) TimerEvent: {}
+[53.551914] (-) TimerEvent: {}
+[53.652170] (-) TimerEvent: {}
+[53.752423] (-) TimerEvent: {}
+[53.852687] (-) TimerEvent: {}
+[53.952942] (-) TimerEvent: {}
+[54.053203] (-) TimerEvent: {}
+[54.153474] (-) TimerEvent: {}
+[54.253737] (-) TimerEvent: {}
+[54.353998] (-) TimerEvent: {}
+[54.454254] (-) TimerEvent: {}
+[54.554511] (-) TimerEvent: {}
+[54.654769] (-) TimerEvent: {}
+[54.755028] (-) TimerEvent: {}
+[54.855304] (-) TimerEvent: {}
+[54.955557] (-) TimerEvent: {}
+[55.055816] (-) TimerEvent: {}
+[55.156076] (-) TimerEvent: {}
+[55.256356] (-) TimerEvent: {}
+[55.356630] (-) TimerEvent: {}
+[55.456899] (-) TimerEvent: {}
+[55.557164] (-) TimerEvent: {}
+[55.657428] (-) TimerEvent: {}
+[55.757713] (-) TimerEvent: {}
+[55.857964] (-) TimerEvent: {}
+[55.958213] (-) TimerEvent: {}
+[56.058462] (-) TimerEvent: {}
+[56.158708] (-) TimerEvent: {}
+[56.258963] (-) TimerEvent: {}
+[56.359333] (-) TimerEvent: {}
+[56.459600] (-) TimerEvent: {}
+[56.559855] (-) TimerEvent: {}
+[56.660109] (-) TimerEvent: {}
+[56.760371] (-) TimerEvent: {}
+[56.860647] (-) TimerEvent: {}
+[56.960905] (-) TimerEvent: {}
+[57.061186] (-) TimerEvent: {}
+[57.161553] (-) TimerEvent: {}
+[57.261814] (-) TimerEvent: {}
+[57.362088] (-) TimerEvent: {}
+[57.462368] (-) TimerEvent: {}
+[57.562638] (-) TimerEvent: {}
+[57.662902] (-) TimerEvent: {}
+[57.763173] (-) TimerEvent: {}
+[57.863439] (-) TimerEvent: {}
+[57.963710] (-) TimerEvent: {}
+[58.063987] (-) TimerEvent: {}
+[58.164256] (-) TimerEvent: {}
+[58.264540] (-) TimerEvent: {}
+[58.364823] (-) TimerEvent: {}
+[58.465101] (-) TimerEvent: {}
+[58.565444] (-) TimerEvent: {}
+[58.665763] (-) TimerEvent: {}
+[58.766047] (-) TimerEvent: {}
+[58.866323] (-) TimerEvent: {}
+[58.966581] (-) TimerEvent: {}
+[59.066868] (-) TimerEvent: {}
+[59.167126] (-) TimerEvent: {}
+[59.267388] (-) TimerEvent: {}
+[59.367651] (-) TimerEvent: {}
+[59.467956] (-) TimerEvent: {}
+[59.568211] (-) TimerEvent: {}
+[59.668507] (-) TimerEvent: {}
+[59.768758] (-) TimerEvent: {}
+[59.869007] (-) TimerEvent: {}
+[59.969267] (-) TimerEvent: {}
+[60.069522] (-) TimerEvent: {}
+[60.169755] (-) TimerEvent: {}
+[60.270085] (-) TimerEvent: {}
+[60.370362] (-) TimerEvent: {}
+[60.470645] (-) TimerEvent: {}
+[60.570930] (-) TimerEvent: {}
+[60.671219] (-) TimerEvent: {}
+[60.771519] (-) TimerEvent: {}
+[60.871867] (-) TimerEvent: {}
+[60.972180] (-) TimerEvent: {}
+[61.072539] (-) TimerEvent: {}
+[61.172856] (-) TimerEvent: {}
+[61.273135] (-) TimerEvent: {}
+[61.373396] (-) TimerEvent: {}
+[61.473658] (-) TimerEvent: {}
+[61.573930] (-) TimerEvent: {}
+[61.674213] (-) TimerEvent: {}
+[61.774461] (-) TimerEvent: {}
+[61.874709] (-) TimerEvent: {}
+[61.974959] (-) TimerEvent: {}
+[62.075218] (-) TimerEvent: {}
+[62.175470] (-) TimerEvent: {}
+[62.275713] (-) TimerEvent: {}
+[62.375983] (-) TimerEvent: {}
+[62.476259] (-) TimerEvent: {}
+[62.576510] (-) TimerEvent: {}
+[62.676766] (-) TimerEvent: {}
+[62.777008] (-) TimerEvent: {}
+[62.877307] (-) TimerEvent: {}
+[62.977600] (-) TimerEvent: {}
+[63.077847] (-) TimerEvent: {}
+[63.178123] (-) TimerEvent: {}
+[63.278442] (-) TimerEvent: {}
+[63.378747] (-) TimerEvent: {}
+[63.479024] (-) TimerEvent: {}
+[63.579322] (-) TimerEvent: {}
+[63.679578] (-) TimerEvent: {}
+[63.779860] (-) TimerEvent: {}
+[63.880145] (-) TimerEvent: {}
+[63.980427] (-) TimerEvent: {}
+[64.080712] (-) TimerEvent: {}
+[64.180995] (-) TimerEvent: {}
+[64.281338] (-) TimerEvent: {}
+[64.381620] (-) TimerEvent: {}
+[64.481936] (-) TimerEvent: {}
+[64.582237] (-) TimerEvent: {}
+[64.682541] (-) TimerEvent: {}
+[64.782842] (-) TimerEvent: {}
+[64.883122] (-) TimerEvent: {}
+[64.983411] (-) TimerEvent: {}
+[65.083689] (-) TimerEvent: {}
+[65.183937] (-) TimerEvent: {}
+[65.284269] (-) TimerEvent: {}
+[65.384547] (-) TimerEvent: {}
+[65.484864] (-) TimerEvent: {}
+[65.585199] (-) TimerEvent: {}
+[65.685562] (-) TimerEvent: {}
+[65.785847] (-) TimerEvent: {}
+[65.886116] (-) TimerEvent: {}
+[65.986399] (-) TimerEvent: {}
+[66.086699] (-) TimerEvent: {}
+[66.186928] (-) TimerEvent: {}
+[66.287186] (-) TimerEvent: {}
+[66.387447] (-) TimerEvent: {}
+[66.487744] (-) TimerEvent: {}
+[66.588039] (-) TimerEvent: {}
+[66.688329] (-) TimerEvent: {}
+[66.788644] (-) TimerEvent: {}
+[66.888959] (-) TimerEvent: {}
+[66.905105] (scanmatcher) StdoutLine: {'line': b'[ 50%] \x1b[32m\x1b[1mLinking CXX shared library libscanmatcher_component.so\x1b[0m\n'}
+[66.989079] (-) TimerEvent: {}
+[67.089411] (-) TimerEvent: {}
+[67.189726] (-) TimerEvent: {}
+[67.290036] (-) TimerEvent: {}
+[67.390408] (-) TimerEvent: {}
+[67.490728] (-) TimerEvent: {}
+[67.591034] (-) TimerEvent: {}
+[67.691310] (-) TimerEvent: {}
+[67.791614] (-) TimerEvent: {}
+[67.891889] (-) TimerEvent: {}
+[67.902405] (scanmatcher) StdoutLine: {'line': b'[ 50%] Built target scanmatcher_component\n'}
+[67.920789] (scanmatcher) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target scanmatcher_node\x1b[0m\n'}
+[67.957190] (scanmatcher) StdoutLine: {'line': b'[ 75%] \x1b[32m\x1b[1mLinking CXX executable scanmatcher_node\x1b[0m\n'}
+[67.992007] (-) TimerEvent: {}
+[68.092299] (-) TimerEvent: {}
+[68.192585] (-) TimerEvent: {}
+[68.292860] (-) TimerEvent: {}
+[68.393120] (-) TimerEvent: {}
+[68.493396] (-) TimerEvent: {}
+[68.593691] (-) TimerEvent: {}
+[68.629364] (scanmatcher) StdoutLine: {'line': b'[100%] Built target scanmatcher_node\n'}
+[68.639146] (scanmatcher) CommandEnded: {'returncode': 0}
+[68.666930] (scanmatcher) JobProgress: {'identifier': 'scanmatcher', 'progress': 'install'}
+[68.667479] (scanmatcher) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/src/build/scanmatcher'], 'cwd': '/home/hazem/ros2_ws/src/build/scanmatcher', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/scanmatcher'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[68.675505] (scanmatcher) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[68.675767] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/library_path.sh\n'}
+[68.676376] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/library_path.dsv\n'}
+[68.677119] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include\n'}
+[68.677215] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher\n'}
+[68.677368] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher/lidar_undistortion.hpp\n'}
+[68.677647] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/include/scanmatcher/scanmatcher_component.h\n'}
+[68.677927] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch\n'}
+[68.678049] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch/mapping_robot.launch.py\n'}
+[68.678135] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/launch/mapping_car.launch.py\n'}
+[68.678203] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param\n'}
+[68.678276] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param/mapping_robot.yaml\n'}
+[68.678333] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/param/mapping_car.yaml\n'}
+[68.678388] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/lib/libscanmatcher_component.so\n'}
+[68.693807] (-) TimerEvent: {}
+[68.767299] (scanmatcher) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/src/install/scanmatcher/lib/libscanmatcher_component.so" to ""\n'}
+[68.767465] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/lib/scanmatcher/scanmatcher_node\n'}
+[68.776149] (scanmatcher) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/src/install/scanmatcher/lib/scanmatcher/scanmatcher_node" to ""\n'}
+[68.776385] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/package_run_dependencies/scanmatcher\n'}
+[68.776958] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/parent_prefix_path/scanmatcher\n'}
+[68.777828] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.sh\n'}
+[68.778561] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/ament_prefix_path.dsv\n'}
+[68.779021] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/path.sh\n'}
+[68.779627] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/environment/path.dsv\n'}
+[68.780243] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.bash\n'}
+[68.780824] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.sh\n'}
+[68.781450] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.zsh\n'}
+[68.782222] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/local_setup.dsv\n'}
+[68.782780] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/package.dsv\n'}
+[68.783401] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/packages/scanmatcher\n'}
+[68.783507] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/ament_index/resource_index/rclcpp_components/scanmatcher\n'}
+[68.784012] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[68.784786] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[68.785330] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[68.785994] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig.cmake\n'}
+[68.786642] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake/scanmatcherConfig-version.cmake\n'}
+[68.787023] (scanmatcher) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/package.xml\n'}
+[68.788813] (scanmatcher) CommandEnded: {'returncode': 0}
+[68.794102] (-) TimerEvent: {}
+[68.894593] (-) TimerEvent: {}
+[68.940699] (scanmatcher) JobEnded: {'identifier': 'scanmatcher', 'rc': 0}
+[68.994731] (-) TimerEvent: {}
+[69.094969] (-) TimerEvent: {}
+[69.195211] (-) TimerEvent: {}
+[69.295473] (-) TimerEvent: {}
+[69.395791] (-) TimerEvent: {}
+[69.496232] (-) TimerEvent: {}
+[69.596478] (-) TimerEvent: {}
+[69.696719] (-) TimerEvent: {}
+[69.796983] (-) TimerEvent: {}
+[69.897212] (-) TimerEvent: {}
+[69.997487] (-) TimerEvent: {}
+[70.097714] (-) TimerEvent: {}
+[70.197944] (-) TimerEvent: {}
+[70.298163] (-) TimerEvent: {}
+[70.398400] (-) TimerEvent: {}
+[70.498634] (-) TimerEvent: {}
+[70.598874] (-) TimerEvent: {}
+[70.699093] (-) TimerEvent: {}
+[70.799323] (-) TimerEvent: {}
+[70.899554] (-) TimerEvent: {}
+[70.999806] (-) TimerEvent: {}
+[71.100056] (-) TimerEvent: {}
+[71.200317] (-) TimerEvent: {}
+[71.300604] (-) TimerEvent: {}
+[71.400838] (-) TimerEvent: {}
+[71.501083] (-) TimerEvent: {}
+[71.601368] (-) TimerEvent: {}
+[71.701620] (-) TimerEvent: {}
+[71.801862] (-) TimerEvent: {}
+[71.902105] (-) TimerEvent: {}
+[72.002346] (-) TimerEvent: {}
+[72.102585] (-) TimerEvent: {}
+[72.202818] (-) TimerEvent: {}
+[72.303091] (-) TimerEvent: {}
+[72.403324] (-) TimerEvent: {}
+[72.503588] (-) TimerEvent: {}
+[72.603814] (-) TimerEvent: {}
+[72.704069] (-) TimerEvent: {}
+[72.804301] (-) TimerEvent: {}
+[72.904541] (-) TimerEvent: {}
+[73.004778] (-) TimerEvent: {}
+[73.105027] (-) TimerEvent: {}
+[73.205330] (-) TimerEvent: {}
+[73.305599] (-) TimerEvent: {}
+[73.405878] (-) TimerEvent: {}
+[73.506155] (-) TimerEvent: {}
+[73.606427] (-) TimerEvent: {}
+[73.706698] (-) TimerEvent: {}
+[73.806997] (-) TimerEvent: {}
+[73.907288] (-) TimerEvent: {}
+[74.007563] (-) TimerEvent: {}
+[74.107833] (-) TimerEvent: {}
+[74.208096] (-) TimerEvent: {}
+[74.308354] (-) TimerEvent: {}
+[74.408633] (-) TimerEvent: {}
+[74.508887] (-) TimerEvent: {}
+[74.609158] (-) TimerEvent: {}
+[74.709389] (-) TimerEvent: {}
+[74.809651] (-) TimerEvent: {}
+[74.909923] (-) TimerEvent: {}
+[75.010214] (-) TimerEvent: {}
+[75.110512] (-) TimerEvent: {}
+[75.210776] (-) TimerEvent: {}
+[75.311036] (-) TimerEvent: {}
+[75.411293] (-) TimerEvent: {}
+[75.511538] (-) TimerEvent: {}
+[75.611790] (-) TimerEvent: {}
+[75.712041] (-) TimerEvent: {}
+[75.763086] (graph_based_slam) StdoutLine: {'line': b'[ 50%] \x1b[32m\x1b[1mLinking CXX shared library libgraph_based_slam_component.so\x1b[0m\n'}
+[75.812163] (-) TimerEvent: {}
+[75.912501] (-) TimerEvent: {}
+[76.012742] (-) TimerEvent: {}
+[76.113003] (-) TimerEvent: {}
+[76.213310] (-) TimerEvent: {}
+[76.313562] (-) TimerEvent: {}
+[76.413861] (-) TimerEvent: {}
+[76.514119] (-) TimerEvent: {}
+[76.614393] (-) TimerEvent: {}
+[76.714604] (-) TimerEvent: {}
+[76.800702] (graph_based_slam) StdoutLine: {'line': b'[ 50%] Built target graph_based_slam_component\n'}
+[76.814680] (-) TimerEvent: {}
+[76.819888] (graph_based_slam) StdoutLine: {'line': b'[ 75%] \x1b[32mBuilding CXX object CMakeFiles/graph_based_slam_node.dir/src/graph_based_slam_node.cpp.o\x1b[0m\n'}
+[76.914803] (-) TimerEvent: {}
+[77.015088] (-) TimerEvent: {}
+[77.115330] (-) TimerEvent: {}
+[77.215582] (-) TimerEvent: {}
+[77.315893] (-) TimerEvent: {}
+[77.416147] (-) TimerEvent: {}
+[77.516422] (-) TimerEvent: {}
+[77.616664] (-) TimerEvent: {}
+[77.716907] (-) TimerEvent: {}
+[77.817196] (-) TimerEvent: {}
+[77.917415] (-) TimerEvent: {}
+[78.017652] (-) TimerEvent: {}
+[78.117901] (-) TimerEvent: {}
+[78.218154] (-) TimerEvent: {}
+[78.318403] (-) TimerEvent: {}
+[78.418651] (-) TimerEvent: {}
+[78.518899] (-) TimerEvent: {}
+[78.619142] (-) TimerEvent: {}
+[78.719344] (-) TimerEvent: {}
+[78.819588] (-) TimerEvent: {}
+[78.919871] (-) TimerEvent: {}
+[79.020125] (-) TimerEvent: {}
+[79.120369] (-) TimerEvent: {}
+[79.220646] (-) TimerEvent: {}
+[79.320892] (-) TimerEvent: {}
+[79.421141] (-) TimerEvent: {}
+[79.521394] (-) TimerEvent: {}
+[79.621665] (-) TimerEvent: {}
+[79.721912] (-) TimerEvent: {}
+[79.822182] (-) TimerEvent: {}
+[79.922434] (-) TimerEvent: {}
+[80.022682] (-) TimerEvent: {}
+[80.122925] (-) TimerEvent: {}
+[80.223176] (-) TimerEvent: {}
+[80.323422] (-) TimerEvent: {}
+[80.423671] (-) TimerEvent: {}
+[80.523921] (-) TimerEvent: {}
+[80.624197] (-) TimerEvent: {}
+[80.724470] (-) TimerEvent: {}
+[80.824747] (-) TimerEvent: {}
+[80.925034] (-) TimerEvent: {}
+[81.025353] (-) TimerEvent: {}
+[81.125594] (-) TimerEvent: {}
+[81.225877] (-) TimerEvent: {}
+[81.326124] (-) TimerEvent: {}
+[81.426366] (-) TimerEvent: {}
+[81.526611] (-) TimerEvent: {}
+[81.626853] (-) TimerEvent: {}
+[81.727097] (-) TimerEvent: {}
+[81.827334] (-) TimerEvent: {}
+[81.927572] (-) TimerEvent: {}
+[82.027814] (-) TimerEvent: {}
+[82.128051] (-) TimerEvent: {}
+[82.228299] (-) TimerEvent: {}
+[82.328535] (-) TimerEvent: {}
+[82.428803] (-) TimerEvent: {}
+[82.529034] (-) TimerEvent: {}
+[82.629313] (-) TimerEvent: {}
+[82.729539] (-) TimerEvent: {}
+[82.829786] (-) TimerEvent: {}
+[82.930062] (-) TimerEvent: {}
+[83.030295] (-) TimerEvent: {}
+[83.130533] (-) TimerEvent: {}
+[83.230795] (-) TimerEvent: {}
+[83.331055] (-) TimerEvent: {}
+[83.431266] (-) TimerEvent: {}
+[83.531491] (-) TimerEvent: {}
+[83.631750] (-) TimerEvent: {}
+[83.732018] (-) TimerEvent: {}
+[83.832292] (-) TimerEvent: {}
+[83.932536] (-) TimerEvent: {}
+[84.032750] (-) TimerEvent: {}
+[84.133047] (-) TimerEvent: {}
+[84.233317] (-) TimerEvent: {}
+[84.333566] (-) TimerEvent: {}
+[84.433787] (-) TimerEvent: {}
+[84.534007] (-) TimerEvent: {}
+[84.634251] (-) TimerEvent: {}
+[84.734482] (-) TimerEvent: {}
+[84.834728] (-) TimerEvent: {}
+[84.934999] (-) TimerEvent: {}
+[85.035271] (-) TimerEvent: {}
+[85.135542] (-) TimerEvent: {}
+[85.235812] (-) TimerEvent: {}
+[85.336078] (-) TimerEvent: {}
+[85.436350] (-) TimerEvent: {}
+[85.536603] (-) TimerEvent: {}
+[85.636855] (-) TimerEvent: {}
+[85.737125] (-) TimerEvent: {}
+[85.837340] (-) TimerEvent: {}
+[85.937610] (-) TimerEvent: {}
+[86.037880] (-) TimerEvent: {}
+[86.138137] (-) TimerEvent: {}
+[86.238391] (-) TimerEvent: {}
+[86.338661] (-) TimerEvent: {}
+[86.438932] (-) TimerEvent: {}
+[86.539186] (-) TimerEvent: {}
+[86.639441] (-) TimerEvent: {}
+[86.739714] (-) TimerEvent: {}
+[86.839992] (-) TimerEvent: {}
+[86.940244] (-) TimerEvent: {}
+[87.040515] (-) TimerEvent: {}
+[87.140767] (-) TimerEvent: {}
+[87.241044] (-) TimerEvent: {}
+[87.341314] (-) TimerEvent: {}
+[87.441591] (-) TimerEvent: {}
+[87.541842] (-) TimerEvent: {}
+[87.642101] (-) TimerEvent: {}
+[87.742457] (-) TimerEvent: {}
+[87.842702] (-) TimerEvent: {}
+[87.942969] (-) TimerEvent: {}
+[88.043225] (-) TimerEvent: {}
+[88.143498] (-) TimerEvent: {}
+[88.243752] (-) TimerEvent: {}
+[88.344019] (-) TimerEvent: {}
+[88.444271] (-) TimerEvent: {}
+[88.544538] (-) TimerEvent: {}
+[88.644816] (-) TimerEvent: {}
+[88.745068] (-) TimerEvent: {}
+[88.845355] (-) TimerEvent: {}
+[88.945613] (-) TimerEvent: {}
+[89.045862] (-) TimerEvent: {}
+[89.146132] (-) TimerEvent: {}
+[89.246398] (-) TimerEvent: {}
+[89.346646] (-) TimerEvent: {}
+[89.446910] (-) TimerEvent: {}
+[89.547173] (-) TimerEvent: {}
+[89.647413] (-) TimerEvent: {}
+[89.747671] (-) TimerEvent: {}
+[89.847908] (-) TimerEvent: {}
+[89.948160] (-) TimerEvent: {}
+[90.048398] (-) TimerEvent: {}
+[90.148654] (-) TimerEvent: {}
+[90.248897] (-) TimerEvent: {}
+[90.349109] (-) TimerEvent: {}
+[90.449375] (-) TimerEvent: {}
+[90.549640] (-) TimerEvent: {}
+[90.649901] (-) TimerEvent: {}
+[90.750156] (-) TimerEvent: {}
+[90.850408] (-) TimerEvent: {}
+[90.950659] (-) TimerEvent: {}
+[91.050958] (-) TimerEvent: {}
+[91.151259] (-) TimerEvent: {}
+[91.251545] (-) TimerEvent: {}
+[91.351833] (-) TimerEvent: {}
+[91.452111] (-) TimerEvent: {}
+[91.552403] (-) TimerEvent: {}
+[91.652694] (-) TimerEvent: {}
+[91.753007] (-) TimerEvent: {}
+[91.853357] (-) TimerEvent: {}
+[91.953638] (-) TimerEvent: {}
+[92.053899] (-) TimerEvent: {}
+[92.154148] (-) TimerEvent: {}
+[92.254401] (-) TimerEvent: {}
+[92.354632] (-) TimerEvent: {}
+[92.454893] (-) TimerEvent: {}
+[92.555267] (-) TimerEvent: {}
+[92.655538] (-) TimerEvent: {}
+[92.755797] (-) TimerEvent: {}
+[92.856045] (-) TimerEvent: {}
+[92.956266] (-) TimerEvent: {}
+[93.056511] (-) TimerEvent: {}
+[93.117851] (graph_based_slam) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable graph_based_slam_node\x1b[0m\n'}
+[93.156631] (-) TimerEvent: {}
+[93.256896] (-) TimerEvent: {}
+[93.357152] (-) TimerEvent: {}
+[93.457365] (-) TimerEvent: {}
+[93.557619] (-) TimerEvent: {}
+[93.657872] (-) TimerEvent: {}
+[93.758150] (-) TimerEvent: {}
+[93.858443] (-) TimerEvent: {}
+[93.939944] (graph_based_slam) StdoutLine: {'line': b'[100%] Built target graph_based_slam_node\n'}
+[93.949727] (graph_based_slam) CommandEnded: {'returncode': 0}
+[93.958551] (-) TimerEvent: {}
+[93.976802] (graph_based_slam) JobProgress: {'identifier': 'graph_based_slam', 'progress': 'install'}
+[93.977413] (graph_based_slam) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/src/build/graph_based_slam'], 'cwd': '/home/hazem/ros2_ws/src/build/graph_based_slam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/graph_based_slam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[93.984651] (graph_based_slam) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[93.984927] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.sh\n'}
+[93.985125] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.dsv\n'}
+[93.985444] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include\n'}
+[93.985559] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam\n'}
+[93.985625] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h\n'}
+[93.985759] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch\n'}
+[93.985932] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch/graphbasedslam.launch.py\n'}
+[93.985999] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param\n'}
+[93.986162] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param/graphbasedslam.yaml\n'}
+[93.986252] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so\n'}
+[94.058669] (-) TimerEvent: {}
+[94.078718] (graph_based_slam) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so" to ""\n'}
+[94.078958] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node\n'}
+[94.097231] (graph_based_slam) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node" to ""\n'}
+[94.097469] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/package_run_dependencies/graph_based_slam\n'}
+[94.097954] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/parent_prefix_path/graph_based_slam\n'}
+[94.098379] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.sh\n'}
+[94.098557] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.dsv\n'}
+[94.098785] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.sh\n'}
+[94.098936] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.dsv\n'}
+[94.099099] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.bash\n'}
+[94.099274] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.sh\n'}
+[94.099514] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.zsh\n'}
+[94.099794] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.dsv\n'}
+[94.100029] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.dsv\n'}
+[94.100305] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/packages/graph_based_slam\n'}
+[94.100461] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/rclcpp_components/graph_based_slam\n'}
+[94.100648] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[94.100913] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[94.101127] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig.cmake\n'}
+[94.101401] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig-version.cmake\n'}
+[94.101600] (graph_based_slam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.xml\n'}
+[94.103194] (graph_based_slam) CommandEnded: {'returncode': 0}
+[94.158740] (-) TimerEvent: {}
+[94.253692] (graph_based_slam) JobEnded: {'identifier': 'graph_based_slam', 'rc': 0}
+[94.254555] (lidarslam) JobStarted: {'identifier': 'lidarslam'}
+[94.258840] (-) TimerEvent: {}
+[94.315788] (lidarslam) JobProgress: {'identifier': 'lidarslam', 'progress': 'cmake'}
+[94.316459] (lidarslam) Command: {'cmd': ['/usr/bin/cmake', '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam', '-DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/lidarslam'], 'cwd': '/home/hazem/ros2_ws/src/build/lidarslam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/lidarslam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[94.359057] (-) TimerEvent: {}
+[94.436958] (lidarslam) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[94.459119] (-) TimerEvent: {}
+[94.490927] (lidarslam) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[94.503973] (lidarslam) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[94.559327] (-) TimerEvent: {}
+[94.569549] (lidarslam) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[94.576098] (lidarslam) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[94.576469] (lidarslam) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[94.576909] (lidarslam) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[94.579846] (lidarslam) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[94.659415] (-) TimerEvent: {}
+[94.664477] (lidarslam) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[94.671633] (lidarslam) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[94.672011] (lidarslam) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[94.672606] (lidarslam) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[94.676392] (lidarslam) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[94.759494] (-) TimerEvent: {}
+[94.831327] (lidarslam) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[94.859572] (-) TimerEvent: {}
+[94.926753] (lidarslam) StdoutLine: {'line': b'-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[94.959676] (-) TimerEvent: {}
+[94.981114] (lidarslam) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[94.988349] (lidarslam) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[94.999363] (lidarslam) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[95.016201] (lidarslam) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[95.038536] (lidarslam) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[95.059776] (-) TimerEvent: {}
+[95.118300] (lidarslam) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[95.124574] (lidarslam) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[95.159882] (-) TimerEvent: {}
+[95.228548] (lidarslam) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[95.255437] (lidarslam) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[95.259987] (-) TimerEvent: {}
+[95.297697] (lidarslam) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[95.310145] (lidarslam) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[95.360114] (-) TimerEvent: {}
+[95.373666] (lidarslam) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[95.374137] (lidarslam) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[95.441813] (lidarslam) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[95.442886] (lidarslam) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[95.460182] (-) TimerEvent: {}
+[95.560386] (-) TimerEvent: {}
+[95.605020] (lidarslam) StdoutLine: {'line': b'-- Found scanmatcher: 0.0.0 (/home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake)\n'}
+[95.660465] (-) TimerEvent: {}
+[95.760682] (-) TimerEvent: {}
+[95.860909] (-) TimerEvent: {}
+[95.961126] (-) TimerEvent: {}
+[96.029152] (lidarslam) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[96.030450] (lidarslam) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[96.030647] (lidarslam) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[96.061188] (-) TimerEvent: {}
+[96.161463] (-) TimerEvent: {}
+[96.261681] (-) TimerEvent: {}
+[96.361895] (-) TimerEvent: {}
+[96.462144] (-) TimerEvent: {}
+[96.562409] (-) TimerEvent: {}
+[96.662636] (-) TimerEvent: {}
+[96.706972] (lidarslam) StdoutLine: {'line': b'-- Found graph_based_slam: 0.0.0 (/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake)\n'}
+[96.711194] (lidarslam) StdoutLine: {'line': b'-- Found std_srvs: 4.2.3 (/opt/ros/humble/share/std_srvs/cmake)\n'}
+[96.741163] (lidarslam) StdoutLine: {'line': b"-- Checking for module 'eigen3'\n"}
+[96.752760] (lidarslam) StdoutLine: {'line': b'--   Found eigen3, version 3.4.0\n'}
+[96.762736] (-) TimerEvent: {}
+[96.781431] (lidarslam) StdoutLine: {'line': b'-- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") \n'}
+[96.781591] (lidarslam) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[96.805671] (lidarslam) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization \n'}
+[96.819743] (lidarslam) StdoutLine: {'line': b"-- Checking for module 'flann'\n"}
+[96.831985] (lidarslam) StdoutLine: {'line': b'--   Found flann, version 1.9.1\n'}
+[96.862855] (-) TimerEvent: {}
+[96.865773] (lidarslam) StdoutLine: {'line': b'-- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  \n'}
+[96.866004] (lidarslam) StdoutLine: {'line': b'-- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)\n'}
+[96.899255] (lidarslam) StdoutLine: {'line': b'-- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  \n'}
+[96.904073] (lidarslam) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX \n'}
+[96.962975] (-) TimerEvent: {}
+[97.039571] (lidarslam) StdoutLine: {'line': b'-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") \n'}
+[97.039825] (lidarslam) StdoutLine: {'line': b'-- Found MPI: TRUE (found version "3.1") found components: C \n'}
+[97.042231] (lidarslam) StdoutLine: {'line': b'-- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") \n'}
+[97.050899] (lidarslam) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") \n'}
+[97.063078] (-) TimerEvent: {}
+[97.066842] (lidarslam) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") \n'}
+[97.086230] (lidarslam) StdoutLine: {'line': b'-- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") \n'}
+[97.163204] (-) TimerEvent: {}
+[97.164974] (lidarslam) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[97.165395] (lidarslam) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[97.229377] (lidarslam) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[97.229697] (lidarslam) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[97.263324] (-) TimerEvent: {}
+[97.291348] (lidarslam) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[97.291564] (lidarslam) StdoutLine: {'line': b'-- Looking for connect\n'}
+[97.358648] (lidarslam) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[97.358894] (lidarslam) StdoutLine: {'line': b'-- Looking for remove\n'}
+[97.363420] (-) TimerEvent: {}
+[97.425603] (lidarslam) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[97.425858] (lidarslam) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[97.463553] (-) TimerEvent: {}
+[97.500551] (lidarslam) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[97.500811] (lidarslam) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[97.563681] (-) TimerEvent: {}
+[97.588802] (lidarslam) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[97.663798] (-) TimerEvent: {}
+[97.664267] (lidarslam) StdoutLine: {'line': b'-- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") \n'}
+[97.665972] (lidarslam) StdoutLine: {'line': b'-- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  \n'}
+[97.668079] (lidarslam) StdoutLine: {'line': b'-- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") \n'}
+[97.669697] (lidarslam) StdoutLine: {'line': b'-- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") \n'}
+[97.680190] (lidarslam) StdoutLine: {'line': b'-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") \n'}
+[97.684309] (lidarslam) StdoutLine: {'line': b'-- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  \n'}
+[97.688380] (lidarslam) StdoutLine: {'line': b'-- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") \n'}
+[97.693620] (lidarslam) StdoutLine: {'line': b'-- Found utf8cpp: /usr/include/utf8cpp  \n'}
+[97.763910] (-) TimerEvent: {}
+[97.766635] (lidarslam) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[97.779657] (lidarslam) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.25\n'}
+[97.812269] (lidarslam) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[97.813280] (lidarslam) StdoutLine: {'line': b'-- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") \n'}
+[97.813387] (lidarslam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[97.863996] (-) TimerEvent: {}
+[97.865002] (lidarslam) StdoutLine: {'line': b'-- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") \n'}
+[97.865127] (lidarslam) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[97.865274] (lidarslam) StderrLine: {'line': b'\x1b[0m** WARNING ** io features related to pcap will be disabled\x1b[0m\n'}
+[97.964104] (-) TimerEvent: {}
+[97.998172] (lidarslam) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[98.003552] (lidarslam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[98.008862] (lidarslam) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[98.064204] (-) TimerEvent: {}
+[98.145502] (lidarslam) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[98.164310] (-) TimerEvent: {}
+[98.264528] (-) TimerEvent: {}
+[98.281338] (lidarslam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[98.364603] (-) TimerEvent: {}
+[98.404500] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_COMMON\n'}
+[98.405102] (lidarslam) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[98.405328] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_KDTREE\n'}
+[98.405896] (lidarslam) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[98.406147] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_OCTREE\n'}
+[98.406652] (lidarslam) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[98.406866] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_SEARCH\n'}
+[98.407447] (lidarslam) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[98.407641] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_SAMPLE_CONSENSUS\n'}
+[98.408325] (lidarslam) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[98.408579] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_FILTERS\n'}
+[98.409408] (lidarslam) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[98.409602] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_2D\n'}
+[98.409809] (lidarslam) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.12  \n'}
+[98.409991] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_GEOMETRY\n'}
+[98.410186] (lidarslam) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.12  \n'}
+[98.410377] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_IO\n'}
+[98.410905] (lidarslam) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[98.411121] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_FEATURES\n'}
+[98.411679] (lidarslam) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[98.411871] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_ML\n'}
+[98.413352] (lidarslam) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[98.413537] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_SEGMENTATION\n'}
+[98.414150] (lidarslam) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[98.414378] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_VISUALIZATION\n'}
+[98.414930] (lidarslam) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[98.415148] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_SURFACE\n'}
+[98.415718] (lidarslam) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[98.416053] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_REGISTRATION\n'}
+[98.416639] (lidarslam) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[98.416853] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_KEYPOINTS\n'}
+[98.417746] (lidarslam) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[98.417987] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_TRACKING\n'}
+[98.419471] (lidarslam) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[98.419840] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_RECOGNITION\n'}
+[98.420825] (lidarslam) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[98.421077] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_STEREO\n'}
+[98.421860] (lidarslam) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[98.422023] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_APPS\n'}
+[98.422616] (lidarslam) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[98.423087] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_IN_HAND_SCANNER\n'}
+[98.423313] (lidarslam) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  \n'}
+[98.423453] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_MODELER\n'}
+[98.423688] (lidarslam) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.12  \n'}
+[98.423828] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_POINT_CLOUD_EDITOR\n'}
+[98.424322] (lidarslam) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  \n'}
+[98.424479] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_OUTOFCORE\n'}
+[98.425070] (lidarslam) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[98.425439] (lidarslam) StdoutLine: {'line': b'-- looking for PCL_PEOPLE\n'}
+[98.426068] (lidarslam) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[98.426724] (lidarslam) StdoutLine: {'line': b'-- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  \n'}
+[98.464719] (-) TimerEvent: {}
+[98.564998] (-) TimerEvent: {}
+[98.656210] (lidarslam) StdoutLine: {'line': b'-- Found OpenMP_C: -fopenmp (found version "4.5") \n'}
+[98.665113] (-) TimerEvent: {}
+[98.733494] (lidarslam) StdoutLine: {'line': b'-- Found OpenMP_CXX: -fopenmp (found version "4.5") \n'}
+[98.733726] (lidarslam) StdoutLine: {'line': b'-- Found OpenMP: TRUE (found version "4.5")  \n'}
+[98.738217] (lidarslam) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[98.739932] (lidarslam) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   \n'}
+[98.746538] (lidarslam) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[98.765220] (-) TimerEvent: {}
+[98.865438] (-) TimerEvent: {}
+[98.965684] (-) TimerEvent: {}
+[99.065931] (-) TimerEvent: {}
+[99.166181] (-) TimerEvent: {}
+[99.266427] (-) TimerEvent: {}
+[99.337003] (lidarslam) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[99.338727] (lidarslam) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[99.339102] (lidarslam) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam/include\n'}
+[99.339218] (lidarslam) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[99.340574] (lidarslam) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[99.340690] (lidarslam) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[99.341389] (lidarslam) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[99.342263] (lidarslam) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[99.343015] (lidarslam) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[99.344470] (lidarslam) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[99.344584] (lidarslam) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[99.345238] (lidarslam) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[99.346736] (lidarslam) StdoutLine: {'line': b'-- Configuring done\n'}
+[99.366503] (-) TimerEvent: {}
+[99.423298] (lidarslam) StdoutLine: {'line': b'-- Generating done\n'}
+[99.426443] (lidarslam) StdoutLine: {'line': b'-- Build files have been written to: /home/hazem/ros2_ws/src/build/lidarslam\n'}
+[99.440774] (lidarslam) CommandEnded: {'returncode': 0}
+[99.441794] (lidarslam) JobProgress: {'identifier': 'lidarslam', 'progress': 'build'}
+[99.442754] (lidarslam) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/src/build/lidarslam', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/src/build/lidarslam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/lidarslam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[99.466620] (-) TimerEvent: {}
+[99.490799] (lidarslam) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam.dir/src/lidarslam.cpp.o\x1b[0m\n'}
+[99.566735] (-) TimerEvent: {}
+[99.666989] (-) TimerEvent: {}
+[99.767258] (-) TimerEvent: {}
+[99.867511] (-) TimerEvent: {}
+[99.967764] (-) TimerEvent: {}
+[100.068021] (-) TimerEvent: {}
+[100.168279] (-) TimerEvent: {}
+[100.268533] (-) TimerEvent: {}
+[100.368781] (-) TimerEvent: {}
+[100.469032] (-) TimerEvent: {}
+[100.569294] (-) TimerEvent: {}
+[100.669546] (-) TimerEvent: {}
+[100.769792] (-) TimerEvent: {}
+[100.870043] (-) TimerEvent: {}
+[100.970264] (-) TimerEvent: {}
+[101.070501] (-) TimerEvent: {}
+[101.170752] (-) TimerEvent: {}
+[101.271022] (-) TimerEvent: {}
+[101.371269] (-) TimerEvent: {}
+[101.471539] (-) TimerEvent: {}
+[101.571837] (-) TimerEvent: {}
+[101.672075] (-) TimerEvent: {}
+[101.772324] (-) TimerEvent: {}
+[101.872576] (-) TimerEvent: {}
+[101.972878] (-) TimerEvent: {}
+[102.073125] (-) TimerEvent: {}
+[102.173359] (-) TimerEvent: {}
+[102.273626] (-) TimerEvent: {}
+[102.373885] (-) TimerEvent: {}
+[102.474146] (-) TimerEvent: {}
+[102.574419] (-) TimerEvent: {}
+[102.674689] (-) TimerEvent: {}
+[102.774961] (-) TimerEvent: {}
+[102.875203] (-) TimerEvent: {}
+[102.975461] (-) TimerEvent: {}
+[103.075710] (-) TimerEvent: {}
+[103.175962] (-) TimerEvent: {}
+[103.276216] (-) TimerEvent: {}
+[103.376468] (-) TimerEvent: {}
+[103.476758] (-) TimerEvent: {}
+[103.577041] (-) TimerEvent: {}
+[103.677309] (-) TimerEvent: {}
+[103.777521] (-) TimerEvent: {}
+[103.877786] (-) TimerEvent: {}
+[103.978042] (-) TimerEvent: {}
+[104.078286] (-) TimerEvent: {}
+[104.178536] (-) TimerEvent: {}
+[104.278769] (-) TimerEvent: {}
+[104.379001] (-) TimerEvent: {}
+[104.479257] (-) TimerEvent: {}
+[104.579534] (-) TimerEvent: {}
+[104.679773] (-) TimerEvent: {}
+[104.780014] (-) TimerEvent: {}
+[104.880261] (-) TimerEvent: {}
+[104.980523] (-) TimerEvent: {}
+[105.080752] (-) TimerEvent: {}
+[105.180978] (-) TimerEvent: {}
+[105.281293] (-) TimerEvent: {}
+[105.381486] (-) TimerEvent: {}
+[105.481754] (-) TimerEvent: {}
+[105.582047] (-) TimerEvent: {}
+[105.682282] (-) TimerEvent: {}
+[105.782516] (-) TimerEvent: {}
+[105.882752] (-) TimerEvent: {}
+[105.982992] (-) TimerEvent: {}
+[106.083267] (-) TimerEvent: {}
+[106.183494] (-) TimerEvent: {}
+[106.283724] (-) TimerEvent: {}
+[106.383976] (-) TimerEvent: {}
+[106.484243] (-) TimerEvent: {}
+[106.584495] (-) TimerEvent: {}
+[106.684690] (-) TimerEvent: {}
+[106.784978] (-) TimerEvent: {}
+[106.885302] (-) TimerEvent: {}
+[106.985558] (-) TimerEvent: {}
+[107.085822] (-) TimerEvent: {}
+[107.186113] (-) TimerEvent: {}
+[107.286396] (-) TimerEvent: {}
+[107.386674] (-) TimerEvent: {}
+[107.486962] (-) TimerEvent: {}
+[107.587215] (-) TimerEvent: {}
+[107.687481] (-) TimerEvent: {}
+[107.787753] (-) TimerEvent: {}
+[107.888006] (-) TimerEvent: {}
+[107.988222] (-) TimerEvent: {}
+[108.088469] (-) TimerEvent: {}
+[108.188726] (-) TimerEvent: {}
+[108.288985] (-) TimerEvent: {}
+[108.389289] (-) TimerEvent: {}
+[108.489603] (-) TimerEvent: {}
+[108.589892] (-) TimerEvent: {}
+[108.690206] (-) TimerEvent: {}
+[108.790452] (-) TimerEvent: {}
+[108.890759] (-) TimerEvent: {}
+[108.991081] (-) TimerEvent: {}
+[109.091340] (-) TimerEvent: {}
+[109.191629] (-) TimerEvent: {}
+[109.291857] (-) TimerEvent: {}
+[109.392099] (-) TimerEvent: {}
+[109.492338] (-) TimerEvent: {}
+[109.592579] (-) TimerEvent: {}
+[109.692859] (-) TimerEvent: {}
+[109.793115] (-) TimerEvent: {}
+[109.893389] (-) TimerEvent: {}
+[109.993656] (-) TimerEvent: {}
+[110.093918] (-) TimerEvent: {}
+[110.194183] (-) TimerEvent: {}
+[110.294470] (-) TimerEvent: {}
+[110.394868] (-) TimerEvent: {}
+[110.495116] (-) TimerEvent: {}
+[110.595359] (-) TimerEvent: {}
+[110.695601] (-) TimerEvent: {}
+[110.795884] (-) TimerEvent: {}
+[110.896123] (-) TimerEvent: {}
+[110.996385] (-) TimerEvent: {}
+[111.096648] (-) TimerEvent: {}
+[111.196885] (-) TimerEvent: {}
+[111.297159] (-) TimerEvent: {}
+[111.397428] (-) TimerEvent: {}
+[111.497717] (-) TimerEvent: {}
+[111.597953] (-) TimerEvent: {}
+[111.698210] (-) TimerEvent: {}
+[111.798521] (-) TimerEvent: {}
+[111.898777] (-) TimerEvent: {}
+[111.999027] (-) TimerEvent: {}
+[112.099298] (-) TimerEvent: {}
+[112.199533] (-) TimerEvent: {}
+[112.299892] (-) TimerEvent: {}
+[112.400167] (-) TimerEvent: {}
+[112.500434] (-) TimerEvent: {}
+[112.600721] (-) TimerEvent: {}
+[112.701010] (-) TimerEvent: {}
+[112.801359] (-) TimerEvent: {}
+[112.901653] (-) TimerEvent: {}
+[113.001955] (-) TimerEvent: {}
+[113.102243] (-) TimerEvent: {}
+[113.202555] (-) TimerEvent: {}
+[113.302867] (-) TimerEvent: {}
+[113.403163] (-) TimerEvent: {}
+[113.503457] (-) TimerEvent: {}
+[113.603751] (-) TimerEvent: {}
+[113.704045] (-) TimerEvent: {}
+[113.804340] (-) TimerEvent: {}
+[113.904636] (-) TimerEvent: {}
+[114.004939] (-) TimerEvent: {}
+[114.105220] (-) TimerEvent: {}
+[114.205578] (-) TimerEvent: {}
+[114.305851] (-) TimerEvent: {}
+[114.406141] (-) TimerEvent: {}
+[114.506394] (-) TimerEvent: {}
+[114.606679] (-) TimerEvent: {}
+[114.706965] (-) TimerEvent: {}
+[114.807243] (-) TimerEvent: {}
+[114.907494] (-) TimerEvent: {}
+[115.007746] (-) TimerEvent: {}
+[115.107990] (-) TimerEvent: {}
+[115.208237] (-) TimerEvent: {}
+[115.308495] (-) TimerEvent: {}
+[115.408761] (-) TimerEvent: {}
+[115.509017] (-) TimerEvent: {}
+[115.609288] (-) TimerEvent: {}
+[115.709533] (-) TimerEvent: {}
+[115.809790] (-) TimerEvent: {}
+[115.910029] (-) TimerEvent: {}
+[116.010267] (-) TimerEvent: {}
+[116.110699] (-) TimerEvent: {}
+[116.210970] (-) TimerEvent: {}
+[116.311203] (-) TimerEvent: {}
+[116.411452] (-) TimerEvent: {}
+[116.511682] (-) TimerEvent: {}
+[116.611936] (-) TimerEvent: {}
+[116.688034] (lidarslam) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable lidarslam\x1b[0m\n'}
+[116.712058] (-) TimerEvent: {}
+[116.812281] (-) TimerEvent: {}
+[116.912568] (-) TimerEvent: {}
+[117.012844] (-) TimerEvent: {}
+[117.113129] (-) TimerEvent: {}
+[117.213464] (-) TimerEvent: {}
+[117.313759] (-) TimerEvent: {}
+[117.414022] (-) TimerEvent: {}
+[117.514295] (-) TimerEvent: {}
+[117.614571] (-) TimerEvent: {}
+[117.618288] (lidarslam) StdoutLine: {'line': b'[100%] Built target lidarslam\n'}
+[117.628062] (lidarslam) CommandEnded: {'returncode': 0}
+[117.652276] (lidarslam) JobProgress: {'identifier': 'lidarslam', 'progress': 'install'}
+[117.653266] (lidarslam) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/src/build/lidarslam'], 'cwd': '/home/hazem/ros2_ws/src/build/lidarslam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('SYSTEMD_EXEC_PID', '2271'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/hazem/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1455,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1455'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/3d0c8494_0a26_4ba6_b90b_bc410f6a7ae0'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/src/build/lidarslam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[117.660515] (lidarslam) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[117.660752] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch\n'}
+[117.660893] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch/lidarslam_tukuba.launch.py\n'}
+[117.661038] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch/lidarslam.launch.py\n'}
+[117.661157] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param\n'}
+[117.661419] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param/lidarslam.yaml\n'}
+[117.661530] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param/lidarslam_tukuba.yaml\n'}
+[117.661644] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz\n'}
+[117.661731] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz/mapping_tukuba.rviz\n'}
+[117.661816] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz/mapping.rviz\n'}
+[117.661901] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/lib/lidarslam/lidarslam\n'}
+[117.675350] (lidarslam) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/src/install/lidarslam/lib/lidarslam/lidarslam" to ""\n'}
+[117.675504] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/package_run_dependencies/lidarslam\n'}
+[117.675607] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/parent_prefix_path/lidarslam\n'}
+[117.675758] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/ament_prefix_path.sh\n'}
+[117.675875] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/ament_prefix_path.dsv\n'}
+[117.675994] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/path.sh\n'}
+[117.676117] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/path.dsv\n'}
+[117.676233] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.bash\n'}
+[117.676326] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.sh\n'}
+[117.676445] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.zsh\n'}
+[117.676551] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.dsv\n'}
+[117.676659] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/package.dsv\n'}
+[117.676772] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/packages/lidarslam\n'}
+[117.676892] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/cmake/lidarslamConfig.cmake\n'}
+[117.677008] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/cmake/lidarslamConfig-version.cmake\n'}
+[117.677123] (lidarslam) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/package.xml\n'}
+[117.678865] (lidarslam) CommandEnded: {'returncode': 0}
+[117.715075] (-) TimerEvent: {}
+[117.798110] (lidarslam) JobEnded: {'identifier': 'lidarslam', 'rc': 0}
+[117.798964] (-) EventReactorShutdown: {}

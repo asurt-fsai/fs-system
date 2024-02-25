@@ -1,0 +1,39 @@
+[35m[1mConsolidate compiler generated dependencies of target graph_based_slam_component[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o[0m
+[ 50%] [32m[1mLinking CXX shared library libgraph_based_slam_component.so[0m
+[ 50%] Built target graph_based_slam_component
+[ 75%] [32mBuilding CXX object CMakeFiles/graph_based_slam_node.dir/src/graph_based_slam_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable graph_based_slam_node[0m
+[100%] Built target graph_based_slam_node
+-- Install configuration: ""
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch/graphbasedslam.launch.py
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param/graphbasedslam.yaml
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so
+-- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so" to ""
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node
+-- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node" to ""
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/package_run_dependencies/graph_based_slam
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/parent_prefix_path/graph_based_slam
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.sh
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.bash
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.sh
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.zsh
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.dsv
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/packages/graph_based_slam
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/rclcpp_components/graph_based_slam
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig-version.cmake
+-- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.xml

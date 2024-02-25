@@ -1,0 +1,44 @@
+[0m** WARNING ** io features related to pcap will be disabled[0m
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:[m[K In member function ‘[01m[Kvoid graphslam::GraphBasedSlamComponent::doPoseAdjustment(lidarslam_msgs::msg::MapArray, bool)[m[K’:
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kmake_unique[m[K’ is not a member of ‘[01m[Kg2o[m[K’
+  270 |     g2o::[01;31m[Kmake_unique[m[K<g2o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType>>();
+      |          [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:10:[m[K [01;36m[Knote: [m[Ksuggested alternatives:
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+                 from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h:42[m[K,
+                 from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+  973 |     [01;36m[Kmake_unique[m[K(_Args&&...) = delete;
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+  961 |     [01;36m[Kmake_unique[m[K(_Args&&... __args)
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:81:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+  270 | o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType[01;31m[K>>[m[K();
+      |                                                          [01;31m[K^~[m[K
+
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:84:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K)[m[K’ token
+  270 | o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType>>([01;31m[K)[m[K;
+      |                                                             [01;31m[K^[m[K
+
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kmake_unique[m[K’ is not a member of ‘[01m[Kg2o[m[K’
+  272 |     g2o::[01;31m[Kmake_unique[m[K<g2o::BlockSolver_6_3>(std::move(linear_solver)));
+      |          [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:10:[m[K [01;36m[Knote: [m[Ksuggested alternatives:
+In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+                 from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+                 from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h:42[m[K,
+                 from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:1[m[K:
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+  973 |     [01;36m[Kmake_unique[m[K(_Args&&...) = delete;
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+  961 |     [01;36m[Kmake_unique[m[K(_Args&&... __args)
+      |     [01;36m[K^~~~~~~~~~~[m[K
+[01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:42:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+  272 |     g2o::make_unique<g2o::BlockSolver_6_3[01;31m[K>[m[K(std::move(linear_solver)));
+      |                                          [01;31m[K^[m[K
+gmake[2]: *** [CMakeFiles/graph_based_slam_component.dir/build.make:76: CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:139: CMakeFiles/graph_based_slam_component.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

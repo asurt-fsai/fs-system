@@ -1,0 +1,1154 @@
+[0.000000] (-) TimerEvent: {}
+[0.000169] (lidarslam_msgs) JobQueued: {'identifier': 'lidarslam_msgs', 'dependencies': OrderedDict()}
+[0.000248] (ndt_omp_ros2) JobQueued: {'identifier': 'ndt_omp_ros2', 'dependencies': OrderedDict()}
+[0.000332] (graph_based_slam) JobQueued: {'identifier': 'graph_based_slam', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/install/ndt_omp_ros2')])}
+[0.000394] (scanmatcher) JobQueued: {'identifier': 'scanmatcher', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/install/ndt_omp_ros2')])}
+[0.000411] (lidarslam) JobQueued: {'identifier': 'lidarslam', 'dependencies': OrderedDict([('lidarslam_msgs', '/home/hazem/ros2_ws/install/lidarslam_msgs'), ('ndt_omp_ros2', '/home/hazem/ros2_ws/install/ndt_omp_ros2'), ('graph_based_slam', '/home/hazem/ros2_ws/install/graph_based_slam'), ('scanmatcher', '/home/hazem/ros2_ws/install/scanmatcher')])}
+[0.000442] (lidarslam_msgs) JobStarted: {'identifier': 'lidarslam_msgs'}
+[0.040559] (ndt_omp_ros2) JobStarted: {'identifier': 'ndt_omp_ros2'}
+[0.081625] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'cmake'}
+[0.081849] (lidarslam_msgs) Command: {'cmd': ['/usr/bin/cmake', '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs', '-DCMAKE_BUILD_TYPE=Release', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/lidarslam_msgs'], 'cwd': '/home/hazem/ros2_ws/build/lidarslam_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/lidarslam_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.084479] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'cmake'}
+[0.085076] (ndt_omp_ros2) Command: {'cmd': ['/usr/bin/cmake', '/home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2', '-DCMAKE_BUILD_TYPE=Release', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/ndt_omp_ros2'], 'cwd': '/home/hazem/ros2_ws/build/ndt_omp_ros2', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/ndt_omp_ros2'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.099398] (-) TimerEvent: {}
+[0.133813] (lidarslam_msgs) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.134116] (ndt_omp_ros2) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.179461] (ndt_omp_ros2) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.179725] (lidarslam_msgs) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.185645] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.185809] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.199525] (-) TimerEvent: {}
+[0.241571] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.241831] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.247959] (lidarslam_msgs) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.248182] (ndt_omp_ros2) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.248372] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.248499] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.248588] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.248859] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.251121] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.251343] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.299648] (-) TimerEvent: {}
+[0.316677] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.316933] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.323268] (ndt_omp_ros2) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.323543] (lidarslam_msgs) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.323623] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.323820] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.324041] (ndt_omp_ros2) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.324209] (lidarslam_msgs) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.327857] (lidarslam_msgs) StdoutLine: {'line': b'-- Found ament_cmake_auto: 1.3.7 (/opt/ros/humble/share/ament_cmake_auto/cmake)\n'}
+[0.329269] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.399764] (-) TimerEvent: {}
+[0.467206] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[0.467338] (lidarslam_msgs) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[0.499880] (-) TimerEvent: {}
+[0.517446] (lidarslam_msgs) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.517568] (ndt_omp_ros2) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.546223] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.585519] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.589338] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.596440] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.598013] (lidarslam_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.599976] (-) TimerEvent: {}
+[0.602911] (lidarslam_msgs) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.608332] (ndt_omp_ros2) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.624771] (ndt_omp_ros2) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.635355] (lidarslam_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.685593] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.687462] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.700079] (-) TimerEvent: {}
+[0.765336] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[0.786081] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[0.800181] (-) TimerEvent: {}
+[0.823284] (ndt_omp_ros2) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[0.830869] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.889568] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.890059] (ndt_omp_ros2) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.900295] (-) TimerEvent: {}
+[0.950391] (ndt_omp_ros2) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.951265] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[1.000396] (-) TimerEvent: {}
+[1.049731] (lidarslam_msgs) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[1.100513] (-) TimerEvent: {}
+[1.104843] (ndt_omp_ros2) StdoutLine: {'line': b"-- Checking for module 'eigen3'\n"}
+[1.115416] (ndt_omp_ros2) StdoutLine: {'line': b'--   Found eigen3, version 3.4.0\n'}
+[1.140997] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") \n'}
+[1.141125] (ndt_omp_ros2) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[1.159734] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization \n'}
+[1.172285] (ndt_omp_ros2) StdoutLine: {'line': b"-- Checking for module 'flann'\n"}
+[1.182885] (ndt_omp_ros2) StdoutLine: {'line': b'--   Found flann, version 1.9.1\n'}
+[1.200651] (-) TimerEvent: {}
+[1.212447] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  \n'}
+[1.212603] (ndt_omp_ros2) StdoutLine: {'line': b'-- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)\n'}
+[1.246157] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  \n'}
+[1.250325] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX \n'}
+[1.288757] (lidarslam_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.300705] (-) TimerEvent: {}
+[1.373387] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") \n'}
+[1.373669] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found MPI: TRUE (found version "3.1") found components: C \n'}
+[1.375601] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") \n'}
+[1.382649] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") \n'}
+[1.395739] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") \n'}
+[1.400754] (-) TimerEvent: {}
+[1.415843] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") \n'}
+[1.485219] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[1.485623] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[1.500872] (-) TimerEvent: {}
+[1.545637] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[1.545950] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[1.600956] (-) TimerEvent: {}
+[1.601660] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[1.601911] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for connect\n'}
+[1.603325] (lidarslam_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.622270] (lidarslam_msgs) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") \n'}
+[1.623386] (lidarslam_msgs) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[1.645832] (lidarslam_msgs) StdoutLine: {'line': b'-- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") \n'}
+[1.645971] (lidarslam_msgs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[1.646029] (lidarslam_msgs) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[1.646082] (lidarslam_msgs) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so\n'}
+[1.659469] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[1.659624] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for remove\n'}
+[1.663327] (lidarslam_msgs) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[1.701035] (-) TimerEvent: {}
+[1.715974] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[1.716105] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[1.728452] (lidarslam_msgs) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[1.749809] (lidarslam_msgs) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[1.751279] (lidarslam_msgs) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[1.752182] (lidarslam_msgs) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[1.755357] (lidarslam_msgs) StdoutLine: {'line': b'-- Configuring done\n'}
+[1.772956] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[1.773164] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[1.790025] (lidarslam_msgs) StdoutLine: {'line': b'-- Generating done\n'}
+[1.792399] (lidarslam_msgs) StdoutLine: {'line': b'-- Build files have been written to: /home/hazem/ros2_ws/build/lidarslam_msgs\n'}
+[1.800583] (lidarslam_msgs) CommandEnded: {'returncode': 0}
+[1.802012] (-) TimerEvent: {}
+[1.802163] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'build'}
+[1.802239] (lidarslam_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/build/lidarslam_msgs', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/build/lidarslam_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/lidarslam_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[1.831863] (ndt_omp_ros2) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[1.836952] (lidarslam_msgs) StdoutLine: {'line': b'[  2%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[1.843708] (lidarslam_msgs) StdoutLine: {'line': b'[  5%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[1.850994] (lidarslam_msgs) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_symlink_lidarslam_msgs\n'}
+[1.902120] (-) TimerEvent: {}
+[1.905538] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") \n'}
+[1.907113] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  \n'}
+[1.909313] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") \n'}
+[1.910868] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") \n'}
+[1.921789] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") \n'}
+[1.925994] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  \n'}
+[1.930230] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") \n'}
+[1.936143] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found utf8cpp: /usr/include/utf8cpp  \n'}
+[2.002261] (-) TimerEvent: {}
+[2.004884] (ndt_omp_ros2) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[2.016328] (ndt_omp_ros2) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.25\n'}
+[2.046228] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[2.047261] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") \n'}
+[2.047354] (ndt_omp_ros2) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.059220] (lidarslam_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[2.059859] (lidarslam_msgs) StdoutLine: {'line': b'creating lidarslam_msgs.egg-info\n'}
+[2.059979] (lidarslam_msgs) StdoutLine: {'line': b'writing lidarslam_msgs.egg-info/PKG-INFO\n'}
+[2.060134] (lidarslam_msgs) StdoutLine: {'line': b'writing dependency_links to lidarslam_msgs.egg-info/dependency_links.txt\n'}
+[2.060281] (lidarslam_msgs) StdoutLine: {'line': b'writing top-level names to lidarslam_msgs.egg-info/top_level.txt\n'}
+[2.060408] (lidarslam_msgs) StdoutLine: {'line': b"writing manifest file 'lidarslam_msgs.egg-info/SOURCES.txt'\n"}
+[2.062050] (lidarslam_msgs) StdoutLine: {'line': b"reading manifest file 'lidarslam_msgs.egg-info/SOURCES.txt'\n"}
+[2.062590] (lidarslam_msgs) StdoutLine: {'line': b"writing manifest file 'lidarslam_msgs.egg-info/SOURCES.txt'\n"}
+[2.087532] (lidarslam_msgs) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_build_lidarslam_msgs_egg\n'}
+[2.102380] (-) TimerEvent: {}
+[2.107338] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") \n'}
+[2.107601] (ndt_omp_ros2) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.107835] (ndt_omp_ros2) StderrLine: {'line': b'\x1b[0m** WARNING ** io features related to pcap will be disabled\x1b[0m\n'}
+[2.111892] (lidarslam_msgs) StdoutLine: {'line': b'[  5%] Built target lidarslam_msgs__cpp\n'}
+[2.121147] (lidarslam_msgs) StdoutLine: {'line': b'[  7%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[2.121432] (lidarslam_msgs) StdoutLine: {'line': b'[ 10%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[2.121703] (lidarslam_msgs) StdoutLine: {'line': b'[ 12%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[2.131085] (lidarslam_msgs) StdoutLine: {'line': b'[ 17%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_generator_c.dir/rosidl_generator_c/lidarslam_msgs/msg/detail/sub_map__functions.c.o\x1b[0m\n'}
+[2.131323] (lidarslam_msgs) StdoutLine: {'line': b'[ 17%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_generator_c.dir/rosidl_generator_c/lidarslam_msgs/msg/detail/map_array__functions.c.o\x1b[0m\n'}
+[2.202468] (-) TimerEvent: {}
+[2.249726] (lidarslam_msgs) StdoutLine: {'line': b'[ 20%] \x1b[32m\x1b[1mLinking C shared library liblidarslam_msgs__rosidl_generator_c.so\x1b[0m\n'}
+[2.266445] (ndt_omp_ros2) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[2.272991] (ndt_omp_ros2) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.279613] (ndt_omp_ros2) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[2.286744] (lidarslam_msgs) StdoutLine: {'line': b'[ 20%] Built target lidarslam_msgs__rosidl_generator_c\n'}
+[2.297634] (lidarslam_msgs) StdoutLine: {'line': b'[ 23%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[2.298056] (lidarslam_msgs) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[2.300643] (lidarslam_msgs) StdoutLine: {'line': b'[ 28%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[2.302538] (-) TimerEvent: {}
+[2.379084] (lidarslam_msgs) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/lidarslam_msgs/msg/sub_map__type_support.cpp.o\x1b[0m\n'}
+[2.382240] (lidarslam_msgs) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/lidarslam_msgs/msg/map_array__type_support.cpp.o\x1b[0m\n'}
+[2.402647] (-) TimerEvent: {}
+[2.422985] (lidarslam_msgs) StdoutLine: {'line': b'[ 35%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/lidarslam_msgs/msg/detail/sub_map__type_support.cpp.o\x1b[0m\n'}
+[2.423673] (lidarslam_msgs) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/lidarslam_msgs/msg/detail/map_array__type_support.cpp.o\x1b[0m\n'}
+[2.429777] (lidarslam_msgs) StdoutLine: {'line': b'[ 41%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/lidarslam_msgs/msg/detail/dds_fastrtps/sub_map__type_support.cpp.o\x1b[0m\n'}
+[2.430895] (lidarslam_msgs) StdoutLine: {'line': b'[ 43%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/lidarslam_msgs/msg/detail/dds_fastrtps/map_array__type_support.cpp.o\x1b[0m\n'}
+[2.453400] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[2.502754] (-) TimerEvent: {}
+[2.580332] (lidarslam_msgs) StdoutLine: {'line': b'[ 48%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/lidarslam_msgs/msg/sub_map__type_support.cpp.o\x1b[0m\n'}
+[2.580573] (lidarslam_msgs) StdoutLine: {'line': b'[ 48%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/lidarslam_msgs/msg/map_array__type_support.cpp.o\x1b[0m\n'}
+[2.602853] (-) TimerEvent: {}
+[2.618658] (ndt_omp_ros2) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[2.643133] (lidarslam_msgs) StdoutLine: {'line': b'[ 51%] \x1b[32m\x1b[1mLinking CXX shared library liblidarslam_msgs__rosidl_typesupport_c.so\x1b[0m\n'}
+[2.689812] (lidarslam_msgs) StdoutLine: {'line': b'[ 51%] Built target lidarslam_msgs__rosidl_typesupport_c\n'}
+[2.702965] (-) TimerEvent: {}
+[2.777668] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_COMMON\n'}
+[2.779365] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[2.779622] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_KDTREE\n'}
+[2.781394] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[2.781720] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_OCTREE\n'}
+[2.782982] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[2.783331] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_SEARCH\n'}
+[2.785282] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[2.785749] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_SAMPLE_CONSENSUS\n'}
+[2.787581] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[2.787865] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_FILTERS\n'}
+[2.789430] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[2.789962] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_2D\n'}
+[2.790418] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.12  \n'}
+[2.790783] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_GEOMETRY\n'}
+[2.791258] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.12  \n'}
+[2.791544] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_IO\n'}
+[2.793390] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[2.793966] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_FEATURES\n'}
+[2.795766] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[2.796444] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_ML\n'}
+[2.798145] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[2.798541] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_SEGMENTATION\n'}
+[2.800250] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[2.801078] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_VISUALIZATION\n'}
+[2.803051] (-) TimerEvent: {}
+[2.803383] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[2.803903] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_SURFACE\n'}
+[2.805448] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[2.805938] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_REGISTRATION\n'}
+[2.807439] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[2.807690] (lidarslam_msgs) StdoutLine: {'line': b'[ 53%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/lidarslam_msgs/msg/detail/sub_map__type_support.c.o\x1b[0m\n'}
+[2.807915] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_KEYPOINTS\n'}
+[2.809051] (lidarslam_msgs) StdoutLine: {'line': b'[ 56%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/lidarslam_msgs/msg/detail/map_array__type_support.c.o\x1b[0m\n'}
+[2.809744] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[2.810248] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_TRACKING\n'}
+[2.811980] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[2.812525] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_RECOGNITION\n'}
+[2.814693] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[2.815600] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_STEREO\n'}
+[2.817741] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[2.818400] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_APPS\n'}
+[2.820728] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[2.822402] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_IN_HAND_SCANNER\n'}
+[2.822974] (lidarslam_msgs) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/lidarslam_msgs/msg/detail/sub_map__type_support_c.cpp.o\x1b[0m\n'}
+[2.823141] (lidarslam_msgs) StdoutLine: {'line': b'[ 61%] \x1b[32mBuilding CXX object CMakeFiles/lidarslam_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/lidarslam_msgs/msg/detail/map_array__type_support_c.cpp.o\x1b[0m\n'}
+[2.823791] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  \n'}
+[2.824478] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_MODELER\n'}
+[2.825277] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.12  \n'}
+[2.825820] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_POINT_CLOUD_EDITOR\n'}
+[2.826840] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  \n'}
+[2.827430] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_OUTOFCORE\n'}
+[2.829652] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[2.830521] (ndt_omp_ros2) StdoutLine: {'line': b'-- looking for PCL_PEOPLE\n'}
+[2.831575] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[2.832774] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL (Required is at least version "1.12") \n'}
+[2.833179] (ndt_omp_ros2) StdoutLine: {'line': b'-- PCL_INCLUDE_DIRS:/usr/include/pcl-1.12/usr/include/eigen3/usr/include/usr/include/ni/usr/include/openni2\n'}
+[2.833425] (ndt_omp_ros2) StdoutLine: {'line': b'-- PCL_LIBRARY_DIRS:/usr/lib/x86_64-linux-gnu\n'}
+[2.833569] (ndt_omp_ros2) StdoutLine: {'line': b'-- PCL_DEFINITIONS:-DDISABLE_PCAP\n'}
+[2.883876] (lidarslam_msgs) StdoutLine: {'line': b'[ 64%] \x1b[32m\x1b[1mLinking CXX shared library liblidarslam_msgs__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[2.890356] (lidarslam_msgs) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking C shared library liblidarslam_msgs__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[2.903158] (-) TimerEvent: {}
+[2.927749] (lidarslam_msgs) StdoutLine: {'line': b'[ 66%] Built target lidarslam_msgs__rosidl_typesupport_cpp\n'}
+[2.940211] (lidarslam_msgs) StdoutLine: {'line': b'[ 66%] Built target lidarslam_msgs__rosidl_typesupport_introspection_c\n'}
+[3.003282] (-) TimerEvent: {}
+[3.100176] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenMP_C: -fopenmp (found version "4.5") \n'}
+[3.103370] (-) TimerEvent: {}
+[3.183124] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenMP_CXX: -fopenmp (found version "4.5") \n'}
+[3.183529] (ndt_omp_ros2) StdoutLine: {'line': b'-- Found OpenMP: TRUE (found version "4.5")  \n'}
+[3.203487] (-) TimerEvent: {}
+[3.252763] (ndt_omp_ros2) StdoutLine: {'line': b'-- Configuring done\n'}
+[3.254811] (lidarslam_msgs) StdoutLine: {'line': b'[ 69%] \x1b[32m\x1b[1mLinking CXX shared library liblidarslam_msgs__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[3.270803] (lidarslam_msgs) StdoutLine: {'line': b'[ 71%] \x1b[32m\x1b[1mLinking CXX shared library liblidarslam_msgs__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[3.299534] (ndt_omp_ros2) StdoutLine: {'line': b'-- Generating done\n'}
+[3.301896] (ndt_omp_ros2) StdoutLine: {'line': b'-- Build files have been written to: /home/hazem/ros2_ws/build/ndt_omp_ros2\n'}
+[3.303619] (-) TimerEvent: {}
+[3.320945] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] \x1b[32m\x1b[1mLinking CXX shared library liblidarslam_msgs__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[3.321761] (ndt_omp_ros2) CommandEnded: {'returncode': 0}
+[3.323649] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'build'}
+[3.323730] (ndt_omp_ros2) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/hazem/ros2_ws/build/ndt_omp_ros2', '--', '-j12', '-l12'], 'cwd': '/home/hazem/ros2_ws/build/ndt_omp_ros2', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/ndt_omp_ros2'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[3.326986] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[3.345207] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_c\n'}
+[3.368515] (ndt_omp_ros2) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/ndt_omp.dir/src/pclomp/voxel_grid_covariance_omp.cpp.o\x1b[0m\n'}
+[3.368776] (ndt_omp_ros2) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/ndt_omp.dir/src/pclomp/gicp_omp.cpp.o\x1b[0m\n'}
+[3.368907] (ndt_omp_ros2) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/ndt_omp.dir/src/pclomp/ndt_omp.cpp.o\x1b[0m\n'}
+[3.385785] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs__rosidl_typesupport_introspection_cpp\n'}
+[3.403125] (lidarslam_msgs) StdoutLine: {'line': b'[ 74%] Built target lidarslam_msgs\n'}
+[3.403686] (-) TimerEvent: {}
+[3.421150] (lidarslam_msgs) StdoutLine: {'line': b'[ 76%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[3.503786] (-) TimerEvent: {}
+[3.604048] (-) TimerEvent: {}
+[3.704299] (-) TimerEvent: {}
+[3.779655] (lidarslam_msgs) StdoutLine: {'line': b'[ 76%] Built target lidarslam_msgs__py\n'}
+[3.797867] (lidarslam_msgs) StdoutLine: {'line': b'[ 82%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_generator_py.dir/rosidl_generator_py/lidarslam_msgs/msg/_map_array_s.c.o\x1b[0m\n'}
+[3.798031] (lidarslam_msgs) StdoutLine: {'line': b'[ 82%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_generator_py.dir/rosidl_generator_py/lidarslam_msgs/msg/_sub_map_s.c.o\x1b[0m\n'}
+[3.804420] (-) TimerEvent: {}
+[3.904685] (-) TimerEvent: {}
+[3.939539] (lidarslam_msgs) StdoutLine: {'line': b'[ 84%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/lidarslam_msgs/liblidarslam_msgs__rosidl_generator_py.so\x1b[0m\n'}
+[3.977935] (lidarslam_msgs) StdoutLine: {'line': b'[ 84%] Built target lidarslam_msgs__rosidl_generator_py\n'}
+[3.998495] (lidarslam_msgs) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_introspection_c.c.o\x1b[0m\n'}
+[3.998798] (lidarslam_msgs) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_c.c.o\x1b[0m\n'}
+[3.998976] (lidarslam_msgs) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/lidarslam_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o\x1b[0m\n'}
+[4.004786] (-) TimerEvent: {}
+[4.105090] (-) TimerEvent: {}
+[4.147641] (lidarslam_msgs) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[4.147874] (lidarslam_msgs) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[4.148008] (lidarslam_msgs) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\x1b[0m\n'}
+[4.193163] (lidarslam_msgs) StdoutLine: {'line': b'[100%] Built target lidarslam_msgs__rosidl_typesupport_introspection_c__pyext\n'}
+[4.193446] (lidarslam_msgs) StdoutLine: {'line': b'[100%] Built target lidarslam_msgs__rosidl_typesupport_fastrtps_c__pyext\n'}
+[4.193588] (lidarslam_msgs) StdoutLine: {'line': b'[100%] Built target lidarslam_msgs__rosidl_typesupport_c__pyext\n'}
+[4.204355] (lidarslam_msgs) CommandEnded: {'returncode': 0}
+[4.205408] (-) TimerEvent: {}
+[4.273977] (lidarslam_msgs) JobProgress: {'identifier': 'lidarslam_msgs', 'progress': 'install'}
+[4.282593] (lidarslam_msgs) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/build/lidarslam_msgs'], 'cwd': '/home/hazem/ros2_ws/build/lidarslam_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/lidarslam_msgs'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[4.289260] (lidarslam_msgs) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[4.289721] (lidarslam_msgs) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[4.290001] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/ament_index/resource_index/rosidl_interfaces/lidarslam_msgs\n'}
+[4.298305] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__functions.h\n'}
+[4.305539] (-) TimerEvent: {}
+[4.306036] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__struct.h\n'}
+[4.313980] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__type_support.h\n'}
+[4.321561] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__functions.h\n'}
+[4.328988] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__struct.h\n'}
+[4.336814] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__type_support.h\n'}
+[4.344480] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/map_array.h\n'}
+[4.352309] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_generator_c__visibility_control.h\n'}
+[4.360195] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/sub_map.h\n'}
+[4.368279] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/library_path.sh\n'}
+[4.376094] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/library_path.dsv\n'}
+[4.383849] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_fastrtps_c.h\n'}
+[4.391612] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_fastrtps_c.h\n'}
+[4.399400] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[4.405641] (-) TimerEvent: {}
+[4.407445] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_introspection_c.h\n'}
+[4.415210] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_introspection_c.h\n'}
+[4.422939] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[4.430917] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__builder.hpp\n'}
+[4.438797] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__struct.hpp\n'}
+[4.446385] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__traits.hpp\n'}
+[4.454200] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__builder.hpp\n'}
+[4.461763] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__struct.hpp\n'}
+[4.469476] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__traits.hpp\n'}
+[4.477136] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/map_array.hpp\n'}
+[4.484794] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/sub_map.hpp\n'}
+[4.492872] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[4.500700] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[4.505741] (-) TimerEvent: {}
+[4.508486] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[4.516684] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/map_array__rosidl_typesupport_introspection_cpp.hpp\n'}
+[4.524407] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/include/lidarslam_msgs/lidarslam_msgs/msg/detail/sub_map__rosidl_typesupport_introspection_cpp.hpp\n'}
+[4.532138] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/pythonpath.sh\n'}
+[4.540374] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/pythonpath.dsv\n'}
+[4.548672] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[4.556531] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[4.564308] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[4.572005] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[4.580179] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/__init__.py\n'}
+[4.588097] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_c.c\n'}
+[4.595804] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[4.603545] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/_lidarslam_msgs_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[4.605858] (-) TimerEvent: {}
+[4.611519] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/liblidarslam_msgs__rosidl_generator_py.so\n'}
+[4.619235] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.626855] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.635142] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.642944] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/__init__.py\n'}
+[4.650578] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_map_array.py\n'}
+[4.658171] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_map_array_s.c\n'}
+[4.673055] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_sub_map.py\n'}
+[4.680678] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_sub_map_s.c\n'}
+[4.688397] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.688650] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.688881] (lidarslam_msgs) StdoutLine: {'line': b'-- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/lidarslam_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[4.689050] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/msg/SubMap.idl\n'}
+[4.696766] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/msg/MapArray.idl\n'}
+[4.704387] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/msg/SubMap.msg\n'}
+[4.705929] (-) TimerEvent: {}
+[4.712198] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/msg/MapArray.msg\n'}
+[4.720173] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/ament_index/resource_index/package_run_dependencies/lidarslam_msgs\n'}
+[4.727909] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/ament_index/resource_index/parent_prefix_path/lidarslam_msgs\n'}
+[4.735722] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/ament_prefix_path.sh\n'}
+[4.743556] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/ament_prefix_path.dsv\n'}
+[4.751334] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/path.sh\n'}
+[4.759119] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/environment/path.dsv\n'}
+[4.766988] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.bash\n'}
+[4.774853] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.sh\n'}
+[4.782961] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.zsh\n'}
+[4.791152] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/local_setup.dsv\n'}
+[4.799007] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/package.dsv\n'}
+[4.806039] (-) TimerEvent: {}
+[4.807042] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/ament_index/resource_index/packages/lidarslam_msgs\n'}
+[4.815144] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake-extras.cmake\n'}
+[4.823141] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[4.831111] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[4.839105] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[4.846953] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[4.854749] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[4.862738] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[4.870968] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgsConfig.cmake\n'}
+[4.878802] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgsConfig-version.cmake\n'}
+[4.886617] (lidarslam_msgs) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/package.xml\n'}
+[4.894406] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_c.so\n'}
+[4.894806] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_c.so" to ""\n'}
+[4.894974] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[4.895295] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[4.895496] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_c.so\n'}
+[4.895689] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_c.so" to ""\n'}
+[4.895850] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_c.so\n'}
+[4.896111] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_c.so" to ""\n'}
+[4.896288] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[4.896634] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[4.896841] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[4.897115] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[4.897298] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_cpp.so\n'}
+[4.897547] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_typesupport_cpp.so" to ""\n'}
+[4.906121] (-) TimerEvent: {}
+[4.926930] (lidarslam_msgs) StdoutLine: {'line': b"Listing '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs'...\n"}
+[4.927120] (lidarslam_msgs) StdoutLine: {'line': b"Compiling '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/__init__.py'...\n"}
+[4.927233] (lidarslam_msgs) StdoutLine: {'line': b"Listing '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg'...\n"}
+[4.927334] (lidarslam_msgs) StdoutLine: {'line': b"Compiling '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/__init__.py'...\n"}
+[4.927435] (lidarslam_msgs) StdoutLine: {'line': b"Compiling '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_map_array.py'...\n"}
+[4.927537] (lidarslam_msgs) StdoutLine: {'line': b"Compiling '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages/lidarslam_msgs/msg/_sub_map.py'...\n"}
+[4.930856] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_py.so\n'}
+[4.931275] (lidarslam_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/hazem/ros2_ws/install/lidarslam_msgs/lib/liblidarslam_msgs__rosidl_generator_py.so" to ""\n'}
+[4.931478] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cExport.cmake\n'}
+[4.931667] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cExport-release.cmake\n'}
+[4.931845] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[4.931970] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cExport-release.cmake\n'}
+[4.932123] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cExport.cmake\n'}
+[4.932370] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cExport-release.cmake\n'}
+[4.932562] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cExport.cmake\n'}
+[4.932701] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cExport-release.cmake\n'}
+[4.932811] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_cppExport.cmake\n'}
+[4.932974] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[4.933110] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_typesupport_fastrtps_cppExport-release.cmake\n'}
+[4.933241] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[4.933393] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_introspection_cppExport-release.cmake\n'}
+[4.933547] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cppExport.cmake\n'}
+[4.933705] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/lidarslam_msgs__rosidl_typesupport_cppExport-release.cmake\n'}
+[4.933851] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_pyExport.cmake\n'}
+[4.933998] (lidarslam_msgs) StdoutLine: {'line': b'-- Installing: /home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake/export_lidarslam_msgs__rosidl_generator_pyExport-release.cmake\n'}
+[4.936148] (lidarslam_msgs) CommandEnded: {'returncode': 0}
+[5.006277] (-) TimerEvent: {}
+[5.106768] (-) TimerEvent: {}
+[5.163305] (lidarslam_msgs) JobEnded: {'identifier': 'lidarslam_msgs', 'rc': 0}
+[5.206876] (-) TimerEvent: {}
+[5.307169] (-) TimerEvent: {}
+[5.407445] (-) TimerEvent: {}
+[5.507730] (-) TimerEvent: {}
+[5.608013] (-) TimerEvent: {}
+[5.708293] (-) TimerEvent: {}
+[5.808571] (-) TimerEvent: {}
+[5.908858] (-) TimerEvent: {}
+[6.009133] (-) TimerEvent: {}
+[6.109419] (-) TimerEvent: {}
+[6.209697] (-) TimerEvent: {}
+[6.309971] (-) TimerEvent: {}
+[6.410245] (-) TimerEvent: {}
+[6.510518] (-) TimerEvent: {}
+[6.610796] (-) TimerEvent: {}
+[6.711087] (-) TimerEvent: {}
+[6.811388] (-) TimerEvent: {}
+[6.911684] (-) TimerEvent: {}
+[7.011985] (-) TimerEvent: {}
+[7.112284] (-) TimerEvent: {}
+[7.212558] (-) TimerEvent: {}
+[7.312864] (-) TimerEvent: {}
+[7.413157] (-) TimerEvent: {}
+[7.513456] (-) TimerEvent: {}
+[7.613748] (-) TimerEvent: {}
+[7.714049] (-) TimerEvent: {}
+[7.814350] (-) TimerEvent: {}
+[7.914644] (-) TimerEvent: {}
+[8.014937] (-) TimerEvent: {}
+[8.115233] (-) TimerEvent: {}
+[8.215528] (-) TimerEvent: {}
+[8.315830] (-) TimerEvent: {}
+[8.416129] (-) TimerEvent: {}
+[8.516406] (-) TimerEvent: {}
+[8.616682] (-) TimerEvent: {}
+[8.716952] (-) TimerEvent: {}
+[8.817227] (-) TimerEvent: {}
+[8.917503] (-) TimerEvent: {}
+[9.017780] (-) TimerEvent: {}
+[9.118059] (-) TimerEvent: {}
+[9.218355] (-) TimerEvent: {}
+[9.318649] (-) TimerEvent: {}
+[9.418942] (-) TimerEvent: {}
+[9.519238] (-) TimerEvent: {}
+[9.619542] (-) TimerEvent: {}
+[9.719840] (-) TimerEvent: {}
+[9.820149] (-) TimerEvent: {}
+[9.920434] (-) TimerEvent: {}
+[10.020732] (-) TimerEvent: {}
+[10.121039] (-) TimerEvent: {}
+[10.221336] (-) TimerEvent: {}
+[10.321635] (-) TimerEvent: {}
+[10.421939] (-) TimerEvent: {}
+[10.522203] (-) TimerEvent: {}
+[10.622498] (-) TimerEvent: {}
+[10.722783] (-) TimerEvent: {}
+[10.823049] (-) TimerEvent: {}
+[10.923334] (-) TimerEvent: {}
+[11.023624] (-) TimerEvent: {}
+[11.123874] (-) TimerEvent: {}
+[11.224169] (-) TimerEvent: {}
+[11.324459] (-) TimerEvent: {}
+[11.424717] (-) TimerEvent: {}
+[11.525026] (-) TimerEvent: {}
+[11.625321] (-) TimerEvent: {}
+[11.725602] (-) TimerEvent: {}
+[11.825889] (-) TimerEvent: {}
+[11.926172] (-) TimerEvent: {}
+[12.026462] (-) TimerEvent: {}
+[12.126746] (-) TimerEvent: {}
+[12.227031] (-) TimerEvent: {}
+[12.327289] (-) TimerEvent: {}
+[12.427575] (-) TimerEvent: {}
+[12.527856] (-) TimerEvent: {}
+[12.628128] (-) TimerEvent: {}
+[12.728411] (-) TimerEvent: {}
+[12.828707] (-) TimerEvent: {}
+[12.928949] (-) TimerEvent: {}
+[13.029217] (-) TimerEvent: {}
+[13.129465] (-) TimerEvent: {}
+[13.229707] (-) TimerEvent: {}
+[13.329952] (-) TimerEvent: {}
+[13.430231] (-) TimerEvent: {}
+[13.530473] (-) TimerEvent: {}
+[13.630719] (-) TimerEvent: {}
+[13.731003] (-) TimerEvent: {}
+[13.831249] (-) TimerEvent: {}
+[13.931498] (-) TimerEvent: {}
+[14.031745] (-) TimerEvent: {}
+[14.132017] (-) TimerEvent: {}
+[14.232261] (-) TimerEvent: {}
+[14.332507] (-) TimerEvent: {}
+[14.432758] (-) TimerEvent: {}
+[14.533000] (-) TimerEvent: {}
+[14.633249] (-) TimerEvent: {}
+[14.733496] (-) TimerEvent: {}
+[14.833742] (-) TimerEvent: {}
+[14.934083] (-) TimerEvent: {}
+[15.034382] (-) TimerEvent: {}
+[15.134629] (-) TimerEvent: {}
+[15.234878] (-) TimerEvent: {}
+[15.335158] (-) TimerEvent: {}
+[15.435408] (-) TimerEvent: {}
+[15.535692] (-) TimerEvent: {}
+[15.635941] (-) TimerEvent: {}
+[15.736191] (-) TimerEvent: {}
+[15.836436] (-) TimerEvent: {}
+[15.936751] (-) TimerEvent: {}
+[16.016492] (ndt_omp_ros2) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX static library libndt_omp.a\x1b[0m\n'}
+[16.036838] (-) TimerEvent: {}
+[16.076137] (ndt_omp_ros2) StdoutLine: {'line': b'[ 66%] Built target ndt_omp\n'}
+[16.092237] (ndt_omp_ros2) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/align.dir/apps/align.cpp.o\x1b[0m\n'}
+[16.136950] (-) TimerEvent: {}
+[16.237200] (-) TimerEvent: {}
+[16.337451] (-) TimerEvent: {}
+[16.437705] (-) TimerEvent: {}
+[16.537960] (-) TimerEvent: {}
+[16.638238] (-) TimerEvent: {}
+[16.738516] (-) TimerEvent: {}
+[16.838792] (-) TimerEvent: {}
+[16.939077] (-) TimerEvent: {}
+[17.039357] (-) TimerEvent: {}
+[17.139641] (-) TimerEvent: {}
+[17.239923] (-) TimerEvent: {}
+[17.340219] (-) TimerEvent: {}
+[17.440497] (-) TimerEvent: {}
+[17.540792] (-) TimerEvent: {}
+[17.641067] (-) TimerEvent: {}
+[17.741326] (-) TimerEvent: {}
+[17.841598] (-) TimerEvent: {}
+[17.941854] (-) TimerEvent: {}
+[18.042133] (-) TimerEvent: {}
+[18.142417] (-) TimerEvent: {}
+[18.242692] (-) TimerEvent: {}
+[18.342949] (-) TimerEvent: {}
+[18.443212] (-) TimerEvent: {}
+[18.543474] (-) TimerEvent: {}
+[18.643735] (-) TimerEvent: {}
+[18.743993] (-) TimerEvent: {}
+[18.844255] (-) TimerEvent: {}
+[18.944500] (-) TimerEvent: {}
+[19.044811] (-) TimerEvent: {}
+[19.145076] (-) TimerEvent: {}
+[19.245357] (-) TimerEvent: {}
+[19.345656] (-) TimerEvent: {}
+[19.445956] (-) TimerEvent: {}
+[19.546237] (-) TimerEvent: {}
+[19.646499] (-) TimerEvent: {}
+[19.746778] (-) TimerEvent: {}
+[19.847032] (-) TimerEvent: {}
+[19.947309] (-) TimerEvent: {}
+[20.047595] (-) TimerEvent: {}
+[20.147858] (-) TimerEvent: {}
+[20.248137] (-) TimerEvent: {}
+[20.348413] (-) TimerEvent: {}
+[20.448718] (-) TimerEvent: {}
+[20.548990] (-) TimerEvent: {}
+[20.649270] (-) TimerEvent: {}
+[20.749544] (-) TimerEvent: {}
+[20.849824] (-) TimerEvent: {}
+[20.950104] (-) TimerEvent: {}
+[21.050386] (-) TimerEvent: {}
+[21.150656] (-) TimerEvent: {}
+[21.250933] (-) TimerEvent: {}
+[21.351223] (-) TimerEvent: {}
+[21.451508] (-) TimerEvent: {}
+[21.551786] (-) TimerEvent: {}
+[21.652059] (-) TimerEvent: {}
+[21.752339] (-) TimerEvent: {}
+[21.852645] (-) TimerEvent: {}
+[21.952948] (-) TimerEvent: {}
+[22.053251] (-) TimerEvent: {}
+[22.153556] (-) TimerEvent: {}
+[22.253866] (-) TimerEvent: {}
+[22.354159] (-) TimerEvent: {}
+[22.454440] (-) TimerEvent: {}
+[22.554722] (-) TimerEvent: {}
+[22.655004] (-) TimerEvent: {}
+[22.755282] (-) TimerEvent: {}
+[22.855565] (-) TimerEvent: {}
+[22.955846] (-) TimerEvent: {}
+[23.056132] (-) TimerEvent: {}
+[23.156415] (-) TimerEvent: {}
+[23.256681] (-) TimerEvent: {}
+[23.356962] (-) TimerEvent: {}
+[23.457238] (-) TimerEvent: {}
+[23.557496] (-) TimerEvent: {}
+[23.657779] (-) TimerEvent: {}
+[23.758055] (-) TimerEvent: {}
+[23.858353] (-) TimerEvent: {}
+[23.958637] (-) TimerEvent: {}
+[24.058903] (-) TimerEvent: {}
+[24.159188] (-) TimerEvent: {}
+[24.259466] (-) TimerEvent: {}
+[24.359749] (-) TimerEvent: {}
+[24.460007] (-) TimerEvent: {}
+[24.560287] (-) TimerEvent: {}
+[24.660565] (-) TimerEvent: {}
+[24.760826] (-) TimerEvent: {}
+[24.861108] (-) TimerEvent: {}
+[24.961390] (-) TimerEvent: {}
+[25.061671] (-) TimerEvent: {}
+[25.161936] (-) TimerEvent: {}
+[25.262217] (-) TimerEvent: {}
+[25.362496] (-) TimerEvent: {}
+[25.462784] (-) TimerEvent: {}
+[25.563070] (-) TimerEvent: {}
+[25.663352] (-) TimerEvent: {}
+[25.763613] (-) TimerEvent: {}
+[25.863895] (-) TimerEvent: {}
+[25.964195] (-) TimerEvent: {}
+[26.064460] (-) TimerEvent: {}
+[26.164726] (-) TimerEvent: {}
+[26.265009] (-) TimerEvent: {}
+[26.365296] (-) TimerEvent: {}
+[26.465548] (-) TimerEvent: {}
+[26.565832] (-) TimerEvent: {}
+[26.666091] (-) TimerEvent: {}
+[26.766373] (-) TimerEvent: {}
+[26.866667] (-) TimerEvent: {}
+[26.966949] (-) TimerEvent: {}
+[27.067230] (-) TimerEvent: {}
+[27.167528] (-) TimerEvent: {}
+[27.267808] (-) TimerEvent: {}
+[27.368069] (-) TimerEvent: {}
+[27.468369] (-) TimerEvent: {}
+[27.568683] (-) TimerEvent: {}
+[27.668953] (-) TimerEvent: {}
+[27.769245] (-) TimerEvent: {}
+[27.869509] (-) TimerEvent: {}
+[27.969790] (-) TimerEvent: {}
+[28.070069] (-) TimerEvent: {}
+[28.170375] (-) TimerEvent: {}
+[28.270673] (-) TimerEvent: {}
+[28.370982] (-) TimerEvent: {}
+[28.471285] (-) TimerEvent: {}
+[28.571573] (-) TimerEvent: {}
+[28.671881] (-) TimerEvent: {}
+[28.772184] (-) TimerEvent: {}
+[28.872482] (-) TimerEvent: {}
+[28.972802] (-) TimerEvent: {}
+[29.073092] (-) TimerEvent: {}
+[29.173377] (-) TimerEvent: {}
+[29.273660] (-) TimerEvent: {}
+[29.373971] (-) TimerEvent: {}
+[29.474254] (-) TimerEvent: {}
+[29.574522] (-) TimerEvent: {}
+[29.674802] (-) TimerEvent: {}
+[29.775090] (-) TimerEvent: {}
+[29.875341] (-) TimerEvent: {}
+[29.975617] (-) TimerEvent: {}
+[30.075902] (-) TimerEvent: {}
+[30.176184] (-) TimerEvent: {}
+[30.276470] (-) TimerEvent: {}
+[30.376719] (-) TimerEvent: {}
+[30.476990] (-) TimerEvent: {}
+[30.577252] (-) TimerEvent: {}
+[30.677512] (-) TimerEvent: {}
+[30.777778] (-) TimerEvent: {}
+[30.878039] (-) TimerEvent: {}
+[30.978318] (-) TimerEvent: {}
+[31.078597] (-) TimerEvent: {}
+[31.178876] (-) TimerEvent: {}
+[31.279132] (-) TimerEvent: {}
+[31.379420] (-) TimerEvent: {}
+[31.479699] (-) TimerEvent: {}
+[31.579991] (-) TimerEvent: {}
+[31.680270] (-) TimerEvent: {}
+[31.780544] (-) TimerEvent: {}
+[31.880813] (-) TimerEvent: {}
+[31.981069] (-) TimerEvent: {}
+[32.081323] (-) TimerEvent: {}
+[32.181595] (-) TimerEvent: {}
+[32.281869] (-) TimerEvent: {}
+[32.382140] (-) TimerEvent: {}
+[32.482390] (-) TimerEvent: {}
+[32.582645] (-) TimerEvent: {}
+[32.682906] (-) TimerEvent: {}
+[32.783163] (-) TimerEvent: {}
+[32.883420] (-) TimerEvent: {}
+[32.983671] (-) TimerEvent: {}
+[33.083931] (-) TimerEvent: {}
+[33.184189] (-) TimerEvent: {}
+[33.284442] (-) TimerEvent: {}
+[33.384718] (-) TimerEvent: {}
+[33.484969] (-) TimerEvent: {}
+[33.585232] (-) TimerEvent: {}
+[33.685492] (-) TimerEvent: {}
+[33.785747] (-) TimerEvent: {}
+[33.886005] (-) TimerEvent: {}
+[33.986262] (-) TimerEvent: {}
+[34.086534] (-) TimerEvent: {}
+[34.186794] (-) TimerEvent: {}
+[34.287056] (-) TimerEvent: {}
+[34.387311] (-) TimerEvent: {}
+[34.487567] (-) TimerEvent: {}
+[34.587833] (-) TimerEvent: {}
+[34.688098] (-) TimerEvent: {}
+[34.788365] (-) TimerEvent: {}
+[34.888700] (-) TimerEvent: {}
+[34.962000] (ndt_omp_ros2) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable align\x1b[0m\n'}
+[34.988765] (-) TimerEvent: {}
+[35.089208] (-) TimerEvent: {}
+[35.189529] (-) TimerEvent: {}
+[35.289827] (-) TimerEvent: {}
+[35.390135] (-) TimerEvent: {}
+[35.490454] (-) TimerEvent: {}
+[35.590751] (-) TimerEvent: {}
+[35.691048] (-) TimerEvent: {}
+[35.790387] (ndt_omp_ros2) StdoutLine: {'line': b'[100%] Built target align\n'}
+[35.791161] (-) TimerEvent: {}
+[35.800305] (ndt_omp_ros2) CommandEnded: {'returncode': 0}
+[35.828449] (ndt_omp_ros2) JobProgress: {'identifier': 'ndt_omp_ros2', 'progress': 'install'}
+[35.829453] (ndt_omp_ros2) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/hazem/ros2_ws/build/ndt_omp_ros2'], 'cwd': '/home/hazem/ros2_ws/build/ndt_omp_ros2', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/ndt_omp_ros2'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[35.835554] (ndt_omp_ros2) StdoutLine: {'line': b'-- Install configuration: "RELEASE"\n'}
+[35.835943] (ndt_omp_ros2) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[35.836241] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/lib/ndt_omp_ros2/align\n'}
+[35.843533] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/bin/align\n'}
+[35.850616] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/gicp_omp.h\n'}
+[35.857535] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/gicp_omp_impl.hpp\n'}
+[35.864335] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/ndt_omp.h\n'}
+[35.871190] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/ndt_omp_impl.hpp\n'}
+[35.878232] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp.h\n'}
+[35.885008] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/include/pclomp/voxel_grid_covariance_omp_impl.hpp\n'}
+[35.891267] (-) TimerEvent: {}
+[35.891877] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/package_run_dependencies/ndt_omp_ros2\n'}
+[35.899068] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/parent_prefix_path/ndt_omp_ros2\n'}
+[35.906026] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.sh\n'}
+[35.912992] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/ament_prefix_path.dsv\n'}
+[35.920409] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.sh\n'}
+[35.927480] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/environment/path.dsv\n'}
+[35.934524] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.bash\n'}
+[35.941264] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.sh\n'}
+[35.947857] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.zsh\n'}
+[35.954336] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/local_setup.dsv\n'}
+[35.961157] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv\n'}
+[35.967723] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ament_index/resource_index/packages/ndt_omp_ros2\n'}
+[35.974404] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[35.980916] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[35.987528] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config.cmake\n'}
+[35.991369] (-) TimerEvent: {}
+[35.994145] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake/ndt_omp_ros2Config-version.cmake\n'}
+[36.000789] (ndt_omp_ros2) StdoutLine: {'line': b'-- Symlinking: /home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/package.xml\n'}
+[36.008952] (ndt_omp_ros2) CommandEnded: {'returncode': 0}
+[36.091471] (-) TimerEvent: {}
+[36.185370] (ndt_omp_ros2) JobEnded: {'identifier': 'ndt_omp_ros2', 'rc': 0}
+[36.186198] (graph_based_slam) JobStarted: {'identifier': 'graph_based_slam'}
+[36.191540] (-) TimerEvent: {}
+[36.225926] (scanmatcher) JobStarted: {'identifier': 'scanmatcher'}
+[36.267947] (graph_based_slam) JobProgress: {'identifier': 'graph_based_slam', 'progress': 'cmake'}
+[36.268486] (graph_based_slam) Command: {'cmd': ['/usr/bin/cmake', '/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam', '-DCMAKE_BUILD_TYPE=Release', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/graph_based_slam'], 'cwd': '/home/hazem/ros2_ws/build/graph_based_slam', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/graph_based_slam'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[36.271879] (scanmatcher) JobProgress: {'identifier': 'scanmatcher', 'progress': 'cmake'}
+[36.272135] (scanmatcher) Command: {'cmd': ['/usr/bin/cmake', '/home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher', '-DCMAKE_BUILD_TYPE=Release', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/scanmatcher'], 'cwd': '/home/hazem/ros2_ws/build/scanmatcher', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'hazem'), ('LC_TIME', 'ar_EG.UTF-8'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/hazem'), ('OLDPWD', '/home/hazem/ros2_ws/src'), ('DESKTOP_SESSION', 'ubuntu'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('LC_MONETARY', 'ar_EG.UTF-8'), ('DBUS_STARTER_BUS_TYPE', 'session'), ('SYSTEMD_EXEC_PID', '1442'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'hazem'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('AIRSIM_DIR', '/home/hazem/Formula-Student-Driverless-Simulator'), ('USERNAME', 'hazem'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/hazem-Nitro-AN515-54:@/tmp/.ICE-unix/1442,unix/hazem-Nitro-AN515-54:/tmp/.ICE-unix/1442'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'ar_EG.UTF-8'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/55614fa1_968e_4e86_9d26_4fef6f4307b5'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('LC_TELEPHONE', 'ar_EG.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.123'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LC_NAME', 'ar_EG.UTF-8'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'ar_EG.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('LC_IDENTIFICATION', 'ar_EG.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/hazem/ros2_ws/build/scanmatcher'), ('LC_ALL', 'en_US.UTF-8'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('DBUS_STARTER_ADDRESS', 'unix:path=/run/user/1000/bus,guid=825babb118f4677d3eb2051a65d0e305'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('LC_NUMERIC', 'ar_EG.UTF-8'), ('LC_PAPER', 'ar_EG.UTF-8'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble')]), 'shell': False}
+[36.291670] (-) TimerEvent: {}
+[36.314675] (graph_based_slam) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[36.316751] (scanmatcher) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[36.361739] (graph_based_slam) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[36.362620] (scanmatcher) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[36.367742] (graph_based_slam) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[36.368500] (scanmatcher) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[36.391792] (-) TimerEvent: {}
+[36.424459] (graph_based_slam) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[36.424605] (scanmatcher) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[36.430800] (graph_based_slam) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[36.430882] (scanmatcher) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[36.431033] (graph_based_slam) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[36.431209] (scanmatcher) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[36.431372] (graph_based_slam) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[36.431514] (scanmatcher) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[36.433861] (graph_based_slam) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[36.434005] (scanmatcher) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[36.491919] (-) TimerEvent: {}
+[36.500080] (graph_based_slam) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[36.500396] (scanmatcher) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[36.506683] (graph_based_slam) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[36.506941] (graph_based_slam) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[36.507242] (scanmatcher) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[36.507394] (graph_based_slam) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[36.507576] (scanmatcher) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[36.508010] (scanmatcher) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[36.509205] (graph_based_slam) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[36.509960] (scanmatcher) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[36.592019] (-) TimerEvent: {}
+[36.649931] (graph_based_slam) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[36.650196] (scanmatcher) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter \n'}
+[36.692131] (-) TimerEvent: {}
+[36.700163] (graph_based_slam) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[36.700373] (scanmatcher) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[36.721541] (graph_based_slam) StdoutLine: {'line': b'-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[36.721722] (scanmatcher) StdoutLine: {'line': b'-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[36.757125] (scanmatcher) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[36.757315] (graph_based_slam) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[36.761213] (graph_based_slam) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[36.761361] (scanmatcher) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[36.768112] (graph_based_slam) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[36.768284] (scanmatcher) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[36.779752] (graph_based_slam) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[36.779977] (scanmatcher) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[36.792200] (-) TimerEvent: {}
+[36.796424] (graph_based_slam) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[36.796920] (scanmatcher) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[36.858328] (graph_based_slam) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[36.858604] (scanmatcher) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[36.860440] (graph_based_slam) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[36.860867] (scanmatcher) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[36.892273] (-) TimerEvent: {}
+[36.942489] (scanmatcher) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[36.942710] (graph_based_slam) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[36.963777] (graph_based_slam) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[36.964054] (scanmatcher) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[36.992357] (-) TimerEvent: {}
+[37.003028] (graph_based_slam) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[37.003247] (scanmatcher) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[37.010905] (graph_based_slam) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[37.011105] (scanmatcher) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[37.070842] (graph_based_slam) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[37.071091] (scanmatcher) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[37.071374] (graph_based_slam) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[37.071658] (scanmatcher) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[37.092484] (-) TimerEvent: {}
+[37.132776] (graph_based_slam) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[37.132985] (scanmatcher) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[37.133722] (graph_based_slam) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[37.133866] (scanmatcher) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[37.192584] (-) TimerEvent: {}
+[37.282155] (graph_based_slam) StdoutLine: {'line': b'-- Found rclcpp_components: 16.0.8 (/opt/ros/humble/share/rclcpp_components/cmake)\n'}
+[37.283221] (scanmatcher) StdoutLine: {'line': b'-- Found rclcpp_components: 16.0.8 (/opt/ros/humble/share/rclcpp_components/cmake)\n'}
+[37.292741] (-) TimerEvent: {}
+[37.363942] (graph_based_slam) StdoutLine: {'line': b'-- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[37.364211] (scanmatcher) StdoutLine: {'line': b'-- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[37.392831] (-) TimerEvent: {}
+[37.404193] (graph_based_slam) StdoutLine: {'line': b'-- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[37.404419] (scanmatcher) StdoutLine: {'line': b'-- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[37.483368] (graph_based_slam) StdoutLine: {'line': b'-- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[37.483622] (scanmatcher) StdoutLine: {'line': b'-- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[37.492925] (-) TimerEvent: {}
+[37.560922] (scanmatcher) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.5 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[37.568315] (graph_based_slam) StdoutLine: {'line': b'-- Found std_srvs: 4.2.3 (/opt/ros/humble/share/std_srvs/cmake)\n'}
+[37.586378] (graph_based_slam) StdoutLine: {'line': b'-- Found tf2_ros: 0.25.5 (/opt/ros/humble/share/tf2_ros/cmake)\n'}
+[37.593028] (-) TimerEvent: {}
+[37.693249] (-) TimerEvent: {}
+[37.793503] (-) TimerEvent: {}
+[37.815729] (scanmatcher) StdoutLine: {'line': b'-- Found tf2_sensor_msgs: 0.25.5 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)\n'}
+[37.834134] (graph_based_slam) StdoutLine: {'line': b'-- Found tf2_eigen: 0.25.5 (/opt/ros/humble/share/tf2_eigen/cmake)\n'}
+[37.844102] (graph_based_slam) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.5 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[37.844378] (scanmatcher) StdoutLine: {'line': b'-- Found tf2_geometry_msgs: 0.25.5 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)\n'}
+[37.852301] (graph_based_slam) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[37.853261] (scanmatcher) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[37.853540] (scanmatcher) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[37.853757] (graph_based_slam) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[37.853958] (graph_based_slam) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[37.862556] (scanmatcher) StdoutLine: {'line': b'-- Found tf2_eigen: 0.25.5 (/opt/ros/humble/share/tf2_eigen/cmake)\n'}
+[37.867551] (scanmatcher) StdoutLine: {'line': b'-- Found pcl_conversions: 2.4.0 (/opt/ros/humble/share/pcl_conversions/cmake)\n'}
+[37.870169] (graph_based_slam) StdoutLine: {'line': b'-- Found tf2_sensor_msgs: 0.25.5 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)\n'}
+[37.889412] (graph_based_slam) StdoutLine: {'line': b'-- Found pcl_conversions: 2.4.0 (/opt/ros/humble/share/pcl_conversions/cmake)\n'}
+[37.893601] (-) TimerEvent: {}
+[37.985860] (scanmatcher) StdoutLine: {'line': b'-- Found lidarslam_msgs: 0.0.0 (/home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake)\n'}
+[37.993696] (-) TimerEvent: {}
+[38.003550] (graph_based_slam) StdoutLine: {'line': b'-- Found lidarslam_msgs: 0.0.0 (/home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake)\n'}
+[38.093796] (-) TimerEvent: {}
+[38.109801] (scanmatcher) StdoutLine: {'line': b'-- Found ndt_omp_ros2: 0.0.0 (/home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake)\n'}
+[38.122874] (scanmatcher) StdoutLine: {'line': b"-- Checking for module 'eigen3'\n"}
+[38.128553] (graph_based_slam) StdoutLine: {'line': b'-- Found ndt_omp_ros2: 0.0.0 (/home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake)\n'}
+[38.133685] (scanmatcher) StdoutLine: {'line': b'--   Found eigen3, version 3.4.0\n'}
+[38.142006] (graph_based_slam) StdoutLine: {'line': b"-- Checking for module 'eigen3'\n"}
+[38.152902] (graph_based_slam) StdoutLine: {'line': b'--   Found eigen3, version 3.4.0\n'}
+[38.161590] (scanmatcher) StdoutLine: {'line': b'-- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") \n'}
+[38.161704] (scanmatcher) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[38.177250] (scanmatcher) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization \n'}
+[38.179148] (graph_based_slam) StdoutLine: {'line': b'-- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") \n'}
+[38.179238] (graph_based_slam) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[38.189939] (scanmatcher) StdoutLine: {'line': b"-- Checking for module 'flann'\n"}
+[38.193898] (-) TimerEvent: {}
+[38.194301] (graph_based_slam) StdoutLine: {'line': b'-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization \n'}
+[38.200289] (scanmatcher) StdoutLine: {'line': b'--   Found flann, version 1.9.1\n'}
+[38.207076] (graph_based_slam) StdoutLine: {'line': b"-- Checking for module 'flann'\n"}
+[38.217830] (graph_based_slam) StdoutLine: {'line': b'--   Found flann, version 1.9.1\n'}
+[38.233451] (scanmatcher) StdoutLine: {'line': b'-- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  \n'}
+[38.233702] (scanmatcher) StdoutLine: {'line': b'-- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)\n'}
+[38.253159] (graph_based_slam) StdoutLine: {'line': b'-- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  \n'}
+[38.253414] (graph_based_slam) StdoutLine: {'line': b'-- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)\n'}
+[38.283887] (scanmatcher) StdoutLine: {'line': b'-- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  \n'}
+[38.288202] (scanmatcher) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX \n'}
+[38.294000] (-) TimerEvent: {}
+[38.297081] (graph_based_slam) StdoutLine: {'line': b'-- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  \n'}
+[38.301048] (graph_based_slam) StdoutLine: {'line': b'-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX \n'}
+[38.394129] (-) TimerEvent: {}
+[38.402681] (scanmatcher) StdoutLine: {'line': b'-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") \n'}
+[38.402929] (scanmatcher) StdoutLine: {'line': b'-- Found MPI: TRUE (found version "3.1") found components: C \n'}
+[38.404755] (scanmatcher) StdoutLine: {'line': b'-- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") \n'}
+[38.411387] (scanmatcher) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") \n'}
+[38.415801] (graph_based_slam) StdoutLine: {'line': b'-- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") \n'}
+[38.416039] (graph_based_slam) StdoutLine: {'line': b'-- Found MPI: TRUE (found version "3.1") found components: C \n'}
+[38.417859] (graph_based_slam) StdoutLine: {'line': b'-- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") \n'}
+[38.424586] (graph_based_slam) StdoutLine: {'line': b'-- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") \n'}
+[38.425268] (scanmatcher) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") \n'}
+[38.434778] (scanmatcher) StdoutLine: {'line': b'-- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") \n'}
+[38.438180] (graph_based_slam) StdoutLine: {'line': b'-- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") \n'}
+[38.447601] (graph_based_slam) StdoutLine: {'line': b'-- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") \n'}
+[38.494248] (-) TimerEvent: {}
+[38.503851] (scanmatcher) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[38.504178] (scanmatcher) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[38.517361] (graph_based_slam) StdoutLine: {'line': b'-- Found X11: /usr/include   \n'}
+[38.517620] (graph_based_slam) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so\n'}
+[38.565617] (scanmatcher) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[38.565872] (scanmatcher) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[38.579190] (graph_based_slam) StdoutLine: {'line': b'-- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found\n'}
+[38.579398] (graph_based_slam) StdoutLine: {'line': b'-- Looking for gethostbyname\n'}
+[38.594336] (-) TimerEvent: {}
+[38.623027] (scanmatcher) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[38.623230] (scanmatcher) StdoutLine: {'line': b'-- Looking for connect\n'}
+[38.637160] (graph_based_slam) StdoutLine: {'line': b'-- Looking for gethostbyname - found\n'}
+[38.637382] (graph_based_slam) StdoutLine: {'line': b'-- Looking for connect\n'}
+[38.680731] (scanmatcher) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[38.681006] (scanmatcher) StdoutLine: {'line': b'-- Looking for remove\n'}
+[38.694461] (-) TimerEvent: {}
+[38.694984] (graph_based_slam) StdoutLine: {'line': b'-- Looking for connect - found\n'}
+[38.695163] (graph_based_slam) StdoutLine: {'line': b'-- Looking for remove\n'}
+[38.739247] (scanmatcher) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[38.739451] (scanmatcher) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[38.753461] (graph_based_slam) StdoutLine: {'line': b'-- Looking for remove - found\n'}
+[38.753660] (graph_based_slam) StdoutLine: {'line': b'-- Looking for shmat\n'}
+[38.794560] (-) TimerEvent: {}
+[38.796872] (scanmatcher) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[38.797073] (scanmatcher) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[38.810850] (graph_based_slam) StdoutLine: {'line': b'-- Looking for shmat - found\n'}
+[38.811115] (graph_based_slam) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE\n'}
+[38.854736] (scanmatcher) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[38.869759] (graph_based_slam) StdoutLine: {'line': b'-- Looking for IceConnectionNumber in ICE - found\n'}
+[38.894678] (-) TimerEvent: {}
+[38.919913] (scanmatcher) StdoutLine: {'line': b'-- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") \n'}
+[38.921652] (scanmatcher) StdoutLine: {'line': b'-- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  \n'}
+[38.923483] (scanmatcher) StdoutLine: {'line': b'-- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") \n'}
+[38.924678] (scanmatcher) StdoutLine: {'line': b'-- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") \n'}
+[38.934732] (scanmatcher) StdoutLine: {'line': b'-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") \n'}
+[38.934942] (graph_based_slam) StdoutLine: {'line': b'-- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") \n'}
+[38.936363] (graph_based_slam) StdoutLine: {'line': b'-- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  \n'}
+[38.938236] (graph_based_slam) StdoutLine: {'line': b'-- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") \n'}
+[38.938616] (scanmatcher) StdoutLine: {'line': b'-- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  \n'}
+[38.939533] (graph_based_slam) StdoutLine: {'line': b'-- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") \n'}
+[38.942215] (scanmatcher) StdoutLine: {'line': b'-- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") \n'}
+[38.946555] (scanmatcher) StdoutLine: {'line': b'-- Found utf8cpp: /usr/include/utf8cpp  \n'}
+[38.949633] (graph_based_slam) StdoutLine: {'line': b'-- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") \n'}
+[38.953223] (graph_based_slam) StdoutLine: {'line': b'-- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  \n'}
+[38.956904] (graph_based_slam) StdoutLine: {'line': b'-- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") \n'}
+[38.961331] (graph_based_slam) StdoutLine: {'line': b'-- Found utf8cpp: /usr/include/utf8cpp  \n'}
+[38.994804] (-) TimerEvent: {}
+[39.010076] (scanmatcher) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[39.021257] (scanmatcher) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.25\n'}
+[39.025593] (graph_based_slam) StdoutLine: {'line': b"-- Checking for module 'libusb-1.0'\n"}
+[39.037050] (graph_based_slam) StdoutLine: {'line': b'--   Found libusb-1.0, version 1.0.25\n'}
+[39.050753] (scanmatcher) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[39.051631] (scanmatcher) StdoutLine: {'line': b'-- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") \n'}
+[39.051713] (scanmatcher) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.066237] (graph_based_slam) StdoutLine: {'line': b'-- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  \n'}
+[39.067157] (graph_based_slam) StdoutLine: {'line': b'-- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") \n'}
+[39.067280] (graph_based_slam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.094902] (-) TimerEvent: {}
+[39.097238] (scanmatcher) StdoutLine: {'line': b'-- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") \n'}
+[39.097397] (scanmatcher) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[39.097565] (scanmatcher) StderrLine: {'line': b'\x1b[0m** WARNING ** io features related to pcap will be disabled\x1b[0m\n'}
+[39.112541] (graph_based_slam) StdoutLine: {'line': b'-- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") \n'}
+[39.112757] (graph_based_slam) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[39.112940] (graph_based_slam) StderrLine: {'line': b'\x1b[0m** WARNING ** io features related to pcap will be disabled\x1b[0m\n'}
+[39.194994] (-) TimerEvent: {}
+[39.226786] (scanmatcher) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[39.232245] (scanmatcher) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.237516] (scanmatcher) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[39.240913] (graph_based_slam) StdoutLine: {'line': b'-- Eigen found (include: /usr/include/eigen3, version: 3.4.0)\n'}
+[39.246089] (graph_based_slam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.251247] (graph_based_slam) StdoutLine: {'line': b'-- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)\n'}
+[39.295079] (-) TimerEvent: {}
+[39.359036] (scanmatcher) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[39.372257] (graph_based_slam) StdoutLine: {'line': b'-- Found Qhull version 8.0.2\n'}
+[39.395156] (-) TimerEvent: {}
+[39.484466] (scanmatcher) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.495240] (-) TimerEvent: {}
+[39.498205] (graph_based_slam) StdoutLine: {'line': b'-- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)\n'}
+[39.595337] (-) TimerEvent: {}
+[39.605554] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_COMMON\n'}
+[39.606277] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[39.606467] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_KDTREE\n'}
+[39.607102] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[39.607268] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_OCTREE\n'}
+[39.607924] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[39.608074] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_SEARCH\n'}
+[39.608797] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[39.608968] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_SAMPLE_CONSENSUS\n'}
+[39.609638] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[39.609822] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_FILTERS\n'}
+[39.610474] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[39.610705] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_2D\n'}
+[39.610961] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.12  \n'}
+[39.611147] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_GEOMETRY\n'}
+[39.611425] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.12  \n'}
+[39.611573] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_IO\n'}
+[39.612232] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[39.612513] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_FEATURES\n'}
+[39.613175] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[39.613437] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_ML\n'}
+[39.614103] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[39.614258] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_SEGMENTATION\n'}
+[39.614938] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[39.615239] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_VISUALIZATION\n'}
+[39.615896] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[39.616176] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_SURFACE\n'}
+[39.616845] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[39.617101] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_REGISTRATION\n'}
+[39.617784] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[39.618060] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_KEYPOINTS\n'}
+[39.618741] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[39.619002] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_TRACKING\n'}
+[39.619646] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[39.619792] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_COMMON\n'}
+[39.619946] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_RECOGNITION\n'}
+[39.620467] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  \n'}
+[39.620625] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_KDTREE\n'}
+[39.620730] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[39.621049] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_STEREO\n'}
+[39.621291] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  \n'}
+[39.621482] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_OCTREE\n'}
+[39.621836] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[39.622016] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  \n'}
+[39.622096] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_APPS\n'}
+[39.622154] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_SEARCH\n'}
+[39.622628] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[39.622777] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  \n'}
+[39.622860] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_SAMPLE_CONSENSUS\n'}
+[39.623085] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_IN_HAND_SCANNER\n'}
+[39.623312] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  \n'}
+[39.623442] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_MODELER\n'}
+[39.623503] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  \n'}
+[39.623611] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_FILTERS\n'}
+[39.623666] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.12  \n'}
+[39.623763] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_POINT_CLOUD_EDITOR\n'}
+[39.623964] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  \n'}
+[39.624072] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_OUTOFCORE\n'}
+[39.624148] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  \n'}
+[39.624254] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_2D\n'}
+[39.624457] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_2D: /usr/include/pcl-1.12  \n'}
+[39.624561] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_GEOMETRY\n'}
+[39.624704] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[39.624853] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_GEOMETRY: /usr/include/pcl-1.12  \n'}
+[39.624932] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_IO\n'}
+[39.625005] (scanmatcher) StdoutLine: {'line': b'-- looking for PCL_PEOPLE\n'}
+[39.625466] (scanmatcher) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[39.625596] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  \n'}
+[39.625733] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_FEATURES\n'}
+[39.626177] (scanmatcher) StdoutLine: {'line': b'-- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  \n'}
+[39.626410] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  \n'}
+[39.626594] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_ML\n'}
+[39.627156] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  \n'}
+[39.627322] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_SEGMENTATION\n'}
+[39.627866] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  \n'}
+[39.628120] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_VISUALIZATION\n'}
+[39.628701] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  \n'}
+[39.628908] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_SURFACE\n'}
+[39.629492] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  \n'}
+[39.629673] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_REGISTRATION\n'}
+[39.630257] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  \n'}
+[39.630470] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_KEYPOINTS\n'}
+[39.631053] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  \n'}
+[39.631218] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_TRACKING\n'}
+[39.631830] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  \n'}
+[39.631998] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_RECOGNITION\n'}
+[39.632582] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  \n'}
+[39.632958] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_STEREO\n'}
+[39.633641] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  \n'}
+[39.633853] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_APPS\n'}
+[39.634514] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  \n'}
+[39.635102] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_IN_HAND_SCANNER\n'}
+[39.635406] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  \n'}
+[39.635624] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_MODELER\n'}
+[39.635824] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_MODELER: /usr/include/pcl-1.12  \n'}
+[39.635985] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_POINT_CLOUD_EDITOR\n'}
+[39.636320] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  \n'}
+[39.636491] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_OUTOFCORE\n'}
+[39.637186] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  \n'}
+[39.637412] (graph_based_slam) StdoutLine: {'line': b'-- looking for PCL_PEOPLE\n'}
+[39.637987] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  \n'}
+[39.638658] (graph_based_slam) StdoutLine: {'line': b'-- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  \n'}
+[39.646919] (graph_based_slam) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:38 (find_package):\n'}
+[39.647162] (graph_based_slam) StderrLine: {'line': b'  By not providing "Findg2o.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[39.647219] (graph_based_slam) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "g2o", but\n'}
+[39.647269] (graph_based_slam) StderrLine: {'line': b'  CMake did not find one.\n'}
+[39.647317] (graph_based_slam) StderrLine: {'line': b'\n'}
+[39.647366] (graph_based_slam) StderrLine: {'line': b'  Could not find a package configuration file provided by "g2o" with any of\n'}
+[39.647423] (graph_based_slam) StderrLine: {'line': b'  the following names:\n'}
+[39.647491] (graph_based_slam) StderrLine: {'line': b'\n'}
+[39.647550] (graph_based_slam) StderrLine: {'line': b'    g2oConfig.cmake\n'}
+[39.647596] (graph_based_slam) StderrLine: {'line': b'    g2o-config.cmake\n'}
+[39.647641] (graph_based_slam) StderrLine: {'line': b'\n'}
+[39.647686] (graph_based_slam) StderrLine: {'line': b'  Add the installation prefix of "g2o" to CMAKE_PREFIX_PATH or set "g2o_DIR"\n'}
+[39.647731] (graph_based_slam) StderrLine: {'line': b'  to a directory containing one of the above files.  If "g2o" provides a\n'}
+[39.647777] (graph_based_slam) StderrLine: {'line': b'  separate development package or SDK, be sure it has been installed.\n'}
+[39.647823] (graph_based_slam) StderrLine: {'line': b'\n'}
+[39.647868] (graph_based_slam) StderrLine: {'line': b'\x1b[0m\n'}
+[39.647913] (graph_based_slam) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[39.647964] (graph_based_slam) StdoutLine: {'line': b'See also "/home/hazem/ros2_ws/build/graph_based_slam/CMakeFiles/CMakeOutput.log".\n'}
+[39.661667] (graph_based_slam) CommandEnded: {'returncode': 1}
+[39.695511] (-) TimerEvent: {}
+[39.700301] (graph_based_slam) JobEnded: {'identifier': 'graph_based_slam', 'rc': 1}
+[39.795641] (-) TimerEvent: {}
+[39.841292] (scanmatcher) StdoutLine: {'line': b'-- Found OpenMP_C: -fopenmp (found version "4.5") \n'}
+[39.895727] (-) TimerEvent: {}
+[39.922629] (scanmatcher) StdoutLine: {'line': b'-- Found OpenMP_CXX: -fopenmp (found version "4.5") \n'}
+[39.922874] (scanmatcher) StdoutLine: {'line': b'-- Found OpenMP: TRUE (found version "4.5")  \n'}
+[39.924311] (scanmatcher) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)\n'}
+[39.995841] (-) TimerEvent: {}
+[40.096083] (-) TimerEvent: {}
+[40.133974] (scanmatcher) StdoutLine: {'line': b'-- Configuring done\n'}
+[40.191793] (scanmatcher) StdoutLine: {'line': b'-- Generating done\n'}
+[40.194109] (scanmatcher) StdoutLine: {'line': b'-- Build files have been written to: /home/hazem/ros2_ws/build/scanmatcher\n'}
+[40.196175] (-) TimerEvent: {}
+[40.206657] (scanmatcher) JobEnded: {'identifier': 'scanmatcher', 'rc': 'SIGINT'}
+[40.217428] (lidarslam) JobSkipped: {'identifier': 'lidarslam'}
+[40.217543] (-) EventReactorShutdown: {}

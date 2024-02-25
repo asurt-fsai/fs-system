@@ -1,0 +1,30 @@
+[0.065s] Invoking command in '/home/hazem/ros2_ws/build/lidarslam': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/build/lidarslam -- -j12 -l12
+[0.109s] [35m[1mConsolidate compiler generated dependencies of target lidarslam[0m
+[0.142s] [100%] Built target lidarslam
+[0.152s] Invoked command in '/home/hazem/ros2_ws/build/lidarslam' returned '0': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/build/lidarslam -- -j12 -l12
+[0.178s] Invoking command in '/home/hazem/ros2_ws/build/lidarslam': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/build/lidarslam
+[0.184s] -- Install configuration: "Release"
+[0.185s] -- Execute custom install script
+[0.185s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/launch/lidarslam.launch.py
+[0.186s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/launch/lidarslam_tukuba.launch.py
+[0.186s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/param/lidarslam.yaml
+[0.186s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/param/lidarslam_tukuba.yaml
+[0.186s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/rviz/mapping.rviz
+[0.186s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/rviz/mapping_tukuba.rviz
+[0.187s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/lib/lidarslam/lidarslam
+[0.187s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/ament_index/resource_index/package_run_dependencies/lidarslam
+[0.187s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/ament_index/resource_index/parent_prefix_path/lidarslam
+[0.187s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/environment/ament_prefix_path.sh
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/environment/ament_prefix_path.dsv
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/environment/path.sh
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/environment/path.dsv
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/local_setup.bash
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/local_setup.sh
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/local_setup.zsh
+[0.188s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/local_setup.dsv
+[0.189s] -- Symlinking: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/package.dsv
+[0.197s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/ament_index/resource_index/packages/lidarslam
+[0.197s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/cmake/lidarslamConfig.cmake
+[0.197s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/cmake/lidarslamConfig-version.cmake
+[0.197s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/lidarslam/share/lidarslam/package.xml
+[0.199s] Invoked command in '/home/hazem/ros2_ws/build/lidarslam' returned '0': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/build/lidarslam

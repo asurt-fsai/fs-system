@@ -1,0 +1,22 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from lidarslam_msgs/msg/MapArray.msg
+// generated code does not contain a copyright notice
+
+#include "lidarslam_msgs/msg/SubMap.idl"
+#include "std_msgs/msg/Header.idl"
+
+module lidarslam_msgs {
+  module msg {
+    module MapArray_Constants {
+      const int8 LOCAL = 0;
+      const int8 GLOBAL = 1;
+    };
+    struct MapArray {
+      std_msgs::msg::Header header;
+
+      sequence<lidarslam_msgs::msg::SubMap> submaps;
+
+      int8 cloud_coordinate;
+    };
+  };
+};

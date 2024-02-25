@@ -1,0 +1,7 @@
+[0.046s] Invoking command in '/home/hazem/ros2_ws/build/scanmatcher': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/build/scanmatcher -- -j12 -l12
+[0.092s] [ 25%] [32mBuilding CXX object CMakeFiles/scanmatcher_component.dir/src/scanmatcher_component.cpp.o[0m
+[66.692s] [ 50%] [32m[1mLinking CXX shared library libscanmatcher_component.so[0m
+[67.564s] [ 50%] Built target scanmatcher_component
+[67.580s] [ 75%] [32mBuilding CXX object CMakeFiles/scanmatcher_node.dir/src/scanmatcher_node.cpp.o[0m
+[78.109s] [100%] [32m[1mLinking CXX executable scanmatcher_node[0m
+[78.648s] [100%] Built target scanmatcher_node

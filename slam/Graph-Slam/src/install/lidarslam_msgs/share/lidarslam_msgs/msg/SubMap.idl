@@ -1,0 +1,21 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from lidarslam_msgs/msg/SubMap.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Pose.idl"
+#include "sensor_msgs/msg/PointCloud2.idl"
+#include "std_msgs/msg/Header.idl"
+
+module lidarslam_msgs {
+  module msg {
+    struct SubMap {
+      std_msgs::msg::Header header;
+
+      double distance;
+
+      geometry_msgs::msg::Pose pose;
+
+      sensor_msgs::msg::PointCloud2 cloud;
+    };
+  };
+};

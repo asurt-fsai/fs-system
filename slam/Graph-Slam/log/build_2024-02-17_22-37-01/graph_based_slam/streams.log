@@ -1,0 +1,35 @@
+[0.114s] Invoking command in '/home/hazem/ros2_ws/build/graph_based_slam': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/hazem/ros2_ws/build/graph_based_slam -- -j12 -l12
+[0.169s] [35m[1mConsolidate compiler generated dependencies of target graph_based_slam_component[0m
+[0.205s] [ 50%] Built target graph_based_slam_component
+[0.217s] [35m[1mConsolidate compiler generated dependencies of target graph_based_slam_node[0m
+[0.251s] [100%] Built target graph_based_slam_node
+[0.261s] Invoked command in '/home/hazem/ros2_ws/build/graph_based_slam' returned '0': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /home/hazem/ros2_ws/build/graph_based_slam -- -j12 -l12
+[0.290s] Invoking command in '/home/hazem/ros2_ws/build/graph_based_slam': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/hazem/ros2_ws/build/graph_based_slam
+[0.296s] -- Install configuration: "Release"
+[0.297s] -- Execute custom install script
+[0.297s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/library_path.sh
+[0.297s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/library_path.dsv
+[0.298s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h
+[0.299s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/launch/graphbasedslam.launch.py
+[0.299s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/param/graphbasedslam.yaml
+[0.299s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/lib/libgraph_based_slam_component.so
+[0.300s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node
+[0.300s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/package_run_dependencies/graph_based_slam
+[0.300s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/parent_prefix_path/graph_based_slam
+[0.301s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.sh
+[0.301s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.dsv
+[0.301s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/path.sh
+[0.301s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/path.dsv
+[0.301s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.bash
+[0.302s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.sh
+[0.302s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.zsh
+[0.302s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.dsv
+[0.302s] -- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/package.dsv
+[0.310s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/packages/graph_based_slam
+[0.310s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/rclcpp_components/graph_based_slam
+[0.311s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_libraries-extras.cmake
+[0.312s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_include_directories-extras.cmake
+[0.312s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig.cmake
+[0.312s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig-version.cmake
+[0.312s] -- Up-to-date symlink: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/package.xml
+[0.368s] Invoked command in '/home/hazem/ros2_ws/build/graph_based_slam' returned '0': CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:/home/hazem/ros2_ws/install/scanmatcher/lib:/home/hazem/ros2_ws/install/graph_based_slam/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --install /home/hazem/ros2_ws/build/graph_based_slam

@@ -1,0 +1,43 @@
+[0.112s] Invoking command in '/home/hazem/ros2_ws/src/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/graph_based_slam -- -j12 -l12
+[0.159s] [35m[1mConsolidate compiler generated dependencies of target graph_based_slam_component[0m
+[0.203s] [ 25%] [32mBuilding CXX object CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o[0m
+[74.843s] [ 50%] [32m[1mLinking CXX shared library libgraph_based_slam_component.so[0m
+[75.881s] [ 50%] Built target graph_based_slam_component
+[75.900s] [ 75%] [32mBuilding CXX object CMakeFiles/graph_based_slam_node.dir/src/graph_based_slam_node.cpp.o[0m
+[92.198s] [100%] [32m[1mLinking CXX executable graph_based_slam_node[0m
+[93.020s] [100%] Built target graph_based_slam_node
+[93.030s] Invoked command in '/home/hazem/ros2_ws/src/build/graph_based_slam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/graph_based_slam -- -j12 -l12
+[93.058s] Invoking command in '/home/hazem/ros2_ws/src/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/graph_based_slam
+[93.065s] -- Install configuration: ""
+[93.065s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.sh
+[93.065s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/library_path.dsv
+[93.065s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include
+[93.065s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/launch/graphbasedslam.launch.py
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/param/graphbasedslam.yaml
+[93.066s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so
+[93.159s] -- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/libgraph_based_slam_component.so" to ""
+[93.159s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node
+[93.177s] -- Set runtime path of "/home/hazem/ros2_ws/src/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node" to ""
+[93.177s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/package_run_dependencies/graph_based_slam
+[93.178s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/parent_prefix_path/graph_based_slam
+[93.178s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.sh
+[93.178s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.dsv
+[93.179s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.sh
+[93.179s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/environment/path.dsv
+[93.179s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.bash
+[93.179s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.sh
+[93.179s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.zsh
+[93.180s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/local_setup.dsv
+[93.180s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.dsv
+[93.180s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/packages/graph_based_slam
+[93.180s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/ament_index/resource_index/rclcpp_components/graph_based_slam
+[93.181s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_libraries-extras.cmake
+[93.181s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_include_directories-extras.cmake
+[93.181s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig.cmake
+[93.181s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig-version.cmake
+[93.182s] -- Installing: /home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.xml
+[93.183s] Invoked command in '/home/hazem/ros2_ws/src/build/graph_based_slam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/graph_based_slam

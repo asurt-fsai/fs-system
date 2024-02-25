@@ -1,0 +1,34 @@
+[35m[1mConsolidate compiler generated dependencies of target graph_based_slam_component[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o[0m
+[ 50%] [32m[1mLinking CXX shared library libgraph_based_slam_component.so[0m
+[ 50%] Built target graph_based_slam_component
+[ 75%] [32mBuilding CXX object CMakeFiles/graph_based_slam_node.dir/src/graph_based_slam_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable graph_based_slam_node[0m
+[100%] Built target graph_based_slam_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/library_path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/library_path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/launch/graphbasedslam.launch.py
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/param/graphbasedslam.yaml
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/lib/libgraph_based_slam_component.so
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/lib/graph_based_slam/graph_based_slam_node
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/package_run_dependencies/graph_based_slam
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/parent_prefix_path/graph_based_slam
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/ament_prefix_path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/path.sh
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/environment/path.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.bash
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.sh
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.zsh
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/local_setup.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/package.dsv
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/packages/graph_based_slam
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/ament_index/resource_index/rclcpp_components/graph_based_slam
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_libraries-extras.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/cmake/graph_based_slamConfig-version.cmake
+-- Symlinking: /home/hazem/ros2_ws/install/graph_based_slam/share/graph_based_slam/package.xml

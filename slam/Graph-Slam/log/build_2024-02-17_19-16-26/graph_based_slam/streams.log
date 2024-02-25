@@ -1,0 +1,168 @@
+[0.083s] Invoking command in '/home/hazem/ros2_ws/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/graph_based_slam
+[0.129s] -- The C compiler identification is GNU 11.4.0
+[0.176s] -- The CXX compiler identification is GNU 11.4.0
+[0.182s] -- Detecting C compiler ABI info
+[0.238s] -- Detecting C compiler ABI info - done
+[0.245s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.245s] -- Detecting C compile features
+[0.245s] -- Detecting C compile features - done
+[0.248s] -- Detecting CXX compiler ABI info
+[0.314s] -- Detecting CXX compiler ABI info - done
+[0.321s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.321s] -- Detecting CXX compile features
+[0.321s] -- Detecting CXX compile features - done
+[0.323s] -- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.464s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.514s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.535s] -- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+[0.571s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.575s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.582s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.594s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.610s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.672s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.674s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.757s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.778s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.817s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.825s] -- Looking for pthread.h
+[0.885s] -- Looking for pthread.h - found
+[0.885s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.947s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.948s] -- Found Threads: TRUE  
+[1.096s] -- Found rclcpp_components: 16.0.8 (/opt/ros/humble/share/rclcpp_components/cmake)
+[1.178s] -- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)
+[1.218s] -- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)
+[1.297s] -- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)
+[1.382s] -- Found std_srvs: 4.2.3 (/opt/ros/humble/share/std_srvs/cmake)
+[1.400s] -- Found tf2_ros: 0.25.5 (/opt/ros/humble/share/tf2_ros/cmake)
+[1.648s] -- Found tf2_eigen: 0.25.5 (/opt/ros/humble/share/tf2_eigen/cmake)
+[1.658s] -- Found tf2_geometry_msgs: 0.25.5 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[1.666s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[1.668s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[1.668s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.684s] -- Found tf2_sensor_msgs: 0.25.5 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)
+[1.703s] -- Found pcl_conversions: 2.4.0 (/opt/ros/humble/share/pcl_conversions/cmake)
+[1.817s] -- Found lidarslam_msgs: 0.0.0 (/home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake)
+[1.943s] -- Found ndt_omp_ros2: 0.0.0 (/home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake)
+[1.956s] -- Checking for module 'eigen3'
+[1.967s] --   Found eigen3, version 3.4.0
+[1.993s] -- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") 
+[1.993s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[2.008s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization 
+[2.021s] -- Checking for module 'flann'
+[2.032s] --   Found flann, version 1.9.1
+[2.067s] -- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  
+[2.067s] -- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)
+[2.111s] -- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  
+[2.115s] -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX 
+[2.230s] -- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") 
+[2.230s] -- Found MPI: TRUE (found version "3.1") found components: C 
+[2.232s] -- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") 
+[2.239s] -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") 
+[2.252s] -- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") 
+[2.261s] -- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") 
+[2.331s] -- Found X11: /usr/include   
+[2.331s] -- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
+[2.393s] -- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
+[2.393s] -- Looking for gethostbyname
+[2.451s] -- Looking for gethostbyname - found
+[2.451s] -- Looking for connect
+[2.509s] -- Looking for connect - found
+[2.509s] -- Looking for remove
+[2.567s] -- Looking for remove - found
+[2.567s] -- Looking for shmat
+[2.625s] -- Looking for shmat - found
+[2.625s] -- Looking for IceConnectionNumber in ICE
+[2.684s] -- Looking for IceConnectionNumber in ICE - found
+[2.749s] -- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") 
+[2.750s] -- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  
+[2.752s] -- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") 
+[2.753s] -- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") 
+[2.764s] -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") 
+[2.767s] -- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  
+[2.771s] -- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") 
+[2.775s] -- Found utf8cpp: /usr/include/utf8cpp  
+[2.839s] -- Checking for module 'libusb-1.0'
+[2.851s] --   Found libusb-1.0, version 1.0.25
+[2.880s] -- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  
+[2.881s] -- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") 
+[2.881s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[2.927s] -- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") 
+[2.927s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[2.927s] [0m** WARNING ** io features related to pcap will be disabled[0m
+[3.055s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[3.060s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[3.065s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[3.186s] -- Found Qhull version 8.0.2
+[3.312s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[3.434s] -- looking for PCL_COMMON
+[3.434s] -- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  
+[3.434s] -- looking for PCL_KDTREE
+[3.435s] -- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  
+[3.435s] -- looking for PCL_OCTREE
+[3.436s] -- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  
+[3.436s] -- looking for PCL_SEARCH
+[3.437s] -- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  
+[3.437s] -- looking for PCL_SAMPLE_CONSENSUS
+[3.437s] -- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  
+[3.437s] -- looking for PCL_FILTERS
+[3.438s] -- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  
+[3.438s] -- looking for PCL_2D
+[3.438s] -- Found PCL_2D: /usr/include/pcl-1.12  
+[3.438s] -- looking for PCL_GEOMETRY
+[3.439s] -- Found PCL_GEOMETRY: /usr/include/pcl-1.12  
+[3.439s] -- looking for PCL_IO
+[3.439s] -- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  
+[3.440s] -- looking for PCL_FEATURES
+[3.440s] -- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  
+[3.440s] -- looking for PCL_ML
+[3.441s] -- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  
+[3.441s] -- looking for PCL_SEGMENTATION
+[3.442s] -- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  
+[3.442s] -- looking for PCL_VISUALIZATION
+[3.443s] -- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  
+[3.443s] -- looking for PCL_SURFACE
+[3.443s] -- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  
+[3.444s] -- looking for PCL_REGISTRATION
+[3.444s] -- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  
+[3.444s] -- looking for PCL_KEYPOINTS
+[3.445s] -- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  
+[3.445s] -- looking for PCL_TRACKING
+[3.446s] -- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  
+[3.446s] -- looking for PCL_RECOGNITION
+[3.446s] -- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  
+[3.447s] -- looking for PCL_STEREO
+[3.447s] -- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  
+[3.448s] -- looking for PCL_APPS
+[3.448s] -- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  
+[3.449s] -- looking for PCL_IN_HAND_SCANNER
+[3.449s] -- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  
+[3.449s] -- looking for PCL_MODELER
+[3.450s] -- Found PCL_MODELER: /usr/include/pcl-1.12  
+[3.450s] -- looking for PCL_POINT_CLOUD_EDITOR
+[3.450s] -- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  
+[3.450s] -- looking for PCL_OUTOFCORE
+[3.451s] -- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  
+[3.451s] -- looking for PCL_PEOPLE
+[3.452s] -- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  
+[3.453s] -- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  
+[3.461s] [31mCMake Error at CMakeLists.txt:38 (find_package):
+[3.461s]   By not providing "Findg2o.cmake" in CMAKE_MODULE_PATH this project has
+[3.461s]   asked CMake to find a package configuration file provided by "g2o", but
+[3.461s]   CMake did not find one.
+[3.461s] 
+[3.461s]   Could not find a package configuration file provided by "g2o" with any of
+[3.461s]   the following names:
+[3.461s] 
+[3.461s]     g2oConfig.cmake
+[3.461s]     g2o-config.cmake
+[3.461s] 
+[3.462s]   Add the installation prefix of "g2o" to CMAKE_PREFIX_PATH or set "g2o_DIR"
+[3.462s]   to a directory containing one of the above files.  If "g2o" provides a
+[3.462s]   separate development package or SDK, be sure it has been installed.
+[3.462s] 
+[3.462s] [0m
+[3.462s] -- Configuring incomplete, errors occurred!
+[3.462s] See also "/home/hazem/ros2_ws/build/graph_based_slam/CMakeFiles/CMakeOutput.log".
+[3.476s] Invoked command in '/home/hazem/ros2_ws/build/graph_based_slam' returned '1': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/graph_based_slam

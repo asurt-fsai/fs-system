@@ -1,0 +1,131 @@
+[0.081s] Invoking command in '/home/hazem/ros2_ws/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/graph_based_slam
+[0.092s] -- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.206s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.212s] -- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+[0.238s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.240s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.246s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.256s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.269s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.321s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.322s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.421s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.565s] -- Found rclcpp_components: 16.0.8 (/opt/ros/humble/share/rclcpp_components/cmake)
+[0.618s] -- Found geometry_msgs: 4.2.3 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.658s] -- Found sensor_msgs: 4.2.3 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.734s] -- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.813s] -- Found std_srvs: 4.2.3 (/opt/ros/humble/share/std_srvs/cmake)
+[0.828s] -- Found tf2_ros: 0.25.5 (/opt/ros/humble/share/tf2_ros/cmake)
+[1.077s] -- Found tf2_eigen: 0.25.5 (/opt/ros/humble/share/tf2_eigen/cmake)
+[1.081s] -- Found tf2_geometry_msgs: 0.25.5 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[1.085s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[1.086s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[1.086s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.094s] -- Found tf2_sensor_msgs: 0.25.5 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)
+[1.113s] -- Found pcl_conversions: 2.4.0 (/opt/ros/humble/share/pcl_conversions/cmake)
+[1.231s] -- Found lidarslam_msgs: 0.0.0 (/home/hazem/ros2_ws/install/lidarslam_msgs/share/lidarslam_msgs/cmake)
+[1.360s] -- Found ndt_omp_ros2: 0.0.0 (/home/hazem/ros2_ws/install/ndt_omp_ros2/share/ndt_omp_ros2/cmake)
+[1.372s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[1.397s] -- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)
+[1.544s] -- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") 
+[1.639s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[1.645s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[1.645s] [0m** WARNING ** io features related to pcap will be disabled[0m
+[1.773s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[1.779s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[1.784s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[1.902s] -- Found Qhull version 8.0.2
+[2.027s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[2.149s] -- looking for PCL_COMMON
+[2.150s] -- looking for PCL_KDTREE
+[2.150s] -- looking for PCL_OCTREE
+[2.150s] -- looking for PCL_SEARCH
+[2.151s] -- looking for PCL_SAMPLE_CONSENSUS
+[2.151s] -- looking for PCL_FILTERS
+[2.151s] -- looking for PCL_2D
+[2.152s] -- looking for PCL_GEOMETRY
+[2.152s] -- looking for PCL_IO
+[2.152s] -- looking for PCL_FEATURES
+[2.153s] -- looking for PCL_ML
+[2.153s] -- looking for PCL_SEGMENTATION
+[2.154s] -- looking for PCL_VISUALIZATION
+[2.154s] -- looking for PCL_SURFACE
+[2.154s] -- looking for PCL_REGISTRATION
+[2.155s] -- looking for PCL_KEYPOINTS
+[2.155s] -- looking for PCL_TRACKING
+[2.155s] -- looking for PCL_RECOGNITION
+[2.156s] -- looking for PCL_STEREO
+[2.156s] -- looking for PCL_APPS
+[2.157s] -- looking for PCL_IN_HAND_SCANNER
+[2.157s] -- looking for PCL_MODELER
+[2.157s] -- looking for PCL_POINT_CLOUD_EDITOR
+[2.158s] -- looking for PCL_OUTOFCORE
+[2.158s] -- looking for PCL_PEOPLE
+[2.162s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[2.163s] -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
+[2.379s] -- Found OpenMP_C: -fopenmp (found version "4.5") 
+[2.460s] -- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+[2.461s] -- Found OpenMP: TRUE (found version "4.5")  
+[2.462s] -- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[2.684s] -- Added test 'copyright' to check source files copyright and LICENSE
+[2.685s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[2.686s] -- Configured cppcheck include dirs: /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/include
+[2.686s] -- Configured cppcheck exclude dirs and/or files: 
+[2.687s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[2.687s] -- Configured cpplint exclude dirs and/or files: 
+[2.687s] -- Added test 'flake8' to check Python code syntax and style conventions
+[2.688s] -- Added test 'lint_cmake' to check CMake code style
+[2.688s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[2.689s] -- Added test 'uncrustify' to check C / C++ code style
+[2.689s] -- Configured uncrustify additional arguments: 
+[2.690s] -- Added test 'xmllint' to check XML markup files
+[2.692s] -- Configuring done
+[2.749s] -- Generating done
+[2.751s] -- Build files have been written to: /home/hazem/ros2_ws/build/graph_based_slam
+[2.765s] Invoked command in '/home/hazem/ros2_ws/build/graph_based_slam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/install/graph_based_slam
+[2.767s] Invoking command in '/home/hazem/ros2_ws/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/build/graph_based_slam -- -j12 -l12
+[2.815s] [ 25%] [32mBuilding CXX object CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o[0m
+[11.992s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:[m[K In member function ‘[01m[Kvoid graphslam::GraphBasedSlamComponent::doPoseAdjustment(lidarslam_msgs::msg::MapArray, bool)[m[K’:
+[11.992s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kmake_unique[m[K’ is not a member of ‘[01m[Kg2o[m[K’
+[11.992s]   270 |     g2o::[01;31m[Kmake_unique[m[K<g2o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType>>();
+[11.992s]       |          [01;31m[K^~~~~~~~~~~[m[K
+[11.992s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:10:[m[K [01;36m[Knote: [m[Ksuggested alternatives:
+[11.992s] In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+[11.992s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+[11.992s]                  from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h:42[m[K,
+[11.992s]                  from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:1[m[K:
+[11.992s] [01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+[11.992s]   973 |     [01;36m[Kmake_unique[m[K(_Args&&...) = delete;
+[11.992s]       |     [01;36m[K^~~~~~~~~~~[m[K
+[11.993s] [01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+[11.993s]   961 |     [01;36m[Kmake_unique[m[K(_Args&&... __args)
+[11.993s]       |     [01;36m[K^~~~~~~~~~~[m[K
+[11.993s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:81:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+[11.993s]   270 | o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType[01;31m[K>>[m[K();
+[11.993s]       |                                                          [01;31m[K^~[m[K
+[11.993s] 
+[11.993s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:270:84:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K)[m[K’ token
+[11.993s]   270 | o::LinearSolverEigen<g2o::BlockSolver_6_3::PoseMatrixType>>([01;31m[K)[m[K;
+[11.993s]       |                                                             [01;31m[K^[m[K
+[11.993s] 
+[11.993s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kmake_unique[m[K’ is not a member of ‘[01m[Kg2o[m[K’
+[11.993s]   272 |     g2o::[01;31m[Kmake_unique[m[K<g2o::BlockSolver_6_3>(std::move(linear_solver)));
+[11.993s]       |          [01;31m[K^~~~~~~~~~~[m[K
+[11.993s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:10:[m[K [01;36m[Knote: [m[Ksuggested alternatives:
+[11.993s] In file included from [01m[K/usr/include/c++/11/memory:76[m[K,
+[11.994s]                  from [01m[K/opt/ros/humble/include/rclcpp/rclcpp/rclcpp.hpp:153[m[K,
+[11.994s]                  from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/include/graph_based_slam/graph_based_slam_component.h:42[m[K,
+[11.994s]                  from [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:1[m[K:
+[11.994s] [01m[K/usr/include/c++/11/bits/unique_ptr.h:973:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+[11.994s]   973 |     [01;36m[Kmake_unique[m[K(_Args&&...) = delete;
+[11.994s]       |     [01;36m[K^~~~~~~~~~~[m[K
+[11.994s] [01m[K/usr/include/c++/11/bits/unique_ptr.h:961:5:[m[K [01;36m[Knote: [m[K  ‘[01m[Kstd::make_unique[m[K’
+[11.994s]   961 |     [01;36m[Kmake_unique[m[K(_Args&&... __args)
+[11.994s]       |     [01;36m[K^~~~~~~~~~~[m[K
+[11.994s] [01m[K/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam/src/graph_based_slam_component.cpp:272:42:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+[11.994s]   272 |     g2o::make_unique<g2o::BlockSolver_6_3[01;31m[K>[m[K(std::move(linear_solver)));
+[11.994s]       |                                          [01;31m[K^[m[K
+[29.039s] gmake[2]: *** [CMakeFiles/graph_based_slam_component.dir/build.make:76: CMakeFiles/graph_based_slam_component.dir/src/graph_based_slam_component.cpp.o] Error 1
+[29.039s] gmake[1]: *** [CMakeFiles/Makefile2:139: CMakeFiles/graph_based_slam_component.dir/all] Error 2
+[29.039s] gmake: *** [Makefile:146: all] Error 2
+[29.042s] Invoked command in '/home/hazem/ros2_ws/build/graph_based_slam' returned '2': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/build/graph_based_slam -- -j12 -l12

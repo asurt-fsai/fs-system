@@ -1,0 +1,334 @@
+[0.862s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.862s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=12, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f6fafcc7280>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f6fafcc7f70>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f6fafcc7f70>>)
+[0.908s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.908s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.908s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.908s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.909s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.909s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.909s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/hazem/ros2_ws/src'
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.909s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.918s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['ignore', 'ignore_ament_install']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'ignore'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'ignore_ament_install'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['colcon_pkg']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'colcon_pkg'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['colcon_meta']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'colcon_meta'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['ros']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'ros'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['cmake', 'python']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'cmake'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'python'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extensions ['python_setup_py']
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2) by extension 'python_setup_py'
+[0.919s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['ignore', 'ignore_ament_install']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'ignore'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'ignore_ament_install'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['colcon_pkg']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'colcon_pkg'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['colcon_meta']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'colcon_meta'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['ros']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'ros'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['cmake', 'python']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'cmake'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'python'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extensions ['python_setup_py']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty) by extension 'python_setup_py'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extensions ['ignore', 'ignore_ament_install']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extension 'ignore'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extension 'ignore_ament_install'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extensions ['colcon_pkg']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extension 'colcon_pkg'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extensions ['colcon_meta']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extension 'colcon_meta'
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extensions ['ros']
+[0.920s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/Thirdparty/ndt_omp_ros2) by extension 'ros'
+[0.922s] DEBUG:colcon.colcon_core.package_identification:Package 'lidarslam_ros2/Thirdparty/ndt_omp_ros2' with type 'ros.ament_cmake' and name 'ndt_omp_ros2'
+[0.922s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extensions ['ignore', 'ignore_ament_install']
+[0.922s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extension 'ignore'
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extension 'ignore_ament_install'
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extensions ['colcon_pkg']
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extension 'colcon_pkg'
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extensions ['colcon_meta']
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extension 'colcon_meta'
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extensions ['ros']
+[0.923s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/graph_based_slam) by extension 'ros'
+[0.924s] DEBUG:colcon.colcon_core.package_identification:Package 'lidarslam_ros2/graph_based_slam' with type 'ros.ament_cmake' and name 'graph_based_slam'
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extensions ['ignore', 'ignore_ament_install']
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extension 'ignore'
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extension 'ignore_ament_install'
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extensions ['colcon_pkg']
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extension 'colcon_pkg'
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extensions ['colcon_meta']
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extension 'colcon_meta'
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extensions ['ros']
+[0.924s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam) by extension 'ros'
+[0.925s] DEBUG:colcon.colcon_core.package_identification:Package 'lidarslam_ros2/lidarslam' with type 'ros.ament_cmake' and name 'lidarslam'
+[0.925s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.925s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extension 'ignore'
+[0.925s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extension 'ignore_ament_install'
+[0.925s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extensions ['colcon_pkg']
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extension 'colcon_pkg'
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extensions ['colcon_meta']
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extension 'colcon_meta'
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extensions ['ros']
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/lidarslam_msgs) by extension 'ros'
+[0.926s] DEBUG:colcon.colcon_core.package_identification:Package 'lidarslam_ros2/lidarslam_msgs' with type 'ros.ament_cmake' and name 'lidarslam_msgs'
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extensions ['ignore', 'ignore_ament_install']
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extension 'ignore'
+[0.926s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extension 'ignore_ament_install'
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extensions ['colcon_pkg']
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extension 'colcon_pkg'
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extensions ['colcon_meta']
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extension 'colcon_meta'
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extensions ['ros']
+[0.927s] Level 1:colcon.colcon_core.package_identification:_identify(lidarslam_ros2/scanmatcher) by extension 'ros'
+[0.928s] DEBUG:colcon.colcon_core.package_identification:Package 'lidarslam_ros2/scanmatcher' with type 'ros.ament_cmake' and name 'scanmatcher'
+[0.928s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.928s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.928s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.928s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.928s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.928s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.928s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.928s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.008s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.008s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.035s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 270 installed packages in /opt/ros/humble
+[1.036s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.114s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_args' from command line to 'None'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_target' from command line to 'None'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_clean_cache' from command line to 'False'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_clean_first' from command line to 'False'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'cmake_force_configure' from command line to 'False'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'ament_cmake_args' from command line to 'None'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'catkin_cmake_args' from command line to 'None'
+[1.115s] Level 5:colcon.colcon_core.verb:set package 'lidarslam_msgs' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.115s] DEBUG:colcon.colcon_core.verb:Building package 'lidarslam_msgs' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/hazem/ros2_ws/src/build/lidarslam_msgs', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/hazem/ros2_ws/src/install/lidarslam_msgs', 'merge_install': False, 'path': '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs', 'symlink_install': False, 'test_result_base': None}
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_args' from command line to 'None'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_target' from command line to 'None'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_clean_cache' from command line to 'False'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_clean_first' from command line to 'False'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'cmake_force_configure' from command line to 'False'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'ament_cmake_args' from command line to 'None'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'catkin_cmake_args' from command line to 'None'
+[1.127s] Level 5:colcon.colcon_core.verb:set package 'ndt_omp_ros2' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.127s] DEBUG:colcon.colcon_core.verb:Building package 'ndt_omp_ros2' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/hazem/ros2_ws/src/build/ndt_omp_ros2', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/hazem/ros2_ws/src/install/ndt_omp_ros2', 'merge_install': False, 'path': '/home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2', 'symlink_install': False, 'test_result_base': None}
+[1.139s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_args' from command line to 'None'
+[1.139s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_target' from command line to 'None'
+[1.139s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_clean_cache' from command line to 'False'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_clean_first' from command line to 'False'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'cmake_force_configure' from command line to 'False'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'ament_cmake_args' from command line to 'None'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'catkin_cmake_args' from command line to 'None'
+[1.140s] Level 5:colcon.colcon_core.verb:set package 'graph_based_slam' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.140s] DEBUG:colcon.colcon_core.verb:Building package 'graph_based_slam' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/hazem/ros2_ws/src/build/graph_based_slam', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/hazem/ros2_ws/src/install/graph_based_slam', 'merge_install': False, 'path': '/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam', 'symlink_install': False, 'test_result_base': None}
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_args' from command line to 'None'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_target' from command line to 'None'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_clean_cache' from command line to 'False'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_clean_first' from command line to 'False'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'cmake_force_configure' from command line to 'False'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'ament_cmake_args' from command line to 'None'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'catkin_cmake_args' from command line to 'None'
+[1.152s] Level 5:colcon.colcon_core.verb:set package 'scanmatcher' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.152s] DEBUG:colcon.colcon_core.verb:Building package 'scanmatcher' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/hazem/ros2_ws/src/build/scanmatcher', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/hazem/ros2_ws/src/install/scanmatcher', 'merge_install': False, 'path': '/home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher', 'symlink_install': False, 'test_result_base': None}
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_args' from command line to 'None'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_target' from command line to 'None'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_clean_cache' from command line to 'False'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_clean_first' from command line to 'False'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'cmake_force_configure' from command line to 'False'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'ament_cmake_args' from command line to 'None'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'catkin_cmake_args' from command line to 'None'
+[1.166s] Level 5:colcon.colcon_core.verb:set package 'lidarslam' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.166s] DEBUG:colcon.colcon_core.verb:Building package 'lidarslam' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/hazem/ros2_ws/src/build/lidarslam', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/hazem/ros2_ws/src/install/lidarslam', 'merge_install': False, 'path': '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam', 'symlink_install': False, 'test_result_base': None}
+[1.178s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[1.191s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[1.191s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs' with build type 'ament_cmake'
+[1.191s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs'
+[1.206s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.206s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.206s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.233s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2' with build type 'ament_cmake'
+[1.233s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2'
+[1.246s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.246s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.278s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/lidarslam_msgs
+[1.281s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/ndt_omp_ros2
+[3.164s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam_msgs -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/lidarslam_msgs
+[3.165s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/lidarslam_msgs -- -j12 -l12
+[4.981s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/Thirdparty/ndt_omp_ros2 -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/ndt_omp_ros2
+[4.983s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/ndt_omp_ros2 -- -j12 -l12
+[5.780s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/lidarslam_msgs -- -j12 -l12
+[5.868s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/lidarslam_msgs
+[5.952s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lidarslam_msgs)
+[5.952s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/lidarslam_msgs
+[5.979s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs' for CMake module files
+[5.980s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs' for CMake config files
+[5.981s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidarslam_msgs', 'cmake_prefix_path')
+[5.999s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.ps1'
+[6.000s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.dsv'
+[6.000s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.sh'
+[6.001s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib'
+[6.001s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidarslam_msgs', 'ld_library_path_lib')
+[6.017s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.ps1'
+[6.017s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.dsv'
+[6.018s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.sh'
+[6.018s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/bin'
+[6.018s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/pkgconfig/lidarslam_msgs.pc'
+[6.018s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/python3.10/site-packages'
+[6.018s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/bin'
+[6.034s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.ps1'
+[6.035s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.dsv'
+[6.036s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.sh'
+[6.036s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.bash'
+[6.037s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.zsh'
+[6.037s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/colcon-core/packages/lidarslam_msgs)
+[6.134s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lidarslam_msgs)
+[6.149s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs' for CMake module files
+[6.149s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs' for CMake config files
+[6.150s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidarslam_msgs', 'cmake_prefix_path')
+[6.167s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.ps1'
+[6.168s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.dsv'
+[6.168s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/cmake_prefix_path.sh'
+[6.169s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib'
+[6.169s] Level 1:colcon.colcon_core.shell:create_environment_hook('lidarslam_msgs', 'ld_library_path_lib')
+[6.186s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.ps1'
+[6.186s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.dsv'
+[6.186s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/hook/ld_library_path_lib.sh'
+[6.187s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/bin'
+[6.187s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/pkgconfig/lidarslam_msgs.pc'
+[6.187s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib/python3.10/site-packages'
+[6.187s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/lidarslam_msgs/bin'
+[6.204s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.ps1'
+[6.204s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.dsv'
+[6.205s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.sh'
+[6.205s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.bash'
+[6.206s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/lidarslam_msgs/package.zsh'
+[6.206s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/hazem/ros2_ws/src/install/lidarslam_msgs/share/colcon-core/packages/lidarslam_msgs)
+[40.310s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/ndt_omp_ros2 -- -j12 -l12
+[40.341s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/ndt_omp_ros2
+[40.356s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ndt_omp_ros2)
+[40.356s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/ndt_omp_ros2' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/ndt_omp_ros2
+[40.376s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2' for CMake module files
+[40.377s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2' for CMake config files
+[40.377s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'cmake_prefix_path')
+[40.390s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.ps1'
+[40.390s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.dsv'
+[40.390s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.sh'
+[40.390s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib'
+[40.391s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin'
+[40.391s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'path')
+[40.403s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.ps1'
+[40.404s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.dsv'
+[40.404s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.sh'
+[40.404s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/pkgconfig/ndt_omp_ros2.pc'
+[40.404s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/python3.10/site-packages'
+[40.405s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin'
+[40.405s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'pythonscriptspath')
+[40.417s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.ps1'
+[40.418s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.dsv'
+[40.418s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.sh'
+[40.431s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.ps1'
+[40.431s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv'
+[40.432s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.sh'
+[40.432s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.bash'
+[40.432s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.zsh'
+[40.432s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/colcon-core/packages/ndt_omp_ros2)
+[40.474s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(ndt_omp_ros2)
+[40.487s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2' for CMake module files
+[40.487s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2' for CMake config files
+[40.488s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'cmake_prefix_path')
+[40.500s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.ps1'
+[40.500s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.dsv'
+[40.501s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/cmake_prefix_path.sh'
+[40.501s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib'
+[40.501s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin'
+[40.501s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'path')
+[40.514s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.ps1'
+[40.514s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.dsv'
+[40.514s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/path.sh'
+[40.515s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/pkgconfig/ndt_omp_ros2.pc'
+[40.515s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/lib/python3.10/site-packages'
+[40.515s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin'
+[40.515s] Level 1:colcon.colcon_core.shell:create_environment_hook('ndt_omp_ros2', 'pythonscriptspath')
+[40.527s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.ps1'
+[40.528s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.dsv'
+[40.528s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/hook/pythonscriptspath.sh'
+[40.541s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.ps1'
+[40.541s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.dsv'
+[40.542s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.sh'
+[40.542s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.bash'
+[40.542s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/ndt_omp_ros2/package.zsh'
+[40.543s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/hazem/ros2_ws/src/install/ndt_omp_ros2/share/colcon-core/packages/ndt_omp_ros2)
+[40.543s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam' with build type 'ament_cmake'
+[40.543s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam'
+[40.556s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[40.557s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[40.585s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher' with build type 'ament_cmake'
+[40.585s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher'
+[40.598s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[40.599s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[40.634s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/graph_based_slam
+[40.638s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/scanmatcher': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/scanmatcher
+[44.916s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/scanmatcher' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/scanmatcher -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/scanmatcher
+[44.918s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/scanmatcher': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/scanmatcher -- -j12 -l12
+[44.946s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/graph_based_slam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/graph_based_slam -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/graph_based_slam
+[44.946s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/hazem/ros2_ws/src/build/graph_based_slam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/graph_based_slam -- -j12 -l12
+[72.907s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/hazem/ros2_ws/src/build/graph_based_slam' returned '2': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/graph_based_slam -- -j12 -l12
+[72.948s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(graph_based_slam)
+[72.962s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam' for CMake module files
+[72.962s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam' for CMake config files
+[72.963s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam/bin'
+[72.963s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam/lib/pkgconfig/graph_based_slam.pc'
+[72.963s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam/lib/python3.10/site-packages'
+[72.963s] Level 1:colcon.colcon_core.environment:checking '/home/hazem/ros2_ws/src/install/graph_based_slam/bin'
+[72.978s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.ps1'
+[72.979s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.dsv'
+[72.979s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.sh'
+[72.979s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.bash'
+[72.980s] INFO:colcon.colcon_core.shell:Creating package script '/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/package.zsh'
+[72.980s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/hazem/ros2_ws/src/install/graph_based_slam/share/colcon-core/packages/graph_based_slam)
+[122.314s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[122.314s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[122.314s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '2'
+[122.315s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[122.336s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[122.336s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[122.336s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[122.346s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[122.360s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/hazem/ros2_ws/src/install/local_setup.ps1'
+[122.361s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/hazem/ros2_ws/src/install/_local_setup_util_ps1.py'
+[122.362s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/hazem/ros2_ws/src/install/setup.ps1'
+[122.375s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/hazem/ros2_ws/src/install/local_setup.sh'
+[122.375s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/hazem/ros2_ws/src/install/_local_setup_util_sh.py'
+[122.376s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/hazem/ros2_ws/src/install/setup.sh'
+[122.389s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/hazem/ros2_ws/src/install/local_setup.bash'
+[122.389s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/hazem/ros2_ws/src/install/setup.bash'
+[122.402s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/hazem/ros2_ws/src/install/local_setup.zsh'
+[122.402s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/hazem/ros2_ws/src/install/setup.zsh'

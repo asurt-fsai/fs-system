@@ -1,0 +1,195 @@
+[0.063s] Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/lidarslam
+[0.183s] -- The C compiler identification is GNU 11.4.0
+[0.237s] -- The CXX compiler identification is GNU 11.4.0
+[0.250s] -- Detecting C compiler ABI info
+[0.315s] -- Detecting C compiler ABI info - done
+[0.322s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.322s] -- Detecting C compile features
+[0.322s] -- Detecting C compile features - done
+[0.325s] -- Detecting CXX compiler ABI info
+[0.410s] -- Detecting CXX compiler ABI info - done
+[0.417s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.418s] -- Detecting CXX compile features
+[0.418s] -- Detecting CXX compile features - done
+[0.422s] -- Found ament_cmake: 1.3.7 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.577s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[0.672s] -- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+[0.727s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.734s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.745s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.762s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.784s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.864s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.870s] -- Found rmw_fastrtps_cpp: 6.2.6 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.974s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.001s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.043s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.056s] -- Looking for pthread.h
+[1.119s] -- Looking for pthread.h - found
+[1.120s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[1.187s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[1.188s] -- Found Threads: TRUE  
+[1.351s] -- Found scanmatcher: 0.0.0 (/home/hazem/ros2_ws/src/install/scanmatcher/share/scanmatcher/cmake)
+[1.775s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[1.776s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[1.776s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[2.453s] -- Found graph_based_slam: 0.0.0 (/home/hazem/ros2_ws/src/install/graph_based_slam/share/graph_based_slam/cmake)
+[2.457s] -- Found std_srvs: 4.2.3 (/opt/ros/humble/share/std_srvs/cmake)
+[2.487s] -- Checking for module 'eigen3'
+[2.498s] --   Found eigen3, version 3.4.0
+[2.527s] -- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") 
+[2.527s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[2.551s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.65.0") found components: system filesystem date_time iostreams serialization 
+[2.565s] -- Checking for module 'flann'
+[2.577s] --   Found flann, version 1.9.1
+[2.611s] -- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  
+[2.611s] -- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)
+[2.645s] -- Found GLEW: /usr/lib/x86_64-linux-gnu/libGLEW.so  
+[2.650s] -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL GLX 
+[2.785s] -- Found MPI_C: /usr/lib/x86_64-linux-gnu/libmpi.so (found version "3.1") 
+[2.785s] -- Found MPI: TRUE (found version "3.1") found components: C 
+[2.788s] -- Found JsonCpp: /usr/lib/x86_64-linux-gnu/libjsoncpp.so (found suitable version "1.9.5", minimum required is "0.7.0") 
+[2.796s] -- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11") 
+[2.812s] -- Found PNG: /usr/lib/x86_64-linux-gnu/libpng.so (found version "1.6.37") 
+[2.832s] -- Found Eigen3: /usr/include/eigen3 (found version "3.4.0") 
+[2.910s] -- Found X11: /usr/include   
+[2.911s] -- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so
+[2.975s] -- Looking for XOpenDisplay in /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so - found
+[2.975s] -- Looking for gethostbyname
+[3.037s] -- Looking for gethostbyname - found
+[3.037s] -- Looking for connect
+[3.104s] -- Looking for connect - found
+[3.104s] -- Looking for remove
+[3.171s] -- Looking for remove - found
+[3.171s] -- Looking for shmat
+[3.246s] -- Looking for shmat - found
+[3.246s] -- Looking for IceConnectionNumber in ICE
+[3.334s] -- Looking for IceConnectionNumber in ICE - found
+[3.410s] -- Found EXPAT: /usr/lib/x86_64-linux-gnu/libexpat.so (found version "2.4.7") 
+[3.411s] -- Found double-conversion: /usr/lib/x86_64-linux-gnu/libdouble-conversion.so  
+[3.414s] -- Found LZ4: /usr/lib/x86_64-linux-gnu/liblz4.so (found version "1.9.3") 
+[3.415s] -- Found LZMA: /usr/lib/x86_64-linux-gnu/liblzma.so (found version "5.2.5") 
+[3.426s] -- Found JPEG: /usr/lib/x86_64-linux-gnu/libjpeg.so (found version "80") 
+[3.430s] -- Found TIFF: /usr/lib/x86_64-linux-gnu/libtiff.so (found version "4.3.0")  
+[3.434s] -- Found Freetype: /usr/lib/x86_64-linux-gnu/libfreetype.so (found version "2.11.1") 
+[3.439s] -- Found utf8cpp: /usr/include/utf8cpp  
+[3.512s] -- Checking for module 'libusb-1.0'
+[3.525s] --   Found libusb-1.0, version 1.0.25
+[3.558s] -- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  
+[3.559s] -- Found OpenNI: /usr/lib/libOpenNI.so;libusb::libusb (found version "1.5.4.0") 
+[3.559s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[3.611s] -- Found OpenNI2: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb (found version "2.2.0.33") 
+[3.611s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[3.611s] [0m** WARNING ** io features related to pcap will be disabled[0m
+[3.744s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[3.749s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[3.754s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[3.891s] -- Found Qhull version 8.0.2
+[4.027s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[4.150s] -- looking for PCL_COMMON
+[4.151s] -- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  
+[4.151s] -- looking for PCL_KDTREE
+[4.152s] -- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  
+[4.152s] -- looking for PCL_OCTREE
+[4.152s] -- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  
+[4.152s] -- looking for PCL_SEARCH
+[4.153s] -- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  
+[4.153s] -- looking for PCL_SAMPLE_CONSENSUS
+[4.154s] -- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  
+[4.154s] -- looking for PCL_FILTERS
+[4.155s] -- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  
+[4.155s] -- looking for PCL_2D
+[4.155s] -- Found PCL_2D: /usr/include/pcl-1.12  
+[4.155s] -- looking for PCL_GEOMETRY
+[4.156s] -- Found PCL_GEOMETRY: /usr/include/pcl-1.12  
+[4.156s] -- looking for PCL_IO
+[4.156s] -- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  
+[4.157s] -- looking for PCL_FEATURES
+[4.157s] -- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  
+[4.157s] -- looking for PCL_ML
+[4.159s] -- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  
+[4.159s] -- looking for PCL_SEGMENTATION
+[4.160s] -- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  
+[4.160s] -- looking for PCL_VISUALIZATION
+[4.160s] -- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  
+[4.161s] -- looking for PCL_SURFACE
+[4.161s] -- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  
+[4.162s] -- looking for PCL_REGISTRATION
+[4.162s] -- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  
+[4.162s] -- looking for PCL_KEYPOINTS
+[4.163s] -- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  
+[4.163s] -- looking for PCL_TRACKING
+[4.165s] -- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  
+[4.165s] -- looking for PCL_RECOGNITION
+[4.166s] -- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  
+[4.167s] -- looking for PCL_STEREO
+[4.167s] -- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  
+[4.167s] -- looking for PCL_APPS
+[4.168s] -- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  
+[4.169s] -- looking for PCL_IN_HAND_SCANNER
+[4.169s] -- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  
+[4.169s] -- looking for PCL_MODELER
+[4.169s] -- Found PCL_MODELER: /usr/include/pcl-1.12  
+[4.169s] -- looking for PCL_POINT_CLOUD_EDITOR
+[4.170s] -- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  
+[4.170s] -- looking for PCL_OUTOFCORE
+[4.171s] -- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  
+[4.171s] -- looking for PCL_PEOPLE
+[4.172s] -- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  
+[4.172s] -- Found PCL: pcl_common;pcl_kdtree;pcl_octree;pcl_search;pcl_sample_consensus;pcl_filters;pcl_io;pcl_features;pcl_ml;pcl_segmentation;pcl_visualization;pcl_surface;pcl_registration;pcl_keypoints;pcl_tracking;pcl_recognition;pcl_stereo;pcl_apps;pcl_outofcore;pcl_people;Boost::system;Boost::filesystem;Boost::date_time;Boost::iostreams;Boost::serialization;/usr/lib/libOpenNI.so;libusb::libusb;/usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb;VTK::ChartsCore;VTK::CommonColor;VTK::CommonComputationalGeometry;VTK::CommonCore;VTK::CommonDataModel;VTK::CommonExecutionModel;VTK::CommonMath;VTK::CommonMisc;VTK::CommonTransforms;VTK::FiltersCore;VTK::FiltersExtraction;VTK::FiltersGeneral;VTK::FiltersGeometry;VTK::FiltersModeling;VTK::FiltersSources;VTK::ImagingCore;VTK::ImagingSources;VTK::InteractionImage;VTK::InteractionStyle;VTK::InteractionWidgets;VTK::IOCore;VTK::IOGeometry;VTK::IOImage;VTK::IOLegacy;VTK::IOPLY;VTK::RenderingAnnotation;VTK::RenderingCore;VTK::RenderingContext2D;VTK::RenderingLOD;VTK::RenderingFreeType;VTK::ViewsCore;VTK::ViewsContext2D;VTK::RenderingOpenGL2;VTK::GUISupportQt;FLANN::FLANN;QHULL::QHULL  
+[4.402s] -- Found OpenMP_C: -fopenmp (found version "4.5") 
+[4.479s] -- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+[4.479s] -- Found OpenMP: TRUE (found version "4.5")  
+[4.484s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[4.485s] -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so   
+[4.492s] -- Found ament_lint_auto: 0.12.10 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[5.083s] -- Added test 'copyright' to check source files copyright and LICENSE
+[5.084s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[5.085s] -- Configured cppcheck include dirs: /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam/include
+[5.085s] -- Configured cppcheck exclude dirs and/or files: 
+[5.086s] -- Added test 'cpplint' to check C / C++ code against the Google style
+[5.086s] -- Configured cpplint exclude dirs and/or files: 
+[5.087s] -- Added test 'flake8' to check Python code syntax and style conventions
+[5.088s] -- Added test 'lint_cmake' to check CMake code style
+[5.089s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[5.090s] -- Added test 'uncrustify' to check C / C++ code style
+[5.090s] -- Configured uncrustify additional arguments: 
+[5.091s] -- Added test 'xmllint' to check XML markup files
+[5.092s] -- Configuring done
+[5.169s] -- Generating done
+[5.172s] -- Build files have been written to: /home/hazem/ros2_ws/src/build/lidarslam
+[5.186s] Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake /home/hazem/ros2_ws/src/lidarslam_ros2/lidarslam -DCMAKE_INSTALL_PREFIX=/home/hazem/ros2_ws/src/install/lidarslam
+[5.188s] Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/lidarslam -- -j12 -l12
+[5.236s] [ 50%] [32mBuilding CXX object CMakeFiles/lidarslam.dir/src/lidarslam.cpp.o[0m
+[22.434s] [100%] [32m[1mLinking CXX executable lidarslam[0m
+[23.364s] [100%] Built target lidarslam
+[23.374s] Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --build /home/hazem/ros2_ws/src/build/lidarslam -- -j12 -l12
+[23.399s] Invoking command in '/home/hazem/ros2_ws/src/build/lidarslam': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/lidarslam
+[23.406s] -- Install configuration: ""
+[23.406s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch
+[23.406s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch/lidarslam_tukuba.launch.py
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/launch/lidarslam.launch.py
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param/lidarslam.yaml
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/param/lidarslam_tukuba.yaml
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz/mapping_tukuba.rviz
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/rviz/mapping.rviz
+[23.407s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/lib/lidarslam/lidarslam
+[23.421s] -- Set runtime path of "/home/hazem/ros2_ws/src/install/lidarslam/lib/lidarslam/lidarslam" to ""
+[23.421s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/package_run_dependencies/lidarslam
+[23.421s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/parent_prefix_path/lidarslam
+[23.421s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/ament_prefix_path.sh
+[23.421s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/ament_prefix_path.dsv
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/path.sh
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/environment/path.dsv
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.bash
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.sh
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.zsh
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/local_setup.dsv
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/package.dsv
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/ament_index/resource_index/packages/lidarslam
+[23.422s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/cmake/lidarslamConfig.cmake
+[23.423s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/cmake/lidarslamConfig-version.cmake
+[23.423s] -- Installing: /home/hazem/ros2_ws/src/install/lidarslam/share/lidarslam/package.xml
+[23.424s] Invoked command in '/home/hazem/ros2_ws/src/build/lidarslam' returned '0': AMENT_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/hazem/ros2_ws/src/install/scanmatcher:/home/hazem/ros2_ws/src/install/graph_based_slam:/home/hazem/ros2_ws/src/install/ndt_omp_ros2:/home/hazem/ros2_ws/src/install/lidarslam_msgs:/home/hazem/ros2_ws/install/lidarslam:/home/hazem/ros2_ws/install/scanmatcher:/home/hazem/ros2_ws/install/graph_based_slam:/home/hazem/ros2_ws/install/ndt_omp_ros2:/home/hazem/ros2_ws/install/lidarslam_msgs:/opt/ros/humble LD_LIBRARY_PATH=/home/hazem/ros2_ws/src/install/scanmatcher/lib:/home/hazem/ros2_ws/src/install/graph_based_slam/lib:/home/hazem/ros2_ws/src/install/lidarslam_msgs/lib:${LD_LIBRARY_PATH} PATH=/home/hazem/ros2_ws/src/install/ndt_omp_ros2/bin:${PATH} PYTHONPATH=/home/hazem/ros2_ws/src/install/lidarslam_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/cmake --install /home/hazem/ros2_ws/src/build/lidarslam
