@@ -75,62 +75,62 @@ class SimplePurePursuitNode(Node):
 
         #self.rate.sleep()
 
-# def main() -> None:
-#     """
-#     Main function for simple pure pursuit vehicle control node, subscribes to
-#     waypoints and publishes control actions
-#     """
-#     rospy.init_node("simple_pp_controller", anonymous=True)
-#     controller = SimplePurePursuit()
+def main() -> None:
+    """
+    Main function for simple pure pursuit vehicle control node, subscribes to
+    waypoints and publishes control actions
+    """
+    rospy.init_node("simple_pp_controller", anonymous=True)
+    controller = SimplePurePursuit()
 
-#     controlTopic = rospy.get_param("/control/actions_topic")
-#     waypointsTopic = rospy.get_param("/control/waypoints_topic")
-#     markerVizTopic = rospy.get_param("/control/marker_viz_topic")
+    controlTopic = rospy.get_param("/control/actions_topic")
+    waypointsTopic = rospy.get_param("/control/waypoints_topic")
+    markerVizTopic = rospy.get_param("/control/marker_viz_topic")
 
-#     targetSpeed = rospy.get_param("/control/speed_target")
-#     controlRate = rospy.get_param("/control/rate")
+    targetSpeed = rospy.get_param("/control/speed_target")
+    controlRate = rospy.get_param("/control/rate")
 
     
-#     markerPub = rospy.Publisher(markerVizTopic, Marker, queue_size=10)
-#     controlActionPub = rospy.Publisher(controlTopic, AckermannDriveStamped, queue_size=10)
-#     rospy.Subscriber(waypointsTopic, Path, callback=controller.add)
-#     steeringPub = rospy.Publisher("/steer", Float32, queue_size=10)
-#     rate = rospy.Rate(controlRate)
+    markerPub = rospy.Publisher(markerVizTopic, Marker, queue_size=10)
+    controlActionPub = rospy.Publisher(controlTopic, AckermannDriveStamped, queue_size=10)
+    rospy.Subscriber(waypointsTopic, Path, callback=controller.add)
+    steeringPub = rospy.Publisher("/steer", Float32, queue_size=10)
+    rate = rospy.Rate(controlRate)
 
-#     while not rospy.is_shutdown():
-#         delta, ind = controller.purepursuitSteercontrol()
+    while not rospy.is_shutdown():
+        delta, ind = controller.purepursuitSteercontrol()
 
-#         controlAction = AckermannDriveStamped()
-#         controlAction.header.stamp = rospy.Time.now()
-#         controlAction.drive.steering_angle = delta
-#         controlAction.drive.speed = targetSpeed
-#         controlActionPub.publish(controlAction)
-#         steerMsg = Float32()
-#         steerMsg.data = delta
-#         steeringPub.publish(steerMsg)
-#         if len(controller.xList) > 0:
-#             vizPoint = Marker()
-#             vizPoint.header.frame_id = "rear_link"
-#             vizPoint.header.stamp = rospy.Time.now()
-#             vizPoint.ns = "pure_pursuit"
-#             vizPoint.id = 0
-#             vizPoint.type = Marker.SPHERE
-#             vizPoint.action = Marker.ADD
-#             vizPoint.pose.position.x = controller.xList[ind]
-#             vizPoint.pose.position.y = controller.yList[ind]
-#             vizPoint.pose.position.z = 0
-#             vizPoint.pose.orientation.x = 0.0
-#             vizPoint.pose.orientation.y = 0.0
-#             vizPoint.pose.orientation.z = 0.0
-#             vizPoint.pose.orientation.w = 1.0
-#             vizPoint.scale.x = 0.5
-#             vizPoint.scale.y = 0.5
-#             vizPoint.scale.z = 0.5
-#             vizPoint.color.r = 1.0
-#             vizPoint.color.a = 1.0
-#             markerPub.publish(vizPoint)
+        controlAction = AckermannDriveStamped()
+        controlAction.header.stamp = rospy.Time.now()
+        controlAction.drive.steering_angle = delta
+        controlAction.drive.speed = targetSpeed
+        controlActionPub.publish(controlAction)
+        steerMsg = Float32()
+        steerMsg.data = delta
+        steeringPub.publish(steerMsg)
+        if len(controller.xList) > 0:
+            vizPoint = Marker()
+            vizPoint.header.frame_id = "rear_link"
+            vizPoint.header.stamp = rospy.Time.now()
+            vizPoint.ns = "pure_pursuit"
+            vizPoint.id = 0
+            vizPoint.type = Marker.SPHERE
+            vizPoint.action = Marker.ADD
+            vizPoint.pose.position.x = controller.xList[ind]
+            vizPoint.pose.position.y = controller.yList[ind]
+            vizPoint.pose.position.z = 0
+            vizPoint.pose.orientation.x = 0.0
+            vizPoint.pose.orientation.y = 0.0
+            vizPoint.pose.orientation.z = 0.0
+            vizPoint.pose.orientation.w = 1.0
+            vizPoint.scale.x = 0.5
+            vizPoint.scale.y = 0.5
+            vizPoint.scale.z = 0.5
+            vizPoint.color.r = 1.0
+            vizPoint.color.a = 1.0
+            markerPub.publish(vizPoint)
 
-#         rate.sleep()
+        rate.sleep()
 
 def main(args=None):
     rclpy.init(args=args)
