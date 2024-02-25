@@ -1,0 +1,91 @@
+[0.710s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.710s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7fd389a84b50>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7fd389a86e60>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7fd389a86e60>>)
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.743s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.743s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8'
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.743s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.752s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.ament_python' and name 'yolov8'
+[0.752s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.752s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.752s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.752s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.752s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.816s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.816s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.838s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 1 installed packages in /home/mazen/ros2_ws/src/fs-system/perception/yolov8/install
+[0.848s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 8 installed packages in /home/mazen/ros2_ws/install
+[0.859s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 270 installed packages in /opt/ros/humble
+[0.860s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_args' from command line to 'None'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target' from command line to 'None'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_cache' from command line to 'False'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_first' from command line to 'False'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_force_configure' from command line to 'False'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'ament_cmake_args' from command line to 'None'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_cmake_args' from command line to 'None'
+[0.931s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.931s] DEBUG:colcon.colcon_core.verb:Building package 'yolov8' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/yolov8', 'symlink_install': False, 'test_result_base': None}
+[0.941s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.952s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.952s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' with build type 'ament_python'
+[0.952s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'ament_prefix_path')
+[0.963s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.964s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/ament_prefix_path.ps1'
+[0.964s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/ament_prefix_path.dsv'
+[0.964s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/ament_prefix_path.sh'
+[0.974s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.974s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.204s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8'
+[1.215s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.215s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.494s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/install.log --single-version-externally-managed
+[1.704s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/install.log --single-version-externally-managed
+[1.716s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8' for CMake module files
+[1.716s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8' for CMake config files
+[1.717s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib'
+[1.717s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/bin'
+[1.717s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/pkgconfig/yolov8.pc'
+[1.717s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages'
+[1.717s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'pythonpath')
+[1.727s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/pythonpath.ps1'
+[1.728s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/pythonpath.dsv'
+[1.728s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/hook/pythonpath.sh'
+[1.728s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/bin'
+[1.728s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(yolov8)
+[1.738s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/package.ps1'
+[1.739s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/package.dsv'
+[1.739s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/package.sh'
+[1.740s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/package.bash'
+[1.740s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/yolov8/package.zsh'
+[1.741s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/share/colcon-core/packages/yolov8)
+[1.741s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.741s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.741s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.741s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.755s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.755s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.755s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.764s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.775s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/local_setup.ps1'
+[1.775s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/_local_setup_util_ps1.py'
+[1.776s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/setup.ps1'
+[1.787s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/local_setup.sh'
+[1.788s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/_local_setup_util_sh.py'
+[1.788s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/setup.sh'
+[1.799s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/local_setup.bash'
+[1.799s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/setup.bash'
+[1.810s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/local_setup.zsh'
+[1.811s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/setup.zsh'

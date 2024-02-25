@@ -1,0 +1,313 @@
+[0.800s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[0.800s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f73b65adb10>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f73b65ac100>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f73b65ac100>>)
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.850s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.850s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/mazen/ros2_ws/src/fs-system/perception'
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.850s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extensions ['ignore', 'ignore_ament_install']
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extension 'ignore'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extension 'ignore_ament_install'
+[0.858s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extensions ['colcon_pkg']
+[0.859s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extension 'colcon_pkg'
+[0.859s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extensions ['colcon_meta']
+[0.859s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extension 'colcon_meta'
+[0.859s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extensions ['ros']
+[0.859s] Level 1:colcon.colcon_core.package_identification:_identify(camera_interface) by extension 'ros'
+[0.861s] DEBUG:colcon.colcon_core.package_identification:Package 'camera_interface' with type 'ros.ament_python' and name 'camera_interface'
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.861s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['ignore', 'ignore_ament_install']
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ignore'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ignore_ament_install'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['colcon_pkg']
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'colcon_pkg'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['colcon_meta']
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'colcon_meta'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['ros']
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ros'
+[0.862s] DEBUG:colcon.colcon_core.package_identification:Package 'moreo' with type 'ros.ament_python' and name 'moreo'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['ignore', 'ignore_ament_install']
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ignore'
+[0.862s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ignore_ament_install'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['colcon_pkg']
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'colcon_pkg'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['colcon_meta']
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'colcon_meta'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['ros']
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ros'
+[0.863s] DEBUG:colcon.colcon_core.package_identification:Package 'mrpython_pcl' with type 'ros.ament_python' and name 'mypython_pcl'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['ignore', 'ignore_ament_install']
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ignore'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ignore_ament_install'
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['colcon_pkg']
+[0.863s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'colcon_pkg'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['colcon_meta']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'colcon_meta'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['ros']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ros'
+[0.864s] DEBUG:colcon.colcon_core.package_identification:Package 'smoreo' with type 'ros.ament_python' and name 'smoreo'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['ignore', 'ignore_ament_install']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ignore'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ignore_ament_install'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['colcon_pkg']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'colcon_pkg'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['colcon_meta']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'colcon_meta'
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['ros']
+[0.864s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ros'
+[0.865s] DEBUG:colcon.colcon_core.package_identification:Package 'yolov8' with type 'ros.ament_python' and name 'yolov8'
+[0.865s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.865s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.865s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.865s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.865s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.938s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.938s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.960s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 1 installed packages in /home/mazen/ros2_ws/install
+[0.971s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 270 installed packages in /opt/ros/humble
+[0.972s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_args' from command line to 'None'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_target' from command line to 'None'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_clean_cache' from command line to 'False'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_clean_first' from command line to 'False'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'cmake_force_configure' from command line to 'False'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'ament_cmake_args' from command line to 'None'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'catkin_cmake_args' from command line to 'None'
+[1.041s] Level 5:colcon.colcon_core.verb:set package 'camera_interface' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.041s] DEBUG:colcon.colcon_core.verb:Building package 'camera_interface' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface', 'symlink_install': False, 'test_result_base': None}
+[1.051s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_args' from command line to 'None'
+[1.051s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_target' from command line to 'None'
+[1.051s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.051s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_clean_cache' from command line to 'False'
+[1.051s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_clean_first' from command line to 'False'
+[1.052s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_force_configure' from command line to 'False'
+[1.052s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'ament_cmake_args' from command line to 'None'
+[1.052s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'catkin_cmake_args' from command line to 'None'
+[1.052s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.052s] DEBUG:colcon.colcon_core.verb:Building package 'moreo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/build/moreo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/moreo', 'symlink_install': False, 'test_result_base': None}
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_args' from command line to 'None'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_target' from command line to 'None'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_clean_cache' from command line to 'False'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_clean_first' from command line to 'False'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_force_configure' from command line to 'False'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'ament_cmake_args' from command line to 'None'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'catkin_cmake_args' from command line to 'None'
+[1.062s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.062s] DEBUG:colcon.colcon_core.verb:Building package 'mypython_pcl' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/mrpython_pcl', 'symlink_install': False, 'test_result_base': None}
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_args' from command line to 'None'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_target' from command line to 'None'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_clean_cache' from command line to 'False'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_clean_first' from command line to 'False'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_force_configure' from command line to 'False'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'ament_cmake_args' from command line to 'None'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'catkin_cmake_args' from command line to 'None'
+[1.072s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.072s] DEBUG:colcon.colcon_core.verb:Building package 'smoreo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/smoreo', 'symlink_install': False, 'test_result_base': None}
+[1.082s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_args' from command line to 'None'
+[1.082s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target' from command line to 'None'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_cache' from command line to 'False'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_first' from command line to 'False'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_force_configure' from command line to 'False'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'ament_cmake_args' from command line to 'None'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_cmake_args' from command line to 'None'
+[1.083s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.083s] DEBUG:colcon.colcon_core.verb:Building package 'yolov8' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8', 'merge_install': False, 'path': '/home/mazen/ros2_ws/src/fs-system/perception/yolov8', 'symlink_install': False, 'test_result_base': None}
+[1.092s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[1.103s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[1.103s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface' with build type 'ament_python'
+[1.103s] Level 1:colcon.colcon_core.shell:create_environment_hook('camera_interface', 'ament_prefix_path')
+[1.125s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.125s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/ament_prefix_path.ps1'
+[1.126s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/ament_prefix_path.dsv'
+[1.126s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/ament_prefix_path.sh'
+[1.136s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.136s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.168s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/moreo' with build type 'ament_python'
+[1.168s] Level 1:colcon.colcon_core.shell:create_environment_hook('moreo', 'ament_prefix_path')
+[1.178s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.ps1'
+[1.179s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.dsv'
+[1.179s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.sh'
+[1.189s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.189s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.221s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/mrpython_pcl' with build type 'ament_python'
+[1.221s] Level 1:colcon.colcon_core.shell:create_environment_hook('mypython_pcl', 'ament_prefix_path')
+[1.232s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.ps1'
+[1.232s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.dsv'
+[1.232s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.sh'
+[1.242s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.242s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.284s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo' with build type 'ament_python'
+[1.284s] Level 1:colcon.colcon_core.shell:create_environment_hook('smoreo', 'ament_prefix_path')
+[1.294s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.ps1'
+[1.295s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.dsv'
+[1.295s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.sh'
+[1.306s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.306s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.337s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' with build type 'ament_python'
+[1.337s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'ament_prefix_path')
+[1.348s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.ps1'
+[1.348s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.dsv'
+[1.348s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.sh'
+[1.358s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.358s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.582s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface'
+[1.593s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.593s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.817s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/moreo'
+[1.828s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.828s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.052s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/mrpython_pcl'
+[2.062s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.062s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.285s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo'
+[2.296s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.296s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.511s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8'
+[2.522s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.522s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.859s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[2.862s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[2.862s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/camera_interface build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/install.log --single-version-externally-managed
+[2.864s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed
+[2.866s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/mrpython_pcl': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/mypython_pcl build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/install.log --single-version-externally-managed
+[3.106s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[3.121s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8' for CMake module files
+[3.121s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8' for CMake config files
+[3.122s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib'
+[3.122s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/bin'
+[3.122s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/pkgconfig/yolov8.pc'
+[3.122s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages'
+[3.122s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'pythonpath')
+[3.133s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.ps1'
+[3.133s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.dsv'
+[3.133s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.sh'
+[3.134s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/bin'
+[3.134s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(yolov8)
+[3.144s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/package.ps1'
+[3.145s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/package.dsv'
+[3.145s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/package.sh'
+[3.146s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/package.bash'
+[3.146s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8/package.zsh'
+[3.147s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/colcon-core/packages/yolov8)
+[3.149s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[3.158s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo' for CMake module files
+[3.159s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo' for CMake config files
+[3.159s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib'
+[3.159s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/bin'
+[3.159s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/pkgconfig/moreo.pc'
+[3.159s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages'
+[3.159s] Level 1:colcon.colcon_core.shell:create_environment_hook('moreo', 'pythonpath')
+[3.170s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.ps1'
+[3.170s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.dsv'
+[3.170s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.sh'
+[3.170s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/bin'
+[3.171s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(moreo)
+[3.181s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/package.ps1'
+[3.181s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/package.dsv'
+[3.181s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/package.sh'
+[3.182s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/package.bash'
+[3.182s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/moreo/package.zsh'
+[3.182s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/share/colcon-core/packages/moreo)
+[3.183s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/smoreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed
+[3.193s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo' for CMake module files
+[3.193s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo' for CMake config files
+[3.194s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib'
+[3.194s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/bin'
+[3.194s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/pkgconfig/smoreo.pc'
+[3.194s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages'
+[3.194s] Level 1:colcon.colcon_core.shell:create_environment_hook('smoreo', 'pythonpath')
+[3.204s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.ps1'
+[3.204s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.dsv'
+[3.205s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.sh'
+[3.205s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/bin'
+[3.205s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(smoreo)
+[3.215s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/package.ps1'
+[3.216s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/package.dsv'
+[3.216s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/package.sh'
+[3.216s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/package.bash'
+[3.216s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/smoreo/package.zsh'
+[3.217s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/share/colcon-core/packages/smoreo)
+[3.218s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/mrpython_pcl' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/mypython_pcl build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/mypython_pcl/install.log --single-version-externally-managed
+[3.228s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl' for CMake module files
+[3.228s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl' for CMake config files
+[3.229s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/lib'
+[3.229s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/bin'
+[3.229s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/lib/pkgconfig/mypython_pcl.pc'
+[3.229s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages'
+[3.229s] Level 1:colcon.colcon_core.shell:create_environment_hook('mypython_pcl', 'pythonpath')
+[3.239s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.ps1'
+[3.239s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.dsv'
+[3.240s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.sh'
+[3.240s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/bin'
+[3.240s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mypython_pcl)
+[3.250s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.ps1'
+[3.250s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.dsv'
+[3.251s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.sh'
+[3.251s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.bash'
+[3.251s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.zsh'
+[3.252s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/install/mypython_pcl/share/colcon-core/packages/mypython_pcl)
+[3.253s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/camera_interface build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/install.log --single-version-externally-managed
+[3.263s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface' for CMake module files
+[3.263s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface' for CMake config files
+[3.263s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib'
+[3.263s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/bin'
+[3.263s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/pkgconfig/camera_interface.pc'
+[3.264s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages'
+[3.264s] Level 1:colcon.colcon_core.shell:create_environment_hook('camera_interface', 'pythonpath')
+[3.274s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/pythonpath.ps1'
+[3.274s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/pythonpath.dsv'
+[3.274s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/hook/pythonpath.sh'
+[3.275s] Level 1:colcon.colcon_core.environment:checking '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/bin'
+[3.275s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(camera_interface)
+[3.285s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/package.ps1'
+[3.285s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/package.dsv'
+[3.285s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/package.sh'
+[3.286s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/package.bash'
+[3.286s] INFO:colcon.colcon_core.shell:Creating package script '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface/package.zsh'
+[3.286s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/colcon-core/packages/camera_interface)
+[3.286s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[3.286s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[3.287s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[3.287s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[3.303s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[3.303s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[3.303s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[3.320s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[3.331s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/install/local_setup.ps1'
+[3.332s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/mazen/ros2_ws/src/fs-system/perception/install/_local_setup_util_ps1.py'
+[3.333s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/install/setup.ps1'
+[3.343s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/install/local_setup.sh'
+[3.344s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/mazen/ros2_ws/src/fs-system/perception/install/_local_setup_util_sh.py'
+[3.344s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/install/setup.sh'
+[3.354s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/install/local_setup.bash'
+[3.355s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/install/setup.bash'
+[3.365s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/mazen/ros2_ws/src/fs-system/perception/install/local_setup.zsh'
+[3.366s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/mazen/ros2_ws/src/fs-system/perception/install/setup.zsh'

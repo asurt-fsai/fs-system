@@ -1,0 +1,20 @@
+[1.684s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/camera_interface build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/install.log --single-version-externally-managed
+[1.861s] running egg_info
+[1.862s] writing ../build/camera_interface/camera_interface.egg-info/PKG-INFO
+[1.862s] writing dependency_links to ../build/camera_interface/camera_interface.egg-info/dependency_links.txt
+[1.863s] writing entry points to ../build/camera_interface/camera_interface.egg-info/entry_points.txt
+[1.863s] writing requirements to ../build/camera_interface/camera_interface.egg-info/requires.txt
+[1.863s] writing top-level names to ../build/camera_interface/camera_interface.egg-info/top_level.txt
+[1.863s] reading manifest file '../build/camera_interface/camera_interface.egg-info/SOURCES.txt'
+[1.864s] writing manifest file '../build/camera_interface/camera_interface.egg-info/SOURCES.txt'
+[1.864s] running build
+[1.864s] running build_py
+[1.864s] running install
+[1.865s] running install_lib
+[1.865s] running install_data
+[1.865s] running install_egg_info
+[1.866s] removing '/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages/camera_interface-0.0.0-py3.10.egg-info' (and everything under it)
+[1.867s] Copying ../build/camera_interface/camera_interface.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages/camera_interface-0.0.0-py3.10.egg-info
+[1.868s] running install_scripts
+[1.882s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/install.log'
+[1.921s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/camera_interface' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/camera_interface build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface/install.log --single-version-externally-managed

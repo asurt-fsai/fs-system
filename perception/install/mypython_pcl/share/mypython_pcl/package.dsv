@@ -4,3 +4,6 @@ source;share/mypython_pcl/hook/pythonpath.sh
 source;share/mypython_pcl/hook/ament_prefix_path.ps1
 source;share/mypython_pcl/hook/ament_prefix_path.dsv
 source;share/mypython_pcl/hook/ament_prefix_path.sh
+source;../../build/mypython_pcl/share/mypython_pcl/hook/pythonpath_develop.ps1
+source;../../build/mypython_pcl/share/mypython_pcl/hook/pythonpath_develop.dsv
+source;../../build/mypython_pcl/share/mypython_pcl/hook/pythonpath_develop.sh

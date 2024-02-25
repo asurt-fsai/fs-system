@@ -1,0 +1,16 @@
+[1.413s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build --no-deps install_data
+[1.634s] running develop
+[1.773s] running egg_info
+[1.773s] writing smoreo.egg-info/PKG-INFO
+[1.774s] writing dependency_links to smoreo.egg-info/dependency_links.txt
+[1.774s] writing entry points to smoreo.egg-info/entry_points.txt
+[1.774s] writing requirements to smoreo.egg-info/requires.txt
+[1.774s] writing top-level names to smoreo.egg-info/top_level.txt
+[1.775s] reading manifest file 'smoreo.egg-info/SOURCES.txt'
+[1.776s] writing manifest file 'smoreo.egg-info/SOURCES.txt'
+[1.777s] running build_ext
+[1.778s] Creating /home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages/smoreo.egg-link (link to .)
+[1.778s] 
+[1.778s] Installed /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo
+[1.778s] running install_data
+[1.827s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/smoreo/build --no-deps install_data

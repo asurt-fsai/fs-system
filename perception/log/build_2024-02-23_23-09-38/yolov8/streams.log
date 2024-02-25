@@ -1,0 +1,17 @@
+[1.595s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build --no-deps install_data
+[1.793s] running develop
+[1.917s] running egg_info
+[1.917s] writing yolov8.egg-info/PKG-INFO
+[1.918s] writing dependency_links to yolov8.egg-info/dependency_links.txt
+[1.918s] writing entry points to yolov8.egg-info/entry_points.txt
+[1.918s] writing requirements to yolov8.egg-info/requires.txt
+[1.918s] writing top-level names to yolov8.egg-info/top_level.txt
+[1.919s] reading manifest file 'yolov8.egg-info/SOURCES.txt'
+[1.920s] writing manifest file 'yolov8.egg-info/SOURCES.txt'
+[1.921s] running build_ext
+[1.921s] Creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8.egg-link (link to .)
+[1.922s] Installing yolov8_node script to /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/yolov8
+[1.922s] 
+[1.922s] Installed /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8
+[1.922s] running install_data
+[2.189s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build --no-deps install_data

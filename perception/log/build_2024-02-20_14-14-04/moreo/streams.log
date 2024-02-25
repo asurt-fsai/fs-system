@@ -1,0 +1,26 @@
+[1.735s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/build/moreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --uninstall --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build
+[1.927s] running develop
+[2.048s] Removing /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo.egg-link (link to .)
+[2.102s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/build/moreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --uninstall --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build
+[2.103s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[2.282s] running egg_info
+[2.283s] writing ../build/moreo/moreo.egg-info/PKG-INFO
+[2.283s] writing dependency_links to ../build/moreo/moreo.egg-info/dependency_links.txt
+[2.283s] writing entry points to ../build/moreo/moreo.egg-info/entry_points.txt
+[2.283s] writing requirements to ../build/moreo/moreo.egg-info/requires.txt
+[2.283s] writing top-level names to ../build/moreo/moreo.egg-info/top_level.txt
+[2.285s] reading manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[2.285s] writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[2.285s] running build
+[2.285s] running build_py
+[2.286s] running install
+[2.286s] running install_lib
+[2.286s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+[2.286s] copying /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build/lib/moreo/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+[2.287s] byte-compiling /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo/__init__.py to __init__.cpython-310.pyc
+[2.287s] running install_data
+[2.287s] running install_egg_info
+[2.288s] Copying ../build/moreo/moreo.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo-0.0.0-py3.10.egg-info
+[2.289s] running install_scripts
+[2.305s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log'
+[2.397s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed

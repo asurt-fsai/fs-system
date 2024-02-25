@@ -1,0 +1,21 @@
+[0.546s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/install.log --single-version-externally-managed
+[0.721s] running egg_info
+[0.722s] writing build/yolov8/yolov8.egg-info/PKG-INFO
+[0.722s] writing dependency_links to build/yolov8/yolov8.egg-info/dependency_links.txt
+[0.722s] writing entry points to build/yolov8/yolov8.egg-info/entry_points.txt
+[0.722s] writing requirements to build/yolov8/yolov8.egg-info/requires.txt
+[0.722s] writing top-level names to build/yolov8/yolov8.egg-info/top_level.txt
+[0.723s] reading manifest file 'build/yolov8/yolov8.egg-info/SOURCES.txt'
+[0.724s] writing manifest file 'build/yolov8/yolov8.egg-info/SOURCES.txt'
+[0.724s] running build
+[0.724s] running build_py
+[0.724s] running install
+[0.724s] running install_lib
+[0.725s] running install_data
+[0.725s] running install_egg_info
+[0.726s] removing '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info' (and everything under it)
+[0.726s] Copying build/yolov8/yolov8.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info
+[0.727s] running install_scripts
+[0.740s] Installing yolov8_node script to /home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/yolov8
+[0.741s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/install.log'
+[0.756s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/yolov8/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/yolov8/build/yolov8/install.log --single-version-externally-managed

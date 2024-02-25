@@ -1,0 +1,16 @@
+running develop
+running egg_info
+writing yolov8.egg-info/PKG-INFO
+writing dependency_links to yolov8.egg-info/dependency_links.txt
+writing entry points to yolov8.egg-info/entry_points.txt
+writing requirements to yolov8.egg-info/requires.txt
+writing top-level names to yolov8.egg-info/top_level.txt
+reading manifest file 'yolov8.egg-info/SOURCES.txt'
+writing manifest file 'yolov8.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8.egg-link (link to .)
+Installing yolov8_node script to /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/yolov8
+
+Installed /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8
+running install_data
+copying package.xml -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/share/yolov8

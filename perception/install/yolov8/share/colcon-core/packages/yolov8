@@ -1,1 +1,1 @@
-rclpy
+camera_interface:cv2:cv_bridge:rclpy:sensor_msgs:ultralytics

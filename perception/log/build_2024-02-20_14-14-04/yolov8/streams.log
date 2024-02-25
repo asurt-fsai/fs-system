@@ -1,0 +1,29 @@
+[1.544s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --uninstall --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build
+[1.732s] running develop
+[1.852s] Removing /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8.egg-link (link to .)
+[1.893s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --uninstall --editable --build-directory /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build
+[1.895s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[2.078s] running egg_info
+[2.078s] writing ../build/yolov8/yolov8.egg-info/PKG-INFO
+[2.078s] writing dependency_links to ../build/yolov8/yolov8.egg-info/dependency_links.txt
+[2.078s] writing entry points to ../build/yolov8/yolov8.egg-info/entry_points.txt
+[2.079s] writing requirements to ../build/yolov8/yolov8.egg-info/requires.txt
+[2.079s] writing top-level names to ../build/yolov8/yolov8.egg-info/top_level.txt
+[2.080s] reading manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[2.081s] writing manifest file '../build/yolov8/yolov8.egg-info/SOURCES.txt'
+[2.081s] running build
+[2.081s] running build_py
+[2.081s] running install
+[2.081s] running install_lib
+[2.081s] creating /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8
+[2.081s] copying /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib/yolov8/__init__.py -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8
+[2.081s] copying /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build/lib/yolov8/yolov8_node.py -> /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8
+[2.082s] byte-compiling /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8/__init__.py to __init__.cpython-310.pyc
+[2.082s] byte-compiling /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8/yolov8_node.py to yolov8_node.cpython-310.pyc
+[2.082s] running install_data
+[2.083s] running install_egg_info
+[2.084s] Copying ../build/yolov8/yolov8.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages/yolov8-0.0.0-py3.10.egg-info
+[2.084s] running install_scripts
+[2.099s] Installing yolov8_node script to /home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/yolov8
+[2.100s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log'
+[2.168s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed

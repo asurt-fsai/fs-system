@@ -1,0 +1,20 @@
+[1.640s] Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[1.818s] running egg_info
+[1.819s] writing ../build/moreo/moreo.egg-info/PKG-INFO
+[1.819s] writing dependency_links to ../build/moreo/moreo.egg-info/dependency_links.txt
+[1.819s] writing entry points to ../build/moreo/moreo.egg-info/entry_points.txt
+[1.819s] writing requirements to ../build/moreo/moreo.egg-info/requires.txt
+[1.819s] writing top-level names to ../build/moreo/moreo.egg-info/top_level.txt
+[1.820s] reading manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[1.821s] writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[1.821s] running build
+[1.821s] running build_py
+[1.821s] running install
+[1.822s] running install_lib
+[1.822s] running install_data
+[1.822s] running install_egg_info
+[1.824s] removing '/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo-0.0.0-py3.10.egg-info' (and everything under it)
+[1.824s] Copying ../build/moreo/moreo.egg-info to /home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo-0.0.0-py3.10.egg-info
+[1.825s] running install_scripts
+[1.841s] writing list of installed files to '/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log'
+[2.020s] Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/moreo' returned '0': PYTHONPATH=/home/mazen/ros2_ws/src/fs-system/perception/build/moreo/prefix_override:/home/mazen/ros2_ws/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/build install --record /home/mazen/ros2_ws/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed

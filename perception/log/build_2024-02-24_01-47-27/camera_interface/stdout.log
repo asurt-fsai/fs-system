@@ -1,0 +1,16 @@
+running develop
+running egg_info
+writing camera_interface.egg-info/PKG-INFO
+writing dependency_links to camera_interface.egg-info/dependency_links.txt
+writing entry points to camera_interface.egg-info/entry_points.txt
+writing requirements to camera_interface.egg-info/requires.txt
+writing top-level names to camera_interface.egg-info/top_level.txt
+reading manifest file 'camera_interface.egg-info/SOURCES.txt'
+writing manifest file 'camera_interface.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/python3.10/site-packages/camera-interface.egg-link (link to .)
+Installing camera_interface_node script to /home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/lib/camera_interface
+
+Installed /home/mazen/ros2_ws/src/fs-system/perception/build/camera_interface
+running install_data
+copying package.xml -> /home/mazen/ros2_ws/src/fs-system/perception/install/camera_interface/share/camera_interface
