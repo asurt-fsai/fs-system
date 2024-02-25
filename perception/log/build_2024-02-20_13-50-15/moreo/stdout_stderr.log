@@ -1,0 +1,28 @@
+running egg_info
+creating ../build/moreo/moreo.egg-info
+writing ../build/moreo/moreo.egg-info/PKG-INFO
+writing dependency_links to ../build/moreo/moreo.egg-info/dependency_links.txt
+writing entry points to ../build/moreo/moreo.egg-info/entry_points.txt
+writing requirements to ../build/moreo/moreo.egg-info/requires.txt
+writing top-level names to ../build/moreo/moreo.egg-info/top_level.txt
+writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+reading manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo
+copying moreo/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo
+running install
+/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running install_lib
+creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+copying /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+byte-compiling /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo/__init__.py to __init__.cpython-310.pyc
+running install_data
+running install_egg_info
+Copying ../build/moreo/moreo.egg-info to /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log'

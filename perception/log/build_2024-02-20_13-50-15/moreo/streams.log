@@ -1,0 +1,30 @@
+[3.102s] Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[3.308s] running egg_info
+[3.308s] creating ../build/moreo/moreo.egg-info
+[3.309s] writing ../build/moreo/moreo.egg-info/PKG-INFO
+[3.309s] writing dependency_links to ../build/moreo/moreo.egg-info/dependency_links.txt
+[3.309s] writing entry points to ../build/moreo/moreo.egg-info/entry_points.txt
+[3.309s] writing requirements to ../build/moreo/moreo.egg-info/requires.txt
+[3.310s] writing top-level names to ../build/moreo/moreo.egg-info/top_level.txt
+[3.310s] writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[3.313s] reading manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[3.314s] writing manifest file '../build/moreo/moreo.egg-info/SOURCES.txt'
+[3.314s] running build
+[3.314s] running build_py
+[3.314s] creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build
+[3.315s] creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib
+[3.315s] creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo
+[3.315s] copying moreo/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo
+[3.315s] running install
+[3.315s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.315s]   warnings.warn(
+[3.315s] running install_lib
+[3.317s] creating /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+[3.317s] copying /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build/lib/moreo/__init__.py -> /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo
+[3.317s] byte-compiling /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo/__init__.py to __init__.cpython-310.pyc
+[3.317s] running install_data
+[3.319s] running install_egg_info
+[3.321s] Copying ../build/moreo/moreo.egg-info to /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages/moreo-0.0.0-py3.10.egg-info
+[3.323s] running install_scripts
+[3.357s] writing list of installed files to '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log'
+[3.519s] Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed

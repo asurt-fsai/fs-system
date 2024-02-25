@@ -1,0 +1,264 @@
+[1.188s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[1.188s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=8, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f91ac21d120>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f91ac21cee0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f91ac21cee0>>)
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[1.619s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[1.619s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception'
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[1.619s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.630s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[1.630s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[1.630s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[1.631s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['ignore', 'ignore_ament_install']
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ignore'
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ignore_ament_install'
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['colcon_pkg']
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'colcon_pkg'
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['colcon_meta']
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'colcon_meta'
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extensions ['ros']
+[1.632s] Level 1:colcon.colcon_core.package_identification:_identify(moreo) by extension 'ros'
+[1.651s] DEBUG:colcon.colcon_core.package_identification:Package 'moreo' with type 'ros.ament_python' and name 'moreo'
+[1.651s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['ignore', 'ignore_ament_install']
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ignore'
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ignore_ament_install'
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['colcon_pkg']
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'colcon_pkg'
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['colcon_meta']
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'colcon_meta'
+[1.652s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extensions ['ros']
+[1.653s] Level 1:colcon.colcon_core.package_identification:_identify(mrpython_pcl) by extension 'ros'
+[1.654s] DEBUG:colcon.colcon_core.package_identification:Package 'mrpython_pcl' with type 'ros.ament_python' and name 'mypython_pcl'
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['ignore', 'ignore_ament_install']
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ignore'
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ignore_ament_install'
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['colcon_pkg']
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'colcon_pkg'
+[1.654s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['colcon_meta']
+[1.655s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'colcon_meta'
+[1.655s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extensions ['ros']
+[1.655s] Level 1:colcon.colcon_core.package_identification:_identify(smoreo) by extension 'ros'
+[1.656s] DEBUG:colcon.colcon_core.package_identification:Package 'smoreo' with type 'ros.ament_python' and name 'smoreo'
+[1.656s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['ignore', 'ignore_ament_install']
+[1.656s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ignore'
+[1.656s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ignore_ament_install'
+[1.656s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['colcon_pkg']
+[1.657s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'colcon_pkg'
+[1.657s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['colcon_meta']
+[1.657s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'colcon_meta'
+[1.657s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extensions ['ros']
+[1.657s] Level 1:colcon.colcon_core.package_identification:_identify(yolov8) by extension 'ros'
+[1.658s] DEBUG:colcon.colcon_core.package_identification:Package 'yolov8' with type 'ros.ament_python' and name 'yolov8'
+[1.658s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[1.658s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[1.658s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[1.658s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[1.658s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.780s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.780s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.831s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /media/ezzedinayman/Local Disk/ASURT/fs/install
+[1.863s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 2 installed packages in /home/ezzedinayman/ros2_ws/install
+[1.882s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 379 installed packages in /opt/ros/humble
+[1.883s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_args' from command line to 'None'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_target' from command line to 'None'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_clean_cache' from command line to 'False'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_clean_first' from command line to 'False'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'cmake_force_configure' from command line to 'False'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'ament_cmake_args' from command line to 'None'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'catkin_cmake_args' from command line to 'None'
+[1.978s] Level 5:colcon.colcon_core.verb:set package 'moreo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.978s] DEBUG:colcon.colcon_core.verb:Building package 'moreo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo', 'merge_install': False, 'path': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo', 'symlink_install': False, 'test_result_base': None}
+[1.994s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_args' from command line to 'None'
+[1.994s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_target' from command line to 'None'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_clean_cache' from command line to 'False'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_clean_first' from command line to 'False'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'cmake_force_configure' from command line to 'False'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'ament_cmake_args' from command line to 'None'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'catkin_cmake_args' from command line to 'None'
+[1.995s] Level 5:colcon.colcon_core.verb:set package 'mypython_pcl' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.995s] DEBUG:colcon.colcon_core.verb:Building package 'mypython_pcl' with the following arguments: {'ament_cmake_args': None, 'build_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl', 'merge_install': False, 'path': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/mrpython_pcl', 'symlink_install': False, 'test_result_base': None}
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_args' from command line to 'None'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_target' from command line to 'None'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_clean_cache' from command line to 'False'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_clean_first' from command line to 'False'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'cmake_force_configure' from command line to 'False'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'ament_cmake_args' from command line to 'None'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'catkin_cmake_args' from command line to 'None'
+[2.012s] Level 5:colcon.colcon_core.verb:set package 'smoreo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[2.012s] DEBUG:colcon.colcon_core.verb:Building package 'smoreo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo', 'merge_install': False, 'path': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/smoreo', 'symlink_install': False, 'test_result_base': None}
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_args' from command line to 'None'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target' from command line to 'None'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_cache' from command line to 'False'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_clean_first' from command line to 'False'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'cmake_force_configure' from command line to 'False'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'ament_cmake_args' from command line to 'None'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_cmake_args' from command line to 'None'
+[2.029s] Level 5:colcon.colcon_core.verb:set package 'yolov8' build argument 'catkin_skip_building_tests' from command line to 'False'
+[2.029s] DEBUG:colcon.colcon_core.verb:Building package 'yolov8' with the following arguments: {'ament_cmake_args': None, 'build_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8', 'merge_install': False, 'path': '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8', 'symlink_install': False, 'test_result_base': None}
+[2.046s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[2.063s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[2.063s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo' with build type 'ament_python'
+[2.063s] Level 1:colcon.colcon_core.shell:create_environment_hook('moreo', 'ament_prefix_path')
+[2.085s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[2.085s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.ps1'
+[2.086s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.dsv'
+[2.086s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/ament_prefix_path.sh'
+[2.104s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.104s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.282s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/mrpython_pcl' with build type 'ament_python'
+[2.283s] Level 1:colcon.colcon_core.shell:create_environment_hook('mypython_pcl', 'ament_prefix_path')
+[2.340s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.ps1'
+[2.341s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.dsv'
+[2.341s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/ament_prefix_path.sh'
+[2.362s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.362s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.457s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/smoreo' with build type 'ament_python'
+[2.457s] Level 1:colcon.colcon_core.shell:create_environment_hook('smoreo', 'ament_prefix_path')
+[2.478s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.ps1'
+[2.479s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.dsv'
+[2.479s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/ament_prefix_path.sh'
+[2.498s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.498s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.568s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8' with build type 'ament_python'
+[2.568s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'ament_prefix_path')
+[2.587s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.ps1'
+[2.587s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.dsv'
+[2.587s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/ament_prefix_path.sh'
+[2.605s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.605s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.072s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo'
+[3.091s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.091s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.415s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/mrpython_pcl'
+[3.433s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.434s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[3.859s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/smoreo'
+[3.878s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[3.878s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.355s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8'
+[4.374s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.374s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.053s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[5.058s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/mrpython_pcl': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/mypython_pcl build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/install.log --single-version-externally-managed
+[5.064s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/smoreo': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed
+[5.166s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[5.429s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/yolov8' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/yolov8 build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/yolov8/install.log --single-version-externally-managed
+[5.464s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8' for CMake module files
+[5.465s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8' for CMake config files
+[5.465s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib'
+[5.465s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/bin'
+[5.466s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/pkgconfig/yolov8.pc'
+[5.466s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/lib/python3.10/site-packages'
+[5.466s] Level 1:colcon.colcon_core.shell:create_environment_hook('yolov8', 'pythonpath')
+[5.490s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.ps1'
+[5.490s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.dsv'
+[5.490s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/hook/pythonpath.sh'
+[5.491s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/bin'
+[5.491s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(yolov8)
+[5.510s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/package.ps1'
+[5.511s] INFO:colcon.colcon_core.shell:Creating package descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/package.dsv'
+[5.511s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/package.sh'
+[5.512s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/package.bash'
+[5.513s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/yolov8/package.zsh'
+[5.514s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/yolov8/share/colcon-core/packages/yolov8)
+[5.516s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/smoreo' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/smoreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/smoreo/install.log --single-version-externally-managed
+[5.536s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo' for CMake module files
+[5.537s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo' for CMake config files
+[5.537s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/lib'
+[5.537s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/bin'
+[5.537s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/lib/pkgconfig/smoreo.pc'
+[5.537s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/lib/python3.10/site-packages'
+[5.538s] Level 1:colcon.colcon_core.shell:create_environment_hook('smoreo', 'pythonpath')
+[5.556s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.ps1'
+[5.556s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.dsv'
+[5.556s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/hook/pythonpath.sh'
+[5.557s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/bin'
+[5.557s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(smoreo)
+[5.578s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/package.ps1'
+[5.579s] INFO:colcon.colcon_core.shell:Creating package descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/package.dsv'
+[5.579s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/package.sh'
+[5.580s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/package.bash'
+[5.580s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/smoreo/package.zsh'
+[5.580s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/smoreo/share/colcon-core/packages/smoreo)
+[5.583s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/moreo build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/moreo/install.log --single-version-externally-managed
+[5.603s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo' for CMake module files
+[5.603s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo' for CMake config files
+[5.603s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib'
+[5.603s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/bin'
+[5.603s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/pkgconfig/moreo.pc'
+[5.604s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/lib/python3.10/site-packages'
+[5.604s] Level 1:colcon.colcon_core.shell:create_environment_hook('moreo', 'pythonpath')
+[5.621s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.ps1'
+[5.622s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.dsv'
+[5.622s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/hook/pythonpath.sh'
+[5.622s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/bin'
+[5.622s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(moreo)
+[5.639s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/package.ps1'
+[5.640s] INFO:colcon.colcon_core.shell:Creating package descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/package.dsv'
+[5.640s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/package.sh'
+[5.640s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/package.bash'
+[5.640s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/moreo/package.zsh'
+[5.641s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/moreo/share/colcon-core/packages/moreo)
+[5.642s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/mrpython_pcl' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/prefix_override:/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/mypython_pcl build --build-base /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/build install --record /media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/build/mypython_pcl/install.log --single-version-externally-managed
+[5.662s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl' for CMake module files
+[5.662s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl' for CMake config files
+[5.662s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib'
+[5.663s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/bin'
+[5.663s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/pkgconfig/mypython_pcl.pc'
+[5.663s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/lib/python3.10/site-packages'
+[5.663s] Level 1:colcon.colcon_core.shell:create_environment_hook('mypython_pcl', 'pythonpath')
+[5.682s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.ps1'
+[5.682s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.dsv'
+[5.682s] INFO:colcon.colcon_core.shell:Creating environment hook '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/hook/pythonpath.sh'
+[5.683s] Level 1:colcon.colcon_core.environment:checking '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/bin'
+[5.683s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mypython_pcl)
+[5.703s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.ps1'
+[5.703s] INFO:colcon.colcon_core.shell:Creating package descriptor '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.dsv'
+[5.704s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.sh'
+[5.704s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.bash'
+[5.704s] INFO:colcon.colcon_core.shell:Creating package script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/mypython_pcl/package.zsh'
+[5.704s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/mypython_pcl/share/colcon-core/packages/mypython_pcl)
+[5.705s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[5.705s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[5.705s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[5.705s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[5.730s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[5.730s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[5.730s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[5.742s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[5.763s] INFO:colcon.colcon_core.shell:Creating prefix script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/local_setup.ps1'
+[5.764s] INFO:colcon.colcon_core.shell:Creating prefix util module '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/_local_setup_util_ps1.py'
+[5.766s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/setup.ps1'
+[5.786s] INFO:colcon.colcon_core.shell:Creating prefix script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/local_setup.sh'
+[5.787s] INFO:colcon.colcon_core.shell:Creating prefix util module '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/_local_setup_util_sh.py'
+[5.787s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/setup.sh'
+[5.816s] INFO:colcon.colcon_core.shell:Creating prefix script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/local_setup.bash'
+[5.817s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/setup.bash'
+[5.852s] INFO:colcon.colcon_core.shell:Creating prefix script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/local_setup.zsh'
+[5.852s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/install/setup.zsh'

@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "keypoint_regressor = moreo.kpr_node:main"
         ],
     },
 )
