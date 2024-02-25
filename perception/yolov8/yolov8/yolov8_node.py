@@ -6,7 +6,7 @@ from ultralytics import YOLO
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
-from my_msgs import BoundingBoxes
+from asurt_msgs.msg import BoundingBoxes
 from utils import processBboxes
 
 class Yolov8Node(Node):
