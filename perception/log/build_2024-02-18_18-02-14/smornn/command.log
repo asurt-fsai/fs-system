@@ -1,2 +1,0 @@
-Invoking command in '/home/mazen/ros2_ws/src/fs-system/perception/build/smornn': /usr/bin/cmake /home/mazen/ros2_ws/src/fs-system/perception/perception_23/smornn -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/mazen/ros2_ws/src/fs-system/perception/install/smornn
-Invoked command in '/home/mazen/ros2_ws/src/fs-system/perception/build/smornn' returned '1': /usr/bin/cmake /home/mazen/ros2_ws/src/fs-system/perception/perception_23/smornn -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/mazen/ros2_ws/src/fs-system/perception/install/smornn
