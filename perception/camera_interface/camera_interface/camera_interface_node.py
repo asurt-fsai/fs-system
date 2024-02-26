@@ -39,7 +39,7 @@ class CameraNode(Node):
         self.timer = None
         self.img_publisher = None
 
-        self.bridge = CvBridge()
+        self.bridge = None
         self.cap = None
         self.frame_id = 0
 
@@ -109,6 +109,9 @@ class CameraNode(Node):
         self.timer = self.create_timer(1/params['rate'], self.callback_camera)
         camera_feed_topic = self.get_parameter('/camera_interface/camera_feed').get_parameter_value().string_value
         self.img_publisher = self.create_publisher(Image, camera_feed_topic, 10)
+
+        #define CVbridge
+        self.bridge = CvBridge()
 
         #create undistortion maps
         self.generate_undistort_maps(params)
