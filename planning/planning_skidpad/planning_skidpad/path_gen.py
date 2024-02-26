@@ -4,22 +4,12 @@ import math
 import matplotlib.pyplot as plt
 from sympy import *
 import numpy as np
+import pandas as pd
 
 from geometry_msgs.msg import PoseArray
 from nav_msgs.msg import Odometry
 from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
-
-def circle(points):
-    x,y,C = symbols('x y C')
-    eq1 = Eq((x)**2 + (y)**2 - 2*points[0][0]*x - 2*points[0][1]*y + (points[0][0])**2 + (points[0][1])**2 - C, 0)
-    eq2 = Eq((x)**2 + (y)**2 - 2*points[1][0]*x - 2*points[1][1]*y + (points[1][0])**2 + (points[1][1])**2 - C, 0)
-    eq3 = Eq((x)**2 + (y)**2 - 2*points[2][0]*x - 2*points[2][1]*y + (points[2][0])**2 + (points[2][1])**2 - C, 0)
-    sol = solve([eq1, eq2, eq3], (x, y, C))
-    x0 = sol[0][0]
-    y0 = sol[0][1]
-    r = math.sqrt(sol[0][2])
-    return x0,y0,r
 
 class SendPath(Node):
 
@@ -43,7 +33,7 @@ class SendPath(Node):
         self.state = state
         self.get_logger().info(f'New state')
 
-    def listener_callback(self, msg):
+    def listener_callback(self, msg:PoseArray):
         #self.get_logger().info(f'New map')
         conesPosition= PoseArray()
         conesPosition= msg.poses
@@ -51,14 +41,14 @@ class SendPath(Node):
         for i in conesPosition:
             self.conePositions.append([i.position.x,i.position.y,i.position.z])
         path=[]
-        self.pathOrangeNodes.poses=[]
+        self.finalPath.poses=[]
         path=self.getPath()
 
         for i in path:
             pose = PoseStamped()
             pose.pose.position.x = float(i[0])
             pose.pose.position.y = float(i[1])
-            self.path.poses.append(pose)
+            self.finalPath.poses.append(pose)
         self.finalPath.header.frame_id = "map"
         #self.pathOrangeNodes.header.stamp = self.get_clock().now().to_msg()
         self.pathPub.publish(self.finalPath)
@@ -157,26 +147,49 @@ class SendPath(Node):
                 path.append([pos[0],i])
         return path
 
+    def filter(self, arr: list) -> list:
+        df = pd.DataFrame({'data': arr})
+        Q1 = df.quantile(0.25)
+        Q3 = df.quantile(0.75)
+        IQR = Q3 - Q1
+        df_out = df[~((df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))).any(axis=1)]
+        return df_out['data'].tolist()
+
+    def circle(self,points):
+        x,y,C = symbols('x y C')
+        eq1 = Eq((x)**2 + (y)**2 - 2*points[0][0]*x - 2*points[0][1]*y + (points[0][0])**2 + (points[0][1])**2 - C, 0)
+        eq2 = Eq((x)**2 + (y)**2 - 2*points[1][0]*x - 2*points[1][1]*y + (points[1][0])**2 + (points[1][1])**2 - C, 0)
+        eq3 = Eq((x)**2 + (y)**2 - 2*points[2][0]*x - 2*points[2][1]*y + (points[2][0])**2 + (points[2][1])**2 - C, 0)
+        sol = solve([eq1, eq2, eq3], (x, y, C))
+        x0 = sol[0][0]
+        y0 = sol[0][1]
+        r = math.sqrt(sol[0][2])
+        return x0,y0,r
+
     def meanCircles(self,outerCones,innerCones):
         #six variables with six equation (x-x0)^2 + (y-y0)^2 = R^2, (x-x0)^2 + (y-y0)^2 = r^2
-        x0=0
-        y0=0
-        r1=0
-        r0=0
+        x0=[]
+        y0=[]
+        r1=[]
+        r0=[]
         for i in range(len(outerCones)-2):
-            x,y,r = circle([outerCones[i],outerCones[i+1],outerCones[i+2]])
-            x0 = x0 + x
-            y0 = y0 + y
-            r1 = r1 + r
+            x,y,r = self.circle([outerCones[i],outerCones[i+1],outerCones[i+2]])
+            x0 = x0+[x]
+            y0 = y0+[y]
+            r1 = r1+[r]
         for i in range(len(innerCones)-2):
-            x,y,r = circle([innerCones[i],innerCones[i+1],innerCones[i+2]])
-            x0 = x0 + x
-            y0 = y0 + y
-            r0 = r0 + r
-        x0 = x0/(len(outerCones)+len(innerCones)-4)
-        y0 = y0/(len(outerCones)+len(innerCones)-4)
-        r1 = r1/(len(outerCones)-2)
-        r0 = r0/(len(innerCones)-2)
+            x,y,r = self.circle([innerCones[i],innerCones[i+1],innerCones[i+2]])
+            x0 = x0+[x]
+            y0 = y0+[y]
+            r0 = r0+[r]
+        x0 = self.filter(x0)
+        y0 = self.filter(y0)
+        r1 = self.filter(r1)
+        r0 = self.filter(r0)
+        x0 = sum(x0)/len(x0)
+        y0 = sum(y0)/len(y0)
+        r1 = sum(r1)/len(r1)
+        r0 = sum(r0)/len(r0)
         reduisMean = (r1+r0)/2
         return x0,y0,reduisMean
 
