@@ -27,7 +27,7 @@ class Yolov8Node(Node):
 
         try:
             # Convert ROS Image message to OpenCV image
-            cv_image = self.bridge.imgmsg_to_cv2(msg, "rbg8")
+            cv_image = self.bridge.imgmsg_to_cv2(msg, "rgb8")
             # Process the image through YOLO
             results = self.model(cv_image)
             # Process bounding boxes

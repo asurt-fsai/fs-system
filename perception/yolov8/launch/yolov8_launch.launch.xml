@@ -1,0 +1,6 @@
+<launch>
+    <node pkg="camera_interface" exec="camera_interface_node" name="camera_interface_node">
+        <param name="/camera_interface/rate" value="10"/>
+        <param name="/camera_interface/image_width" value="250"/>
+    </node>
+</launch>
