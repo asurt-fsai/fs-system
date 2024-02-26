@@ -42,7 +42,7 @@ class CameraNode(Node):
         self.bridge = CvBridge()
         self.cap = None
         self.frame_id = 0
-        
+
         #undistortion maps
         self.mapx = None
         self.mapy = None 
@@ -149,7 +149,7 @@ class CameraNode(Node):
             # Publish the image
             self.img_publisher.publish(ros_image)
 
-            self.get_logger().info('Publishing webcam image' + str(self.frame_id))
+            self.get_logger().info('Publishing camera feed frame: ' + str(self.frame_id))
             self.frame_id += 1
         except Exception as e:
             self.get_logger().error(f'Failed to process image: {e}')
