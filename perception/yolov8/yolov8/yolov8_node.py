@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
+import os
 
 from rclpy.node import Node
 from ultralytics import YOLO
@@ -7,7 +8,6 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
 from asurt_msgs.msg import BoundingBoxes
-from utils import processBboxes
 
 class Yolov8Node(Node):
 
@@ -16,12 +16,43 @@ class Yolov8Node(Node):
         super().__init__("yolov8_node")
         self.get_logger().info("STARTING YOLOV8 NODE")
 
-        self.img_sub = self.create_subscription(Image, "/camera_interface/camera_feed", self.callback_yolo, 10)
-        self.res_pub = self.create_publisher(BoundingBoxes, "/yolov8/detections", 10)
+        #declaring params
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('/camera_interface/camera_feed', rclpy.Parameter.Type.STRING),
+                ('/yolov8/detections', rclpy.Parameter.Type.STRING),
+                ('/yolov8/model_path', rclpy.Parameter.Type.STRING)
+            ]
+        )
 
-        self.bridge = CvBridge()
+        self.img_sub = None
+        self.res_pub = None
+
+        self.bridge = None
         
-        self.detector = YOLO("./best.pt")
+        self.detector = None
+
+        self.start()
+
+    def start(self):
+
+        #fetch parameters from launch file
+        camera_feed_topic = self.get_parameter('/camera_interface/camera_feed').get_parameter_value().string_value
+        detections_topic = self.get_parameter('/yolov8/detections').get_parameter_value().string_value
+        MODEL_PATH = self.get_parameter('/yolov8/model_path').get_parameter_value().string_value
+
+        #define subscriber & publisher
+        self.img_sub = self.create_subscription(Image, camera_feed_topic, self.callback_yolo, 10)
+        self.res_pub = self.create_publisher(BoundingBoxes, detections_topic, 10)
+
+        #define CvBridge
+        self.bridge = CvBridge()
+        #define model
+        self.detector = YOLO(MODEL_PATH)
+
+    def processBboxes(self):
+        pass
 
     def callback_yolo(self, msg: Image):
 
@@ -31,7 +62,7 @@ class Yolov8Node(Node):
             # Process the image through YOLO
             results = self.model(cv_image)
             # Process bounding boxes
-            processed_results = processBboxes(results, msg.header.frame_id)
+            processed_results = self.processBboxes(results, msg.header.frame_id)
             # Publish the results
             self.res_pub.publish(processed_results)
 

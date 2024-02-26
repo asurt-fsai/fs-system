@@ -1,6 +1,7 @@
 <launch>
-    <node pkg="camera_interface" exec="camera_interface_node" name="camera_interface_node">
-        <param name="/camera_interface/rate" value="10"/>
-        <param name="/camera_interface/image_width" value="250"/>
+    <node pkg="yolov8" exec="yolov8_node" name="yolov8_node">
+        <param name="/camera_interface/camera_feed" value="/camera_interface/camera_feed"/>
+        <param name="/yolov8/detections" value="/yolov8/detections"/>
+        <param name="/yolov8/model_path" value="/home/mazen/ros2_ws/src/fs-system/perception/yolov8/yolov8/best.pt"/>
     </node>
 </launch>
