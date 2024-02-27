@@ -104,7 +104,8 @@ class ConeMatching:
         majorRadius = self.state.maxSearchRange * 1.5
         minorRadius = self.state.minTrackWidth
 
-        ((leftConesWithVirtual, _, leftToRightMatch),(rightConesWithVirtual, _, rightToLeftMatch)) = calculateVirtualConesForBothSides(
+        ((leftConesWithVirtual, _, leftToRightMatch)
+         ,(rightConesWithVirtual, _, rightToLeftMatch)) = calculateVirtualConesForBothSides(
             self.state.sortedLeft,
             self.state.sortedRight,
             self.state.positionGlobal,
@@ -114,9 +115,6 @@ class ConeMatching:
             self.state.maxSearchAngle,
             self.state.matchesShouldBeMonotonic,
         )
-        #leftResults, rightResults = results
-        #(leftConesWithVirtual, _, leftToRightMatch) = leftResults
-        #(rightConesWithVirtual, _, rightToLeftMatch) = rightResults
         
         return (
             leftConesWithVirtual,
