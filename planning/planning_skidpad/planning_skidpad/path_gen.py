@@ -22,9 +22,10 @@ class SendPath(Node):
         self.finalPath = Path()
         self.state=Odometry()
         self.pastPos=[0,0]
-        self.conePositions=[]
+        self.conePositions=np.array([])
         self.count = 0
         self.origin = [0,0]
+        self.i=0
     
     def stateCallback(self, state:Odometry):
         
@@ -37,9 +38,8 @@ class SendPath(Node):
         #self.get_logger().info(f'New map')
         conesPosition= PoseArray()
         conesPosition= msg.poses
-        self.conePositions = []
-        for i in conesPosition:
-            self.conePositions.append([i.position.x,i.position.y,i.position.z])
+        self.conePositions = np.array([])
+        self.conePositions = np.array([[i.position.x, i.position.y, i.position.z] for i in conesPosition])
         path=[]
         self.finalPath.poses=[]
         path=self.getPath()
@@ -55,42 +55,27 @@ class SendPath(Node):
         #print(self.state.pose.pose.position.x,self.state.pose.pose.position.y)
         
     def conesClassification(self):
-        rightBlueCones = []
-        leftBlueCones = []
-        rightYellowCones = []
-        leftYellowCones = []
-        orangeCones = []
-        bigOrange=[]
-        for i in range(len(self.conePositions)):
-            if self.conePositions[i][2] == 0:
-                None
-            if (self.conePositions[i][2] == 1):
-                orangeCones.append(self.conePositions[i])
-            elif (self.conePositions[i][2] == 2):
-                bigOrange.append(self.conePositions[i])
-            elif self.conePositions[i][2] == 3:
-                if self.conePositions[i][0] >0:
-                    rightBlueCones.append(self.conePositions[i])
-                else:
-                    leftBlueCones.append(self.conePositions[i])
-            elif self.conePositions[i][2] == 4:
-                if self.conePositions[i][0] >0:
-                    rightYellowCones.append(self.conePositions[i])
-                else:
-                    leftYellowCones.append(self.conePositions[i])
-        rightBlueCones.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-        leftBlueCones.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-        rightYellowCones.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-        leftYellowCones.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-        orangeCones.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-        bigOrange.sort(key=lambda p: (p[0] - self.state.pose.pose.position.x)**2 + (p[1] - self.state.pose.pose.position.y)**2)
-            
-        return rightBlueCones,leftBlueCones,rightYellowCones,leftYellowCones,orangeCones,bigOrange
 
-    def OrangeNodes(self,map):
+        rightBlueCones = np.array(self.conePositions[self.conePositions[:, 2] == 3][self.conePositions[self.conePositions[:, 2] == 3][:, 0] > 0])
+        leftBlueCones = np.array(self.conePositions[self.conePositions[:, 2] == 3][self.conePositions[self.conePositions[:, 2] == 3][:, 0] <= 0])
+        rightYellowCones = np.array(self.conePositions[self.conePositions[:, 2] == 4][self.conePositions[self.conePositions[:, 2] == 4][:, 0] > 0])
+        leftYellowCones = np.array(self.conePositions[self.conePositions[:, 2] == 4][self.conePositions[self.conePositions[:, 2] == 4][:, 0] <= 0])
+        orangeCones = np.array(self.conePositions[self.conePositions[:, 2] == 1])
+        bigOrange = np.array(self.conePositions[self.conePositions[:, 2] == 2])
+
+        rightBlueCones = rightBlueCones[np.argsort((rightBlueCones[:, 0] - self.state.pose.pose.position.x)**2 + (rightBlueCones[:, 1] - self.state.pose.pose.position.y)**2)]
+        leftBlueCones = leftBlueCones[np.argsort((leftBlueCones[:, 0] - self.state.pose.pose.position.x)**2 + (leftBlueCones[:, 1] - self.state.pose.pose.position.y)**2)]
+        rightYellowCones = rightYellowCones[np.argsort((rightYellowCones[:, 0] - self.state.pose.pose.position.x)**2 + (rightYellowCones[:, 1] - self.state.pose.pose.position.y)**2)]
+        leftYellowCones = leftYellowCones[np.argsort((leftYellowCones[:, 0] - self.state.pose.pose.position.x)**2 + (leftYellowCones[:, 1] - self.state.pose.pose.position.y)**2)]
+        orangeCones = orangeCones[np.argsort((orangeCones[:, 0] - self.state.pose.pose.position.x)**2 + (orangeCones[:, 1] - self.state.pose.pose.position.y)**2)]
+        bigOrange = bigOrange[np.argsort((bigOrange[:, 0] - self.state.pose.pose.position.x)**2 + (bigOrange[:, 1] - self.state.pose.pose.position.y)**2)]
+
+        return rightBlueCones.tolist(), leftBlueCones.tolist(), rightYellowCones.tolist(), leftYellowCones.tolist(), orangeCones.tolist(), bigOrange.tolist()
+
+    def OrangeNodes(self,map: list)->list:
         OrangeNodes = []
         for i in map:
-            lowestDist = 100000
+            lowestDist = float('inf')
             nearestNode = []
             for j in map:
                 if i != j:
@@ -106,12 +91,13 @@ class SendPath(Node):
         #plt.show()  
         return OrangeNodes
 
-    def linePath(self,OrangeNodes,pos):
+    def linePath(self,OrangeNodes:list,pos:list)->list:
     #best fit
         x = []
         y = []
         j=[]
         path = []
+        #print(len(OrangeNodes))
 
         for i in range(len(OrangeNodes)):
             if OrangeNodes[i][1]<pos[1]:
@@ -155,7 +141,7 @@ class SendPath(Node):
         df_out = df[~((df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))).any(axis=1)]
         return df_out['data'].tolist()
 
-    def circle(self,points):
+    def circle(self,points:list)->float:
         x,y,C = symbols('x y C')
         eq1 = Eq((x)**2 + (y)**2 - 2*points[0][0]*x - 2*points[0][1]*y + (points[0][0])**2 + (points[0][1])**2 - C, 0)
         eq2 = Eq((x)**2 + (y)**2 - 2*points[1][0]*x - 2*points[1][1]*y + (points[1][0])**2 + (points[1][1])**2 - C, 0)
@@ -166,7 +152,7 @@ class SendPath(Node):
         r = math.sqrt(sol[0][2])
         return x0,y0,r
 
-    def meanCircles(self,outerCones,innerCones):
+    def meanCircles(self,outerCones:list,innerCones:list)->float:
         #six variables with six equation (x-x0)^2 + (y-y0)^2 = R^2, (x-x0)^2 + (y-y0)^2 = r^2
         x0=[]
         y0=[]
@@ -193,7 +179,7 @@ class SendPath(Node):
         reduisMean = (r1+r0)/2
         return x0,y0,reduisMean
 
-    def circlePath(self,outerCones,innerCones,pos=[0,0]):
+    def circlePath(self,outerCones:list,innerCones:list,pos:list=[0,0])->list:
         path=[]
         x=[]
         y1=[]
@@ -249,7 +235,7 @@ class SendPath(Node):
         
         return path
 
-    def counter(self,pos,bigOrange):
+    def counter(self,pos:list,bigOrange:list):
         counter_OrangeNodes=self.OrangeNodes(bigOrange)
         #self.get_logger().info(f'self.state.pose.pose.position.x,self.state.pose.pose.position.y is {self.state.pose.pose.position.x,self.state.pose.pose.position.y} ')
         #self.get_logger().info(f'self.pastPos[0],self.pastPos[1] is {self.pastPos[0],self.pastPos[1]} ')
@@ -257,7 +243,7 @@ class SendPath(Node):
             if len(counter_OrangeNodes)<1:
                 return 0
             else:
-                if (pos[1]>counter_OrangeNodes[0][1]) and (self.pastPos[1]<counter_OrangeNodes[0][1]) and (round(pos[0],0) < round(counter_OrangeNodes[0][0]+1,0) and round(pos[0],0) > round(counter_OrangeNodes[0][0]-1,0)):
+                if (pos[1]>counter_OrangeNodes[0][1]) and (self.pastPos[1]<counter_OrangeNodes[0][1]) and (round(pos[0],0) < round(counter_OrangeNodes[0][0]+2,0) and round(pos[0],0) > round(counter_OrangeNodes[0][0]-2,0)):
                     self.count=self.count+1
                     self.origin = counter_OrangeNodes[0]
         else:
@@ -268,7 +254,8 @@ class SendPath(Node):
             self.meanPoint = [(counter_OrangeNodes[0][0]+counter_OrangeNodes[1][0])/2,(counter_OrangeNodes[0][1]+counter_OrangeNodes[1][1])/2]
             self.origin = self.meanPoint
         
-    def path(self,rightBlueCones,leftBlueCones,rightYellowCones,leftYellowCones,orangeCones,bigOrange):
+    def path(self,rightBlueCones:list,leftBlueCones:list,rightYellowCones:list,leftYellowCones:list,orangeCones:list,bigOrange:list)->list:
+        
         path=[]
         pos=[self.state.pose.pose.position.x,self.state.pose.pose.position.y]
         orange=orangeCones+bigOrange
@@ -302,7 +289,7 @@ class SendPath(Node):
         
         return path
 
-    def getPath(self):
+    def getPath(self)->list:
         rightBlueCones,leftBlueCones,rightYellowCones,leftYellowCones,orangeCones,bigOrange = self.conesClassification()
         path = self.path(rightBlueCones,leftBlueCones,rightYellowCones,leftYellowCones,orangeCones,bigOrange)
         return path
