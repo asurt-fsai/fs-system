@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Arguments -->
+	<let name="in_tuning" default="False"/>
+	<let name ="setup_name" default="zed"/>
+
+	<!-- Published topics -->
+	
+	<!-- Subscribed topics -->
+	
+
+	<!-- System params -->
+	<param from="$(find-pkg-share smoreo)/config/$(var setup_name)Params.yaml" />
+	
+
+	<!-- Physical Parameters -->
+	<include file="$(find-pkg-share common_params)/launch/common_params.launch"/>
+
+	<!-- Nodes to be launched -->
+	<node name="smoreo" pkg="smoreo" exec="smoreo_system.py" output="screen">
+		<param name="/smoreo/bounding_boxes" value="/darknet_ros/bounding_boxes"/>
+		<param name = "/smoreo/camera_info" value = "/zed/zed_node/left/camera_info" />
+		<param name = "/smoreo/camera_frame" value = "zed_left" />
+		<param name="/smoreo/hardcode_params" value="True"/>
+		<param name="/smoreo/use_cone_base" value= "True"/>
+		<param name="/smoreo/in_tuning" value="$(var in_tuning)"/>
+		<param name="/smoreo/predicted_landmarks" value="/perception/smoreo/detected"/>
+		<param name="/smoreo/predicted_markers" value="/perception/smoreo/detected_markers"/>
+	</node>
+</launch>
