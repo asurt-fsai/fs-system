@@ -97,23 +97,7 @@ class CalculatePath:
             mpcPredictionHorizon=mpcPredictionHorizon,
         )
         self.pathCalculatorHelpers = PathCalculatorHelpers()
-
-        '''self.splineFitterFactory = SplineFitterFactory(
-            smoothing, predictEvery, maxDeg
-        )
-
-        pathParameterizer = PathParameterizer(
-            prediction_horizon=self.scalars.mpcPredictionHorizon
-        )
-
-        self.previous_paths = [
-            path_parameterizer.parameterize_path(
-                self.calculate_initial_path(), None, None, False
-            )
-        ]'''
-
         self.previousPaths = self.calculateInitialPath()
-        #self.mpcPaths = []
         self.pathIsTrivialList = []
         self.pathUpdates = []
 
@@ -122,10 +106,6 @@ class CalculatePath:
         Calculate the initial path.
         """
 
-        # calculate first path
-        '''initialPath = self.splineFitterFactory.fit(
-            self.pathCalculatorHelpers.calculate_almost_straight_path()
-        ).predict(der=0)'''
         return self.pathCalculatorHelpers.calculate_almost_straight_path()
 
     def setNewInput(self, newInput: PathCalculationInput) -> None:
@@ -211,24 +191,6 @@ class CalculatePath:
 
         return centerAlongMatchConnection
 
-    '''def fitMatchesAsSpline(
-        self, centerAlongMatchConnection: FloatArray
-    ) -> FloatArray:
-        """
-        Fit the calculated basis path as a spline. If the computation fails, use the
-        path calculated in the previous step
-        """
-        try:
-            pathUpdate = self.splineFitterFactory.fit(
-                centerAlongMatchConnection
-            ).predict(der=0)
-        except ValueError:
-            pathUpdate = self.splineFitterFactory.fit(
-                self.previousPaths[-1]
-            ).predict(der=0)
-
-        return pathUpdate'''
-
     def overwritePathIfItIsTooFarAway(
         self, pathUpdate: FloatArray
     ) -> FloatArray:
@@ -242,28 +204,6 @@ class CalculatePath:
         if minDistanceToPath > self.scalars.maximalDistanceForValidPath:
             pathUpdate = self.previousPaths[-15:]
         return pathUpdate
-
-    '''def refitPathForMpcWithSafetyFactor(
-        self, finalPath: FloatArray
-    ) -> FloatArray:
-        """
-        Refit the path for MPC with a safety factor. The length of the path is 1.5 times
-        the length of the path required by MPC. The path will be trimmed to the correct length
-        in another step
-        """
-        try:
-            pathLengthFixed = self.splineFitterFactory.fit(finalPath).predict(
-                der=0, max_u=self.scalars.mpcPathLength * 1.5
-            )
-        except Exception as e:
-            print(e)
-            mask = np.all(finalPath[:-1] == finalPath[1:], axis=1)
-            print(np.where(mask))
-            # print(repr(final_path))
-            # print(repr(self.input))
-            raise
-
-        return pathLengthFixed'''
 
     def extendPath(self, pathUpdate: FloatArray) -> FloatArray:
         """
@@ -373,58 +313,12 @@ class CalculatePath:
         pathWithNoPathBehindCar = self.removePathBehindCar(
             pathWithEnoughLength
         )
-        '''try:
-            pathLengthFixed = self.refitPathForMpcWithSafetyFactor(
-                pathWithNoPathBehindCar
-            )
-        except Exception:
-            print("path update")
-            raise'''
 
         pathWithLengthForMpc = self.removePathNotInPredictionHorizon(
             pathWithNoPathBehindCar
         )
 
         return pathWithLengthForMpc
-
-    '''def doAllMpcParameterCalculations(self, pathUpdate: FloatArray) -> FloatArray:
-        """
-        Calculate the path that will be sent to the MPC. The general path that is
-        calculated is based on the cones around the track and is also based on the
-        surroundings (also cones from behind the car), which means that this path
-        has an undefined length and starts behind the car. MPC expects the path to
-        start where the car is and for it to have a specific length (both in meters,
-        but also in the number of elements it is composed of). This method extrapolates
-        the path if the length is not enough, removes the parts of the path that are
-        behind the car and finally samples the path so that it has exactly as many
-        elements as MPC needs.
-
-        Args:
-            path_update: The basis of the new path
-
-        Returns:
-            The parameterized path as a Nx4 array, where each column is:
-                theta (spline parameter)
-                x (x coordinate)
-                y (y coordinate)
-                curvature (curvature of the path at that point)
-        """
-
-        pathWithLengthForMpc = self.createPathForMpcFromPathUpdate(
-            pathUpdate
-        )
-
-        pathParameterizer = PathParameterizer(
-            prediction_horizon=self.scalars.mpcPredictionHorizon
-        )
-        pathParameterized = pathParameterizer.parameterize_path(
-            pathWithLengthForMpc,
-            self.input.positionGlobal,
-            self.input.directionGlobal,
-            path_is_closed=False,
-        )
-
-        return pathParameterized'''
 
     def costMpcPathStart(self, pathLengthFixed: FloatArray) -> FloatArray:
         """
@@ -555,7 +449,6 @@ class CalculatePath:
         Store the calculated paths, in case they are need in the next calculation.
         """
         self.pathUpdates = self.pathUpdates[-10:] + [pathUpdate]
-        #self.mpcPaths = self.mpcPaths[-10:] + [pathWithLengthForMpc]
         self.pathIsTrivialList = self.pathIsTrivialList[-10:] + [pathIsTrivial]
 
     def runPathCalculation(self) -> FloatArray:
@@ -600,31 +493,8 @@ class CalculatePath:
         pathWithLengthForMpc = self.createPathForMpcFromPathUpdate(
             pathUpdate
         )
-        '''pathUpdateTooFarAway = self.fitMatchesAsSpline(
-            centerAlongMatchConnection
-        )
-
-        pathUpdate = self.overwritePathIfItIsTooFarAway(
-            pathUpdateTooFarAway
-        )
-
-        try:
-            pathParameterization = self.doAllMpcParameterCalculations(pathUpdate)
-        except ValueError:
-            # there is a bug with the path extrapolation which leads to the spline
-            # fit failing, in this case we just use the previous path
-            pathParameterization = self.doAllMpcParameterCalculations(
-                self.previousPaths[-1][:, 1:3]
-            )
-        
-        self.storePaths(pathUpdate, pathParameterization, False)
-        self.previousPaths = self.previousPaths[-10:] + [pathParameterization]
-
-        return pathParameterization, centerAlongMatchConnection
-        '''
         
         self.storePaths(pathWithLengthForMpc, False)
-        #print(pathWithLengthForMpc.shape)
         self.previousPaths = np.concatenate((self.previousPaths[-15:], pathWithLengthForMpc), axis=0)
 
         return pathWithLengthForMpc
