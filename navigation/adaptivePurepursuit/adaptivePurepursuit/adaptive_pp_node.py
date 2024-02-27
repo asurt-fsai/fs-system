@@ -5,23 +5,18 @@ from nav_msgs.msg import Odometry, Path
 import math
 from tf_transformations import euler_from_quaternion
 from adaptivePurepursuit import AdaptivePurePursuit
-from ackermann_msgs.msg import AckermannDrive
+# from ackermann_msgs.msg import AckermannDrive
 
-# node file , purepursuit file
-# launch file with parameters
-# search index function
-# pkg folder structure
 
 class Controller(Node):
     def __init__(self):
         super().__init__('controller')
         self.steer_pub = self.create_publisher(Float32, 'steer', 10)
         self.throttle_pub = self.create_publisher(Float32, 'throttle', 10)
-        self.controlActionsPub = self.create_publisher(AckermannDrive, 'control/actions', 10)
-        self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
-        self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
+        # self.controlActionsPub = self.create_publisher(AckermannDrive, 'control/actions', 10)
+        self.state_sub = self.create_subscription(Odometry, '/state', self.state_callback, 10)
+        self.path_sub = self.create_subscription(Path, '/path', self.path_callback, 10)
         self.timer = self.create_timer(0.1,self.publish_control_signals)
-
 
         self.purepursuit = AdaptivePurePursuit()
 
@@ -44,6 +39,7 @@ class Controller(Node):
     def path_callback(self, path: Path):
         self.purepursuit.waypoints = [(pose.pose.position.x, pose.pose.position.y) for pose in path.poses]
         self.purepursuit.pathFlag = True
+        self.first_element = [t[0] for t in self.purepursuit.waypoints]
 
 
     def publish_control_signals(self):
@@ -52,9 +48,9 @@ class Controller(Node):
         throttle = Float32()
         throttle.data = self.purepursuit.pid_controller(steering_angle.data)
         self.throttle_pub.publish(throttle)
-        self.controlActionsPub.publish(throttle)
+        # self.controlActionsPub.publish(throttle)
         self.steer_pub.publish(steering_angle)
-        self.controlActionsPub.publish(steering_angle)
+        # self.controlActionsPub.publish(steering_angle)
         
         # if self.pathFlag == True :
         #     steering_angle = Float32()

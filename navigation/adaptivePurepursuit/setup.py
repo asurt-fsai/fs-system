@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'adaptivePurepursuit = adaptivePurepursuit.main:main',
+            'adaptivePurepursuit = adaptivePurepursuit.adaptive_pp_node:main',
             'path_gen = adaptivePurepursuit.path_gen:main',
             'test = adaptivePurepursuit.adaptivePurepursuit:main'
         ],

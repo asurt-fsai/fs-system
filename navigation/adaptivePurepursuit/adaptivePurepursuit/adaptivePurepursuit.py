@@ -1,14 +1,9 @@
 import rclpy
 import math
 
-# node file , purepursuit file
-# launch file with parameters
-# search index function
-# pkg folder structure
 
 class AdaptivePurePursuit:
     def __init__(self):
-
 
         #functions initializations
         self.velocity = 0.0
@@ -23,6 +18,7 @@ class AdaptivePurePursuit:
         self.firstFlag = True
         self.target_index = 0
         self.steering_angle = 0.0
+        self.first_element = []
 
 
         #From launch file
@@ -35,8 +31,6 @@ class AdaptivePurePursuit:
         self.gain = rclpy.Node.get_parameter_or("/gain")
         self.minspeed = rclpy.Node.get_parameter_or("/speed/min")
         self.maxspeed = rclpy.Node.get_parameter_or("/speed/max")
-
-# (path, state hy5osholak) -> function purepursuit -> steering -> pid -> throttle -> publish(steering, throttle)
 
     @staticmethod
     def calculate_distance(point1: list, point2: list):
@@ -59,16 +53,11 @@ class AdaptivePurePursuit:
             distance = self.calculate_distance(self.state[:2], waypoint)
             if distance > self.lookahead_distance :
                 self.target_index = i
-                break
+                if self.x > self.first_element[self.target_index]:
+                    continue
+                else:
+                    break
         return self.target_index
-        #awel mra 3la loop 3shan tgeb a2rb index lek
-        #if awelmraFlag is true:
-            #loop 3la elwaypoints w tgeb elindex ely 3andha elmin distance 
-         #  awelmraflag = False
-        #loop (For(targetIndex -> waypoints -1)
-            # if (distance targetind > look_ahead_distance)
-                #target_index = i(a5er i enta we2eft 3andha) , break  
-        #return target_index
     
 
     def adaptivePurepursuit(self):
@@ -77,8 +66,6 @@ class AdaptivePurePursuit:
         tx, ty = target_waypoint
         dx = tx - self.x
         dy = ty - self.y
-        # if target_index == len(self.waypoints) - 1:
-        #         return 0
         alpha = math.atan2(dy, dx) - self.yaw
         lookahead_angle = math.atan2(2 * 0.5 * math.sin(alpha) / self.lookahead_distance, 1)
         self.steering_angle = math.degrees(lookahead_angle)
@@ -88,7 +75,6 @@ class AdaptivePurePursuit:
 
     def speedControl(self, steering_angle: float) -> float:
         self.target_speed: float = (20.0/3.6) / (abs(steering_angle) + 0.001) # change steering angle to rad
-        #targetSpeed: float = map(abs(steering_angle),0,30,3,0.5)
         self.target_speed = min(self.target_speed,self.maxspeed)
         self.target_speed = max(self.target_speed,self.minspeed)
         return self.target_speed
