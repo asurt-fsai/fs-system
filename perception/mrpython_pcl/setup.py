@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'mypython_pcl'
+package_name = 'mrpython_pcl'
 
 setup(
     name=package_name,
@@ -13,8 +13,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='mazen',
-    maintainer_email='mazen@todo.todo',
+    maintainer='farida',
+    maintainer_email='farida@todo.todo',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
