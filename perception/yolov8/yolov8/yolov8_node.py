@@ -21,6 +21,7 @@ class Yolov8Node(Node):
             parameters=[
                 ('/camera_interface/camera_feed', rclpy.Parameter.Type.STRING),
                 ('/yolov8/detections', rclpy.Parameter.Type.STRING),
+                ('/yolov8/cropped_detections', rclpy.Parameter.Type.STRING),
                 ('/yolov8/model_path', rclpy.Parameter.Type.STRING)
             ]
         )
@@ -59,7 +60,6 @@ class Yolov8Node(Node):
         detections = BoundingBoxes()
 
         detections.frame_id = frame_id
-
         detections.object_count = len(boxes)
         detections.bounding_boxes = [None] * detections.object_count
 
@@ -79,8 +79,28 @@ class Yolov8Node(Node):
         
         return detections
 
-    def cropBboxes(self, boxes, frame_id):
-        pass
+    def cropBboxes(self, img, boxes, frame_id):
+        
+        cropped_detections = ConeImgArray()
+
+        cropped_detections.frame_id = frame_id
+        cropped_detections.object_count = len(boxes)
+        cropped_detections.imgs = [None] * cropped_detections.object_count
+
+        for idx, box in enumerate(boxes):
+
+            cropped_detection = ConeImg()
+
+            cropped_detection.id = idx
+            cropped_detection.rows = box.shape[0]
+            cropped_detection.cols = box.shape[1]
+
+            xmin, ymin, xmax, ymax = box.xyxy[0]
+            cropped_detection.data = img[ymin:ymax, xmin:xmax].ravel()
+
+            cropped_detections.imgs[idx] = cropped_detection
+
+        return cropped_detections
 
     def callback_yolo(self, msg: Image):
 
@@ -96,7 +116,7 @@ class Yolov8Node(Node):
             processed_results = self.processBboxes(result, msg.header.frame_id)
 
             # Crop bounding boxes
-            cropped_bboxes = self.cropBboxes(result, msg.header.frame_id)
+            cropped_bboxes = self.cropBboxes(cv_image, result, msg.header.frame_id)
 
             # Publish bounding boxes
             self.bboxes_publisher.publish(processed_results)
