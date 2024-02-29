@@ -7,7 +7,7 @@ from ultralytics import YOLO
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
-from asurt_msgs.msg import BoundingBoxes
+from asurt_msgs.msg import BoundingBoxes, BoundingBox
 
 class Yolov8Node(Node):
 
@@ -26,8 +26,9 @@ class Yolov8Node(Node):
             ]
         )
 
-        self.img_sub = None
-        self.res_pub = None
+        self.img_subscriber = None
+        self.bboxes_publisher = None
+        self.cropped_bboxes_publisher = None
 
         self.bridge = None
         
@@ -40,18 +41,48 @@ class Yolov8Node(Node):
         #fetch parameters from launch file
         camera_feed_topic = self.get_parameter('/camera_interface/camera_feed').get_parameter_value().string_value
         detections_topic = self.get_parameter('/yolov8/detections').get_parameter_value().string_value
+        cropped_detections_topic = self.get_parameter('/yolov8/cropped_detections').get_parameter_value().string_value
+
         MODEL_PATH = self.get_parameter('/yolov8/model_path').get_parameter_value().string_value
 
         #define subscriber & publisher
-        self.img_sub = self.create_subscription(Image, camera_feed_topic, self.callback_yolo, 10)
-        self.res_pub = self.create_publisher(BoundingBoxes, detections_topic, 10)
+        self.img_subscriber = self.create_subscription(Image, camera_feed_topic, self.callback_yolo, 10)
+        self.bboxes_publisher = self.create_publisher(BoundingBoxes, detections_topic, 10)
+        self.cropped_bboxes_publisher = self.create_publisher(Image, cropped_detections_topic, 10) 
 
         #define CvBridge
         self.bridge = CvBridge()
         #define model
         self.detector = YOLO(MODEL_PATH)
 
-    def processBboxes(self):
+    def processBboxes(self, result, frame_id):
+        
+        detections = BoundingBoxes()
+
+        detections.frame_id = frame_id
+
+        boxes = result.boxes.cpu().numpy()
+
+        detections.object_count = len(boxes)
+        detections.bounding_boxes = [None] * detections.object_count
+
+        for idx, box in enumerate(boxes):
+            
+            detection = BoundingBox()
+
+            detection.probability = box.conf[0]
+
+            detection.xmin, detection.ymin, detection.xmax, detection.ymax = box.xyxy[0]
+            detection.x_center, detection.y_center, detection.width, detection.height = box.xywh[0]
+
+            detection.id = idx
+            detection.type = box.cls[0]
+
+            detections.bounding_boxes[idx] = detection
+        
+        return detections
+
+    def cropBboxes(self, results, frame_id):
         pass
 
     def callback_yolo(self, msg: Image):
@@ -59,12 +90,21 @@ class Yolov8Node(Node):
         try:
             # Convert ROS Image message to OpenCV image
             cv_image = self.bridge.imgmsg_to_cv2(msg, "rgb8")
+
             # Process the image through YOLO
-            results = self.model(cv_image)
+            result = self.model(cv_image)
+
             # Process bounding boxes
-            processed_results = self.processBboxes(results, msg.header.frame_id)
-            # Publish the results
-            self.res_pub.publish(processed_results)
+            processed_results = self.processBboxes(result, msg.header.frame_id)
+
+            # Crop bounding boxes
+            cropped_bboxes = self.cropBboxes(result, msg.header.frame_id)
+
+            # Publish bounding boxes
+            self.bboxes_publisher.publish(processed_results)
+
+            # Publish cropped bounding boxes
+            self.cropped_bboxes_publisher.publish(cropped_bboxes) 
 
             self.get_logger().info('Published processed results' + msg.header.frame_id)
 
