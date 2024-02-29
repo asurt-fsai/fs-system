@@ -1,3 +1,3 @@
 uint32 frame_id
 uint16 object_count
-BoundingBox[] bounding_boxes
+asurt_msgs/BoundingBox[] bounding_boxes

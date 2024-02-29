@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import rclpy
-import os
 
 from rclpy.node import Node
 from ultralytics import YOLO
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 
-from asurt_msgs.msg import BoundingBoxes, BoundingBox
+from asurt_msgs.msg import BoundingBoxes, BoundingBox, ConeImg, ConeImgArray
 
 class Yolov8Node(Node):
 
@@ -48,20 +47,18 @@ class Yolov8Node(Node):
         #define subscriber & publisher
         self.img_subscriber = self.create_subscription(Image, camera_feed_topic, self.callback_yolo, 10)
         self.bboxes_publisher = self.create_publisher(BoundingBoxes, detections_topic, 10)
-        self.cropped_bboxes_publisher = self.create_publisher(Image, cropped_detections_topic, 10) 
+        self.cropped_bboxes_publisher = self.create_publisher(ConeImgArray, cropped_detections_topic, 10) 
 
         #define CvBridge
         self.bridge = CvBridge()
         #define model
         self.detector = YOLO(MODEL_PATH)
 
-    def processBboxes(self, result, frame_id):
+    def processBboxes(self, boxes, frame_id):
         
         detections = BoundingBoxes()
 
         detections.frame_id = frame_id
-
-        boxes = result.boxes.cpu().numpy()
 
         detections.object_count = len(boxes)
         detections.bounding_boxes = [None] * detections.object_count
@@ -82,7 +79,7 @@ class Yolov8Node(Node):
         
         return detections
 
-    def cropBboxes(self, results, frame_id):
+    def cropBboxes(self, boxes, frame_id):
         pass
 
     def callback_yolo(self, msg: Image):
@@ -93,6 +90,7 @@ class Yolov8Node(Node):
 
             # Process the image through YOLO
             result = self.model(cv_image)
+            result = result.boxes.cpu().numpy()
 
             # Process bounding boxes
             processed_results = self.processBboxes(result, msg.header.frame_id)
