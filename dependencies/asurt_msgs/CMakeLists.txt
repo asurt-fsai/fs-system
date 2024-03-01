@@ -24,6 +24,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/BoundingBoxes.msg"
   "msg/ConeImg.msg"
   "msg/ConeImgArray.msg"
+  "msg/KeyPoints.msg"
   DEPENDENCIES builtin_interfaces geometry_msgs std_msgs
  )
 
