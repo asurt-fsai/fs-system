@@ -26,7 +26,7 @@ class PlanningNode(Node):
             Odometry, "/topic2", self.receive_from_localization, 10
         )
         self.publisher = self.create_publisher(
-            PoseStamped, "/topic3", 10
+            Path, "/topic3", 10
         )
 
 
