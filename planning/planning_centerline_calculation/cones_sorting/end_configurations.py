@@ -556,7 +556,7 @@ def linesSegmentsIntersectIndicator(
     # lines are parallel <=> z is zero
     if np.abs(interZ) < epsilon:
         return _handleLineSegmentsIntersectParallelCase(
-            segmentAStart, segmentAEnd, segmentBStart, segmentBEnd
+            segmentAStart, segmentAEnd, segmentBStart, segmentBEnd, epsilon
         )
 
     # find intersection point
