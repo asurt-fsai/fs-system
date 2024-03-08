@@ -223,7 +223,8 @@ def sortedSetDiff(a: IntArray, b: IntArray) -> IntArray:
     """Returns the set diffrence between a and b, assume a,b are sorted"""
     # we cannot use np.setdiff1d because it is not supported in numba
     mask = np.ones(len(a), dtype=np.bool_)
-    mask[np.searchsorted(a, b)] = False
+    indices = np.clip(np.searchsorted(a, b), a_min=0, a_max=len(a) - 1)
+    mask[indices] = False
     return a[mask]
 
 
