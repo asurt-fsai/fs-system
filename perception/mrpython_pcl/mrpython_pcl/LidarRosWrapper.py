@@ -7,9 +7,10 @@ import rclpy
 import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import PointCloud2
-from tf_helper.MarkerViz import MarkerViz
+# from tf_helper.MarkerViz import MarkerViz
+from smoreo.MarkerViz import MarkerViz
 
-from ..LidarPipeline.LidarPipeline import LidarPipeline
+from .LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl
 
 
@@ -22,23 +23,28 @@ class LidarRosWrapper(LidarPipeline):
 
     def __init__(
         self,
-        publishers: Dict[str, rclpy.publisher],
         markerViz: MarkerViz,
+        publishers_filtered: rclpy.publisher.Publisher,
+        publishers_clustered: rclpy.publisher.Publisher,
+        publishers_detected: rclpy.publisher.Publisher,
+        publishers_tracked: rclpy.publisher.Publisher,
+        publishers_detected_markers: rclpy.publisher.Publisher,
         *args: Any,
         **kwargs: Any,
     ):
         super().__init__(*args, **kwargs)
-        self.publishers = publishers
         self.markerViz = markerViz
         self.frameId = ""
 
         # Parameter Validation
-        try:
-            for key, value in publishers.items():
-                assert isinstance(value, rclpy.publisher)
+        publishers = [publishers_filtered , publishers_clustered, publishers_detected, publishers_tracked, publishers_detected_markers]
 
-            for key in ["filtered", "clustered", "detected"]:
-                assert key in publishers
+        try:
+            for value in publishers:
+                assert isinstance(value, rclpy.publisher.Publisher)
+
+            # for key in ["filtered", "clustered", "detected"]:
+            #     assert key in publishers
         except Exception as exp:
             errMsg = "LidarRosWrapper: ensure the all the publishers required are provided \n \
                        - filtered \n\
@@ -52,8 +58,9 @@ class LidarRosWrapper(LidarPipeline):
         pointcloud = rosToPcl(pointcloud)
         super().setPointcloud(pointcloud)
 
-    def run(self) -> Optional[Dict[str, npt.NDArray[np.float64]]]:
+    def run(self,node) -> Optional[Dict[str, npt.NDArray[np.float64]]]:
         output: Optional[Dict[str, npt.NDArray[np.float64]]] = super().run()
+
         if output is None:
             return None
 
@@ -62,19 +69,19 @@ class LidarRosWrapper(LidarPipeline):
         output["clusterCenters"] = npConesToRos(output["clusterCenters"], self.frameId)
         output["detected"] = npConesToRos(output["detected"], self.frameId)
 
-        self.publishers["filtered"].publish(output["filtered"])
-        self.publishers["clustered"].publish(output["clustered"])
-        self.publishers["detected"].publish(output["detected"])
+        node.publishers_filtered.publish(output["filtered"])
+        node.publishers_clustered.publish(output["clustered"])
+        node.publishers_detected.publish(output["detected"])
 
         # MarkerArray visualizations
         detectedMarkers = self.markerViz.conesToMarkers(output["detected"])
-        self.publishers["detected_markers"].publish(detectedMarkers)
+        node.publishers_detected_markers.publish(detectedMarkers)
 
         if "tracked" in output:
             output["tracked"] = npConesToRos(output["tracked"], self.frameId, addIDs=True)
-            self.publishers["tracked"].publish(output["tracked"])
+            node.publishers["tracked"].publish(output["tracked"])
 
             trackedMarkers = self.markerViz.conesToMarkers(output["tracked"])
-            self.publishers["tracked_markers"].publish(trackedMarkers)
+            node.publishers_tracked_markers.publish(trackedMarkers)
 
         return output
