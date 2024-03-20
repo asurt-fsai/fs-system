@@ -1,33 +1,42 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>asurt_msgs</name>
-  <version>1.0.0</version>
+  <version>2.0.0</version>
   <description>The asurt_msgs package</description>
 
   <maintainer email="asurt.fsai@gmail.com">ASU Racing Team, Formula AI Team</maintainer>
 
   <license>MIT</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
   <build_depend>message_generation</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>rospy</build_depend>
+  <build_depend>rclcpp</build_depend>
+  <build_depend>rclpy</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
+  <build_depend>rosidl_default_generators</build_depend>
 
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>rclcpp</build_export_depend>
+  <build_export_depend>rclpy</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>builtin_interfaces</build_export_depend>
 
   <exec_depend>message_generation</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>rospy</exec_depend>
+  <exec_depend>rclcpp</exec_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+
+  <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
 
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <export>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>

@@ -63,7 +63,7 @@ class PlanningNode(Node):
         for landmark in msg.landmarks:
             if landmark.identifier == 0:
                 self.cones[ConeTypes.BLUE] = np.vstack(
-                    (self.cones[ConeTypes.BLUE], landmark.position)
+                    (self.cones[ConeTypes.BLUE], [landmark.position.x, landmark.position.y])
                 )
             elif landmark.identifier == 1:
                 self.cones[ConeTypes.YELLOW] = np.vstack(
