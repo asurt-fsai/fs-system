@@ -19,7 +19,6 @@ from .LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from .LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from .LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
-# from mrpython_pcl.ros.Builders import Builder
 # from tf_helper.StatusPublisher import StatusPublisher
 
 class LidarSystem(Node):
@@ -81,39 +80,12 @@ class LidarSystem(Node):
         self.create_timer(0.1, self.timer_callback)
         # self.status = StatusPublisher("/status/lidar")
         # self.status.starting()
+        
+
         self.lidar = self.buildPipeline()
         # self.status.ready()
 
     
-
-    # def getParam(self, param: str, default: Any = None) -> Any:
-    #     """
-    #     Wrapper for the rclpy.get_parameter function
-    #     Prevents default values from being used if self.isDefaultEnabled is False
-
-    #     Parameters
-    #     ----------
-    #     param : str
-    #         Parameter name to fetch from the ros parameter server
-    #     default : Any, optional
-    #         If isDefaultEnabled is True and parameter name can't be found
-    #         this value will be returned
-
-    #     Returns
-    #     -------
-    #     Any
-    #         Parameter value requested
-
-    #     Raises
-    #     ------
-    #     Exception
-    #         If parameter name can't be found and either:
-    #             - isDefaultEnabled is False
-    #             - isDefaultEnabled is True and default is None
-    #     """
-    #     # if self.isDefaultEnabled and default is not None:
-    #         # return self.get_parameter(param, default).get_parameter_value().string_value
-    #     return self.get_parameter(param).get_parameter_value().string_value
 
     def buildPipeline(self) -> LidarRosWrapper:
         """
