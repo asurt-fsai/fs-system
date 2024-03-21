@@ -1,0 +1,29 @@
+launch:
+
+- node:
+    pkg: "supervisor"
+    exec: "staticAtest"
+    name: "StaticA_Node"
+    namespace: 'StaticA_Node'
+    param:
+    -
+        name: "maxSteer"
+        value: 27.2
+
+    -
+        name: "/control/velocity"
+        value: "/control/velocity"
+
+
+    -
+        name: "/control/steering"
+        value:  "/control/steering"
+
+    -
+        name: "/finisher/is_finished"
+        value: "/finisher/is_finished"
+
+    -
+        name: "/state"
+        value: "/state"    
+

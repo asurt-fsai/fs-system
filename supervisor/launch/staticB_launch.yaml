@@ -1,0 +1,27 @@
+launch:
+
+- node:
+    pkg: "supervisor"
+    exec: "staticB"
+    name: "StaticB_Node"
+    namespace: 'StaticB_Node'
+    param:
+    -
+        name: "maxSteer"
+        value: 27.2
+       
+    -
+      name: "/control/velocity"
+      value: "/control/veloScity"
+
+    -
+      name: "/finisher/is_finished"
+      value: "/finisher/is_finished"
+
+    -
+      name: "/state"
+      value: "/state"
+
+    -
+      name: "/ros_can/ebs" 
+      value: "/ros_can/ebs"  
