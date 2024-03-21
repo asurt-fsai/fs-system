@@ -3,15 +3,16 @@ Main ros node for the smoreo tuner
 """
 #!/usr/bin/python3
 import sys
-# import rospy
 # from tf_helper.StatusPublisher import StatusPublisher
 # from smoreo.tuner.tunerServer import Tuner
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import ParameterType
+from custom_interfaces.srv import SmoreoSrv
 import os
 from typing import Any, Union
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 import yaml
-# from dynamic_reconfigure.server import Server
 from sensor_msgs.msg import Image
 import cv2 as cv
 from cv_bridge import CvBridge
@@ -27,44 +28,38 @@ class TunerSystem(Node):
         self.cutOffPublisher: rclpy.publisher.Publisher
         self.bridge: CvBridge
         self.lastImage: Union[NDArray[np.float32], None]
-
-        # self.declare_parameters(
-        #     namespace=" ",
-        #     parameters=[
-        #        ("smoreo/f", rclpy.Parameter.Type.DOUBLE),
-        #         ("smoreo/cx", rclpy.Parameter.Type.DOUBLE),
-        #         ("smoreo/cy", rclpy.Parameter.Type.DOUBLE),
-        #         ("smoreo/cone_height", rclpy.Parameter.Type.DOUBLE),
-        #         ("smoreo/camera_height_from_ground", rclpy.Parameter.Type.DOUBLE),
-        #         ("smoreo/cut_off_y", rclpy.Parameter.Type.INTEGER),
-               
-        #     ],
-        # )
-
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('/smoreo/camera_raw', rclpy.Parameter.Type.STRING),
+                ('/smoreo/cut_off_viz', rclpy.Parameter.Type.STRING),
+                ('smoreo/f',rclpy.Parameter.Type.DOUBLE),
+                ('smoreo/cx',rclpy.Parameter.Type.DOUBLE),
+                ('smoreo/cy',rclpy.Parameter.Type.DOUBLE),
+                ('smoreo/cone_h',rclpy.Parameter.Type.DOUBLE),
+                ('smoreo/camera_h',rclpy.Parameter.Type.DOUBLE),
+                ('smoreo/cut_off_y',rclpy.Parameter.Type.INTEGER)
+            ]
+            )
+        self.srv = self.create_service(SmoreoSrv, '/smoreo/camera_raw', self.parametersCallback)
         self.create_timer(0.1, self.timer_callback)
         # self.tunerStatus = StatusPublisher("/status/tuner")
         # self.tunerStatus.starting()
-        # self.tuner = Tuner(self)
         self.start()
         # self.tunerStatus.ready()
        
     
 
-    def parametersCallback(self, config, level: Any):
-        """
-        Callback for dynamic reconfigure server
-        Parameters:
-        ------------
-        config: smoreo_tunerConfig
-        """
-
-        self.declare_parameter("smoreo/f", config["f"])
-        self.declare_parameter("smoreo/cx", config["cx"])
-        self.declare_parameter("smoreo/cy", config["cy"])
-        self.declare_parameter("smoreo/cone_height", config["cone_h"])
-        self.declare_parameter("smoreo/camera_height_from_ground", config["camera_h"])
-        self.declare_parameter("smoreo/cut_off_y", config["cut_off_y"])
-        return config
+    def parametersCallback(self, request, response):
+        # Process the parameters
+        self.get_logger().info("Received parameters request")
+        self.get_parameter('f').get_parameter_value().double_value = response.f 
+        self.get_parameter('cx').get_parameter_value().double_value=  response.cx
+        self.get_parameter('cy').get_parameter_value().double_value=  response.cy 
+        self.get_parameter('cone_h').get_parameter_value().double_value= response.cone_h
+        self.get_parameter('camera_h').get_parameter_value().double_value=response.camera_h 
+        self.get_parameter('cut_off_y').get_parameter_value().integer_value=response.cut_off_y
+        return response
 
     def visualizeCutOff(self) -> None:
         """
@@ -93,19 +88,20 @@ class TunerSystem(Node):
         """
         Start the node
         """
+        
         if not self.has_parameter("/smoreo/camera_raw") or not self.has_parameter("/smoreo/cut_off_viz"):
             raise ValueError(
                 "smoreo: ensure all the required topics for tuner are provided\n \
                              -/smoreo/camera_raw\n \
                              -/smoreo/cut_off_viz."
             )
-        # self.srv = Server(smoreoConfig, self.parametersCallback)
+      
         self.cutOffPublisher = self.create_publisher(Image,
-            self.get_parameter("/smoreo/cut_off_viz"), 10
+            self.get_parameter("/smoreo/cut_off_viz").get_parameter_value().string_value, 10
         )
         self.bridge = CvBridge()
         self.lastImage = None
-        self.subscription = self.create_subscription(Image,self.get_parameter("/smoreo/camera_raw"), self.imageCallback)
+        self.subscription = self.create_subscription(Image,self.get_parameter("/smoreo/camera_raw").get_parameter_value().string_value, self.imageCallback, 10)
 
     @staticmethod
     def dumpParams(system: str) -> None:
@@ -147,7 +143,6 @@ def main(args = None) -> None:
     rclpy.shutdown()
 
 if __name__ == "__main__":
-    print("Tuner Node")
     try:
         main()
     except rclpy.exceptions.ROSInterruptException:
