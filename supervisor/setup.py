@@ -1,9 +1,33 @@
-"""
-Install the supervisor  library
-"""
-from distutils.core import setup
-from catkin_pkg.python_setup import generate_distutils_setup
+from setuptools import find_packages, setup
 
-d = generate_distutils_setup(packages=["supervisor"], package_dir={"": "src"})
+package_name = 'supervisor'
 
-setup(**d)
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=find_packages(exclude=['test']),
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='yomnahashem',
+    maintainer_email='yomnahashem@todo.todo',
+    description='TODO: Package description',
+    license='TODO: License declaration',
+    tests_require=['pytest'],
+    entry_points={
+        'console_scripts': [
+            "staticB= supervisor.nodes.staticB:main",
+            "service= supervisor.service_trial:main",
+            "autoDemo= supervisor.nodes.autonomus_demo:main",
+            "staticAtest = supervisor.nodes.staticA:main",
+            "supervisor_node = supervisor.nodes.supervisor_node:main",
+            "interface = supervisor.interface:main"
+            
+        ],
+    },
+)
+
