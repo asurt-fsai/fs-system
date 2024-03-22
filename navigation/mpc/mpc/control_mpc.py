@@ -59,6 +59,7 @@ class LinearkinamaticMPC (Node):
         _, _, yaw = euler_from_quaternion(orientation_list)
         self.state = (X, Y, yaw, velocity)
         throttle_msg = Float32()
+        steer_msg = Float32()  # Define steer_msg variable
         throttle_msg.data, steer_msg.data = self.mpc_control()
         self.control_pub.publish()
 
