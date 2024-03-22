@@ -9,34 +9,40 @@ from nav_msgs.msg import Odometry, Path
 from ackermann_msgs.msg import AckermannDrive
 from tf_transformations import euler_from_quaternion
 
-#dynamic model
-#tazbet elconstrains
-#meen input w meen output w hygolna mnen
-#eh elhagat ely da5la 3al mpc w by5arag eh w no3 eldata ely 5arga eh
-#output (Target Speed, Steering)
 
 
-#Ngeb elvalues bta3t Iz w el mass 
-#Nshof elstates bta3tna hatb2a eh bzabt (X wla X dot wla X dot dot)
-#Elconstrains 3al state bne7tagha f eh
-#Forces ely 3ala eltires
-
-
-class control_mpc(Node):
-    def _init_(self):
-        super().__init__('control_mpc')
-
+class LinearkinamaticMPC (Node):
+    def __init__(self, l_f,l_r,n_horizon,t_step):
+        ##Define nodes and Publisher and subscriber
         #self.steer_pub = self.create_publisher(Float32, 'steer', 10)
         #self.throttle_pub = self.create_publisher(Float32, 'throttle', 10)
         self.control_pub = self.create_publisher(AckermannDrive , "/control", 10)
         self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
         self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
         self.timer = self.create_timer(0.1,self.publish_control_signals)
-        self. pos_x = 0
-        self.vel_ref = None
-        
-        self.state = (0.0,0.0,0.0,0.0)
-        #hn3araf ay haga feha self , x_pos w kda
+  
+       #initalize Controller Variable
+        self.n_horizon=n_horizon
+        self.t_step=t_step
+        #Initate the model and it's configurations
+        model_type = 'continuous' 
+        self.model = do_mpc.model.Model(model_type)
+        #define the input of the model
+        self.vel = self.model.set_variable(var_type='_u', var_name='velocity',shape=(1,1))
+        self.steering = self.model.set_variable(var_type='_u', var_name='steering',shape=(1,1))
+        #define states of the model
+        self.x = self.model.set_variable(var_type='_x', var_name='x', shape=(1,1))
+        self.y = self.model.set_variable(var_type='_x', var_name='y', shape=(1,1))
+        self.psi = self.model.set_variable(var_type='_x', var_name='psi', shape=(1,1))
+        self.beta = self.model.set_variable(var_type='_x', var_name='Beta', shape=(1,1))
+        #constant parameter for the vehicle
+        self.l_f = l_f
+        self.l_r = l_r
+        # define the time variable parameter of the reference
+        self.x_ref = self.model.set_variable(var_type='_tvp', var_name='x_ref')
+        self.y_ref = self.model.set_variable(var_type='_tvp', var_name='y_ref')
+        self.psi_ref = self.model.set_variable(var_type='_tvp', var_name='psi_ref') 
+        # define the controller Object
         
     def state_callback(self, state: Odometry):
         Vx = state.twist.twist.linear.x
@@ -60,110 +66,58 @@ class control_mpc(Node):
         self.waypoints = [(pose.pose.position.x, pose.pose.position.y) for pose in path.poses]
         self.pathFlag = True
 
-    def mpc_control (self,vehicle):
-        self.vehicle = vehicle           ######
-        self.model = vehicle.model     #l7d ma ashof hwarat el model
+    def model_config(self):
+        x_next = self.vel*np.cos(self.psi+self.beta)
+        y_next = self.vel*np.sin(self.psi+self.beta)
+        psi_next = self.vel/self.l_r*np.sin(self.beta)
+        beta = np.arctan2(self.l_r/(self.l_f+self.l_r)*tan(self.steering))
+        self.model.set_rhs('x',x_next)
+        self.model.set_rhs('y',y_next)
+        self.model.set_rhs('psi',psi_next)
+        self.model.set_rhs('Beta',beta)
+        #setup the model
+        self.model.setup()
+        pass
 
-        self.horizon = 15
-        ##globals.horizon = self.horizon  
-
-        self.Ts = 0.1
-        
-        self.current_prediction = None
-
+    def MPC_configure(self):
         self.mpc = do_mpc.controller.MPC(self.model)
         setup_mpc = {
-            'n_robust': 0,
-            'n_horizon': self.horizon,
-            't_step': self.Ts,
+            'n_horizon': 15,
+            't_step': 0.1,
+            'n_robust': 1,
             'store_full_solution': True,
         }
         self.mpc.set_param(**setup_mpc)
-
-        # define the objective function and constriants
-        self.objective_function_setup()
-        self.constraints_setup()
-
-        # create a method to obtain new time-varying parameters at each iteration.
-        self.tvp_template = self.mpc.get_tvp_template()
-        self.mpc.set_tvp_fun(self.tvp_fun)
-
-        self.mpc.setup()
-    def constraints_setup(self, reset=False):
-
-        # states constraints
-        self.mpc.bounds['lower', '_x', 'pos_x'] = -np.inf
-        self.mpc.bounds['upper', '_x', 'pos_x'] = np.inf
-        self.mpc.bounds['lower', '_x', 'pos_y'] = -np.inf
-        self.mpc.bounds['upper', '_x', 'pos_y'] = np.inf
-        self.mpc.bounds['lower', '_x', 'steer'] = - 30 # Nshof m7tagenha f eh
-        self.mpc.bounds['upper', '_x', 'steer'] = 30
-        self.mpc.bounds['lower', '_x', 'vel']   = -0.5            
-        self.mpc.bounds['upper', '_x', 'vel']   = 0.5
-       
-
-        # input constraints
-        self.mpc.bounds['lower', '_u', 'acc']   = -0.5
-        self.mpc.bounds['upper', '_u', 'acc']   = 0.5
-        self.mpc.bounds['lower', '_u', 'delta'] = -30
-        self.mpc.bounds['upper', '_u', 'delta'] = 30
-
-        if reset is True:
-            self.mpc.setup()    
-
-    def objective_function_setup(self):
-        lterm = (self.model.aux[self.psi_diff] ** 2
-                + (self.model.x[self.pos_x] - self.model.tvp[self.x_ref]) ** 2
-                + (self.model.x[self.pos_y] - self.model.tvp[self.y_ref]) ** 2
-                +  0.1 * (self.model.x[self.vel] - self.model.tvp[self.vel_ref]) ** 2)
-            
-        mterm = ((self.model.x[self.pos_x] - self.model.tvp[self.x_ref]) ** 2
-                + (self.model.x[self.pos_y] - self.model.tvp[self.y_ref]) ** 2
-                +  0.1 * (self.model.x[self.vel] - self.model.tvp[self.vel_ref]) ** 2)
-        self.mpc.set_objective(mterm=mterm, lterm=lterm)
-
-    def model_setup(self,path ,Ts):
-        model_type = "discrete"  # either 'discrete' or 'continuous'
-        self.model = do_mpc.model.Model(model_type)
-
-        # States struct (optimization variables):
-        self.pos_x = self.model.set_variable(var_type="_x", var_name="pos_x")
-        self.pos_y = self.model.set_variable(var_type="_x", var_name="pos_y")
-        steer = self.model.set_variable(var_type="_x", var_name="steer")
-        vel = self.model.set_variable(var_type="_x", var_name="vel")
-        
-
-        # Input struct (optimization variables):
-        acc = self.model.set_variable(var_type="_u", var_name="acc")
-        delta = self.model.set_variable(var_type="_u", var_name="delta")
-
-        # reference data
-        # using time-varing parameters data type
-        self.x_ref = self.model.set_variable(var_type="_tvp", var_name="x_ref")
-        self.y_ref = self.model.set_variable(var_type="_tvp", var_name="y_ref")
-        self.psi_ref = self.model.set_variable(var_type="_tvp", var_name="psi_ref")
-        self.vel_ref = self.model.set_variable(var_type="_tvp", var_name="vel_ref")
-
-        # tracking errors (optimization variables):
-        psi_diff = (fmod(steer - self.psi_ref + np.pi, 2 * np.pi) - np.pi)
-        self.model.set_expression('psi_diff', psi_diff)
-
-        self.model.set_rhs("pos_x", vel * cos(steer))
-        self.model.set_rhs("pos_y", vel * sin(steer))
-        self.model.set_rhs("steer", vel * delta / self.length)
-        self.model.set_rhs("vel", acc)
-
-        self.model.setup()
     
-    def tvp_fun(self ):
+    def costFunctionConfigure(self,wx=10,wy=10,wpsi=10):
+        m_term=(wx(self.x-self.x_ref)**2)+(wy(self.y-self.y_ref)**2)+(wpsi(self.psi-self.psi_ref)**2)
+        l_term=m_term
+        self.mpc.set_objective(mterm=m_term, lterm=l_term)
+        #set the change of penalty of the rate of change
+        self.mpc.set_rterm(
+            velocity=1.0,
+            steering=1.0
+        )
 
-        ##at2kd  (last pose is the current)
-        # ashof hzbtha ezay
-        self.tvp_template['_tvp', 'x_ref']    = self.state[0]
-        self.tvp_template['_tvp',  'y_ref']   = self.state[1]
-        self.tvp_template['_tvp',  'psi_ref'] = self.state[2]
-        self.tvp_template['_tvp',  'vel_ref'] = self.state[3]
+    def constrain(self,steering_upper_limit,steering_lower_limit,velocity_upper_limit,velocity_lower_limit):
+        self.mpc.bounds['lower','_u','steering']=steering_lower_limit
+        self.mpc.bounds['upper','_u','steering']=steering_upper_limit
+        self.mpc.bounds['lower','_u','velocity']=velocity_lower_limit
+        self.mpc.bounds['upper','_u','velocity']=velocity_upper_limit
 
-        return self.tvp_template
+    def MPC_Final_setup(self):
+        self.tvp_temp_1 = self.mpc.get_tvp_template()
+        self.tvp_temp_1['_tvp', :] = [0.0,0.0,0.0]
+        self.mpc.set_tvp_fun(self.tvp_fun)
+        self.mpc.setup()
+
+    def tvp_fun(self,t_now):
+        return self.tvp_temp_1
+    
+
+        
+   
+
+    
     
     

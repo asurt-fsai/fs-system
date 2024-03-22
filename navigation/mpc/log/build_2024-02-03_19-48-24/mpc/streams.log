@@ -1,0 +1,26 @@
+[3.037s] Invoking command in '/home/yasmeen/fs-system/navigation/mpc': PYTHONPATH=/home/yasmeen/fs-system/navigation/mpc/build/mpc/prefix_override:/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/mpc build --build-base /home/yasmeen/fs-system/navigation/mpc/build/mpc/build install --record /home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log --single-version-externally-managed
+[3.917s] running egg_info
+[3.919s] writing build/mpc/mpc.egg-info/PKG-INFO
+[3.921s] writing dependency_links to build/mpc/mpc.egg-info/dependency_links.txt
+[3.924s] writing entry points to build/mpc/mpc.egg-info/entry_points.txt
+[3.924s] writing requirements to build/mpc/mpc.egg-info/requires.txt
+[3.925s] writing top-level names to build/mpc/mpc.egg-info/top_level.txt
+[3.932s] reading manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'
+[3.939s] writing manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'
+[3.939s] running build
+[3.940s] running build_py
+[3.941s] copying mpc/control_mpc.py -> /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc
+[3.944s] running install
+[3.944s] running install_lib
+[3.945s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.945s]   warnings.warn(
+[3.952s] copying /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc/control_mpc.py -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc
+[3.960s] byte-compiling /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc/control_mpc.py to control_mpc.cpython-310.pyc
+[3.960s] running install_data
+[3.961s] copying package.xml -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc
+[3.961s] running install_egg_info
+[3.967s] removing '/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc-0.0.0-py3.10.egg-info' (and everything under it)
+[3.968s] Copying build/mpc/mpc.egg-info to /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc-0.0.0-py3.10.egg-info
+[3.971s] running install_scripts
+[4.057s] writing list of installed files to '/home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log'
+[4.169s] Invoked command in '/home/yasmeen/fs-system/navigation/mpc' returned '0': PYTHONPATH=/home/yasmeen/fs-system/navigation/mpc/build/mpc/prefix_override:/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/mpc build --build-base /home/yasmeen/fs-system/navigation/mpc/build/mpc/build install --record /home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log --single-version-externally-managed

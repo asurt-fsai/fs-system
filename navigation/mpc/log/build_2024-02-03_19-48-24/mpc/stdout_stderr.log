@@ -1,0 +1,24 @@
+running egg_info
+writing build/mpc/mpc.egg-info/PKG-INFO
+writing dependency_links to build/mpc/mpc.egg-info/dependency_links.txt
+writing entry points to build/mpc/mpc.egg-info/entry_points.txt
+writing requirements to build/mpc/mpc.egg-info/requires.txt
+writing top-level names to build/mpc/mpc.egg-info/top_level.txt
+reading manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'
+writing manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'
+running build
+running build_py
+copying mpc/control_mpc.py -> /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc
+running install
+running install_lib
+/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+copying /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc/control_mpc.py -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc
+byte-compiling /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc/control_mpc.py to control_mpc.cpython-310.pyc
+running install_data
+copying package.xml -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc
+running install_egg_info
+removing '/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc-0.0.0-py3.10.egg-info' (and everything under it)
+Copying build/mpc/mpc.egg-info to /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc-0.0.0-py3.10.egg-info
+running install_scripts
+writing list of installed files to '/home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log'
