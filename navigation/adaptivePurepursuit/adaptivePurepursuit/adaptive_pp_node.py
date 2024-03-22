@@ -52,19 +52,6 @@ class Controller(Node):
         self.steer_pub.publish(steering_angle)
         # self.controlActionsPub.publish(steering_angle)
         
-        # if self.pathFlag == True :
-        #     steering_angle = Float32()
-        #     steering_angle.data = self.adaptivePurepursuit()*(180/math.pi)
-        #     self.steer_pub.publish(steering_angle)
-        #     if len(self.waypoints) > 0 and self.search_target_point == len(self.waypoints) - 1:
-        #         throttle = 0
-        #     else:
-        #         throttle = Float32()
-        #         throttle.data = self.pid_controller(steering_angle.data)
-        #     self.throttle_pub.publish(throttle)
-        #     log = "tracking waypoint: " + str(self.waypoints[self.i])
-        #     self.get_logger().info(log)
-
 
 def main(args=None):
     rclpy.init(args=args)

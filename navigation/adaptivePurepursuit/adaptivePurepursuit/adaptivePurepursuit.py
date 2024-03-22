@@ -31,6 +31,7 @@ class AdaptivePurePursuit:
         self.gain = rclpy.Node.get_parameter_or("/gain")
         self.minspeed = rclpy.Node.get_parameter_or("/speed/min")
         self.maxspeed = rclpy.Node.get_parameter_or("/speed/max")
+        self.speed_constant = rclpy.Node.get_parameter_or("/speed_constant")
 
     @staticmethod
     def calculate_distance(point1: list, point2: list):
@@ -40,7 +41,7 @@ class AdaptivePurePursuit:
 
 
     def search_target_point(self):
-        self.lookahead_distance = self.velocity * self.gain + self.lookaheadconstant
+        min_distance = float('inf')
         if self.firstFlag:
             for i , waypoint in enumerate(self.waypoints):
                 distance = self.calculate_distance(self.state[:2], waypoint)
@@ -50,7 +51,7 @@ class AdaptivePurePursuit:
                     self.firstFlag = False
         
         for i in range(self.target_index,len(self.waypoints) - 1):
-            distance = self.calculate_distance(self.state[:2], waypoint)
+            distance = self.calculate_distance(self.state[:2], self.waypoints[i])
             if distance > self.lookahead_distance :
                 self.target_index = i
                 if self.x > self.first_element[self.target_index]:
@@ -61,6 +62,7 @@ class AdaptivePurePursuit:
     
 
     def adaptivePurepursuit(self):
+        self.lookahead_distance = self.velocity * self.gain + self.lookaheadconstant
         self.target_index = self.search_target_point()
         target_waypoint = self.waypoints[self.target_index]
         tx, ty = target_waypoint
@@ -74,7 +76,7 @@ class AdaptivePurePursuit:
     
 
     def speedControl(self, steering_angle: float) -> float:
-        self.target_speed: float = (20.0/3.6) / (abs(steering_angle) + 0.001) # change steering angle to rad
+        self.target_speed: float = self.speed_constant / (abs(steering_angle) + 0.001)
         self.target_speed = min(self.target_speed,self.maxspeed)
         self.target_speed = max(self.target_speed,self.minspeed)
         return self.target_speed
@@ -90,5 +92,4 @@ class AdaptivePurePursuit:
         control_signal = p_term + i_term + d_term
         self.prev_error = error
         control_signal= max(-1.0, min(1.0, control_signal))
-        acceleration = control_signal
-        return acceleration
+        return control_signal

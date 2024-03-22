@@ -12,6 +12,7 @@
     <param name="/gains/proportional"  value="1.5"/>
     <param name="/gains/integral"  value="1.0"/>
     <param name="/gains/differential"  value="0.5"/>
+    <param name="/speed_constant"  value="6.5"/>
 
     <param name="/rate"  value="10"/>
     <param name="/plotting"  value="1"/>

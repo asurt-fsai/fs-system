@@ -41,7 +41,8 @@ def generate_launch_description():
             {"/gains/proportional": 1.5},
             {"/gains/integral": 1},
             {"/gains/differential": 0.5},
-            {"/gain": 0.3}
+            {"/gain": 0.3},
+            {"/speed_constant": 6.5}
         ]
         )
     ])
