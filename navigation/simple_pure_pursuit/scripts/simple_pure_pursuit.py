@@ -6,11 +6,10 @@ import math
 
 from typing import List, Tuple
 
-import rclpy
+
 from nav_msgs.msg import Path
-#from tf_helper.TFHelper import TFHelper
 
-
+# from tf_helper.TFHelper import TFHelper
 
 
 class SimplePurePursuit:
@@ -32,12 +31,24 @@ class SimplePurePursuit:
         self.points = self.waypoints.poses
         self.xList: List[float] = []
         self.yList: List[float] = []
-     
+
         # self.helper = TFHelper("control")
-        self.lookAhead = 6.1#rclpy.Parameter.get_parameter_value('/control/look_ahead_constant')
-        self.baseLength = 2.5#rclpy.Parameter.get_parameter_value('/physical/car_base_length')  # [m] car length
-    def add(self, waypointsMsg):
-        #self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
+        self.lookAhead = 6.1  # rclpy.Parameter.get_parameter_value('/control/look_ahead_constant')
+        self.baseLength = 2.5  # rclpy.Parameter.get_parameter_value('/physical/car_base_length')
+        # [m] car length
+
+    def add(self, waypointsMsg: Path) -> None:
+        """
+        Get the waypoints from the waypoints node and transform them to the rear_link frame
+
+        Parameters
+        ----------
+        waypointsMsg : Path
+            list of waypoints to follow
+
+        """
+
+        # self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
         print("Went Here")
         self.waypoints = waypointsMsg
         self.points = waypointsMsg.poses
@@ -78,8 +89,8 @@ class SimplePurePursuit:
         ind : int
             target point index choosen to follow from the waypoints list
         """
-        #print("Went Here to purepursuit")
-        
+        # print("Went Here to purepursuit")
+
         ind = self.searchTargetIndex()
         trajX: float = 0.0
         trajY: float = 0.0
