@@ -19,13 +19,13 @@ color2 = '#8b0000'
 color3 = '#a60000'
 color4 = 'black'
 
-img1 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/supervisor/GUI/formulaIcon.png').resize((200,100), Image.ANTIALIAS)
+img1 = Image.open('fs-system/supervisor/supervisor/GUI/formulaIcon.png').resize((200,100), Image.ANTIALIAS)
 img1_tk = ImageTk.PhotoImage(img1)
 imgLabel1 = Label(root, image=img1_tk, background='black')
 imgLabel1.image = img1_tk 
 imgLabel1.place(relx=.15, rely=0.1, anchor=CENTER)
 
-img2 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/supervisor/GUI/racingTeamIcon.png').resize((200,100), Image.ANTIALIAS)
+img2 = Image.open('fs-system/supervisor/supervisor/GUI/racingTeamIcon.png').resize((200,100), Image.ANTIALIAS)
 img2_tk = ImageTk.PhotoImage(img2)
 imgstateLabel = Label(root, image=img2_tk, background='black')
 imgstateLabel.image = img2_tk  
