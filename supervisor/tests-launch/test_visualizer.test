@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<node name="visualizer_test_node" pkg="supervisor" type="visualizer_test_node.py"/>
-	<test test-name="supervisor_visualizer_test" pkg="supervisor" type="test_visualizer.py"/>
-</launch>
