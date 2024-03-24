@@ -4,7 +4,6 @@ import math
 import rclpy
 from casadi import *
 from rclpy.node import Node
-from std_msgs.msg import Float32
 from nav_msgs.msg import Odometry, Path
 from ackermann_msgs.msg import AckermannDrive
 from tf_transformations import euler_from_quaternion
@@ -14,13 +13,14 @@ from tf_transformations import euler_from_quaternion
 class LinearkinamaticMPC (Node):
     def __init__(self, l_f,l_r,n_horizon,t_step):
         ##Define nodes and Publisher and subscriber
-        #self.steer_pub = self.create_publisher(Float32, 'steer', 10)
-        #self.throttle_pub = self.create_publisher(Float32, 'throttle', 10)
-        self.control_pub = self.create_publisher(AckermannDrive , "/control", 10)
-        self.state_sub = self.create_subscription(Odometry, 'state', self.state_callback, 10)
-        self.path_sub = self.create_subscription(Path, 'path', self.path_callback, 10)
-        self.timer = self.create_timer(0.1,self.publish_control_signals)
-  
+        rclpy.init(args=None)
+        self.MPC_NODE = rclpy.create_node('MPC_NODE')
+        self.control_pub = self.MPC_NODE.create_publisher(AckermannDrive , "/control", 10)
+        self.state_sub = self.MPC_NODE.create_subscription(Odometry, '/state', self.state_callback, 10)
+        self.path_sub = self.MPC_NODE.create_subscription(Path, '/path', self.path_callback, 10)
+        self.waypoints = Path() #initialize the waypoints 
+        self.state = Odometry() #initialize the state
+        self.control_msg = AckermannDrive() #initialize the control
        #initalize Controller Variable
         self.n_horizon=n_horizon
         self.t_step=t_step
@@ -34,7 +34,6 @@ class LinearkinamaticMPC (Node):
         self.x = self.model.set_variable(var_type='_x', var_name='x', shape=(1,1))
         self.y = self.model.set_variable(var_type='_x', var_name='y', shape=(1,1))
         self.psi = self.model.set_variable(var_type='_x', var_name='psi', shape=(1,1))
-        self.beta = self.model.set_variable(var_type='_x', var_name='Beta', shape=(1,1))
         #constant parameter for the vehicle
         self.l_f = l_f
         self.l_r = l_r
@@ -43,39 +42,28 @@ class LinearkinamaticMPC (Node):
         self.y_ref = self.model.set_variable(var_type='_tvp', var_name='y_ref')
         self.psi_ref = self.model.set_variable(var_type='_tvp', var_name='psi_ref') 
         # define the controller Object
+        self.pathFlag=False
+        self.waypoints=[]
+        self.length_of_waypoints=[]
+        self.current_reference_index=0
         
-    def state_callback(self, state: Odometry):
-        Vx = state.twist.twist.linear.x
-        Vy = state.twist.twist.linear.y
-        velocity = math.sqrt(Vx ** 2 + Vy ** 2)
-        X = state.pose.pose.position.x
-        Y = state.pose.pose.position.y
-        orientation_list = [
-            state.pose.pose.orientation.x,
-            state.pose.pose.orientation.y,
-            state.pose.pose.orientation.z,
-            state.pose.pose.orientation.w
-        ]
-        _, _, yaw = euler_from_quaternion(orientation_list)
-        self.state = (X, Y, yaw, velocity)
-        throttle_msg = Float32()
-        steer_msg = Float32()  # Define steer_msg variable
-        throttle_msg.data, steer_msg.data = self.mpc_control()
-        self.control_pub.publish()
+    def state_callback(self, msg: Odometry):
+        self.state = msg
 
     def path_callback(self, path: Path):
-        self.waypoints = [(pose.pose.position.x, pose.pose.position.y) for pose in path.poses]
+        self.waypoints = [(pose.pose.position.x,
+                           pose.pose.position.y,
+                           euler_from_quaternion([pose.pose.orientation.x,pose.pose.orientation.y,pose.pose.orientation.z,pose.pose.orientation.w])[2]) for pose in path.poses]
+        self.length_of_waypoints = len(self.waypoints)
         self.pathFlag = True
 
     def model_config(self):
-        x_next = self.vel*np.cos(self.psi+self.beta)
-        y_next = self.vel*np.sin(self.psi+self.beta)
-        psi_next = self.vel/self.l_r*np.sin(self.beta)
-        beta = np.arctan2(self.l_r/(self.l_f+self.l_r)*tan(self.steering))
+        x_next = self.vel*np.cos(self.psi)
+        y_next = self.vel*np.sin(self.psi)
+        psi_next = (self.vel/(self.l_r+self.l_f))*tan(self.steering)
         self.model.set_rhs('x',x_next)
         self.model.set_rhs('y',y_next)
         self.model.set_rhs('psi',psi_next)
-        self.model.set_rhs('Beta',beta)
         #setup the model
         self.model.setup()
         pass
@@ -100,20 +88,68 @@ class LinearkinamaticMPC (Node):
             steering=1.0
         )
 
-    def constrain(self,steering_upper_limit,steering_lower_limit,velocity_upper_limit,velocity_lower_limit):
+    def constrainMPC(self,steering_upper_limit,steering_lower_limit,velocity_upper_limit,velocity_lower_limit):
         self.mpc.bounds['lower','_u','steering']=steering_lower_limit
         self.mpc.bounds['upper','_u','steering']=steering_upper_limit
         self.mpc.bounds['lower','_u','velocity']=velocity_lower_limit
         self.mpc.bounds['upper','_u','velocity']=velocity_upper_limit
 
+    def tvp_fun(self,t_now):
+        return self.tvp_temp_1
+    
     def MPC_Final_setup(self):
         self.tvp_temp_1 = self.mpc.get_tvp_template()
         self.tvp_temp_1['_tvp', :] = [0.0,0.0,0.0]
         self.mpc.set_tvp_fun(self.tvp_fun)
         self.mpc.setup()
 
-    def tvp_fun(self,t_now):
-        return self.tvp_temp_1
+    def ecludian (self , x ,y ,x_ref,y_ref):
+        return math.sqrt((self.x_ref-self.x)**2+(self.y_ref-self.y)**2) 
+    
+    def run(self):
+        self.model_config()
+        self.MPC_configure()
+        self.costFunctionConfigure()
+        self.constrainMPC(-0.5,0.5,10,0)
+        self.MPC_Final_setup()
+
+        while not self.pathFlag:
+            self.MPC_NODE.spin_once(self.MPC_NODE)
+
+        self.tvp_temp_1['_tvp', :] = [self.waypoints[self.current_reference_index][0],
+                                      self.waypoints[self.current_reference_index][1],
+                                      self.waypoints[self.current_reference_index][2]]
+        
+        while rclpy.ok():
+            self.MPC_NODE.spin_once(self.MPC_NODE)
+            x0=[self.state.pose.pose.position.x,
+                         self.state.pose.pose.position.y,
+                         euler_from_quaternion([self.state.pose.pose.orientation.x,self.state.pose.pose.orientation.y,self.state.pose.pose.orientation.z,self.state.pose.pose.orientation.w])[2]]
+            self.mpc.set_initial_guess()
+            control_cmd = self.mpc.make_step(x0=x0)
+            self.control_msg.steering_angle = control_cmd[0][1]
+            self.control_msg.speed = control_cmd[0][0] 
+            self.control_pub.publish(self.control_msg)
+            if self.ecludian(x0[0],x0[1],self.waypoints[self.current_reference_index][0],self.waypoints[self.current_reference_index][0])<0.5:
+                self.current_reference_index+=1
+                if self.current_reference_index>=self.length_of_waypoints:
+                    break
+                self.tvp_temp_1['_tvp', :] = [self.waypoints[self.current_reference_index][0],
+                                      self.waypoints[self.current_reference_index][1],
+                                      self.waypoints[self.current_reference_index][2]]
+                
+        self.control_msg.steering_angle = 0.0
+        self.control_msg.speed = 0.0 
+        self.control_pub.publish(self.control_msg)
+        self.MPC_NODE.destroy_node()
+        rclpy.shutdown()
+
+
+
+
+
+        
+ 
     
 
         
