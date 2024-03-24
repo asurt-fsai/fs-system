@@ -1,7 +1,13 @@
 from tkinter import *
+import tkinter as tk
+from threading import Thread
 from PIL import ImageTk, Image
+import rclpy
+from std_msgs.msg import Float32
 
 root = Tk()
+
+
 
 screen1 = Frame(root, background='black')
 screen2 = Frame(root, background='black')
@@ -13,17 +19,17 @@ color2 = '#8b0000'
 color3 = '#a60000'
 color4 = 'black'
 
-img1 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/GUI/formulaIcon.png').resize((200,100), Image.ANTIALIAS)
+img1 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/supervisor/GUI/formulaIcon.png').resize((200,100), Image.ANTIALIAS)
 img1_tk = ImageTk.PhotoImage(img1)
 imgLabel1 = Label(root, image=img1_tk, background='black')
 imgLabel1.image = img1_tk 
 imgLabel1.place(relx=.15, rely=0.1, anchor=CENTER)
 
-img2 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/GUI/racingTeamIcon.png').resize((200,100), Image.ANTIALIAS)
+img2 = Image.open('/home/yomnahashem/Formula24/src/fs-system/supervisor/supervisor/GUI/racingTeamIcon.png').resize((200,100), Image.ANTIALIAS)
 img2_tk = ImageTk.PhotoImage(img2)
-imgLabel2 = Label(root, image=img2_tk, background='black')
-imgLabel2.image = img2_tk  
-imgLabel2.place(relx=.85, rely=0.1, anchor=CENTER)
+imgstateLabel = Label(root, image=img2_tk, background='black')
+imgstateLabel.image = img2_tk  
+imgstateLabel.place(relx=.85, rely=0.1, anchor=CENTER)
 
 
 def show_screen1():
@@ -74,26 +80,35 @@ def create_widgets_screen2():
         label = Label(screen2, text=text, font=("aptos", 12, 'bold'),background='black', fg = 'white' )
         label.place(relx=relx, rely=rely, anchor=CENTER)
 
-    values = [
-        ("autodemo", .15, .25),
-        ("driving", .37, .25),
-        ("N/A", .62, .25),
-        ("N/A", .85, .25),
-        ("Velocity", .26, .38),
-        ("Steering", .5, .38),
-        ("Acceleration", .73, .38)
-    ]
+    
+    missionlabel = tk.Label(screen2, text="autodemo", font=("aptos", 11), background='black', fg='white')
+    missionlabel.place(relx=.15, rely=.25, anchor=tk.CENTER)
 
-    for text, relx, rely in values:
-        label = Label(screen2, text=text, font=("aptos", 11),background='black', fg = 'white' )
-        label.place(relx=relx, rely=rely, anchor=CENTER)
+    stateLabel = tk.Label(screen2, text="driving", font=("aptos", 11), background='black', fg='white')
+    stateLabel.place(relx=.37, rely=.25, anchor=tk.CENTER)
+
+    loopLabel = tk.Label(screen2, text="N/A", font=("aptos", 11), background='black', fg='white')
+    loopLabel.place(relx=.62, rely=.25, anchor=tk.CENTER)
+
+    lapCountLabel = tk.Label(screen2, text="N/A", font=("aptos", 11), background='black', fg='white')
+    lapCountLabel.place(relx=.85, rely=.25, anchor=tk.CENTER)
+    
+    velcityLabel = tk.Label(screen2, text="velocity", font=("aptos", 11), background='black', fg='white')
+    velcityLabel.place(relx=.26, rely=.38, anchor=tk.CENTER)
+
+    steeringLabel = tk.Label(screen2, text="Steering", font=("aptos", 11), background='black', fg='white')
+    steeringLabel.place(relx=.5, rely=.38, anchor=tk.CENTER)
+
+    accelerationLabel = tk.Label(screen2, text="Acceleration", font=("aptos", 11), background='black', fg='white')
+    accelerationLabel.place(relx=.73, rely=.38, anchor=tk.CENTER)
 
     
+
+
 
 create_widgets_screen1()
 create_widgets_screen2()
 
+
 root.mainloop()
-
-
 
