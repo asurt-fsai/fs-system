@@ -21,11 +21,10 @@ setup(
     entry_points={
         'console_scripts': [
             "staticB= supervisor.nodes.staticB:main",
-            "service= supervisor.service_trial:main",
             "autoDemo= supervisor.nodes.autonomus_demo:main",
             "staticAtest = supervisor.nodes.staticA:main",
             "supervisor_node = supervisor.nodes.supervisor_node:main",
-            "interface = supervisor.interface:main"
+            "interface = supervisor.GUI.GUIStaticMissions:main"
             
         ],
     },
