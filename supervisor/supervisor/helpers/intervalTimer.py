@@ -6,6 +6,7 @@ from threading import Thread, Event
 from typing import Callable, Any
 
 import rclpy
+import time
 
 
 class IntervalTimer(Thread):
@@ -42,4 +43,4 @@ class IntervalTimer(Thread):
         """
         while not self.stopEvent.is_set():
             self._workerFunc()
-            rclpy.sleep(self._interval)
+            time.sleep(self._interval)
