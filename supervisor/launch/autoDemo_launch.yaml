@@ -2,9 +2,9 @@ launch:
 
 - node:
     pkg: "supervisor"
-    exec: "staticAtest"
-    name: "StaticA_Node"
-    namespace: 'StaticA_Node'
+    exec: "autoDemo"
+    name: "Auto_demo_node"
+    namespace: 'Auto_demo_node'
     param:
     -
         name: "maxSteer"
@@ -27,10 +27,17 @@ launch:
         name: "/state"
         value: "/state" 
 
-
+    -
+        name: "/vcu/curr_vel" 
+        value: "/vcu/curr_vel"
+    
     -
         name: "/supervisor/driving_flag"
-        value: "/supervisor/driving_flag"       
+        value: "/supervisor/driving_flag"   
+
+    -
+        name: "/ros_can/ebs" 
+        value: "/ros_can/ebs"        
 
 
 - node:

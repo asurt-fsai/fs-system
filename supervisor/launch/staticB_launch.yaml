@@ -24,4 +24,14 @@ launch:
 
     -
       name: "/ros_can/ebs" 
-      value: "/ros_can/ebs"  
+      value: "/ros_can/ebs" 
+
+    -
+      name: "/supervisor/driving_flag"
+      value: "/supervisor/driving_flag"        
+
+- node:
+    pkg: "supervisor"
+    exec: "interface"
+    name: "tkinter_node"
+    namespace: 'tkinter_node'      
