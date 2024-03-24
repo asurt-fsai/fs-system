@@ -6,7 +6,7 @@ import time
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32, Bool, Int16
-#from tf_helper.src.tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 from ..helpers.intervalTimer import IntervalTimer
 
 
@@ -32,10 +32,10 @@ class StaticA(Node):
         self.declare_parameter("/control/steering", rclpy.Parameter.Type.STRING)
         self.declare_parameter("/finisher/is_finished", rclpy.Parameter.Type.STRING)
         self.declare_parameter('/state', rclpy.Parameter.Type.STRING)
-        
+        self.declare_parameter('/supervisor/driving_flag', rclpy.Parameter.Type.STRING)
 
-        self.drivingFlag = False
         self.started = True
+        self.status = StatusPublisher("/status/staticA", self)
 
     def drivingFlagCallback(self, msg: Bool) -> None:
         """
@@ -109,16 +109,14 @@ def main() -> None:
 
     rclpy.init()
     
-   # status = StatusPublisher("/status/staticA")
     staticA = StaticA()
     
-    #status.starting()
-   # status.ready()
+    staticA.status.starting()
+    staticA.status.ready()
 
-    #heartbeartRateThread = IntervalTimer(0.5, status.running)
-
-    # drivingFlagTopic = staticA.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
-    # StaticA.create_subscription(Bool, drivingFlagTopic, staticA.drivingFlagCallback, 10)
+    heartbeartRateThread = IntervalTimer(0.5, staticA.status.running)
+    drivingFlagTopic = staticA.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
+    staticA.create_subscription(Bool, drivingFlagTopic, staticA.drivingFlagCallback, 10)
 
     rate = staticA.create_rate(10)
     #heartbeartRateThread.run()

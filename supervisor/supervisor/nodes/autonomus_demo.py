@@ -5,7 +5,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32, Bool, Int16
 from std_srvs.srv import Trigger
-#from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 
 class AutonomousDemo(Node):
     """
@@ -26,7 +26,20 @@ class AutonomousDemo(Node):
         self.timePrevStep = time.time()
         self.dist = 0.0
         self.drevT = 0.0
+        self.status = StatusPublisher("/status/autonomous_demo", self)
 
+        self.declare_parameter('maxSteer',rclpy.Parameter.Type.DOUBLE)
+        self.declare_parameter("/control/velocity", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("/control/steering", rclpy.Parameter.Type.STRING)
+        self.declare_parameter('/state', rclpy.Parameter.Type.STRING)
+        self.declare_parameter('/finisher/is_finished', rclpy.Parameter.Type.STRING)
+        self.declare_parameter("/vcu/curr_vel", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("/ros_can/ebs", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("/supervisor/driving_flag", rclpy.Parameter.Type.STRING)
+
+
+        
+        
     def drivingFlagCallback(self, msg: Bool) -> None:
         """
         Callback for the driving flag
@@ -50,22 +63,14 @@ class AutonomousDemo(Node):
         """
         self.get_logger().info("Starting Autonomous Demo")
 
-        '''
+        
         velTopic = self.get_parameter("/control/velocity").get_parameter_value().string_value
         isFinishedTopic = self.get_parameter("/finisher/is_finished").get_parameter_value().string_value
         stateTopic = self.get_parameter("/state").get_parameter_value().string_value
         steerTopic = self.get_parameter("/control/steering").get_parameter_value().string_value
         vcuCurrVelTopic = self.get_parameter("/vcu/curr_vel").get_parameter_value().string_value
-        maxSteer = float(self.get_parameter("/maxSteer").get_parameter_value().double_value)
-
-        '''
-        
-        velTopic = "/control/velocity"
-        isFinishedTopic = "/finisher/is_finished"
-        stateTopic = "/state"
-        steerTopic = "/control/steering"
-        vcuCurrVelTopic = "/vcu/curr_vel"
-        ebsTopic = "/ros_can/ebs"
+        maxSteerDouble = self.get_parameter("maxSteer").get_parameter_value().double_value
+        ebsTopic = float(self.get_parameter("/ros_can/ebs").get_parameter_value().double_value)
 
         self.create_subscription(Float32, vcuCurrVelTopic, self.currentVelCallback, 10)
         velPub = self.create_publisher(Float32, velTopic, 10)
@@ -73,14 +78,17 @@ class AutonomousDemo(Node):
         statePub = self.create_publisher(Int16, stateTopic, 10)
         finishPub = self.create_publisher(Int16, isFinishedTopic, 10)
 
+        
+
         maxSteer = Float32()
-        maxSteer.data = 27.2
+        maxSteer = maxSteerDouble
+        #maxSteer.data = 27.2
     
         time.sleep(2)
         statePub.publish(Int16(data=1))  # 1 is for driving
-        steerPub.publish(Float32(data=-maxSteer.data))
+        steerPub.publish(Float32(data=-maxSteer))
         time.sleep(10)
-        steerPub.publish(Float32(data=maxSteer.data))
+        steerPub.publish(Float32(data=maxSteer))
         time.sleep(10)
         steerPub.publish(Float32(data=0.0))
         time.sleep(10)
@@ -114,8 +122,8 @@ class AutonomousDemo(Node):
         self.get_logger().warn('DOOOOOOOOOONE')
         ############################
     
-        # statePub.publish(Int16(data=2))  # 2 is for finished
-        # finishPub.publish(Int16(data=1))  # 1 is for finished
+        statePub.publish(Int16(data=2))  # 2 is for finished
+        finishPub.publish(Int16(data=1))  # 1 is for finished
 
 def callback(request:Trigger.Request,response:Trigger.Response):
     response.success=True
@@ -129,18 +137,17 @@ def main() -> None:
     """
 
     rclpy.init()
-    #status = StatusPublisher("/status/autonomous_demo")
     autonomousDemo = AutonomousDemo()
-    #drivingFlagTopic = autonomousDemo.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
-    drivingFlagTopic = "/supervisor/driving_flag"
+    drivingFlagTopic = autonomousDemo.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
+    #drivingFlagTopic = "/supervisor/driving_flag"
     autonomousDemo.create_subscription(Bool, drivingFlagTopic, autonomousDemo.drivingFlagCallback, 10)
     
-    #status.starting()
-    #status.ready()
+    autonomousDemo.status.starting()
+    autonomousDemo.status.ready()
 
     rate = autonomousDemo.create_rate(10)
     while rclpy.ok():
-        #status.running()
+        autonomousDemo.status.running()
         autonomousDemo.create_service(Trigger, "/ros_can/ebs",callback)
         if autonomousDemo.started:
             autonomousDemo.run()

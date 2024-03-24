@@ -6,7 +6,7 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32, Bool, Int16
 import time
-#from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 import numpy as np
 from std_srvs.srv import Trigger
 
@@ -34,11 +34,14 @@ class StaticB(Node):
                 ('/ros_can/ebs', rclpy.Parameter.Type.STRING),
                 ('/finisher/is_finished', rclpy.Parameter.Type.STRING),
                 ('/state', rclpy.Parameter.Type.STRING),
+                ('/supervisor/driving_flag', rclpy.Parameter.Type.STRING),
+                
                 
                         
             ])
         self.drivingFlag = False
         self.started = True
+        self.status = StatusPublisher("/status/staticB", self)
 
     def drivingFlagCallback(self, msg: Bool) -> None:
         """
@@ -55,15 +58,6 @@ class StaticB(Node):
         """
         self.get_logger().info("Starting Static B")
 
-        '''
-        velTopic = "/velocity"
-        isFinishedTopic = "/isFinished" 
-        stateTopic = "/state" 
-        ebsTopic = "/ros_can/ebs"
-        '''
-
-
-
         velTopic = self.get_parameter("/control/velocity").get_parameter_value().string_value
         isFinishedTopic = self.get_parameter("/finisher/is_finished").get_parameter_value().string_value
         stateTopic = self.get_parameter("/state").get_parameter_value().string_value
@@ -74,9 +68,10 @@ class StaticB(Node):
         finishPub = self.create_publisher(Bool, isFinishedTopic, 10)
 
 
-        time.sleep(2)
+        time.sleep(4)
         vel = 2 * np.pi * 50 * 0.253 / 60  # 50 rpm
         velPub.publish(Float32(data=vel))
+        self.get_logger().info(str(vel))
         time.sleep(10)
 
         ############################
@@ -98,8 +93,8 @@ class StaticB(Node):
         
        #############################
         self.get_logger().warn('DOOOOOOOOOONE')
-        # statePub.publish(2)  # 2 is for finished
-        # finishPub.publish(True)  # 1 is for finished
+        statePub.publish(2)  # 2 is for finished
+        finishPub.publish(True)  # 1 is for finished
 
 def callback(request:Trigger.Request,response:Trigger.Response):
     response.success=True
@@ -115,16 +110,15 @@ def main() -> None:
 
     rclpy.init()
     staticB = StaticB()
-    #drivingFlagTopic = staticB.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
-    #staticB.create_subscription(Bool, drivingFlagTopic, staticB.drivingFlagCallback, 10)
+    drivingFlagTopic = staticB.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
+    staticB.create_subscription(Bool, drivingFlagTopic, staticB.drivingFlagCallback, 10)
 
-    #status = StatusPublisher("/status/staticB")
-    #status.starting()
-    #status.ready() 
+    staticB.status.starting()
+    staticB.status.ready()
 
     rate = staticB.create_rate(10)
     while rclpy.ok():
-        #status.running()
+        staticB.status.running()
         staticB.create_service(Trigger, "/ros_can/ebs",callback)
         if staticB.started:
             staticB.run()
