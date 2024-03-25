@@ -1,17 +1,23 @@
 <launch>
     <node pkg="camera_interface" exec="camera_interface_node" name="camera_interface_node">
+
+        <!-- Published topics -->
+        <param name="/camera_interface/camera_feed" value="/camera_interface/camera_feed"/>
+
+        <!-- System params -->
         <param name="/camera_interface/rate" value="10"/>
         <param name="/camera_interface/image_width" value="250"/>
         <param name="/camera_interface/image_height" value="250"/>
-        <param name="/camera_interface/cx" value="3.0"/>
-        <param name="/camera_interface/cy" value="4.0"/>
-        <param name="/camera_interface/fx" value="5.0"/>
-        <param name="/camera_interface/fy" value="6.0"/>
-        <param name="/camera_interface/k1" value="7.0"/>
-        <param name="/camera_interface/k2" value="8.0"/>
-        <param name="/camera_interface/p1" value="9.0"/>
-        <param name="/camera_interface/p2" value="10.0"/>
-        <param name="/camera_interface/k3" value="11.0"/>
-        <param name="/camera_interface/camera_feed" value="/camera_interface/camera_feed"/>
+
+        <!-- camera params -->
+        <param name="/camera_interface/cx" value="348.13569685"/>
+        <param name="/camera_interface/cy" value="170.94638731"/>
+        <param name="/camera_interface/fx" value="360.02287019"/>
+        <param name="/camera_interface/fy" value="359.43717375"/>
+        <param name="/camera_interface/k1" value="-0.11924763"/>
+        <param name="/camera_interface/k2" value="-0.09340822"/>
+        <param name="/camera_interface/p1" value="0.00170718"/>
+        <param name="/camera_interface/p2" value="0.00122067"/>
+        <param name="/camera_interface/k3" value="0.09476736"/>
     </node>
 </launch>
