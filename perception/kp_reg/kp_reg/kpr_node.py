@@ -6,9 +6,6 @@ from rclpy import Node
 from kpr_model import KeypointNet
 from asurt_msgs.msg import ConeImg, ConeImgArray, KeyPoints, BoundingBox, BoundingBoxes
 
-
-
-
 class KeyPointRegressorNode(Node):
     
     def __init__(self):

@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'moreo'
+package_name = 'kp_reg'
 
 setup(
     name=package_name,
@@ -14,12 +14,13 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='mazen',
-    maintainer_email='mazen@todo.todo',
+    maintainer_email='mazenelaraby9@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "keypoint_regressor = kp_reg.kpr_node:main"
         ],
     },
 )

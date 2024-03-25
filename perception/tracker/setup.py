@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'moreo'
+package_name = 'tracker'
 
 setup(
     name=package_name,
@@ -14,7 +14,7 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='mazen',
-    maintainer_email='mazen@todo.todo',
+    maintainer_email='mazenelaraby9@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
