@@ -105,6 +105,17 @@ class LinearkinamaticMPC (Node):
 
     def ecludian (self , x ,y ,x_ref,y_ref):
         return math.sqrt((self.x_ref-self.x)**2+(self.y_ref-self.y)**2) 
+    def simulator_MPC(self):
+        self.simulator = do_mpc.simulator.Simulator(self.model)
+
+        # provide time-varing parameters: setpoints/references
+        self.tvp_temp_1 = self.simulator.get_tvp_template()
+        self.simulator.set_tvp_fun(self.tvp_fun)
+
+        self.simulator.set_param(t_step=0.05)
+
+        self.simulator.setup()
+
     
     def run(self):
         self.model_config()
@@ -112,6 +123,7 @@ class LinearkinamaticMPC (Node):
         self.costFunctionConfigure()
         self.constrainMPC(-0.5,0.5,10,0)
         self.MPC_Final_setup()
+        self.simulator_MPC()
 
         while not self.pathFlag:
             self.MPC_NODE.spin_once(self.MPC_NODE)
