@@ -2,10 +2,11 @@
 Helper class to help with transforming messages between different tf frames
 """
 from typing import Optional, Tuple, Any, Dict
+import time
 import numpy as np
 import numpy.typing as npt
 import transformations
-import rclpy
+
 from rclpy.node import Node
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
@@ -16,9 +17,9 @@ from nav_msgs.msg import Path
 from sensor_msgs.msg import PointCloud2
 from asurt_msgs.msg import LandmarkArray
 from visualization_msgs.msg import MarkerArray
-import time
 
-from .utils import npToRos, rosToPcl
+
+from utils import npToRos, rosToPcl
 
 
 class TFHelper:
@@ -26,10 +27,10 @@ class TFHelper:
     Helper class that can transform a message between any two frames available in tf
     """
 
-    def __init__(self, nodeName: str):
-        self.nodeName = nodeName
+    def __init__(self, nodeObject: Node):
+        self.nodeObject = nodeObject
         self.tfBuffer = Buffer()
-        self.listener = TransformListener(self.tfBuffer, self.nodeName)
+        self.listener = TransformListener(self.tfBuffer, self.nodeObject)
         time.sleep(0.2)  # To ensure a tf has been received
         self.warningPrinted: Dict[str, int] = {}
 
@@ -56,7 +57,10 @@ class TFHelper:
             yaw: float, rotation around z axis
         """
         try:
-            trans: TransformStamped = self.tfBuffer.lookup_transform(toId, fromId, rclpy.time.Time())
+            trans: TransformStamped = self.tfBuffer.lookup_transform(
+                toId, fromId, self.nodeObject.get_clock().now().to_msg()
+            )
+
             trans = trans.transform
             translation = trans.translation.x, trans.translation.y, trans.translation.z
             rot = transformations.euler_from_quaternion(
@@ -66,7 +70,9 @@ class TFHelper:
 
         except (LookupException, ConnectivityException, ExtrapolationException):
             if fromId + toId not in self.warningPrinted:
-                self.nodeName.get_logger().warn(f"{self.nodeName.get_name()}: Couldn't get tf from + {fromId } to + {toId}")
+                self.nodeObject.get_logger().warn(
+                    f"{self.nodeObject.get_name()}: Couldn't get tf from + {fromId } to + {toId}"
+                )
                 self.warningPrinted[fromId + toId] = 1
             else:
                 self.warningPrinted[fromId + toId] += 1
@@ -318,5 +324,5 @@ class TFHelper:
         if isinstance(rosMsg, PointCloud2):
             return self.transformPointcloud(rosMsg, toId)
 
-        self.nodeName.get_logger().error(f"{type(rosMsg)} not implemented in tf_helper")
+        self.nodeObject.get_logger().error(f"{type(rosMsg)} not implemented in tf_helper")
         return None
