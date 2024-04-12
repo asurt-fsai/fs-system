@@ -7,8 +7,9 @@ import rclpy
 import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import PointCloud2
-# from tf_helper.MarkerViz import MarkerViz
-from smoreo.MarkerViz import MarkerViz
+from tf_helper.MarkerViz import MarkerViz
+# from smoreo.MarkerViz import MarkerViz
+
 
 from .LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl
@@ -37,7 +38,9 @@ class LidarRosWrapper(LidarPipeline):
         self.frameId = ""
 
         # Parameter Validation
-        publishers = [publishers_filtered , publishers_clustered, publishers_detected, publishers_tracked, publishers_detected_markers]
+        publishers = [publishers_filtered , publishers_clustered, 
+                      publishers_detected, publishers_tracked,    
+                      publishers_detected_markers]
 
         try:
             for value in publishers:

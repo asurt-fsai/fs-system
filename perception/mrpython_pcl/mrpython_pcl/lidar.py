@@ -9,9 +9,8 @@ from typing import Any, Dict
 from asurt_msgs.msg import LandmarkArray
 from sensor_msgs.msg import PointCloud2
 from visualization_msgs.msg import MarkerArray
-
-# from tf_helper.MarkerViz import MarkerViz
-from smoreo.MarkerViz import MarkerViz
+from tf_helper.MarkerViz import MarkerViz
+# from smoreo.MarkerViz import MarkerViz
 
 from .LidarPipeline.Filter.Filter import Filter
 from .LidarPipeline.GroundRemoval.SimpleGroundRemoval import SimpleGroundRemoval
@@ -19,11 +18,12 @@ from .LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from .LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from .LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
-# from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 
 class LidarSystem(Node):
     def __init__(self, isDefaultEnabled: bool = False):
         super().__init__("lidar")
+        
        
         self.isDefaultEnabled  = isDefaultEnabled
 
@@ -54,12 +54,13 @@ class LidarSystem(Node):
                 ('/perception/lidar/view_bounds/xmax', rclpy.Parameter.Type.INTEGER),
                 ('/perception/lidar/view_bounds/ymin', rclpy.Parameter.Type.INTEGER),
                 ('/perception/lidar/view_bounds/ymax', rclpy.Parameter.Type.INTEGER),
-                ('/perception/lidar/view_bounds/zmax', rclpy.Parameter.Type.INTEGER),
+                ('/perception/lidar/view_bounds/zmax', rclpy.Parameter.Type.DOUBLE),
 
                 ('/perception/lidar/car_bounds/xmin', rclpy.Parameter.Type.INTEGER),
-                ('/perception/lidar/car_bounds/xmax', rclpy.Parameter.Type.INTEGER),
+                ('/perception/lidar/car_bounds/xmax', rclpy.Parameter.Type.DOUBLE),
                 ('/perception/lidar/car_bounds/ymin', rclpy.Parameter.Type.DOUBLE),
                 ('/perception/lidar/car_bounds/ymax', rclpy.Parameter.Type.DOUBLE),
+
                 ('/perception/lidar/reconst_radius', rclpy.Parameter.Type.DOUBLE),
                 ('/perception/lidar/cluster_strategy', rclpy.Parameter.Type.STRING),
                 ('/perception/lidar/mean_shift/n_grid_cells_x', rclpy.Parameter.Type.INTEGER),
@@ -78,14 +79,41 @@ class LidarSystem(Node):
 
         
         self.create_timer(0.1, self.timer_callback)
-        # self.status = StatusPublisher("/status/lidar")
-        # self.status.starting()
+        self.status = StatusPublisher("/status/lidar",self)
+        self.status.starting()
         
 
         self.lidar = self.buildPipeline()
-        # self.status.ready()
+        self.status.ready()
 
-    
+    def getParam(self, param: str, default: Any = None) -> Any:
+        """
+        Wrapper for the rospy.get_param function
+        Prevents default values from being used if self.isDefaultEnabled is False
+
+        Parameters
+        ----------
+        param : str
+            Parameter name to fetch from the ros parameter server
+        default : Any, optional
+            If isDefaultEnabled is True and parameter name can't be found
+            this value will be returned
+
+        Returns
+        -------
+        Any
+            Parameter value requested
+
+        Raises
+        ------
+        Exception
+            If parameter name can't be found and either:
+                - isDefaultEnabled is False
+                - isDefaultEnabled is True and default is None
+        """
+        if self.isDefaultEnabled and default is not None:
+            return self.get_parameter_or(param, default).get_parameter_value()
+        return self.get_parameter(param).get_parameter_value()
 
     def buildPipeline(self) -> LidarRosWrapper:
         """
@@ -103,9 +131,10 @@ class LidarSystem(Node):
         clusterer = self.buildClusterer()
         coneClassifier = self.buildConeClassifier()
         tracker = None
-        lidarHeight = self.get_parameter("/physical/lidar_height").get_parameter_value().double_value
-        subsample = self.get_parameter("/perception/lidar/subsample").get_parameter_value().bool_value  
-        publishers_filtered, publishers_clustered, publishers_detected, publishers_tracked, publishers_detected_markers= self.buildPublishers()
+        lidarHeight = self.getParam("/physical/lidar_height",0.1).double_value
+        subsample = self.getParam("/perception/lidar/subsample",False).bool_value  
+        
+        publishers_filtered, publishers_clustered,publishers_detected, publishers_tracked,publishers_detected_markers= self.buildPublishers()
         lidarPipeline = LidarRosWrapper(
             # publishers,
             markerViz,
@@ -122,7 +151,7 @@ class LidarSystem(Node):
             subsample,
         )
 
-        velodyneTopic = self.get_parameter("/perception/lidar/velodyne_topic").get_parameter_value().string_value
+        velodyneTopic = self.getParam("/perception/lidar/velodyne_topic","/velodyne_points").string_value
         self.subscription = self.create_subscription(PointCloud2,velodyneTopic, callback=lidarPipeline.setPointcloud, qos_profile=10)
 
         return lidarPipeline
@@ -137,11 +166,11 @@ class LidarSystem(Node):
             A rospy publisher for each topic:
                 filtered, clustered, detected, tracked, detected_markers
         """
-        filteredTopic = self.get_parameter("/perception/lidar/filtered_topic").get_parameter_value().string_value
-        clusteredTopics = self.get_parameter("/perception/lidar/clustered_topic").get_parameter_value().string_value
-        detectedConesTopic = self.get_parameter("/perception/lidar/detected_topic").get_parameter_value().string_value
-        trackedConesTopic = self.get_parameter("/perception/lidar/tracked_topic").get_parameter_value().string_value
-        detectedMarkersTopic = self.get_parameter("/perception/lidar/detected_markers_topic").get_parameter_value().string_value
+        filteredTopic = self.getParam("/perception/lidar/filtered_topic","/placeholder/lidar/filtered").string_value
+        clusteredTopics = self.getParam("/perception/lidar/clustered_topic", "/placeholder/lidar/clustered").string_value
+        detectedConesTopic = self.getParam("/perception/lidar/detected_topic", "/placeholder/lidar/detected").string_value
+        trackedConesTopic = self.getParam("/perception/lidar/tracked_topic", "/placeholder/lidar/tracked").string_value
+        detectedMarkersTopic = self.getParam("/perception/lidar/detected_markers_topic", "/placeholder/lidar/detected_markers").string_value
 
      
         self.publishers_filtered = self.create_publisher( PointCloud2,filteredTopic, 10)
@@ -150,26 +179,11 @@ class LidarSystem(Node):
         self.publishers_tracked = self.create_publisher( LandmarkArray, trackedConesTopic,10)
         self.publishers_detected_markers = self.create_publisher(MarkerArray,detectedMarkersTopic,  10)
 
-        return self.publishers_filtered, self.publishers_clustered, self.publishers_detected, self.publishers_tracked, self.publishers_detected_markers
+        return self.publishers_filtered, self.publishers_clustered,  self.publishers_detected, self.publishers_tracked,  self.publishers_detected_markers
 
-    def buildTracker(self) -> None:
-        """
-        max_age = self.get_parameter("max_age")
-        min_hits = self.get_parameter("min_hits")
-        min_iou_thresh = self.get_parameter("min_iou_thresh")
+ 
 
-        class IoUTracker:
-            def __init__(self, max_age, min_hits, min_iou_thresh):
-                self.max_age = max_age
-                self.min_hits = min_hits
-                self.min_iou_thresh = min_iou_thresh
 
-            def update(self, detections):
-                return detections
-
-        return IoUTracker(max_age, min_hits, min_iou_thresh)
-        """
-        return None
 
     def buildFilter(self) -> Filter:
         """
@@ -180,28 +194,28 @@ class LidarSystem(Node):
         Filter
             The created Filter object
         """
-        ransacThreshold = self.get_parameter("/perception/lidar/ransac_threshold").get_parameter_value().double_value
-        lidarHeight = self.get_parameter("/physical/lidar_height").get_parameter_value().double_value
+        ransacThreshold = self.getParam("/perception/lidar/ransac_threshold",0.1).double_value
+        lidarHeight = self.getParam("/physical/lidar_height",0.1).double_value
 
         viewBounds = {"x": [0.0, 0.0], "y": [0.0, 0.0], "z": [0.0, 0.0]}
-        viewBounds["x"][0] = self.get_parameter("/perception/lidar/view_bounds/xmin").get_parameter_value().integer_value
-        viewBounds["x"][1] = self.get_parameter("/perception/lidar/view_bounds/xmax").get_parameter_value().integer_value
+        viewBounds["x"][0] = self.getParam("/perception/lidar/view_bounds/xmin",-10).integer_value
+        viewBounds["x"][1] = self.getParam("/perception/lidar/view_bounds/xmax",10).integer_value
 
-        viewBounds["y"][0] = self.get_parameter("/perception/lidar/view_bounds/ymin").get_parameter_value().integer_value
-        viewBounds["y"][1] = self.get_parameter("/perception/lidar/view_bounds/ymax").get_parameter_value().integer_value
+        viewBounds["y"][0] = self.getParam("/perception/lidar/view_bounds/ymin",-6).integer_value
+        viewBounds["y"][1] = self.getParam("/perception/lidar/view_bounds/ymax",6).integer_value
 
         viewBounds["z"][0] = -1 * lidarHeight + ransacThreshold
-        viewBounds["z"][1] = self.get_parameter("/perception/lidar/view_bounds/zmax").get_parameter_value().integer_value
+        viewBounds["z"][1] = self.getParam("/perception/lidar/view_bounds/zmax",2.0).double_value
 
         carBounds = {"x": [0.0, 0.0], "y": [0.0, 0.0]}
 
-        carBounds["x"][0] = self.get_parameter("/perception/lidar/car_bounds/xmin").get_parameter_value().integer_value
-        carBounds["x"][1] = self.get_parameter("/perception/lidar/car_bounds/xmax").get_parameter_value().integer_value  
+        carBounds["x"][0] = self.getParam("/perception/lidar/car_bounds/xmin",-2).integer_value
+        carBounds["x"][1] = self.getParam("/perception/lidar/car_bounds/xmax",0.0).double_value  
 
-        carBounds["y"][0] = self.get_parameter("/perception/lidar/car_bounds/ymin").get_parameter_value().double_value
-        carBounds["y"][1] = self.get_parameter("/perception/lidar/car_bounds/ymax").get_parameter_value().double_value
+        carBounds["y"][0] = self.getParam("/perception/lidar/car_bounds/ymin",-0.75).double_value
+        carBounds["y"][1] = self.getParam("/perception/lidar/car_bounds/ymax",0.75).double_value
 
-        reconstructParam = self.get_parameter("/perception/lidar/reconst_radius").get_parameter_value().double_value    
+        reconstructParam = self.getParam("/perception/lidar/reconst_radius",0.228).double_value    
 
         groundRemover = SimpleGroundRemoval([0, 0, -1, -1 * lidarHeight], ransacThreshold, nIters=1)
 
@@ -216,11 +230,11 @@ class LidarSystem(Node):
         ConeClassifier
             The created cone classifier object
         """
-        coneRadius = self.get_parameter("/physical/cone_radius").get_parameter_value().double_value
-        coneHeight = self.get_parameter("/physical/cone_height").get_parameter_value().double_value
-        minPoints = self.get_parameter("/perception/lidar/cone_filter/min_points").get_parameter_value().integer_value
-        l2Th = self.get_parameter("/perception/lidar/cone_filter/l2_th").get_parameter_value().double_value
-        linTh = self.get_parameter("/perception/lidar/cone_filter/lin_th").get_parameter_value().double_value
+        coneRadius = self.getParam("/physical/cone_radius",0.228).double_value
+        coneHeight = self.getParam("/physical/cone_height",0.4).double_value
+        minPoints = self.getParam("/perception/lidar/cone_filter/min_points",5).integer_value
+        l2Th = self.getParam("/perception/lidar/cone_filter/l2_th",0.03).double_value
+        linTh = self.getParam("/perception/lidar/cone_filter/lin_th",1e-4).double_value
 
         return ConeClassifier(coneRadius, coneHeight, minPoints, l2Th, linTh)
 
@@ -241,15 +255,15 @@ class LidarSystem(Node):
             When using cluster strategy other than the currently implemented:
             - mean_shift
         """
-        clusterStrategy = self.get_parameter("/perception/lidar/cluster_strategy").get_parameter_value().string_value
+        clusterStrategy = self.getParam("/perception/lidar/cluster_strategy","mean_shift").string_value
 
         if clusterStrategy == "mean_shift":
-            nGridCellsX = self.get_parameter("/perception/lidar/mean_shift/n_grid_cells_x").get_parameter_value().integer_value
-            nGridCellsY = self.get_parameter("/perception/lidar/mean_shift/n_grid_cells_y").get_parameter_value().integer_value
+            nGridCellsX = self.getParam("/perception/lidar/mean_shift/n_grid_cells_x",40).integer_value
+            nGridCellsY = self.getParam("/perception/lidar/mean_shift/n_grid_cells_y",40).integer_value
             nGridCells = [nGridCellsX, nGridCellsY]
-            nmsRadius = self.get_parameter("/perception/lidar/mean_shift/nms_radius").get_parameter_value().double_value
-            nIters = self.get_parameter("/perception/lidar/mean_shift/n_iters").get_parameter_value().integer_value
-            minClusterPoints = self.get_parameter("/perception/lidar/mean_shift/min_cluster_points").get_parameter_value().integer_value
+            nmsRadius = self.getParam("/perception/lidar/mean_shift/nms_radius",0.4).double_value
+            nIters = self.getParam("/perception/lidar/mean_shift/n_iters",3).integer_value
+            minClusterPoints = self.getParam("/perception/lidar/mean_shift/min_cluster_points",5).integer_value
             return MeanClusterer(nGridCells, nmsRadius, nIters, minClusterPoints)
 
         if clusterStrategy == "euclidean":
@@ -266,9 +280,9 @@ class LidarSystem(Node):
         MarkerViz
             The created marker viz object
         """
-        coneRadius = self.get_parameter("/physical/cone_radius").get_parameter_value().double_value
-        coneHeight = self.get_parameter("/physical/cone_height").get_parameter_value().double_value
-        lidarHeight = self.get_parameter("/physical/lidar_height").get_parameter_value().double_value
+        coneRadius = self.getParam("/physical/cone_radius",0.228).double_value
+        coneHeight = self.getParam("/physical/cone_height",0.4).double_value
+        lidarHeight = self.getParam("/physical/lidar_height",0.1).double_value
         markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         return markerViz
     
@@ -280,7 +294,7 @@ class LidarSystem(Node):
             return
         if out is None:
             return
-        # self.status.running()
+        self.status.running()
         
 
 
@@ -288,11 +302,11 @@ class LidarSystem(Node):
 def main(args = None) -> None:
     """
     Main Loop
-    """
-    # print in the console
-    print("Starting Lidar Node")
+    """    
+   
     rclpy.init(args = args)
     node = LidarSystem()
+    node.get_logger().info("Starting Lidar Node")
 
     rclpy.spin(node)
     rclpy.shutdown()
