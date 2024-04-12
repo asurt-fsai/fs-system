@@ -2,7 +2,7 @@
 """
 Main ros node for the smoreo pipeline used to detect cone
 """
-# from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 import rclpy
 from rclpy.node import Node
 from typing import Dict, Any, Union
@@ -15,8 +15,8 @@ from asurt_msgs.msg import LandmarkArray
 from visualization_msgs.msg import MarkerArray
 from smoreo.utils import processBboxes
 from asurt_msgs.msg import BoundingBoxes
-# from tf_helper.MarkerViz import MarkerViz
-from smoreo.MarkerViz import MarkerViz
+from tf_helper.MarkerViz import MarkerViz
+# from smoreo.MarkerViz import MarkerViz
 
 from smoreo.smoreo import Smoreo
 
@@ -25,7 +25,7 @@ class SmoreoSystem(Node):
     def __init__(self):
         super().__init__("smoreo")
         self.create_timer(0.01, self.timer_callback)
-        # self.status = StatusPublisher("/status/smoreo")
+        self.status = StatusPublisher("/status/smoreo",self)
         
         self.params: Dict[str, Any]
         self._publishers_landmarkPub: rclpy.publisher.Publisher
@@ -39,8 +39,6 @@ class SmoreoSystem(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
-                ('/smoreo/use_cone_base', rclpy.Parameter.Type.BOOL),
-                ('/smoreo/in_tuning', rclpy.Parameter.Type.BOOL),
                 ('/smoreo/cut_off_y', rclpy.Parameter.Type.INTEGER),
                 ('/physical/camera_height_from_ground', rclpy.Parameter.Type.DOUBLE),
                 ('/physical/cone_height', rclpy.Parameter.Type.DOUBLE),
@@ -57,9 +55,12 @@ class SmoreoSystem(Node):
                 ('/smoreo/camera_frame', rclpy.Parameter.Type.STRING)
             ]
             )
+        
 
         self.cone_base = self.get_parameter("/smoreo/use_cone_base").get_parameter_value().bool_value
         self.in_tuning = self.get_parameter("/smoreo/in_tuning").get_parameter_value().bool_value
+
+    
     def getParams(self) -> Dict[str, Any]:
         """
         Get params of the system from the ros parameters server
@@ -86,7 +87,6 @@ class SmoreoSystem(Node):
                 assert self.has_parameter("/smoreo/cy")
                 assert self.has_parameter("/smoreo/f")
         except Exception as exp:
-        
             errMsg = "smoreo: ensure all the required parameters are provided in ros server\n \
                        - cut_off_y \n\
                        - camera_height_from_ground \n\
@@ -121,9 +121,6 @@ class SmoreoSystem(Node):
                 [[fInPixels, 0.0, cameraCx], [0.0, fInPixels, camerCy], [0.0, 0.0, 1.0]],
                 dtype=np.float64,
             ),
-            # "worldCords_inCamera": np.array(
-            #     tf.transformations.quaternion_matrix(worldToCameraRotation)[:3, :3], dtype=int
-            # ),
             "worldCords_inCamera": np.array(
             tf.quaternions.quat2mat(worldToCameraRotation)[:3, :3], dtype=int
             ),
@@ -216,9 +213,9 @@ class SmoreoSystem(Node):
     def timer_callback(self):
         out = self.run()
         if out is None:
-            # self.status.running()
+            self.status.running()
             return
-        # self.status.running()
+        self.status.running()
 
 def main(args = None) -> None:
     """
@@ -227,7 +224,7 @@ def main(args = None) -> None:
     rclpy.init(args = args)
     node = SmoreoSystem()
 
-    # node.status.starting()
+    node.status.starting()
 
 
     if not node.has_parameter("/smoreo/use_cone_base"):
@@ -236,7 +233,7 @@ def main(args = None) -> None:
         raise ValueError("smoreo: in_tuning is not set")
 
     node.start(node.cone_base, node.in_tuning)
-    # node.status.ready()
+    node.status.ready()
     
     rclpy.spin(node)
     rclpy.shutdown()

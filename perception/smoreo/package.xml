@@ -8,11 +8,21 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
-  <depend>custom_interfaces</depend>
+  <!-- <depend>custom_interfaces</depend> -->
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>
+  <build_depend>asurt_msgs</build_depend>
+  <exec_depend>asurt_msgs</exec_depend>
+  <build_export_depend>asurt_msgs</build_export_depend>
+
+  
+
+   <build_depend>interfaces</build_depend>
+  <exec_depend>interfaces</exec_depend>
+  <build_export_depend>interfaces</build_export_depend>
+
   <test_depend>python3-pytest</test_depend>
 
   <export>

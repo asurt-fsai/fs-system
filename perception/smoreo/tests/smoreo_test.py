@@ -6,7 +6,9 @@ import unittest
 import pickle
 import numpy as np
 from asurt_msgs.msg import LandmarkArray
-from tf_helper.utils import parseLandmarks
+import rclpy
+# from tf_helper.utils import parseLandmarks
+from tf_helper.utils import Utils
 from smoreo.smoreo import Smoreo
 
 
@@ -30,7 +32,7 @@ class SmoreoTest(unittest.TestCase):
         """
         Test if the params are passed correctly
         """
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams,'flir')
         self.assertEqual(smoreo.params, self.correctParams)
 
     def testFrameId(self) -> None:
@@ -38,7 +40,7 @@ class SmoreoTest(unittest.TestCase):
         Test if the frame id is passed correctly
         """
         frame = "flir"
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams, 'flir')
         self.assertEqual(smoreo.allLandMarks.header.frame_id, frame)
 
     def testRaisingErrorAtInvalidParam(self) -> None:
@@ -46,13 +48,13 @@ class SmoreoTest(unittest.TestCase):
         Test if the error is raised when invalid params are passed
         """
         with self.assertRaises(TypeError):
-            Smoreo("params")
+            Smoreo("params",'flir')
 
     def testTypeLandmarkArray(self) -> None:
         """
         Test if the type of landmark array is correct
         """
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams,'flir')
         self.assertIsInstance(smoreo.allLandMarks, LandmarkArray)
 
     def testTypeErrorWithNoneParam(self) -> None:
@@ -60,7 +62,7 @@ class SmoreoTest(unittest.TestCase):
         Test if the error is raised when params are None
         """
         with self.assertRaises(TypeError):
-            Smoreo(None)
+            Smoreo(None,'flir')
 
     def testInvalidBboxcy(self) -> None:
         """
@@ -69,13 +71,13 @@ class SmoreoTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             wrongParams = self.correctParams
             wrongParams["cut_off_y"] = "cy"
-            Smoreo(wrongParams)
+            Smoreo(wrongParams,'flir')
 
     def testRaisingErrorAtInvalidBboxcy(self) -> None:
         """
         Test if the error is raised when invalid bboxcy is passed
         """
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams,'flir')
         with self.assertRaises(TypeError):
             smoreo.filterNearBoxes("cy")
 
@@ -85,7 +87,7 @@ class SmoreoTest(unittest.TestCase):
         """
         newParams = self.correctParams
         newParams["cut_off_y"] = 7.9
-        smoreo = Smoreo(newParams)
+        smoreo = Smoreo(newParams,'flir')
         self.assertIsInstance(smoreo.filterNearBoxes(0.5), bool)
 
     def testOutputofInvalidBboxcy(self) -> None:
@@ -94,7 +96,7 @@ class SmoreoTest(unittest.TestCase):
         """
         newParams = self.correctParams
         newParams["cut_off_y"] = 50.0
-        smoreo = Smoreo(newParams)
+        smoreo = Smoreo(newParams,'flir')
         self.assertFalse(smoreo.filterNearBoxes(75.0))
 
     def testOutputofValidBboxcy(self) -> None:
@@ -103,7 +105,7 @@ class SmoreoTest(unittest.TestCase):
         """
         newParams = self.correctParams
         newParams["cut_off_y"] = 50.0
-        smoreo = Smoreo(newParams)
+        smoreo = Smoreo(newParams,'flir')
         self.assertTrue(smoreo.filterNearBoxes(25.0))
 
     def testOutputofEqualBboxcy(self) -> None:
@@ -112,14 +114,14 @@ class SmoreoTest(unittest.TestCase):
         """
         newParams = self.correctParams
         newParams["cut_off_y"] = 50.0
-        smoreo = Smoreo(newParams)
+        smoreo = Smoreo(newParams,'flir')
         self.assertTrue(smoreo.filterNearBoxes(50.0))
 
     def testInvalidPose(self) -> None:
         """
         Test if the error is raised when pose is not a numpy array of size (1,3)
         """
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams,'flir')
         box = np.array([1, 2, 3, 4, 5, 6, 7], dtype=np.float32)
         with self.assertRaises(TypeError):
             smoreo.addToLandmarkArray([1, 2, 3], box)
@@ -132,7 +134,7 @@ class SmoreoTest(unittest.TestCase):
         """
         Test if the error is raised when box is not a numpy array of size (1,6)
         """
-        smoreo = Smoreo(self.correctParams)
+        smoreo = Smoreo(self.correctParams,'flir')
         with self.assertRaises(TypeError):
             smoreo.addToLandmarkArray(np.zeros((1, 3), dtype=np.float32), 99)
         with self.assertRaises(TypeError):
@@ -151,9 +153,9 @@ class SmoreoTest(unittest.TestCase):
         """
         Test if the landmark array is updated correctly
         """
-        smoreo = Smoreo(self.correctParams)
-        pose = np.zeros((1, 3), dtype=np.float32)
-        box = np.array([1, 2, 3, 4, 5, 6, 7], dtype=np.float32)
+        smoreo = Smoreo(self.correctParams,'flir')
+        pose = np.zeros((1, 3), dtype=float)
+        box = np.array([1, 2, 3, 4, 5, 6, 7], dtype=float)
         smoreo.addToLandmarkArray(pose, box)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 1)
         self.assertEqual(smoreo.allLandMarks.landmarks[0].position.x, pose[0][0])
@@ -161,8 +163,8 @@ class SmoreoTest(unittest.TestCase):
         self.assertEqual(smoreo.allLandMarks.landmarks[0].position.z, pose[0][2])
         self.assertEqual(smoreo.allLandMarks.landmarks[0].identifier, box[4])
         self.assertEqual(smoreo.allLandMarks.landmarks[0].type, box[5])
-        pose2 = np.array([[4.0, 5.0, 6.0]], dtype=np.float32)
-        box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0], dtype=np.float32)
+        pose2 = np.array([[4.0, 5.0, 6.0]], dtype=float)
+        box2 = np.array([7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0], dtype=float)
         smoreo.addToLandmarkArray(pose2, box2)
         self.assertEqual(len(smoreo.allLandMarks.landmarks), 2)
 
@@ -170,6 +172,7 @@ class SmoreoTest(unittest.TestCase):
         """
         Test if the prediction is correct with cone base
         """
+        rclpy.init()
         testCasePath = r"../testing/testCase1.pickle"
         scriptDir = os.path.dirname(__file__)
         absFilePath = os.path.join(scriptDir, testCasePath)
@@ -179,9 +182,11 @@ class SmoreoTest(unittest.TestCase):
         ) as file:
             testCase = pickle.load(file)
 
-        smoreo = Smoreo(testCase["params"])
+        smoreo = Smoreo(testCase["params"],'flir')
         landmarks = smoreo.predictWithBase(testCase["bboxes"])
-        cones = parseLandmarks(landmarks)
+        node = rclpy.create_node('test_node')
+        utils = Utils(node)
+        cones = utils.parseLandmarks(landmarks)
         np.testing.assert_array_equal(cones, testCase["predictedCones"])
 
 
