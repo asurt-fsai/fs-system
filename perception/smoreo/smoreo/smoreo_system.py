@@ -39,6 +39,8 @@ class SmoreoSystem(Node):
         self.declare_parameters(
             namespace='',
             parameters=[
+                ('/smoreo/use_cone_base', rclpy.Parameter.Type.BOOL),
+                ('/smoreo/in_tuning', rclpy.Parameter.Type.BOOL),
                 ('/smoreo/cut_off_y', rclpy.Parameter.Type.INTEGER),
                 ('/physical/camera_height_from_ground', rclpy.Parameter.Type.DOUBLE),
                 ('/physical/cone_height', rclpy.Parameter.Type.DOUBLE),
