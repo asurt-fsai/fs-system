@@ -1,8 +1,14 @@
 <launch>
     <node pkg="moreo" exec="kpr_node" name="keypoint_regressor">
-        <param name="/kpr/model_path" value="/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo/moreo/kpr.pt"/>
+
+        <!-- Subscribed topics -->
         <param name="/kpr/bboxes" value="/yolov8/detections"/>
         <param name="/kpr/cropped_detections" value="/yolov8/cropped_detections"/>
+
+        <!-- Published topics -->
         <param name="/kpr/keypoints_topic" value="/kpr/keypoints_topic"/>
+
+        <!-- model path -->
+        <param name="/kpr/model_path" value="/media/ezzedinayman/Local Disk/ASURT/fs/src/fs-system/perception/moreo/moreo/kpr.pt"/>
     </node>
 </launch>
