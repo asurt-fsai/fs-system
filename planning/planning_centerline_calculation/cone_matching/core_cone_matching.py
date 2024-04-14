@@ -11,15 +11,15 @@ from dataclasses import dataclass, field
 from typing import Tuple
 
 import numpy as np
-from numpy.typing import NDArray
 
 from icecream import ic  # pylint: disable=unused-import
 
-from .functional_cone_matching import (
-    calculateVirtualConesForBothSides,
-)
 from types_file.types import FloatArray, IntArray
 from utils.cone_types import ConeTypes
+
+from cone_matching.functional_cone_matching import (
+    calculateVirtualConesForBothSides,
+)
 
 MatchedCones = Tuple[FloatArray, FloatArray, IntArray, IntArray]
 
@@ -115,7 +115,7 @@ class ConeMatching:
             self.state.maxSearchAngle,
             self.state.matchesShouldBeMonotonic,
         )
-        
+
         return (
             leftConesWithVirtual,
             rightConesWithVirtual,

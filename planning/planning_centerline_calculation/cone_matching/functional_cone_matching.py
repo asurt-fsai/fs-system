@@ -7,14 +7,13 @@ more stable path calculation
 
 from __future__ import annotations
 
-from typing import Literal, Tuple, cast
+from typing import Tuple, cast
 
 import numpy as np
-from numpy.typing import NDArray
 
 from icecream import ic  # pylint: disable=unused-import
 
-from .match_directions import (
+from cone_matching.match_directions import (
     calculateMatchSearchDirection,
 )
 from types_file.types import BoolArray, FloatArray, IntArray
@@ -150,10 +149,10 @@ def findBooleanMaskOfAllPotentialMatches(
     ):
         distanceToOtherSide[~maskConeToCandidates] = np.inf
         idxsCandidatesSorted = np.argsort(distanceToOtherSide)[:2]
-        mask_idx_candidate_is_valid = np.isfinite(
+        maskIdxCandidateIsValid = np.isfinite(
             distanceToOtherSide[idxsCandidatesSorted]
         )
-        idxsCandidatesSorted = idxsCandidatesSorted[mask_idx_candidate_is_valid]
+        idxsCandidatesSorted = idxsCandidatesSorted[maskIdxCandidateIsValid]
 
         newMask = np.zeros_like(maskConeToCandidates)
         newMask[idxsCandidatesSorted] = True
@@ -164,7 +163,6 @@ def findBooleanMaskOfAllPotentialMatches(
 
 def selectBestMatchCandidate(
     matchableCones: FloatArray,
-    matchDirections: FloatArray,
     matchBooleanMask: BoolArray,
     otherSideCones: FloatArray,
     matchesShouldBeMonotonic: bool,
@@ -279,12 +277,12 @@ def insertVirtualConesToExisting(
 
     angles = traceAnglesBetween(existingCones)
     # print(np.rad2deg(angles))
-    mask_low_angles = angles < np.deg2rad(85)
-    mask_low_angles = np.concatenate([[False], mask_low_angles, [False]])
+    maskLowAngles = angles < np.deg2rad(85)
+    maskLowAngles = np.concatenate([[False], maskLowAngles, [False]])
 
-    if mask_low_angles.any():
-        existingCones = existingCones[:][~mask_low_angles]
-    
+    if maskLowAngles.any():
+        existingCones = existingCones[:][~maskLowAngles]
+
     return existingCones
 
 
@@ -399,7 +397,6 @@ def calculateMatchForSide(
 
         matchesForEachSelectableCone = selectBestMatchCandidate(
             matchableCones,
-            searchDirections,
             usToOthersMatchConesMask,
             otherSideCones,
             matchesShouldBeMonotonic,

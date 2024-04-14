@@ -1,3 +1,7 @@
+"""
+Description: Calculate the search direction to find a match for each cone.
+"""
+
 import numpy as np
 
 from utils.cone_types import ConeTypes
@@ -5,7 +9,7 @@ from utils.math_utils import myNjit, rotate
 
 
 @myNjit
-def calculateSearchDirectionForOne(cones, idxs, cone_type):
+def calculateSearchDirectionForOne(cones, idxs, coneType):
     """
     Calculates the search direction for one cone
     """
@@ -13,7 +17,7 @@ def calculateSearchDirectionForOne(cones, idxs, cone_type):
 
     trackDirection = cones[idxs[1]] - cones[idxs[0]]
 
-    rotationAngle = np.pi / 2 if cone_type == ConeTypes.RIGHT else -np.pi / 2
+    rotationAngle = np.pi / 2 if coneType == ConeTypes.RIGHT else -np.pi / 2
 
     searchDirection = rotate(trackDirection, rotationAngle)
 
@@ -25,6 +29,9 @@ def calculateMatchSearchDirection(
     cones,
     coneType: ConeTypes,
 ):
+    """
+    Calculates the search direction for all cones.
+    """
     numberOfCones = len(cones)
     assert numberOfCones > 1
 

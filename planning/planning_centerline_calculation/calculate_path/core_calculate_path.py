@@ -8,13 +8,11 @@ Description: Last step in Pathing pipeline
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple, cast
+from typing import Optional, Tuple, cast
 
 import numpy as np
-from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
 
-import math
 
 from calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
@@ -32,10 +30,6 @@ from utils.math_utils import (
     vecAngleBetween,
     angleToVector
 )
-#from planning_centerline_calculation.utils.spline_fit import SplineEvaluator, SplineFitterFactory
-
-#SplineEvalByType = List[SplineEvaluator]
-
 
 @dataclass
 class PathCalculationInput:
@@ -51,7 +45,6 @@ class PathCalculationInput:
         default_factory=lambda: np.zeros(0, dtype=int)
     )
     positionGlobal: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
-    #directionGlobal: FloatArray = field(default_factory=lambda: np.array([1, 0]))
     directionGlobal: np.float_ = 0
     globalPath: Optional[FloatArray] = field(default=None)
 
@@ -106,7 +99,7 @@ class CalculatePath:
         Calculate the initial path.
         """
 
-        return self.pathCalculatorHelpers.calculate_almost_straight_path()
+        return self.pathCalculatorHelpers.calculateAlmostStraightPath()
 
     def setNewInput(self, newInput: PathCalculationInput) -> None:
         """Update the state of the calculation."""
@@ -114,7 +107,7 @@ class CalculatePath:
 
     def calculateTrivialPath(self) -> FloatArray:
         "Calculate a path that points straight from the car position and direction"
-        originPath = self.pathCalculatorHelpers.calculate_almost_straight_path()[1:]
+        originPath = self.pathCalculatorHelpers.calculateAlmostStraightPath()[1:]
         yaw = self.input.directionGlobal
         pathRotated: FloatArray = rotate(originPath, yaw)  # type: ignore
         finalTrivialPath: FloatArray = pathRotated + self.input.positionGlobal
@@ -136,6 +129,10 @@ class CalculatePath:
         return returnValue
 
     def sideScore(self, side: ConeTypes) -> tuple:
+        """
+        Pick side with most matches, if both same number of matches, pick side
+        where the indices increase the most.
+        """
         matchesOfSide = (
             self.input.leftToRightMatches
             if side == ConeTypes.LEFT
@@ -145,8 +142,6 @@ class CalculatePath:
         nMatches = len(matchesOfSideFiltered)
         nIndicesSum = matchesOfSideFiltered.sum()
 
-        # first pick side with most matches, if both same number of matches, pick side
-        # where the indices increase the most
         return nMatches, nIndicesSum
 
     def selectSideToUse(self) -> Tuple[FloatArray, IntArray, FloatArray]:
@@ -442,7 +437,6 @@ class CalculatePath:
     def storePaths(
         self,
         pathUpdate: FloatArray,
-        #pathWithLengthForMpc: FloatArray,
         pathIsTrivial: bool,
     ) -> None:
         """
@@ -493,8 +487,12 @@ class CalculatePath:
         pathWithLengthForMpc = self.createPathForMpcFromPathUpdate(
             pathUpdate
         )
-        
+
         self.storePaths(pathWithLengthForMpc, False)
-        self.previousPaths = np.concatenate((self.previousPaths[-15:], pathWithLengthForMpc), axis=0)
+        self.previousPaths = np.concatenate(
+            (self.previousPaths[-15:],
+            pathWithLengthForMpc),
+            axis=0
+            )
 
         return pathWithLengthForMpc
