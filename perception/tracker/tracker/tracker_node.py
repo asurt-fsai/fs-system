@@ -110,6 +110,7 @@ class TrackerNode(Node):
 
         #publish tracks
         self.tracks_publisher.publish(tracks)
+        self.get_logger().info('Published tracks' + msg.header.frame_id)
 
 def main(args=None):
 

@@ -8,8 +8,12 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
+  <depend>numpy</depend>
+  <depend>scipy</depend>
   <depend>asurt_msgs</depend>
   <depend>yolov8</depend>
+  <depend>filterpy</depend>
+  <depend>lap</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
