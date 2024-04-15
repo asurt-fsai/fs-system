@@ -1,0 +1,16 @@
+<launch>
+    <node pkg="tracker" exec="tracker_node" name="tracker_node">
+
+        <!-- Subscribed topics -->
+        <param name="/yolov8/detections" value="/yolov8/detections"/>
+
+        <!-- Published topics -->
+        <param name="/tracker/tracks" value="/tracker/tracks"/>
+
+        <!-- tracker hyper-params -->
+        <param name="/tracker/max_age" value="3"/>
+        <param name="/tracker/min_hits" value="1"/>
+        <param name="/tracker/min_iou_threshold" value="0.3"/>
+        
+    </node>
+</launch>

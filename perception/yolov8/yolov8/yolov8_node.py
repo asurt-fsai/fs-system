@@ -72,7 +72,8 @@ class Yolov8Node(Node):
             detection.xmin, detection.ymin, detection.xmax, detection.ymax = box.xyxy[0]
             detection.x_center, detection.y_center, detection.width, detection.height = box.xywh[0]
 
-            detection.id = idx
+            detection.detection_id = idx
+            detection.track_id = 0 #yet to be tracked - track ids are 1-indexed
             detection.type = box.cls[0]
 
             detections.bounding_boxes[idx] = detection
