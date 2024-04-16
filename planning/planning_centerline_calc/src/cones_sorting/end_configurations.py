@@ -504,7 +504,7 @@ def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
         if (
             distToCandidate < 6.0
             and distToLastInAttempt < 6.0
-            and vecAngleBetween(neighborToLastInAttempt, neighborToCandidate) > np.deg2rad(150)
+            and vecAngleBetween(neighborToLastInAttempt + 0.000001, neighborToCandidate + 0.000001) > np.deg2rad(150)
         ):
             canBeAdded[i] = False
             break

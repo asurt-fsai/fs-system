@@ -304,8 +304,8 @@ def angleBetweenSearchDirectionOfConeAndOtherConeIsTooLarge(
 
     searchDirection = searchDirectionCache[directionsKey]
 
-    goodAngle = vecAngleBetween(fromConeToOtherCone, searchDirection) < searchAngle / 2
-    badAngle = vecAngleBetween(fromConeToOtherCone, -searchDirection) < searchAngle / 2
+    goodAngle = vecAngleBetween(fromConeToOtherCone + 0.000001, searchDirection + 0.000001) < searchAngle / 2
+    badAngle = vecAngleBetween(fromConeToOtherCone + 0.000001, -searchDirection + 0.000001) < searchAngle / 2
 
     return goodAngle, badAngle
 

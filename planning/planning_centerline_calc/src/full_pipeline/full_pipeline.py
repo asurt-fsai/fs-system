@@ -42,7 +42,7 @@ class PathPlanner:
     def __init__(self):
         self.coneSorting = ConeSorting(
             maxNNeighbors=5,
-            maxDist=6.5,
+            maxDist=4,     #default=6.5
             maxDistToFirst=6.0,
             maxLength=12,  # default=12
             thresholdDirectionalAngle=np.deg2rad(40),
