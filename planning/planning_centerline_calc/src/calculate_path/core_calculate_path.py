@@ -8,13 +8,10 @@ Description: Last step in Pathing pipeline
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple, cast
+from typing import Optional, Tuple, cast
 
 import numpy as np
-from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
-
-import math
 
 from src.calculate_path.path_calculator_helpers import (
     PathCalculatorHelpers,
@@ -34,10 +31,6 @@ from src.utils.math_utils import (
     angleToVector,
 )
 
-# from planning_centerline_calculation.utils.spline_fit import SplineEvaluator, SplineFitterFactory
-
-# SplineEvalByType = List[SplineEvaluator]
-
 
 @dataclass
 class PathCalculationInput:
@@ -49,7 +42,6 @@ class PathCalculationInput:
     leftToRightMatches: IntArray = field(default_factory=lambda: np.zeros(0, dtype=int))
     rightToLeftMatches: IntArray = field(default_factory=lambda: np.zeros(0, dtype=int))
     positionGlobal: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
-    # directionGlobal: FloatArray = field(default_factory=lambda: np.array([1, 0]))
     directionGlobal: np.float_ = 0
     globalPath: Optional[FloatArray] = field(default=None)
 
@@ -71,10 +63,7 @@ class CalculatePath:
 
     def __init__(
         self,
-        # smoothing: float,
-        # predictEvery: float,
         maximalDistanceForValidPath: float,
-        # maxDeg: int,
         mpcPathLength: float,
         mpcPredictionHorizon: int,
     ):
@@ -96,22 +85,7 @@ class CalculatePath:
         )
         self.pathCalculatorHelpers = PathCalculatorHelpers()
 
-        """self.splineFitterFactory = SplineFitterFactory(
-            smoothing, predictEvery, maxDeg
-        )
-
-        pathParameterizer = PathParameterizer(
-            prediction_horizon=self.scalars.mpcPredictionHorizon
-        )
-
-        self.previous_paths = [
-            path_parameterizer.parameterize_path(
-                self.calculate_initial_path(), None, None, False
-            )
-        ]"""
-
         self.previousPaths = self.calculateInitialPath()
-        # self.mpcPaths = []
         self.pathIsTrivialList = []
         self.pathUpdates = []
 
@@ -120,11 +94,7 @@ class CalculatePath:
         Calculate the initial path.
         """
 
-        # calculate first path
-        """initialPath = self.splineFitterFactory.fit(
-            self.pathCalculatorHelpers.calculate_almost_straight_path()
-        ).predict(der=0)"""
-        return self.pathCalculatorHelpers.calculate_almost_straight_path()
+        return self.pathCalculatorHelpers.calculateAlmostStraightPath()
 
     def setNewInput(self, newInput: PathCalculationInput) -> None:
         """Update the state of the calculation."""
@@ -132,7 +102,7 @@ class CalculatePath:
 
     def calculateTrivialPath(self) -> FloatArray:
         "Calculate a path that points straight from the car position and direction"
-        originPath = self.pathCalculatorHelpers.calculate_almost_straight_path()[1:]
+        originPath = self.pathCalculatorHelpers.calculateAlmostStraightPath()[1:]
         yaw = self.input.directionGlobal
         pathRotated: FloatArray = rotate(originPath, yaw)  # type: ignore
         finalTrivialPath: FloatArray = pathRotated + self.input.positionGlobal
@@ -144,33 +114,35 @@ class CalculatePath:
         If a cone does not have a match the index is set -1. This method finds how
         many cones actually have a match (the index of the match is not -1)
         """
-        assert side in (ConeTypes.LEFT, ConeTypes.RIGHT)
+        assert side in (ConeTypes.left, ConeTypes.right)
         matchesOfSide = (
             self.input.leftToRightMatches
-            if side == ConeTypes.LEFT
+            if side == ConeTypes.left
             else self.input.rightToLeftMatches
         )
         returnValue: int = np.sum(matchesOfSide != -1)
         return returnValue
 
     def sideScore(self, side: ConeTypes) -> tuple:
+        """
+        Pick side with most matches, if both same number of matches, pick side
+        where the indices increase the most.
+        """
         matchesOfSide = (
             self.input.leftToRightMatches
-            if side == ConeTypes.LEFT
+            if side == ConeTypes.left
             else self.input.rightToLeftMatches
         )
         matchesOfSideFiltered = matchesOfSide[matchesOfSide != -1]
         nMatches = len(matchesOfSideFiltered)
         nIndicesSum = matchesOfSideFiltered.sum()
 
-        # first pick side with most matches, if both same number of matches, pick side
-        # where the indices increase the most
         return nMatches, nIndicesSum
 
     def selectSideToUse(self) -> Tuple[FloatArray, IntArray, FloatArray]:
         "Select the main side to use for path calculation"
 
-        sideToPick = max([ConeTypes.LEFT, ConeTypes.RIGHT], key=self.sideScore)
+        sideToPick = max([ConeTypes.left, ConeTypes.right], key=self.sideScore)
 
         sideToUse, matchesToOtherSide, otherSideCones = (
             (
@@ -178,7 +150,7 @@ class CalculatePath:
                 self.input.leftToRightMatches,
                 self.input.rightCones,
             )
-            if sideToPick == ConeTypes.LEFT
+            if sideToPick == ConeTypes.left
             else (
                 self.input.rightCones,
                 self.input.rightToLeftMatches,
@@ -207,24 +179,6 @@ class CalculatePath:
 
         return centerAlongMatchConnection
 
-    '''def fitMatchesAsSpline(
-        self, centerAlongMatchConnection: FloatArray
-    ) -> FloatArray:
-        """
-        Fit the calculated basis path as a spline. If the computation fails, use the
-        path calculated in the previous step
-        """
-        try:
-            pathUpdate = self.splineFitterFactory.fit(
-                centerAlongMatchConnection
-            ).predict(der=0)
-        except ValueError:
-            pathUpdate = self.splineFitterFactory.fit(
-                self.previousPaths[-1]
-            ).predict(der=0)
-
-        return pathUpdate'''
-
     def overwritePathIfItIsTooFarAway(self, pathUpdate: FloatArray) -> FloatArray:
         """
         If for some reason the calculated path is too far away from the position of the
@@ -234,28 +188,6 @@ class CalculatePath:
         if minDistanceToPath > self.scalars.maximalDistanceForValidPath:
             pathUpdate = self.previousPaths[-15:]
         return pathUpdate
-
-    '''def refitPathForMpcWithSafetyFactor(
-        self, finalPath: FloatArray
-    ) -> FloatArray:
-        """
-        Refit the path for MPC with a safety factor. The length of the path is 1.5 times
-        the length of the path required by MPC. The path will be trimmed to the correct length
-        in another step
-        """
-        try:
-            pathLengthFixed = self.splineFitterFactory.fit(finalPath).predict(
-                der=0, max_u=self.scalars.mpcPathLength * 1.5
-            )
-        except Exception as e:
-            print(e)
-            mask = np.all(finalPath[:-1] == finalPath[1:], axis=1)
-            print(np.where(mask))
-            # print(repr(final_path))
-            # print(repr(self.input))
-            raise
-
-        return pathLengthFixed'''
 
     def extendPath(self, pathUpdate: FloatArray) -> FloatArray:
         """
@@ -353,56 +285,10 @@ class CalculatePath:
         pathAfterIncreasingPoints = self.increasePoints(pathConnectedToCar)
         pathWithEnoughLength = self.extendPath(pathAfterIncreasingPoints)
         pathWithNoPathBehindCar = self.removePathBehindCar(pathWithEnoughLength)
-        """try:
-            pathLengthFixed = self.refitPathForMpcWithSafetyFactor(
-                pathWithNoPathBehindCar
-            )
-        except Exception:
-            print("path update")
-            raise"""
 
         pathWithLengthForMpc = self.removePathNotInPredictionHorizon(pathWithNoPathBehindCar)
 
         return pathWithLengthForMpc
-
-    '''def doAllMpcParameterCalculations(self, pathUpdate: FloatArray) -> FloatArray:
-        """
-        Calculate the path that will be sent to the MPC. The general path that is
-        calculated is based on the cones around the track and is also based on the
-        surroundings (also cones from behind the car), which means that this path
-        has an undefined length and starts behind the car. MPC expects the path to
-        start where the car is and for it to have a specific length (both in meters,
-        but also in the number of elements it is composed of). This method extrapolates
-        the path if the length is not enough, removes the parts of the path that are
-        behind the car and finally samples the path so that it has exactly as many
-        elements as MPC needs.
-
-        Args:
-            path_update: The basis of the new path
-
-        Returns:
-            The parameterized path as a Nx4 array, where each column is:
-                theta (spline parameter)
-                x (x coordinate)
-                y (y coordinate)
-                curvature (curvature of the path at that point)
-        """
-
-        pathWithLengthForMpc = self.createPathForMpcFromPathUpdate(
-            pathUpdate
-        )
-
-        pathParameterizer = PathParameterizer(
-            prediction_horizon=self.scalars.mpcPredictionHorizon
-        )
-        pathParameterized = pathParameterizer.parameterize_path(
-            pathWithLengthForMpc,
-            self.input.positionGlobal,
-            self.input.directionGlobal,
-            path_is_closed=False,
-        )
-
-        return pathParameterized'''
 
     def costMpcPathStart(self, pathLengthFixed: FloatArray) -> FloatArray:
         """
@@ -506,14 +392,12 @@ class CalculatePath:
     def storePaths(
         self,
         pathUpdate: FloatArray,
-        # pathWithLengthForMpc: FloatArray,
         pathIsTrivial: bool,
     ) -> None:
         """
         Store the calculated paths, in case they are need in the next calculation.
         """
         self.pathUpdates = self.pathUpdates[-10:] + [pathUpdate]
-        # self.mpcPaths = self.mpcPaths[-10:] + [pathWithLengthForMpc]
         self.pathIsTrivialList = self.pathIsTrivialList[-10:] + [pathIsTrivial]
 
     def runPathCalculation(self) -> FloatArray:
@@ -552,31 +436,8 @@ class CalculatePath:
         pathUpdate = self.overwritePathIfItIsTooFarAway(centerAlongMatchConnection)
 
         pathWithLengthForMpc = self.createPathForMpcFromPathUpdate(pathUpdate)
-        """pathUpdateTooFarAway = self.fitMatchesAsSpline(
-            centerAlongMatchConnection
-        )
-
-        pathUpdate = self.overwritePathIfItIsTooFarAway(
-            pathUpdateTooFarAway
-        )
-
-        try:
-            pathParameterization = self.doAllMpcParameterCalculations(pathUpdate)
-        except ValueError:
-            # there is a bug with the path extrapolation which leads to the spline
-            # fit failing, in this case we just use the previous path
-            pathParameterization = self.doAllMpcParameterCalculations(
-                self.previousPaths[-1][:, 1:3]
-            )
-
-        self.storePaths(pathUpdate, pathParameterization, False)
-        self.previousPaths = self.previousPaths[-10:] + [pathParameterization]
-
-        return pathParameterization, centerAlongMatchConnection
-        """
 
         self.storePaths(pathWithLengthForMpc, False)
-        # print(pathWithLengthForMpc.shape)
         self.previousPaths = np.concatenate(
             (self.previousPaths[-15:], pathWithLengthForMpc), axis=0
         )

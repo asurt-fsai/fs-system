@@ -11,7 +11,6 @@ from dataclasses import dataclass, field
 from typing import Tuple
 
 import numpy as np
-from numpy.typing import NDArray
 
 from icecream import ic  # pylint: disable=unused-import
 
@@ -84,8 +83,8 @@ class ConeMatching:
             self.input.slamDirection,
         )
 
-        self.state.sortedLeft = self.input.sortedCones[ConeTypes.LEFT]
-        self.state.sortedRight = self.input.sortedCones[ConeTypes.RIGHT]
+        self.state.sortedLeft = self.input.sortedCones[ConeTypes.left]
+        self.state.sortedRight = self.input.sortedCones[ConeTypes.right]
 
     def runConeMatching(self) -> MatchedCones:
         """
@@ -117,9 +116,6 @@ class ConeMatching:
             self.state.maxSearchAngle,
             self.state.matchesShouldBeMonotonic,
         )
-        # leftResults, rightResults = results
-        # (leftConesWithVirtual, _, leftToRightMatch) = leftResults
-        # (rightConesWithVirtual, _, rightToLeftMatch) = rightResults
 
         return (
             leftConesWithVirtual,

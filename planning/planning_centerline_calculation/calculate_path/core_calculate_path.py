@@ -375,6 +375,9 @@ class CalculatePath:
 
         vectorVehicleDirection = angleToVector(self.input.directionGlobal)
 
+        if 0 in carToFirstPoint:
+            return pathUpdate
+
         angleToFirstPoint = vecAngleBetween(
             carToFirstPoint, vectorVehicleDirection
         )
