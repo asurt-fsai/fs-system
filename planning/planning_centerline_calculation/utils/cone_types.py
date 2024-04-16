@@ -10,10 +10,10 @@ class ConeTypes(IntEnum):
     """
 
     UNKNOWN = 0
-    RIGHT = YELLOW = 1
-    LEFT = BLUE = 2
-    START_FINISH_AREA = ORANGE_SMALL = 3
-    START_FINISH_LINE = ORANGE_BIG = 4
+    right = YELLOW = 1
+    left = BLUE = 2
+    startFinishArea = ORANGE_SMALL = 3
+    startfinishLine = ORANGE_BIG = 4
 
 
 def invertConeType(coneType: ConeTypes) -> ConeTypes:
@@ -24,8 +24,8 @@ def invertConeType(coneType: ConeTypes) -> ConeTypes:
     Returns:
         ConeTypes: The inverted cone type
     """
-    if coneType == ConeTypes.LEFT:
-        return ConeTypes.RIGHT
-    if coneType == ConeTypes.RIGHT:
-        return ConeTypes.LEFT
+    if coneType == ConeTypes.left:
+        return ConeTypes.right
+    if coneType == ConeTypes.right:
+        return ConeTypes.left
     return coneType

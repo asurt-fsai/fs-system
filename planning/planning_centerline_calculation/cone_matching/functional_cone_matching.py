@@ -381,7 +381,7 @@ def calculateMatchForSide(
         if len(otherSideCones) > 1:
             otherSideSearchDirections = calculateMatchSearchDirection(
                 otherSideCones,
-                ConeTypes.LEFT if coneType == ConeTypes.RIGHT else ConeTypes.RIGHT,
+                ConeTypes.left if coneType == ConeTypes.right else ConeTypes.right,
             )
         else:
             otherSideSearchDirections = np.zeros((0, 2), dtype=float)
@@ -477,7 +477,7 @@ def matchBothSidesWithVirtualCones(
 
     _, finalMatchingFromLeftToRight, _ = calculateMatchForSide(
         leftConesWithVirtual,
-        ConeTypes.LEFT,
+        ConeTypes.left,
         rightConesWithVirtual,
         majorRadius,
         minorRadius,
@@ -487,7 +487,7 @@ def matchBothSidesWithVirtualCones(
 
     _, finalMatchingFromRightToLeft, _ = calculateMatchForSide(
         rightConesWithVirtual,
-        ConeTypes.RIGHT,
+        ConeTypes.right,
         leftConesWithVirtual,
         majorRadius,
         minorRadius,
@@ -545,7 +545,7 @@ def calculateVirtualConesForBothSides(
     rightConesWithVirtual, rightMaskIsVirtual = (
         calculateConesForOtherSide(
             leftCones,
-            ConeTypes.LEFT,
+            ConeTypes.left,
             majorRadius,
             minorRadius,
             maxSearchAngle,
@@ -566,7 +566,7 @@ def calculateVirtualConesForBothSides(
     leftConesWithVirtual, leftMaskIsVirtual = (
         calculateConesForOtherSide(
             rightCones,
-            ConeTypes.RIGHT,
+            ConeTypes.right,
             majorRadius,
             minorRadius,
             maxSearchAngle,

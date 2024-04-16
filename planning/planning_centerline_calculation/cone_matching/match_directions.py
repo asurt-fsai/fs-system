@@ -17,7 +17,7 @@ def calculateSearchDirectionForOne(cones, idxs, coneType):
 
     trackDirection = cones[idxs[1]] - cones[idxs[0]]
 
-    rotationAngle = np.pi / 2 if coneType == ConeTypes.RIGHT else -np.pi / 2
+    rotationAngle = np.pi / 2 if coneType == ConeTypes.right else -np.pi / 2
 
     searchDirection = rotate(trackDirection, rotationAngle)
 

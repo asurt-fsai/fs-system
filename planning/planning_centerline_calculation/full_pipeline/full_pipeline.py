@@ -92,8 +92,8 @@ class PathPlanner:
         sortedLeft, sortedRight = self.coneSorting.runConeSorting()
 
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
-        matchedConesInput[ConeTypes.LEFT] = sortedLeft
-        matchedConesInput[ConeTypes.RIGHT] = sortedRight
+        matchedConesInput[ConeTypes.left] = sortedLeft
+        matchedConesInput[ConeTypes.right] = sortedRight
 
         ### Cone Matching ###
         coneMatchingInput = ConeMatchingInput(

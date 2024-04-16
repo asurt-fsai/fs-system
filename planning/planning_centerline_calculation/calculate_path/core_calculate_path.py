@@ -119,10 +119,10 @@ class CalculatePath:
         If a cone does not have a match the index is set -1. This method finds how
         many cones actually have a match (the index of the match is not -1)
         """
-        assert side in (ConeTypes.LEFT, ConeTypes.RIGHT)
+        assert side in (ConeTypes.left, ConeTypes.right)
         matchesOfSide = (
             self.input.leftToRightMatches
-            if side == ConeTypes.LEFT
+            if side == ConeTypes.left
             else self.input.rightToLeftMatches
         )
         returnValue: int = np.sum(matchesOfSide != -1)
@@ -135,7 +135,7 @@ class CalculatePath:
         """
         matchesOfSide = (
             self.input.leftToRightMatches
-            if side == ConeTypes.LEFT
+            if side == ConeTypes.left
             else self.input.rightToLeftMatches
         )
         matchesOfSideFiltered = matchesOfSide[matchesOfSide != -1]
@@ -147,7 +147,7 @@ class CalculatePath:
     def selectSideToUse(self) -> Tuple[FloatArray, IntArray, FloatArray]:
         "Select the main side to use for path calculation"
 
-        sideToPick = max([ConeTypes.LEFT, ConeTypes.RIGHT], key=self.sideScore)
+        sideToPick = max([ConeTypes.left, ConeTypes.right], key=self.sideScore)
 
         sideToUse, matchesToOtherSide, otherSideCones = (
             (
@@ -155,7 +155,7 @@ class CalculatePath:
                 self.input.leftToRightMatches,
                 self.input.rightCones,
             )
-            if sideToPick == ConeTypes.LEFT
+            if sideToPick == ConeTypes.left
             else (
                 self.input.rightCones,
                 self.input.rightToLeftMatches,

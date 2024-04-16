@@ -1,3 +1,10 @@
+"""
+Description: defines a ROS2 node for path planning.
+
+The `PlanningNode` class subscribes to data from perception and SLAM
+and publishes a planned path for control.
+"""
+
 #!/usr/bin/env python3
 
 import rclpy
@@ -11,7 +18,10 @@ import numpy as np
 from full_pipeline.full_pipeline import PathPlanner
 
 class PlanningNode(Node):
-
+    """
+    This class represents a planning node that receives sensor data from perception 
+    and localization, processes it to plan a path, and publishes the path for control.
+    """
     def __init__(self):
         super().__init__("planning_node")
         self.get_logger().info("Path Planner instantiated...")
@@ -20,38 +30,59 @@ class PlanningNode(Node):
         self.carPosition = None
         self.carDirection = None
         self.subscriber1 = self.create_subscription(
-            LandmarkArray, "/topic1", self.receive_from_perception, 10
+            LandmarkArray, "/topic1", self.receiveFromPerception, 10
         )
         self.subscriber2 = self.create_subscription(
-            Odometry, "/topic2", self.receive_from_localization, 10
+            Odometry, "/topic2", self.receiveFromLocalization, 10
         )
         self.publisher = self.create_publisher(
             Path, "/topic3", 10
         )
 
 
-    def receive_from_perception(self, msg: LandmarkArray):
-        #get cones_colors, cones_positions
+    def receiveFromPerception(self, msg: LandmarkArray):
+        """
+        This function is called whenever a new LandmarkArray message is received 
+        on the "/topic1" subscription.
+        It separates the received cones by color and stores their positions,
+        then calls the `sendToControl` function to process the received cone information.
+        """
         self.cones = [np.zeros((0, 2)) for _ in ConeTypes]
         for landmark in msg.landmarks:
             if landmark.identifier == 0:
-                self.cones[ConeTypes.BLUE] = np.vstack((self.cones[ConeTypes.BLUE], landmark.position))
+                self.cones[ConeTypes.BLUE] = np.vstack((
+                    self.cones[ConeTypes.BLUE],
+                    landmark.position
+                ))
             elif landmark.identifier == 1:
-                self.cones[ConeTypes.YELLOW] = np.vstack((self.cones[ConeTypes.YELLOW], landmark.position))
+                self.cones[ConeTypes.YELLOW] = np.vstack((
+                    self.cones[ConeTypes.YELLOW],
+                    landmark.position
+                ))
             else:
-                self.cones[ConeTypes.UNKNOWN] = np.vstack((self.cones[ConeTypes.UNKNOWN], landmark.position))
-            
-        self.send_to_control()
+                self.cones[ConeTypes.UNKNOWN] = np.vstack((
+                    self.cones[ConeTypes.UNKNOWN],
+                    landmark.position
+                ))
 
-    
-    def receive_from_localization(self, msg: Odometry):
-        #get car_position, car_direction
+        self.sendToControl()
+
+
+    def receiveFromLocalization(self, msg: Odometry):
+        """
+        This function is called whenever a new Odometry message is received 
+        on the "/topic2" subscription.
+        It extracts car position and direction from the received odometry message.
+        """
         pose = msg.pose.pose
         self.carPosition = [pose.position.x, pose.position.y]
         self.carDirection = [pose.orientation.x, pose.orientation.y]
 
-    
-    def send_to_control(self):
+
+    def sendToControl(self):
+        """
+        This function triggers path planning and publishes the planned path to control.
+        """
         pathPlanner = PathPlanner()
         self.path = pathPlanner.calculatePathInGlobalFrame(
             vehiclePosition= self.carPosition,
@@ -63,7 +94,7 @@ class PlanningNode(Node):
             path = Path()
             path.header.stamp = timestamp
             path.header.frame_id = "path"
-            
+
             for dataPoint in self.path:
                 pose = Pose()
                 pose.position.x = dataPoint[0]
@@ -78,15 +109,18 @@ class PlanningNode(Node):
 
             self.publisher.publish(path)
 
-            self.get_logger().info('Path Sent...')
+            self.get_logger().info("Path Sent...")
 
 
 def main(args=None):
+    """
+    Ros2 entry point: Initializes ROS, creates PlanningNode, spins, & shuts down.
+    """
     rclpy.init(args=args)
     node = PlanningNode()
 
     rclpy.spin(node)
     rclpy.shutdown()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

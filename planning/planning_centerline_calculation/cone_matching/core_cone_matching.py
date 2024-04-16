@@ -84,8 +84,8 @@ class ConeMatching:
             self.input.slamDirection,
         )
 
-        self.state.sortedLeft = self.input.sortedCones[ConeTypes.LEFT]
-        self.state.sortedRight = self.input.sortedCones[ConeTypes.RIGHT]
+        self.state.sortedLeft = self.input.sortedCones[ConeTypes.left]
+        self.state.sortedRight = self.input.sortedCones[ConeTypes.right]
 
     def runConeMatching(self) -> MatchedCones:
         """

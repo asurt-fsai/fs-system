@@ -96,7 +96,7 @@ class AdjacencyMatrix:
         if inputHash != self.LAST_MATRIX_CALC_HASH:
             self.LAST_MATRIX_CALC_HASH = inputHash
             self.LAST_MATRIX_CALC_DISTANCE_MATRIX = calcPairwiseDistances(
-                conesXY, dist_to_self=np.inf
+                conesXY, distToSelf=np.inf
             )
         
         return self.LAST_MATRIX_CALC_DISTANCE_MATRIX.copy()

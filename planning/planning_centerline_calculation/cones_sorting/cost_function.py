@@ -250,7 +250,7 @@ def calcWrongDirectionCost(
     """
     out = np.zeros(configurations.shape[0])
     
-    unwantedDirectionSign = 1 if coneType == ConeTypes.LEFT else -1
+    unwantedDirectionSign = 1 if coneType == ConeTypes.left else -1
 
     for i, c in enumerate(configurations):
         c = c[c != -1]

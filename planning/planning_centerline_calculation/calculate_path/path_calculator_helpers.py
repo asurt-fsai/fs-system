@@ -15,7 +15,7 @@ from types_file.types import FloatArray
 from utils.cone_types import ConeTypes
 from utils.math_utils import rotate, unit2dVectorFromAngle
 
-ConeTypesForPathCalculation = Literal[ConeTypes.LEFT, ConeTypes.RIGHT]
+ConeTypesForPathCalculation = Literal[ConeTypes.left, ConeTypes.right]
 HALF_PI = np.pi / 2
 
 class PathCalculatorHelpers:
