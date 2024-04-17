@@ -17,9 +17,9 @@ if TYPE_CHECKING:
     IntArray = NDArray[np.int_]
     BoolArray = NDArray[np.bool_]
     SortableConeTypes = Literal[
-        ConeTypes.left,
+        ConeTypes.LEFT,
         ConeTypes.BLUE,
-        ConeTypes.right,
+        ConeTypes.RIGHT,
         ConeTypes.YELLOW,
     ]
 else:

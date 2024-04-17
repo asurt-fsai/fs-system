@@ -376,9 +376,9 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
             if np.abs(diffrence) > thresholdAbsoluteAngle:
                 canBeAdded[i] = False
-            elif coneType == ConeTypes.left:
+            elif coneType == ConeTypes.LEFT:
                 canBeAdded[i] = diffrence < thresholdDirectionalAngle or lenLastToCandidate < 4.0
-            elif coneType == ConeTypes.right:
+            elif coneType == ConeTypes.RIGHT:
                 canBeAdded[i] = diffrence > -thresholdDirectionalAngle or lenLastToCandidate < 4.0
             else:
                 raise AssertionError("Unreachable cone")
@@ -454,7 +454,7 @@ def maskSecondInAttemptIsOnRightVehicleSide(
 
     angleDiff = angleDiffrence(angleCarToNeighbors, angleCarDir)
 
-    expectedSign = 1 if coneType == ConeTypes.left else -1
+    expectedSign = 1 if coneType == ConeTypes.LEFT else -1
 
     maskExpectedSide = np.sign(angleDiff) == expectedSign
     maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(5)

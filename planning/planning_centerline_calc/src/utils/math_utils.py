@@ -3,12 +3,13 @@
 """
 Description: A module with common mathematical functions
 """
-from typing import TypeVar, cast
+from typing import Tuple, TypeVar, cast
 
-import math
 import numpy as np
 from numpy.typing import NDArray
 from numba import jit
+
+import math
 
 T = TypeVar("T")
 
@@ -31,7 +32,7 @@ def myNjit(func: T) -> T:
 
 
 @myNjit
-def vecDot(vecs1: np.ndarray, vecs2: np.ndarray) -> np.ndarray:
+def vec_dot(vecs1: np.ndarray, vecs2: np.ndarray) -> np.ndarray:
     """
     Mutliplies vectors in an array elementwise
 
@@ -47,51 +48,16 @@ def vecDot(vecs1: np.ndarray, vecs2: np.ndarray) -> np.ndarray:
 
 @myNjit
 def normOfLastAxis(arr: np.ndarray) -> np.ndarray:
-    """
-    Calculates the Euclidean norm of each vector along the last axis 
-    of a NumPy array and returns a new array with the same shape as the input 
-    array excluding the last dimension.
+    original_shape = arr.shape
+    arr_row_col = np.ascontiguousarray(arr).reshape(-1, arr.shape[-1])
+    result = np.empty(arr_row_col.shape[0])
+    for i in range(arr_row_col.shape[0]):
+        vec = arr_row_col[i]
+        result[i] = np.sqrt(vec_dot(vec, vec))
 
-    Args:
-        arr (np.ndarray): The input NumPy array.
-
-    Returns:
-        np.ndarray: A new array containing the L2 norm of each vector 
-                    along the last axis of the original array.
-    """
-    originalShape = arr.shape
-    arrRowCol = np.ascontiguousarray(arr).reshape(-1, arr.shape[-1])
-    result = np.empty(arrRowCol.shape[0])
-    for i in range(arrRowCol.shape[0]):
-        vec = arrRowCol[i]
-        result[i] = np.sqrt(vecDot(vec, vec))
-
-    result = result.reshape(originalShape[:-1])
+    result = result.reshape(original_shape[:-1])
 
     return result
-
-def vectorToAngle(vector: np.ndarray) -> np.float_:
-    """
-    Converts a 2D vector to its angle in degrees.
-
-    Args:
-        vector: A list or tuple representing a 2D vector (x, y).
-
-    Returns:
-        The angle of the vector in degrees, in the range [-180, 180].
-    """
-
-    if len(vector) != 2:
-        raise ValueError("Input vector must be a 2D list or tuple.")
-
-    x, y = vector
-    if x == 0 and y == 0:
-        return np.float_(0.0)  # Handle zero vector case
-    angle = math.degrees(math.atan2(y, x))
-    # Adjust angle to range [-180, 180]
-    if angle < 0:
-        angle += 360
-    return np.float_(angle)
 
 def angleToVector(angle: np.float_) -> NDArray[np.float_]:
     """
@@ -115,10 +81,9 @@ def angleToVector(angle: np.float_) -> NDArray[np.float_]:
 
     return unitVector
 
+
 @myNjit
-def vecAngleBetween(
-    vecs1: np.ndarray, vecs2: np.ndarray, clipCosTheta: bool = True
-) -> np.ndarray:
+def vecAngleBetween(vecs1: np.ndarray, vecs2: np.ndarray, clipCosTheta: bool = True) -> np.ndarray:
     """
     Calculates the angle between the vectors of the last dimension
 
@@ -132,8 +97,10 @@ def vecAngleBetween(
         np.ndarray: A vector, such that each element i contains the angle between
         vectors vecs1[i] and vecs2[i]
     """
+    """assert vecs1.shape[-1] == 2
+    assert vecs2.shape[-1] == 2"""
 
-    cosTheta = vecDot(vecs1, vecs2)
+    cosTheta = vec_dot(vecs1, vecs2)
 
     cosTheta /= normOfLastAxis(vecs1) * normOfLastAxis(vecs2)
 
@@ -166,7 +133,7 @@ def rotate(points: np.ndarray, theta: float) -> np.ndarray:
 
 
 @myNjit
-def myCdistSqEuclidean(arrA: np.ndarray, arrB: np.ndarray) -> np.ndarray:
+def myCdistSqEuclidean(arr_a: np.ndarray, arr_b: np.ndarray) -> np.ndarray:
     """
     Calculates the pairwise square euclidean distances from each point in `X` to each
     point in `Y`
@@ -183,25 +150,23 @@ def myCdistSqEuclidean(arrA: np.ndarray, arrB: np.ndarray) -> np.ndarray:
         np.array: A matrix of shape (m,n) containing the square euclidean distance
         between all the points in `X` and `Y`
     """
-    nX, dim = arrA.shape
-    xExt = np.empty((nX, 3 * dim))
-    xExt[:, :dim] = 1
-    xExt[:, dim : 2 * dim] = arrA
-    xExt[:, 2 * dim :] = np.square(arrA)
+    n_x, dim = arr_a.shape
+    x_ext = np.empty((n_x, 3 * dim))
+    x_ext[:, :dim] = 1
+    x_ext[:, dim : 2 * dim] = arr_a
+    x_ext[:, 2 * dim :] = np.square(arr_a)
 
-    nY = arrB.shape[0]
-    yExt = np.empty((3 * dim, nY))
-    yExt[:dim] = np.square(arrB).T
-    yExt[dim : 2 * dim] = -2 * arrB.T
-    yExt[2 * dim :] = 1
+    n_y = arr_b.shape[0]
+    y_ext = np.empty((3 * dim, n_y))
+    y_ext[:dim] = np.square(arr_b).T
+    y_ext[dim : 2 * dim] = -2 * arr_b.T
+    y_ext[2 * dim :] = 1
 
-    return np.dot(xExt, yExt)
+    return np.dot(x_ext, y_ext)
 
 
 @myNjit
-def calcPairwiseDistances(
-    points: np.ndarray, distToSelf: float = 0.0
-) -> np.ndarray:
+def calcPairwiseDistances(points: np.ndarray, dist_to_self: float = 0.0) -> np.ndarray:
     """
     Given a set of points, creates a distance matrix from each point to every point
 
@@ -213,16 +178,16 @@ def calcPairwiseDistances(
     Returns:
         np.ndarray: The 2d distance matrix
     """
-    pairwiseDistances = myCdistSqEuclidean(points, points)
+    pairwise_distances = myCdistSqEuclidean(points, points)
 
-    if distToSelf != 0:
+    if dist_to_self != 0:
         for i in range(len(points)):
-            pairwiseDistances[i, i] = distToSelf
-    return pairwiseDistances
+            pairwise_distances[i, i] = dist_to_self
+    return pairwise_distances
 
 
 @myNjit
-def myIn1d(testValues: np.ndarray, sourceContainer: np.ndarray) -> np.ndarray:
+def myIn1d(test_values: np.ndarray, source_container: np.ndarray) -> np.ndarray:
     """
     Calculate a boolean mask for a 1d array indicating if an element in `test_values` is
     present in `source container` which is also 1d
@@ -235,21 +200,21 @@ def myIn1d(testValues: np.ndarray, sourceContainer: np.ndarray) -> np.ndarray:
         np.ndarray: A boolean array with the same length as `test_values`. If
         `return_value[i]` is `True` then `test_value[i]` is in `source_container`
     """
-    sourceSorted = np.sort(sourceContainer)
-    isIn = np.zeros(testValues.shape[0], dtype=np.bool_)
-    for i, testVal in enumerate(testValues):
-        for sourceVal in sourceSorted:
-            if testVal == sourceVal:
-                isIn[i] = True
+    source_sorted = np.sort(source_container)
+    is_in = np.zeros(test_values.shape[0], dtype=np.bool_)
+    for i, test_val in enumerate(test_values):
+        for source_val in source_sorted:
+            if test_val == source_val:
+                is_in[i] = True
                 break
 
-            if sourceVal > testVal:
+            if source_val > test_val:
                 break
 
-    return isIn
+    return is_in
 
 
-def traceCalculateConsecutiveRadii(trace: np.ndarray) -> np.ndarray:
+def trace_calculate_consecutive_radii(trace: np.ndarray) -> np.ndarray:
     """
     Expects a (n,2) array and returns the radius of the circle that passes
     between all consecutive point triples. The radius between index 0,1,2, then 1,2,3
@@ -266,7 +231,7 @@ def traceCalculateConsecutiveRadii(trace: np.ndarray) -> np.ndarray:
     indexer = np.arange(3)[None, :] + 1 * np.arange(trace.shape[-2] - 2)[:, None]
 
     points = trace[indexer]
-    radii = calculateRadiusFromPoints(points)
+    radii = calculate_radius_from_points(points)
     return radii
 
 
@@ -295,10 +260,10 @@ def traceAnglesBetween(trace: np.ndarray) -> np.ndarray:
         np.array: The angle from each vector to its next, with `len(return_value) ==
         len(trace) - 1`
     """
-    allToNext = np.diff(trace, axis=-2)
-    fromMiddleToNext = allToNext[..., 1:, :]
-    fromMiddleToPrev = -allToNext[..., :-1, :]
-    angles = vecAngleBetween(fromMiddleToNext, fromMiddleToPrev)
+    all_to_next = np.diff(trace, axis=-2)
+    from_middle_to_next = all_to_next[..., 1:, :]
+    from_middle_to_prev = -all_to_next[..., :-1, :]
+    angles = vecAngleBetween(from_middle_to_next, from_middle_to_prev)
     return angles
 
 
@@ -314,8 +279,8 @@ def unit2dVectorFromAngle(rad: np.ndarray) -> np.ndarray:
         np.array: The created unit vectors
     """
     rad = np.asarray(rad)
-    newShape = rad.shape + (2,)
-    res = np.empty(newShape, dtype=rad.dtype)
+    new_shape = rad.shape + (2,)
+    res = np.empty(new_shape, dtype=rad.dtype)
     res[..., 0] = np.cos(rad)
     res[..., 1] = np.sin(rad)
     return res
@@ -345,15 +310,15 @@ def angleFrom2dVector(vecs: np.ndarray) -> np.ndarray:
     """
     assert vecs.shape[-1] == 2, "vecs must be a 2d vector"
 
-    vecsFlat = vecs.reshape(-1, 2)
+    vecs_flat = vecs.reshape(-1, 2)
 
-    angles = np.arctan2(vecsFlat[:, 1], vecsFlat[:, 0])
-    returnValue = angles.reshape(vecs.shape[:-1])
+    angles = np.arctan2(vecs_flat[:, 1], vecs_flat[:, 0])
+    return_value = angles.reshape(vecs.shape[:-1])
 
     # if vecs.ndim == 1:
     #     return return_value[0]
 
-    return returnValue
+    return return_value
 
 
 @myNjit
@@ -366,9 +331,9 @@ def normalizeLastAxis(vecs: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The normalized vectors
     """
-    vecsFlat = vecs.reshape(-1, vecs.shape[-1])
+    vecs_flat = vecs.reshape(-1, vecs.shape[-1])
     out = np.zeros(vecs.shape, dtype=vecs.dtype)
-    for i, vec in enumerate(vecsFlat):
+    for i, vec in enumerate(vecs_flat):
         out[i] = vec / np.linalg.norm(vec)
 
     return out.reshape(vecs.shape)
@@ -376,7 +341,7 @@ def normalizeLastAxis(vecs: np.ndarray) -> np.ndarray:
 
 @myNjit
 def lerp(
-    valuesToLerp: np.ndarray,
+    values_to_lerp: np.ndarray,
     start1: np.ndarray,
     stop1: np.ndarray,
     start2: np.ndarray,
@@ -403,10 +368,10 @@ def lerp(
     Returns:
         np.array: The interpolated points
     """
-    return (valuesToLerp - start1) / (stop1 - start1) * (stop2 - start2) + start2
+    return (values_to_lerp - start1) / (stop1 - start1) * (stop2 - start2) + start2
 
 
-def calculateRadiusFromPoints(points: np.ndarray) -> np.ndarray:
+def calculate_radius_from_points(points: np.ndarray) -> np.ndarray:
     """
     Given a three points this function calculates the radius of the circle that passes
     through these points
@@ -424,25 +389,23 @@ def calculateRadiusFromPoints(points: np.ndarray) -> np.ndarray:
     #
     # assert points.shape[-2:] == (3, 2)
     # get side lengths
-    pointsCircular = points[..., [0, 1, 2, 0], :]
-    lenSides = traceDistanceToNext(pointsCircular)
+    points_circular = points[..., [0, 1, 2, 0], :]
+    len_sides = traceDistanceToNext(points_circular)
 
     # calc prod of sides
-    prodOfSides = np.prod(lenSides, axis=-1, keepdims=True)
+    prod_of_sides = np.prod(len_sides, axis=-1, keepdims=True)
 
     # calc area of triangle
     # https://www.mathopenref.com/heronsformula.html
 
     # calc half of perimeter
-    perimeter = np.sum(lenSides, axis=-1, keepdims=True)
-    halfPerimeter = perimeter / 2
-    halfPerimeterMinusSides = halfPerimeter - lenSides
-    areaSqr = (
-        np.prod(halfPerimeterMinusSides, axis=-1, keepdims=True) * halfPerimeter
-    )
-    area = np.sqrt(areaSqr)
+    perimeter = np.sum(len_sides, axis=-1, keepdims=True)
+    half_perimeter = perimeter / 2
+    half_perimeter_minus_sides = half_perimeter - len_sides
+    area_sqr = np.prod(half_perimeter_minus_sides, axis=-1, keepdims=True) * half_perimeter
+    area = np.sqrt(area_sqr)
 
-    radius = prodOfSides / (area * 4)
+    radius = prod_of_sides / (area * 4)
 
     radius = radius[..., 0]
     return radius
@@ -451,8 +414,8 @@ def calculateRadiusFromPoints(points: np.ndarray) -> np.ndarray:
 Numeric = TypeVar("Numeric", float, np.ndarray)
 
 
-def linearlyCombineValuesOverTime(
-    tee: float, deltaTime: float, previousValue: Numeric, newValue: Numeric
+def linearly_combine_values_over_time(
+    tee: float, delta_time: float, previous_value: Numeric, new_value: Numeric
 ) -> Numeric:
     """
     Linear combination of two values over time
@@ -467,25 +430,16 @@ def linearlyCombineValuesOverTime(
     Returns:
         Numeric: The combined value
     """
-    teeStar = 1 / (tee / deltaTime + 1)
-    combinedValue: Numeric = teeStar * (newValue - previousValue) + previousValue
-    return combinedValue
+    tee_star = 1 / (tee / delta_time + 1)
+    combined_value: Numeric = tee_star * (new_value - previous_value) + previous_value
+    return combined_value
 
 
-def oddSquare(values: Numeric) -> Numeric:
-    """
-    Squares the input value while preserving its sign and returns the result.
-
-    Args:
-        values (Numeric): The input numeric value.
-
-    Returns:
-        Numeric: The square of the input value with the same sign.
-    """
+def odd_square(values: Numeric) -> Numeric:
     return cast(Numeric, np.sign(values) * np.square(values))
 
 
-def eulerAnglesToQuaternion(eulerAngles: np.ndarray) -> np.ndarray:
+def euler_angles_to_quaternion(euler_angles: np.ndarray) -> np.ndarray:
     """
     Converts Euler angles to a quaternion representation.
 
@@ -496,29 +450,27 @@ def eulerAnglesToQuaternion(eulerAngles: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The quaternion representation in [..., 4] [x, y, z, w] order
     """
-    rollIndex, pitchIndex, yawIndex = 0, 1, 2
-    sinValues = np.sin(eulerAngles * 0.5)
-    cosValues = np.cos(eulerAngles * 0.5)
+    roll_index, pitch_index, yaw_index = 0, 1, 2
+    sin_values = np.sin(euler_angles * 0.5)
+    cos_values = np.cos(euler_angles * 0.5)
 
-    cosYaw = cosValues[..., yawIndex]
-    sinYaw = sinValues[..., yawIndex]
-    cosYitch = cosValues[..., pitchIndex]
-    sinPitch = sinValues[..., pitchIndex]
-    cosRoll = cosValues[..., rollIndex]
-    sinRoll = sinValues[..., rollIndex]
+    cos_yaw = cos_values[..., yaw_index]
+    sin_yaw = sin_values[..., yaw_index]
+    cos_pitch = cos_values[..., pitch_index]
+    sin_pitch = sin_values[..., pitch_index]
+    cos_roll = cos_values[..., roll_index]
+    sin_roll = sin_values[..., roll_index]
 
-    quaternionX = sinRoll * cosYitch * cosYaw - cosRoll * sinPitch * sinYaw
-    quaternionY = cosRoll * sinPitch * cosYaw + sinRoll * cosYitch * sinYaw
-    quaternionZ = cosRoll * cosYitch * sinYaw - sinRoll * sinPitch * cosYaw
-    quaternionW = cosRoll * cosYitch * cosYaw + sinRoll * sinPitch * sinYaw
+    quaternion_x = sin_roll * cos_pitch * cos_yaw - cos_roll * sin_pitch * sin_yaw
+    quaternion_y = cos_roll * sin_pitch * cos_yaw + sin_roll * cos_pitch * sin_yaw
+    quaternion_z = cos_roll * cos_pitch * sin_yaw - sin_roll * sin_pitch * cos_yaw
+    quaternion_w = cos_roll * cos_pitch * cos_yaw + sin_roll * sin_pitch * sin_yaw
 
-    returnValue = np.stack(
-        [quaternionX, quaternionY, quaternionZ, quaternionW], axis=-1
-    )
-    return returnValue
+    return_value = np.stack([quaternion_x, quaternion_y, quaternion_z, quaternion_w], axis=-1)
+    return return_value
 
 
-def quaternionToEulerAngles(quaternion: np.ndarray) -> np.ndarray:
+def quaternion_to_euler_angles(quaternion: np.ndarray) -> np.ndarray:
     """
     Converts a quaternion to Euler angles. Based on
     https://stackoverflow.com/a/37560411.
@@ -530,36 +482,36 @@ def quaternionToEulerAngles(quaternion: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The Euler angles as an [..., 3] array. Order is [roll, pitch, yaw]
     """
-    xIndex, yIndex, zIndex, wIndex = 0, 1, 2, 3
-    xValue = quaternion[..., xIndex]
-    yValue = quaternion[..., yIndex]
-    zValue = quaternion[..., zIndex]
-    wValue = quaternion[..., wIndex]
+    x_index, y_index, z_index, w_index = 0, 1, 2, 3
+    x_value = quaternion[..., x_index]
+    y_value = quaternion[..., y_index]
+    z_value = quaternion[..., z_index]
+    w_value = quaternion[..., w_index]
 
-    ySquare = yValue * yValue
-    temporary0 = -2.0 * (ySquare + zValue * zValue) + 1.0
-    temporary1 = +2.0 * (xValue * yValue + wValue * zValue)
-    temporary2 = -2.0 * (xValue * zValue - wValue * yValue)
-    temporary3 = +2.0 * (yValue * zValue + wValue * xValue)
-    temporary4 = -2.0 * (xValue * xValue + ySquare) + 1.0
+    y_square = y_value * y_value
+    temporary_0 = -2.0 * (y_square + z_value * z_value) + 1.0
+    temporary_1 = +2.0 * (x_value * y_value + w_value * z_value)
+    temporary_2 = -2.0 * (x_value * z_value - w_value * y_value)
+    temporary_3 = +2.0 * (y_value * z_value + w_value * x_value)
+    temporary_4 = -2.0 * (x_value * x_value + y_square) + 1.0
 
-    temporary2 = np.clip(temporary2, -1.0, 1.0)
+    temporary_2 = np.clip(temporary_2, -1.0, 1.0)
 
-    roll = np.arctan2(temporary3, temporary4)
-    pitch = np.arcsin(temporary2)
-    yaw = np.arctan2(temporary1, temporary0)
+    roll = np.arctan2(temporary_3, temporary_4)
+    pitch = np.arcsin(temporary_2)
+    yaw = np.arctan2(temporary_1, temporary_0)
 
-    returnValue = np.stack([roll, pitch, yaw], axis=-1)
-    return returnValue
+    return_value = np.stack([roll, pitch, yaw], axis=-1)
+    return return_value
 
 
 @myNjit
 def pointsInsideEllipse(
     points: np.ndarray,
     center: np.ndarray,
-    majorDirection: np.ndarray,
-    majorRadius: float,
-    minorRadius: float,
+    major_direction: np.ndarray,
+    major_radius: float,
+    minor_radius: float,
 ) -> np.ndarray:
     """
     Checks if a set of points are inside an ellipse.
@@ -577,26 +529,26 @@ def pointsInsideEllipse(
 
     # Center the points around the center
     # [..., 2]
-    centeredPoints = points - center
+    centered_points = points - center
     # Calculate angle of the major direction with the x-axis
     # [1]
-    majorDirectionAngle = np.arctan2(majorDirection[1], majorDirection[0])
+    major_direction_angle = np.arctan2(major_direction[1], major_direction[0])
     # Rotate the points around the center of the ellipse
     # [..., 2]
-    rotatedPoints = rotate(centeredPoints, -majorDirectionAngle)
+    rotated_points = rotate(centered_points, -major_direction_angle)
     # [2]
-    radiiSquare = np.array([majorRadius, minorRadius]) ** 2
+    radii_square = np.array([major_radius, minor_radius]) ** 2
     # [...]    [..., 2]              [2]
-    criterionValue = (rotatedPoints**2 / radiiSquare).sum(axis=-1)
+    criterion_value = (rotated_points**2 / radii_square).sum(axis=-1)
 
-    maskIsInside = criterionValue < 1
-    return maskIsInside
+    mask_is_inside = criterion_value < 1
+    return mask_is_inside
 
 
-def centerOfCircleFrom3Points(
-    point1: np.ndarray,
-    point2: np.ndarray,
-    point3: np.ndarray,
+def center_of_circle_from_3_points(
+    point_1: np.ndarray,
+    point_2: np.ndarray,
+    point_3: np.ndarray,
     atol: float = 1e-6,
 ) -> np.ndarray:
     """
@@ -612,38 +564,35 @@ def centerOfCircleFrom3Points(
     Returns:
         The center of the circle as an [2] array.
     """
-    yDelta1 = point2[1] - point1[1]
-    xDelta1 = point2[0] - point1[0]
-    yDelta2 = point3[1] - point2[1]
-    xDelta2 = point3[0] - point2[0]
+    y_delta_1 = point_2[1] - point_1[1]
+    x_delta_1 = point_2[0] - point_1[0]
+    y_delta_2 = point_3[1] - point_2[1]
+    x_delta_2 = point_3[0] - point_2[0]
 
-    if np.isclose(xDelta1, 0.0, atol=atol) and np.isclose(xDelta2, 0.0, atol=atol):
-        centerX = (point2[0] + point3[0]) / 2
-        centerY = (point1[1] + point2[1]) / 2
-        return np.array([centerX, centerY])  # early return
+    if np.isclose(x_delta_1, 0.0, atol=atol) and np.isclose(x_delta_2, 0.0, atol=atol):
+        center_x = (point_2[0] + point_3[0]) / 2
+        center_y = (point_1[1] + point_2[1]) / 2
+        return np.array([center_x, center_y])  # early return
 
-    slope1 = yDelta1 / xDelta1
-    slope2 = yDelta2 / xDelta2
-    if np.isclose(slope1, slope2, atol=atol):
+    slope_1 = y_delta_1 / x_delta_1
+    slope_2 = y_delta_2 / x_delta_2
+    if np.isclose(slope_1, slope_2, atol=atol):
         raise ValueError("Points are colinear")
 
-    centerX = (
-        slope1 * slope2 * (point1[1] - point3[1])
-        + slope2 * (point1[0] + point2[0])
-        - slope1 * (point2[0] + point3[0])
-    ) / (2 * (slope2 - slope1))
+    center_x = (
+        slope_1 * slope_2 * (point_1[1] - point_3[1])
+        + slope_2 * (point_1[0] + point_2[0])
+        - slope_1 * (point_2[0] + point_3[0])
+    ) / (2 * (slope_2 - slope_1))
 
-    centerY = (
-        -(centerX - (point1[0] + point2[0]) / 2) / slope1
-        + (point1[1] + point2[1]) / 2
-    )
+    center_y = -(center_x - (point_1[0] + point_2[0]) / 2) / slope_1 + (point_1[1] + point_2[1]) / 2
 
-    center = np.array([centerX, centerY])
+    center = np.array([center_x, center_y])
     return center
 
 
 @myNjit
-def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
+def circleFit(coords: np.ndarray, max_iter: int = 99) -> np.ndarray:
     """
     Fit a circle to a set of points. This function is adapted from the hyper_fit function
     in the circle-fit package (https://pypi.org/project/circle-fit/). The function is
@@ -661,69 +610,69 @@ def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
         - radius
     """
 
-    x0 = coords[:, 0]
-    y0 = coords[:, 1]
+    X = coords[:, 0]
+    Y = coords[:, 1]
 
-    n = x0.shape[0]
+    n = X.shape[0]
 
-    xi = x0 - x0.mean()
-    yi = y0 - y0.mean()
-    zi = xi * xi + yi * yi
+    Xi = X - X.mean()
+    Yi = Y - Y.mean()
+    Zi = Xi * Xi + Yi * Yi
 
     # compute moments
-    mxy = (xi * yi).sum() / n
-    mxx = (xi * xi).sum() / n
-    myy = (yi * yi).sum() / n
-    mxz = (xi * zi).sum() / n
-    myz = (yi * zi).sum() / n
-    mzz = (zi * zi).sum() / n
+    Mxy = (Xi * Yi).sum() / n
+    Mxx = (Xi * Xi).sum() / n
+    Myy = (Yi * Yi).sum() / n
+    Mxz = (Xi * Zi).sum() / n
+    Myz = (Yi * Zi).sum() / n
+    Mzz = (Zi * Zi).sum() / n
 
     # computing the coefficients of characteristic polynomial
-    mz = mxx + myy
-    covXY = mxx * myy - mxy * mxy
-    varZ = mzz - mz * mz
+    Mz = Mxx + Myy
+    Cov_xy = Mxx * Myy - Mxy * Mxy
+    Var_z = Mzz - Mz * Mz
 
-    a2 = 4 * covXY - 3 * mz * mz - mzz
-    a1 = varZ * mz + 4.0 * covXY * mz - mxz * mxz - myz * myz
-    a0 = mxz * (mxz * myy - myz * mxy) + myz * (myz * mxx - mxz * mxy) - varZ * covXY
-    a22 = a2 + a2
+    A2 = 4 * Cov_xy - 3 * Mz * Mz - Mzz
+    A1 = Var_z * Mz + 4.0 * Cov_xy * Mz - Mxz * Mxz - Myz * Myz
+    A0 = Mxz * (Mxz * Myy - Myz * Mxy) + Myz * (Myz * Mxx - Mxz * Mxy) - Var_z * Cov_xy
+    A22 = A2 + A2
 
     # finding the root of the characteristic polynomial
-    y = a0
+    y = A0
     x = 0.0
-    for _ in range(maxIter):
-        dy = a1 + x * (a22 + 16.0 * x * x)
-        xNew = x - y / dy
-        if xNew == x or not np.isfinite(xNew):
+    for _ in range(max_iter):
+        Dy = A1 + x * (A22 + 16.0 * x * x)
+        x_new = x - y / Dy
+        if x_new == x or not np.isfinite(x_new):
             break
-        yNew = a0 + xNew * (a1 + xNew * (a2 + 4.0 * xNew * xNew))
-        if abs(yNew) >= abs(y):
+        y_new = A0 + x_new * (A1 + x_new * (A2 + 4.0 * x_new * x_new))
+        if abs(y_new) >= abs(y):
             break
-        x, y = xNew, yNew
+        x, y = x_new, y_new
 
-    det = x * x - x * mz + covXY
-    xCenter = (mxz * (myy - x) - myz * mxy) / det / 2.0
-    yCenter = (myz * (mxx - x) - mxz * mxy) / det / 2.0
+    det = x * x - x * Mz + Cov_xy
+    X_center = (Mxz * (Myy - x) - Myz * Mxy) / det / 2.0
+    Y_center = (Myz * (Mxx - x) - Mxz * Mxy) / det / 2.0
 
-    x = xCenter + x0.mean()
-    y = yCenter + y0.mean()
-    r = np.sqrt(abs(xCenter**2 + yCenter**2 + mz))
+    x = X_center + X.mean()
+    y = Y_center + Y.mean()
+    r = np.sqrt(abs(X_center**2 + Y_center**2 + Mz))
 
     return np.array([x, y, r])
 
 
 if __name__ == "__main__":
     p1, p2, p3 = unit2dVectorFromAngle(np.array([0, 0.3, 0.31]))
-    print(centerOfCircleFrom3Points(p1, p2, p3))
+    print(center_of_circle_from_3_points(p1, p2, p3))
 
     p1, p2, p3 = unit2dVectorFromAngle(np.array([0, 0.8, 4])) + 10
-    print(centerOfCircleFrom3Points(p1, p2, p3))
+    print(center_of_circle_from_3_points(p1, p2, p3))
 
     p1, p2, p3 = np.array([-1, 0.0]), np.array([0, 1.0]), np.array([1.0, 0.0])
-    print(centerOfCircleFrom3Points(p1, p2, p3))
+    print(center_of_circle_from_3_points(p1, p2, p3))
 
     p1, p2, p3 = np.array([0, 0.0]), np.array([0, 1.0]), np.array([0.0, 2.0])
-    print(centerOfCircleFrom3Points(p1, p2, p3))
+    print(center_of_circle_from_3_points(p1, p2, p3))
 
 
 # @my_njit
