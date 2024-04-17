@@ -79,11 +79,15 @@ model.to('cuda')
 # trainLoader = DataLoader(trainData, batch_size=100, shuffle=True)
 # validLoader = DataLoader(validData, batch_size=100, shuffle=True)
 
-data = DataSet2()
+data = DataSet2(srcSeqLength=10, tgtSeqLength=10, srcNumofFeatures=5, tgtNumofFeatures=2)
 src_path = "inputs/tensorsV2/inputs/"  # Replace with the path to your directory
 tgt_path = "inputs/tensorsV2/outputs/"
 
-srcTrain, tgtTrain, srcValid, tgtValid = data.prepareData(src_path, tgt_path)
+srcTrain, tgtTrain = data.prepareData(src_path, tgt_path, train = True)
+srcValid, tgtValid = data.prepareData(src_path, tgt_path, train = False)
+
+perm = torch.randperm(srcTrain.size(0))
+srcTrain = srcTrain[perm]
 
 trainData = list(zip(srcTrain, tgtTrain))
 validData = list(zip(srcValid, tgtValid))

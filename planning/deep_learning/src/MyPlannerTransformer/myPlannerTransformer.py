@@ -50,7 +50,7 @@ class MyPlannerTransformer(nn.Module):
     def predict(self, src: torch.tensor, tgt: Optional[torch.tensor] = None) -> torch.tensor:
         
         """
-        predict v3 is a function that uses the transformer model to predict the next waypoints
+        predict is a function that uses the transformer model to predict the next waypoints
         it works by auto-regressive property of the transformer model
         this function is used to predict the entire sequence at once
         
@@ -69,9 +69,11 @@ class MyPlannerTransformer(nn.Module):
         """
         
         self.eval()
-        src = src.reshape(-1, 10, 5)
+        src = src.reshape(1, -1, 5)
         if tgt is None:
             tgt = torch.zeros((1, 1, 2)).cuda()
+        else:
+            tgt = tgt.reshape(1, -1, 2)
         with torch.no_grad():
                 for _ in range(4):
                     prediction = self.forward(src, tgt)

@@ -3,14 +3,14 @@ from Datagen import *
 import time
 import os
 
-
+count = 0
 for j in range(750):
     
     trackGen = TrackGenerator()
     track = trackGen.generate_track(20)
-    smoothed = trackGen.smooth_track(*track, 3)
-    spline = trackGen.fit_spline(*smoothed, 30)
-    cones_data = trackGen.generate_cones(*spline, track_width=4, distance_between_cones=6)
+    smoothed = trackGen.smooth_track(*track, 5)
+    spline = trackGen.fit_spline(*smoothed, 300)
+    cones_data = trackGen.generate_cones(*spline, track_width=2, distance_between_cones=10)
 
     dataGen = DataGenerator(cones_data, spline)
 
@@ -30,7 +30,7 @@ for j in range(750):
     plt.ylabel('y')
     plt.axis
     plt.show(block = False)
-    plt.pause(3)
+    plt.pause(1)
     plt.close()
     
     while os.path.exists(src_file_path) or os.path.exists(tgt_file_path):
@@ -40,4 +40,6 @@ for j in range(750):
     
     torch.save(src, src_file_path)
     torch.save(tgt, tgt_file_path)
+    print("count: ", count+1)
+    count += 1
 print("Data saved to src.pt and tgt.pt")
