@@ -23,15 +23,12 @@ class PlanningDlNode(Node):
         self.model = createModel(modelPath)
         self.path = None
         self.cones = None
-        self.carPosition = None
+        #self.carPosition = None
         self.subscriber1 = self.create_subscription(
             LandmarkArray, "/topic1", self.receive_from_perception, 10
         )
-        self.subscriber2 = self.create_subscription(
-            Odometry, "/topic2", self.receive_from_localization, 10
-        )
         self.publisher = self.create_publisher(
-            PoseStamped, "/topic3", 10
+            PoseStamped, "/topic2", 10
         )
 
 
