@@ -1,3 +1,4 @@
 *.ipynb
-*.pth
+*.pt
+*.json
 /inputs
