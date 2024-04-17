@@ -34,7 +34,8 @@ class PlanningDlNode(Node):
 
     def receive_from_perception(self, msg: LandmarkArray):
         #get cones_colors, cones_positions
-        self.cones = [np.zeros((0, 2)) for _ in ConeTypes]
+        #self.cones = [np.zeros((0, 2)) for _ in ConeTypes]
+        """
         for landmark in msg.landmarks:
             if landmark.identifier == 0:
                 self.cones[ConeTypes.BLUE] = np.vstack((self.cones[ConeTypes.BLUE], landmark.position))
@@ -44,12 +45,34 @@ class PlanningDlNode(Node):
                 self.cones[ConeTypes.ORANGE] = np.vstack((self.cones[ConeTypes.ORANGE], landmark.position))
             elif landmark.identifier == 4:
                 self.cones[ConeTypes.UNKNOWN] = np.vstack((self.cones[ConeTypes.UNKNOWN], landmark.position))
+           """     
+        
+        self.cones = []
+
+        # Process incoming landmarks
+        for landmark in msg.landmarks:
+            # Encode color one-hot
+            #color_one_hot = [0, 0, 0, 0]  # [blue, yellow, orange, unknown]
+            color_one_hot = [0, 0, 0]  # [blue, yellow, orange]
+            if landmark.identifier == 0:
+                color_one_hot[0] = 1
+            elif landmark.identifier == 1:
+                color_one_hot[1] = 1
+            elif landmark.identifier == 3:
+                color_one_hot[2] = 1
+            #else:
+                #color_one_hot[3] = 1
+            cone_data = np.concatenate((landmark.position, color_one_hot))
+            self.cones.append(cone_data)
+
+        # Convert to numpy array
+        self.cones = np.array(self.cones)
             
         self.send_to_control()
 
     
     def send_to_control(self):
-        self.path = self.model.predictV3(self.cones)
+        self.path = self.model.pathPredict(self.cones)
 
         if self.path is not None:
             timestamp = rclpy.time.now()
@@ -79,7 +102,6 @@ class PlanningDlNode(Node):
 def main(args=None):
     rclpy.init(args=args)
     node = PlanningDlNode()
-
     rclpy.spin(node)
     rclpy.shutdown()
 
