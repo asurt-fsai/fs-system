@@ -28,7 +28,7 @@ class PlanningDlNode(Node):
             LandmarkArray, "/topic1", self.receive_from_perception, 10
         )
         self.publisher = self.create_publisher(
-            PoseStamped, "/topic2", 10
+            Path, "/topic2", 10
         )
 
 
