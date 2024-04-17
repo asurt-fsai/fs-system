@@ -65,8 +65,8 @@ class PlanningDlNode(Node):
             cone_data = np.concatenate((landmark.position, color_one_hot))
             self.cones.append(cone_data)
 
-        # Convert to numpy array
-        self.cones = np.array(self.cones)
+        # Convert to torch tensor
+        self.cones = torch.tensor(self.cones, dtype=torch.float32)
             
         self.send_to_control()
 
