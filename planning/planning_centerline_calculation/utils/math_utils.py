@@ -638,13 +638,13 @@ def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
         - radius
     """
 
-    x0 = coords[:, 0]
-    y0 = coords[:, 1]
+    x = coords[:, 0]
+    x = coords[:, 1]
 
-    n = x0.shape[0]
+    n = x.shape[0]
 
-    xi = x0 - x0.mean()
-    yi = y0 - y0.mean()
+    xi = x - x.mean()
+    yi = x - x.mean()
     zi = xi * xi + yi * yi
 
     # compute moments
@@ -682,8 +682,8 @@ def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
     xCenter = (mxz * (myy - x) - myz * mxy) / det / 2.0
     yCenter = (myz * (mxx - x) - mxz * mxy) / det / 2.0
 
-    x = xCenter + x0.mean()
-    y = yCenter + y0.mean()
+    x = xCenter + x.mean()
+    y = yCenter + x.mean()
     r = np.sqrt(abs(xCenter**2 + yCenter**2 + mz))
 
     return np.array([x, y, r])
