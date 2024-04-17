@@ -70,6 +70,29 @@ def normOfLastAxis(arr: np.ndarray) -> np.ndarray:
 
     return result
 
+def vectorToAngle(vector: np.ndarray) -> np.float_:
+    """
+    Converts a 2D vector to its angle in degrees.
+
+    Args:
+        vector: A list or tuple representing a 2D vector (x, y).
+
+    Returns:
+        The angle of the vector in degrees, in the range [-180, 180].
+    """
+
+    if len(vector) != 2:
+        raise ValueError("Input vector must be a 2D list or tuple.")
+
+    x, y = vector
+    if x == 0 and y == 0:
+        return np.float_(0.0)  # Handle zero vector case
+    angle = math.degrees(math.atan2(y, x))
+    # Adjust angle to range [-180, 180]
+    if angle < 0:
+        angle += 360
+    return np.float_(angle)
+
 def angleToVector(angle: np.float_) -> NDArray[np.float_]:
     """
     Converts an angle in radians to a 2D unit vector.
@@ -638,13 +661,13 @@ def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
         - radius
     """
 
-    x = coords[:, 0]
-    x = coords[:, 1]
+    x0 = coords[:, 0]
+    y0 = coords[:, 1]
 
-    n = x.shape[0]
+    n = x0.shape[0]
 
-    xi = x - x.mean()
-    yi = x - x.mean()
+    xi = x0 - x0.mean()
+    yi = y0 - y0.mean()
     zi = xi * xi + yi * yi
 
     # compute moments
@@ -682,8 +705,8 @@ def circleFit(coords: np.ndarray, maxIter: int = 99) -> np.ndarray:
     xCenter = (mxz * (myy - x) - myz * mxy) / det / 2.0
     yCenter = (myz * (mxx - x) - mxz * mxy) / det / 2.0
 
-    x = xCenter + x.mean()
-    y = yCenter + x.mean()
+    x = xCenter + x0.mean()
+    y = yCenter + y0.mean()
     r = np.sqrt(abs(xCenter**2 + yCenter**2 + mz))
 
     return np.array([x, y, r])
