@@ -40,14 +40,15 @@ class PlanningDlNode(Node):
                 self.cones[ConeTypes.BLUE] = np.vstack((self.cones[ConeTypes.BLUE], landmark.position))
             elif landmark.identifier == 1:
                 self.cones[ConeTypes.YELLOW] = np.vstack((self.cones[ConeTypes.YELLOW], landmark.position))
-            else:
+            elif landmark.identifier == 3:
+                self.cones[ConeTypes.ORANGE] = np.vstack((self.cones[ConeTypes.ORANGE], landmark.position))
+            elif landmark.identifier == 4:
                 self.cones[ConeTypes.UNKNOWN] = np.vstack((self.cones[ConeTypes.UNKNOWN], landmark.position))
             
         self.send_to_control()
 
     
     def send_to_control(self):
-        #waypoints == path???????
         self.path = self.model.predictV3(self.cones)
 
         if self.path is not None:
