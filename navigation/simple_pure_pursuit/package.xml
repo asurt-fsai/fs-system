@@ -9,12 +9,12 @@
 
 
   <build_depend>geometry_msgs</build_depend>
-  <!-- <build_depend>ackermann_msgs</build_depend> -->
+  <build_depend>ackermann_msgs</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
-  <!-- <build_depend>asurt_msgs</build_depend> -->
-  <!-- <build_depend>tf_helper</build_depend> -->
-
+  <build_depend>asurt_msgs</build_depend>
+  <build_depend>tf_helper</build_depend>
+  <build_depend>rclpy</build_depend>
 
   <build_export_depend>nav_msgs</build_export_depend>
   <build_export_depend>geometry_msgs</build_export_depend>
@@ -24,10 +24,11 @@
 
   <exec_depend>nav_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
-  <!-- <exec_depend>ackermann_msgs</exec_depend> -->
+  <exec_depend>ackermann_msgs</exec_depend>
   <exec_depend>std_msgs</exec_depend>
-  <!-- <exec_depend>asurt_msgs</exec_depend> -->
-  <!-- <exec_depend>tf_helper</exec_depend> -->
+  <exec_depend>asurt_msgs</exec_depend>
+  <exec_depend>tf_helper</exec_depend>
+  <exec_depend>rclpy</exec_depend>
 
 
 

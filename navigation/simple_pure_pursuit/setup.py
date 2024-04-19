@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Setup for the simple_pure_pursuit package."""
 from setuptools import find_packages, setup
 
