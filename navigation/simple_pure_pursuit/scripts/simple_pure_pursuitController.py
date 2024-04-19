@@ -6,9 +6,11 @@ import math
 
 from typing import List, Tuple
 
-import rospy
+
 from nav_msgs.msg import Path
-from tf_helper.TFHelper import TFHelper
+from rclpy.node import Node
+
+# from tf_helper.TFHelper import TFHelper
 
 
 class SimplePurePursuit:
@@ -16,7 +18,7 @@ class SimplePurePursuit:
     Class to run the simple pure pursuit controller
     """
 
-    def __init__(self) -> None:
+    def __init__(self, node: Node) -> None:
         """
         Parameters
         ----------
@@ -26,33 +28,32 @@ class SimplePurePursuit:
         yList : List[float]
             list of y coordinates of the waypoints
         """
+        self.node = node
         self.waypoints = Path()
         self.points = self.waypoints.poses
         self.xList: List[float] = []
         self.yList: List[float] = []
 
-        self.helper = TFHelper("control")
-        self.lookAhead = rospy.get_param("/control/look_ahead_constant")
-        self.baseLength = rospy.get_param("/physical/car_base_length")  # [m] car length
+        # self.helper = TFHelper("control")
+        self.lookAhead = self.node.get_parameter("/control/look_ahead_constant")
+        self.baseLength = self.node.get_parameter("/physical/car_base_length")
+        # [m] car length
 
     def add(self, waypointsMsg: Path) -> None:
         """
-        Add each waypoint element to it's corrosponding list
-
-        Points must be given in rear axle frame
+        Get the waypoints from the waypoints node and transform them to the rear_link frame
 
         Parameters
         ----------
-        waypoints : Path
-            waypoint of the vehicle received from the path planner
+        waypointsMsg : Path
+            list of waypoints to follow
 
-        points : List[PoseStamped]
-            list of waypoints of the vehicle received from the path planner
         """
 
-        self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
+        # self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
 
-        self.points = self.waypoints.poses
+        self.waypoints = waypointsMsg
+        self.points = waypointsMsg.poses
 
     def searchTargetIndex(self) -> int:
         """
@@ -90,6 +91,8 @@ class SimplePurePursuit:
         ind : int
             target point index choosen to follow from the waypoints list
         """
+        # print("Went Here to purepursuit")
+
         ind = self.searchTargetIndex()
         trajX: float = 0.0
         trajY: float = 0.0

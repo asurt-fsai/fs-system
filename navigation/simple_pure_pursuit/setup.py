@@ -21,8 +21,8 @@ setup(
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "simple_pp_node = scripts.simple_pp_node:main",
-            "waypoints_node = simple_pure_pursuit.waypoints_node:main",
+            "simple_pp_node = nodes.simple_pp_node:main",
+            "waypoints_node = simple_pure_pursuit.scripts.waypoints_node:main",
         ],
     },
 )
