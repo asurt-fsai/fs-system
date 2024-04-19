@@ -117,8 +117,7 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
-<<<<<<< Updated upstream
-=======
+
 navigation/simple_pure_pursuitROS1/CMakeLists.txt
 navigation/simple_pure_pursuitOlder/test/test_pep257.py
 navigation/simple_pure_pursuitOlder/test/test_flake8.py
@@ -180,4 +179,24 @@ dependencies/tf_helperOLD/CMakeLists.txt
 navigation/simple_pure_pursuit/test/test_copyright.py
 navigation/simple_pure_pursuit/test/test_flake8.py
 navigation/simple_pure_pursuit/test/test_pep257.py
->>>>>>> Stashed changes
+.gitignore
+navigation/simple_pure_pursuit2/CMakeLists.txt
+navigation/simple_pure_pursuit2/package.xml
+navigation/simple_pure_pursuit2/setup.cfg
+navigation/simple_pure_pursuit2/setup.py
+navigation/simple_pure_pursuit2/resource/simple_pure_pursuit
+navigation/simple_pure_pursuit2/nodes/simple_pp_nodeOLD.py
+navigation/simple_pure_pursuit2/src/simple_pure_pursuit/simple_pure_pursuit.py
+navigation/simple_pure_pursuit2/src/simple_pure_pursuit/__init__.py
+navigation/simple_pure_pursuit2/test/test_copyright.py
+navigation/simple_pure_pursuit2/test/test_flake8.py
+navigation/simple_pure_pursuit2/test/test_pep257.py
+navigation/simple_pure_pursuitOLD/simple_pure_pursuitOld/__init__.py
+navigation/simple_pure_pursuitOLD/simple_pure_pursuitOld/bicycle_model.py
+navigation/simple_pure_pursuitOLD/simple_pure_pursuitOld/path_gen.py
+navigation/simple_pure_pursuitOLD/simple_pure_pursuitOld/simple_pure_pursuit.py
+navigation/simple_pure_pursuitOLD/simple_pure_pursuitOld/waypoints_node.py
+navigation/simple_pure_pursuitOlder/src/simple_pure_pursuitOlder/simple_pure_pursuit.py
+navigation/simple_pure_pursuitOlder/src/simple_pure_pursuitOlder/__init__.py
+navigation/simple_pure_pursuitROS1/src/simple_pure_pursuit2/__init__.py
+navigation/simple_pure_pursuitROS1/src/simple_pure_pursuit2/simple_pure_pursuit.py
