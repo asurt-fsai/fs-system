@@ -62,11 +62,9 @@ check: check_format lint ## Runs formating and linting checks without modifying 
 
 format: ## Runs formating on python and cmake files.
 	$(PY_FILES) | xargs --no-run-if-empty black
-	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format -i
 
 check_format: ## Checks if python and cmake files are formated.
 	$(PY_FILES) | xargs --no-run-if-empty black --check
-	$(CMAKE_FILES) | xargs --no-run-if-empty cmake-format --check
 
 lint: ## Checks if python files are linted using pylint and mypy.
 	$(PY_FILES) | xargs --no-run-if-empty pylint --rcfile=$(CURRENT_DIRECTORY)/.pylintrc
@@ -78,29 +76,32 @@ lint_staged: ## Checks if staged python files are linted using pylint and mypy.
 
 format_staged: ## Runs formating on staged python and cmake files.
 	$(STAGED_PY_FILES) | xargs --no-run-if-empty black
-	$(STAGED_CMAKE_FILES) | xargs --no-run-if-empty cmake-format
 
 ##@ Build
 
-build: 	## Runs catkin build on all packages.
+build: 	## Runs colcon build on all packages.
 		## Accepts packages as argument.
 		## e.g. make build packages="package1 package2 package3"
 	@cd $(WORK_SPACE); \
-	catkin build $(packages);
+	colcon build --packages-up-to $(packages);
 
-build_staged: packages=$(STAGED_PACKAGES_NAME) ## Runs catkin build on staged packages.
+build_staged: packages=$(STAGED_PACKAGES_NAME) ## Runs colcon build on staged packages.
 build_staged: build
 
-rebuild: clean_catkin build ## Runs catkin clean and build on all packages.
-							## Accepts packages as argument.
-							## e.g. make rebuild packages="package1 package2 package3"
+clean: clean_python ## Cleans workspace. Removes install, build and logs directories.
+	@cd $(WORK_SPACE); \
+	rm -r build install log
+
+rebuild: clean ## Cleans workspace. Then, build on all packages.
+	@cd $(WORK_SPACE); \
+	colcon build --packages-up-to $(packages);							## e.g. make rebuild packages="package1 package2 package3"
 
 ##@ Test
 
 test: build ## Builds packages and run its tests
 			## Accepts packages as argument.
 			## e.g. make test packages="package1 package2 package3"
-	source $(WORK_SPACE)/devel/setup.bash; \
+	source $(WORK_SPACE)/install/setup.bash; \
 	set -e ; \
 	$(call if_not_exists, $(packages),\
 		$(foreach pkg,$(TEST_DIRECTORIES),  echo Running tests of $(pkg);$(call run_unittest, $(pkg))), \
@@ -114,10 +115,5 @@ test_staged: test
 
 ##@ Clean
 
-clean_catkin: ## Cleans catkin workspace. Removes devel, build and logs directories.
-	catkin clean
-
 clean_python: ## Removes all python cache files.
 	$(CACHED_ITEMS) | xargs rm -rf
-
-clean: clean_catkin clean_python ## Runs catkin build, devel, logs. and removes all python cache files.
