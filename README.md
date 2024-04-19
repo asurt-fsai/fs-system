@@ -1,5 +1,5 @@
 # fs-system
-This is the system for FS AI UK'23 by the ASU Racing Team.
+This is the system for FS AI UK'24 by the ASU Racing Team.
 
 ## Installation
 

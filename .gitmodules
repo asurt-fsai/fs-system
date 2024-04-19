@@ -1,6 +1,6 @@
-[submodule "dependencies/ros_numpy"]
-	path = dependencies/ros_numpy
-	url = https://github.com/asurt-fsai/ros_numpy
+[submodule "dependencies/ros_numpy2"]
+	path = dependencies/ros_numpy2
+	url = https://github.com/Box-Robotics/ros2_numpy.git
 [submodule "dependencies/ackermann_msgs"]
 	path = dependencies/ackermann_msgs
 	url = https://github.com/asurt-fsai/ackermann_msgs
