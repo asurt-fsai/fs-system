@@ -7,5 +7,6 @@ uint16 x_center
 uint16 y_center
 uint16 width
 uint16 height
-uint16 id
+uint16 detection_id
+uint16 track_id
 uint8 type

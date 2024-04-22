@@ -1,0 +1,15 @@
+<launch>
+    <node pkg="moreo" exec="moreo_node" name="moreo_node">
+
+        <!-- Subscribed topics -->
+        <param name="/slam/odom" value="/slam/odom"/>
+        <param name="/kpr/keypoints_topic" value="/kpr/keypoints_topic"/>
+
+        <!-- Published topics -->
+        <param name="/moreo/landmark_array" value="/moreo/landmark_array"/>
+
+        <!-- tracker hyper-params -->
+        <param name="/moreo/min_baseline" value="0.12"/>
+        
+    </node>
+</launch>
