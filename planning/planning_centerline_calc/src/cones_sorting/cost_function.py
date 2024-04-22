@@ -1,20 +1,15 @@
 """
 Description: This File calculates the costs for the different path versions
 """
-from collections import deque
-
 import numpy as np
 
-from src.cones_sorting.nearby_cone_search import (
-    numberConesOnEachSideForEachConfig,
-)
+from src.cones_sorting.nearby_cone_search import numberConesOnEachSideForEachConfig
 from src.types_file.types import BoolArray, FloatArray, IntArray, SortableConeTypes
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import (
     angleDifference,
     vecAngleBetween,
     traceDistanceToNext,
-    myCdistSqEuclidean,
     unit2dVectorFromAngle,
 )
 
@@ -23,7 +18,6 @@ def costConfigurations(
     points: FloatArray,
     configurations: IntArray,
     coneType: SortableConeTypes,
-    vehiclePosition: FloatArray,
     vehicleDirection: FloatArray,
     *,
     returnIndividualCosts: bool,
@@ -43,8 +37,8 @@ def costConfigurations(
         return np.zeros(0)
 
     angleCost = calcAngleCostForConfigurations(pointsXY, configurations)
-    thresholdDistance = 3  # maximum allowed distance between cones is 5 meters
-    residualDistanceCost = calcDistanceCost(pointsXY, configurations, thresholdDistance)
+    # maximum allowed distance between cones is 5 meters
+    residualDistanceCost = calcDistanceCost(pointsXY, configurations, 3)
 
     numberOfConesCost = calcNumberOfConesCost(configurations)
 
@@ -78,7 +72,7 @@ def costConfigurations(
     if returnIndividualCosts:
         return finalCosts
 
-    return finalCosts.sum(axis=-1)
+    return finalCosts.sum(axis=-1)  # type: ignore
 
 
 def calcAngleCostForConfigurations(

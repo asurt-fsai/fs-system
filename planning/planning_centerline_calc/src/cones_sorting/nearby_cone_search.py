@@ -302,7 +302,7 @@ def angleBetweenSearchDirectionOfConeAndOtherConeIsTooLarge(
 ) -> tuple[bool, bool]:
     fromConeToOtherCone = allConeDirections[coneIdx, otherConeIdx]
     searchDirection = searchDirectionCache[directionsKey]
-        if np.isnan(searchDirection).any() :
+    if np.isnan(searchDirection).any() :
         searchDirection = np.array([0, 0])
     goodAngle = vecAngleBetween(fromConeToOtherCone + 0.000001, searchDirection + 0.000001) < searchAngle / 2
     badAngle = vecAngleBetween(fromConeToOtherCone + 0.000001, -searchDirection + 0.000001) < searchAngle / 2

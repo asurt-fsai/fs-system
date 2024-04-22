@@ -16,11 +16,11 @@ class AdjacencyMatrix:
     A class to create and calculate an adjacency matrix
     """
 
-    LAST_MATRIX_CALC_HASH = None
-    LAST_MATRIX_CALC_DISTANCE_MATRIX = None
+    lastMatrixCalcHash = None
+    lastMatrixCalcDistanceMatrix = None
 
-    LAST_IDXS_CALCULATED = None
-    LAST_IDXS_HASH = None
+    lastIdxsCalculated = None
+    lastIdxsHash = None
 
     def __init__(
         self,
@@ -39,7 +39,8 @@ class AdjacencyMatrix:
         coneType: ConeTypes,
     ) -> Tuple[IntArray, IntArray]:
         """
-        Creates the adjacency matrix that defines the possible points each point can be connected with
+        Creates the adjacency matrix that defines the possible points
+        each point can be connected with.
         Args:
             cones: The trace containing all the points
             n_neighbors: The maximum number of neighbors each node can have
@@ -55,11 +56,11 @@ class AdjacencyMatrix:
         nPoints = cones.shape[0]
 
         conesXY = cones[:, :2]
-        ConesColor = cones[:, 2]
+        conesColor = cones[:, 2]
 
         pairwiseDistance: FloatArray = self.calcDistanceMatrix(conesXY)
 
-        maskIsOtherConeType = ConesColor == invertConeType(coneType)
+        maskIsOtherConeType = conesColor == invertConeType(coneType)
         pairwiseDistance[maskIsOtherConeType, :] = np.inf
         pairwiseDistance[:, maskIsOtherConeType] = np.inf
 
@@ -94,13 +95,15 @@ class AdjacencyMatrix:
             conesXY: The trace containing
         """
         inputHash = hash(conesXY.tobytes())
-        if inputHash != self.LAST_MATRIX_CALC_HASH:
-            self.LAST_MATRIX_CALC_HASH = inputHash
-            self.LAST_MATRIX_CALC_DISTANCE_MATRIX = calcPairwiseDistances(
+        if inputHash != self.lastMatrixCalcHash or self.lastMatrixCalcHash is None:
+            self.lastMatrixCalcHash = inputHash
+            self.lastMatrixCalcDistanceMatrix = calcPairwiseDistances(
                 conesXY, dist_to_self=np.inf
             )
-
-        return self.LAST_MATRIX_CALC_DISTANCE_MATRIX.copy()
+        if self.lastMatrixCalcDistanceMatrix is None:
+            return calcPairwiseDistances(conesXY, dist_to_self=np.inf)
+        else:
+            return self.lastMatrixCalcDistanceMatrix.copy()
 
     def findKClosestInPointCloud(self, pairwiseDistance: FloatArray, k: int) -> IntArray:
         """
@@ -117,11 +120,11 @@ class AdjacencyMatrix:
 
         inputHash = hash((pairwiseDistance.tobytes(), k))
         # Check if input has changed
-        if inputHash != self.LAST_IDXS_HASH:
-            self.LAST_IDXS_HASH = inputHash
-            self.LAST_INDXS_CALCULATED = np.argsort(pairwiseDistance, axis=1)[:, :k]
+        if inputHash != self.lastIdxsHash or self.lastIdxsCalculated is None:
+            self.lastIdxsHash = inputHash
+            self.lastIdxsCalculated = np.argsort(pairwiseDistance, axis=1)[:, :k]
 
-        return self.LAST_INDXS_CALCULATED.copy()
+        return self.lastIdxsCalculated.copy()
 
     def breadthFirstOrder(self, adjacencyMatrix: IntArray, startIdx: int) -> IntArray:
         """
@@ -138,17 +141,17 @@ class AdjacencyMatrix:
         queue[0] = startIdx
         visited[startIdx] = 1
 
-        queue_pointer = 0
-        queue_end_pointer = 0
+        queuePointer = 0
+        queueEndPointer = 0
 
-        while queue_pointer <= queue_end_pointer:
-            node = queue[queue_pointer]
+        while queuePointer <= queueEndPointer:
+            node = queue[queuePointer]
 
-            next_nodes = np.argwhere(adjacencyMatrix[node])[:, 0]
-            for i in next_nodes:
+            nextNodes = np.argwhere(adjacencyMatrix[node])[:, 0]
+            for i in nextNodes:
                 if not visited[i]:
-                    queue_end_pointer += 1
-                    queue[queue_end_pointer] = i
+                    queueEndPointer += 1
+                    queue[queueEndPointer] = i
                     visited[i] = 1
-            queue_pointer += 1
-        return cast(IntArray, queue[:queue_pointer])
+            queuePointer += 1
+        return cast(IntArray, queue[:queuePointer])

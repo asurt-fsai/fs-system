@@ -7,14 +7,10 @@ from typing import Optional
 
 import numpy as np
 
-# from planning_centerline_calculation.cones_sorting.end_configurations import linesSegmentsIntersectIndicator
-
 from src.types_file.types import FloatArray, IntArray
-from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import (
     angleDifference,
     angleFrom2dVector,
-    myNjit,
 )
 
 
@@ -24,12 +20,25 @@ def calcFinalConfigsForLeftAndRight(
     rightScores: Optional[FloatArray],
     rightConfigs: Optional[IntArray],
     cones: FloatArray,
-    carPos: FloatArray,
-    carDir: FloatArray,
 ) -> tuple[IntArray, IntArray]:
-    leftScoresIsNone = leftScores is None
-    rightScoresIsNone = rightScores is None
-    # assert leftScoresIsNone == rightScoresIsNone
+    """
+    Calculates the final configurations for the left and right sides based on the input scores,
+    configurations, cones, car position, and car direction.
+
+    Args:
+        leftScores (Optional[FloatArray]): The scores for the left side configurations.
+        leftConfigs (Optional[IntArray]): The configurations for the left side.
+        rightScores (Optional[FloatArray]): The scores for the right side configurations.
+        rightConfigs (Optional[IntArray]): The configurations for the right side.
+        cones (FloatArray): The array of cones.
+        carPos (FloatArray): The position of the car.
+        carDir (FloatArray): The direction of the car.
+
+    Returns:
+        tuple[IntArray, IntArray]: A tuple containing the final configurations for the
+                                   left and right sides.
+
+    """
 
     nNonNone = sum(x is not None for x in (leftScores, rightScores))
 
@@ -46,18 +55,14 @@ def calcFinalConfigsForLeftAndRight(
             leftConfigs,
             rightConfigs,
         )
-
+    if leftConfigs is None or rightConfigs is None:
+        return emptyResult
     # both sides have valid configurations
     # we need to pick the best one for each side
-
     return calcFinalConfigsForBothAvailable(
-        leftScores,
         leftConfigs,
-        rightScores,
         rightConfigs,
-        cones,
-        carPos,
-        carDir,
+        cones
     )
 
 
@@ -65,6 +70,17 @@ def calcFinalConfigsWhenOnlyOneSideHasConfigs(
     leftConfigs: Optional[IntArray],
     rightConfigs: Optional[IntArray],
 ) -> tuple[IntArray, IntArray]:
+    """
+    Calculate the final configurations when only one side has configurations.
+
+    Args:
+        leftConfigs (Optional[IntArray]): The configurations for the left side.
+        rightConfigs (Optional[IntArray]): The configurations for the right side.
+
+    Returns:
+        tuple[IntArray, IntArray]: A tuple containing the final configurations for the 
+                                   left side and the right side.
+    """
     emptyConfig = np.zeros(0, dtype=int)
 
     leftConfigsIsNone = leftConfigs is None
@@ -72,11 +88,11 @@ def calcFinalConfigsWhenOnlyOneSideHasConfigs(
 
     assert leftConfigsIsNone != rightConfigsIsNone
 
-    if leftConfigs is None:
+    if leftConfigs is None and rightConfigs is not None:
         leftConfig = emptyConfig
         rightConfig = rightConfigs[0]
         rightConfig = rightConfig[rightConfig != -1]
-    elif rightConfigs is None:
+    elif rightConfigs is None and leftConfigs is not None:
         leftConfig = leftConfigs[0]
         leftConfig = leftConfig[leftConfig != -1]
         rightConfig = emptyConfig
@@ -87,14 +103,23 @@ def calcFinalConfigsWhenOnlyOneSideHasConfigs(
 
 
 def calcFinalConfigsForBothAvailable(
-    leftScores: FloatArray,
     leftConfigs: IntArray,
-    rightScores: FloatArray,
     rightConfigs: IntArray,
     cones: FloatArray,
-    carPosition: FloatArray,
-    carDirection: FloatArray,
 ) -> tuple[IntArray, IntArray]:
+    """
+    Calculates the final configurations for both available sides based on the given
+    left and right configurations and cone positions.
+
+    Args:
+        leftConfigs (IntArray): An array of left configurations.
+        rightConfigs (IntArray): An array of right configurations.
+        cones (FloatArray): An array of cone positions.
+
+    Returns:
+        tuple[IntArray, IntArray]: A tuple containing the final left and right configurations.
+
+    """
     # we need to pick the best one for each side
 
     leftConfig = leftConfigs[0]
@@ -108,7 +133,8 @@ def calcFinalConfigsForBothAvailable(
         leftConfig,
         rightConfig,
     )
-
+    assert leftConfig is not None
+    assert rightConfig is not None
     return (leftConfig, rightConfig)
 
 
@@ -117,6 +143,19 @@ def handleSameConeInBothConfigs(
     leftConfig: IntArray,
     rightConfig: IntArray,
 ) -> tuple[Optional[IntArray], Optional[IntArray]]:
+    """
+    Handles the case where the same cone is present in both leftConfig and rightConfig.
+
+    Args:
+        cones (FloatArray): Array of cone values.
+        leftConfig (IntArray): Array representing the left configuration.
+        rightConfig (IntArray): Array representing the right configuration.
+
+    Returns:
+        tuple[Optional[IntArray], Optional[IntArray]]: A tuple containing the updated
+            leftConfig and rightConfig.
+            If there are no common cones, the original leftConfig and rightConfig are returned.
+    """
     (
         sameConeIntersection,
         leftIntersectionIdxs,
@@ -151,6 +190,20 @@ def calcNewLengthForConfigsForSameConeIntersection(
     leftIntersectionIndex: int,
     rightIntersectionIndex: int,
 ) -> tuple[int, int]:
+    """
+    Calculates the new length for configurations with the same cone intersection.
+
+    Args:
+        cones (FloatArray): Array of cone coordinates.
+        leftConfig (IntArray): Array representing the left configuration.
+        rightConfig (IntArray): Array representing the right configuration.
+        leftIntersectionIndex (int): Index of the left intersection cone.
+        rightIntersectionIndex (int): Index of the right intersection cone.
+
+    Returns:
+        tuple[int, int]: A tuple containing the indices to stop the left and right configurations.
+
+    """
     conesXY = cones[:, :2]
     if leftIntersectionIndex > 0 and rightIntersectionIndex > 0:
         prevLeft = leftConfig[leftIntersectionIndex - 1]
@@ -194,11 +247,6 @@ def calcNewLengthForConfigsForSameConeIntersection(
         signAngleLeft = np.sign(angleLeft)
         signAngleRight = np.sign(angleRight)
 
-        absoluteAngleDiff = abs(abs(angleLeft) - abs(angleRight))
-
-        leftHasThree = len(leftConfig) == 3
-        rightHasThree = len(rightConfig) == 3
-
         nConesDiff = abs(len(leftConfig) - len(rightConfig))
 
         if signAngleLeft == signAngleRight:
@@ -241,7 +289,8 @@ def calcNewLengthForConfigsForSameConeIntersection(
         else:
             leftStopIdx = leftIntersectionIndex
             rightStopIdx = rightIntersectionIndex
-
+    assert leftStopIdx is not None
+    assert rightStopIdx is not None
     return leftStopIdx, rightStopIdx
 
 
@@ -250,6 +299,17 @@ def calcAngleChangeAtPosition(
     config: IntArray,
     positionInConfig: int,
 ) -> float:
+    """
+    Calculates the angle change at a given position in the configuration.
+
+    Args:
+        cones (FloatArray): An array of cones.
+        config (IntArray): An array of cone configurations.
+        positionInConfig (int): The position in the configuration.
+
+    Returns:
+        float: The angle change at the given position in the configuration.
+    """
     previousCone, intersectionCone, nextCone = cones[
         config[positionInConfig - 1 : positionInConfig + 2], :2
     ]
@@ -262,4 +322,4 @@ def calcAngleChangeAtPosition(
 
     angle = angleDifference(angleIntersectionToNext, angleIntersectionToPrev)
 
-    return angle
+    return float(angle)

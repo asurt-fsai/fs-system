@@ -72,7 +72,7 @@ class ConeSorter:
     def selectFirstKStartingCones(
         self,
         carPosition: FloatArray,
-        carDirection: FloatArray,
+        carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
     ) -> Optional[np.ndarray]:
@@ -86,7 +86,7 @@ class ConeSorter:
             return None
 
         conesToCar = cones[:, :2] - carPosition
-        angleToCar = vecAngleBetween(conesToCar, unit2dVectorFromAngle(carDirection))
+        angleToCar = vecAngleBetween(conesToCar, unit2dVectorFromAngle(np.array(carDirection)))
 
         maskShouldBeNotSelected = np.abs(angleToCar) < np.pi / 2
         idxsToSkip = np.where(maskShouldBeNotSelected)[0]
@@ -104,8 +104,8 @@ class ConeSorter:
         coneDir1 = cones[index1, :2] - cones[index2, :2]
         coneDir2 = cones[index2, :2] - cones[index1, :2]
 
-        angle1 = vecAngleBetween(coneDir1, unit2dVectorFromAngle(carDirection))
-        angle2 = vecAngleBetween(coneDir2, unit2dVectorFromAngle(carDirection))
+        angle1 = vecAngleBetween(coneDir1, unit2dVectorFromAngle(np.array(carDirection)))
+        angle2 = vecAngleBetween(coneDir2, unit2dVectorFromAngle(np.array(carDirection)))
 
         if angle1 > angle2:
             index1, index2 = index2, index1
@@ -122,7 +122,7 @@ class ConeSorter:
         )
 
         carToIndex2 = cones[index2, :2] - carPosition
-        angleToIndex2 = vecAngleBetween(carToIndex2, unit2dVectorFromAngle(carDirection))
+        angleToIndex2 = vecAngleBetween(carToIndex2, unit2dVectorFromAngle(np.array(carDirection)))
 
         if angleToIndex2 > np.pi / 2:
             return twoCones
@@ -140,7 +140,7 @@ class ConeSorter:
         thirdCone = cones[index3, :2][None]
 
         newCones, *_ = combineAndSortVirtualWithReal(
-            twoConesPos, thirdCone, coneType, carPosition, carDirection
+            twoConesPos, thirdCone, carPosition
         )
 
         last, middle, first = myCdistSqEuclidean(newCones, cones[:, :2]).argmin(axis=1)
@@ -155,7 +155,7 @@ class ConeSorter:
     def selectStartingCone(
         self,
         carPosition: FloatArray,
-        carDirection: FloatArray,
+        carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
         indexToSkip: Optional[np.ndarray] = None,
@@ -190,10 +190,10 @@ class ConeSorter:
     def maskConeCanBeFisrtInConfig(
         self,
         carPosition: FloatArray,
-        carDirection: FloatArray,
+        carDirection: float,
         cones: FloatArray,
         coneType: ConeTypes,
-    ) -> Tuple[np.ndarray, bool]:
+    ) -> Tuple[np.ndarray, BoolArray]:
         """
         Return a mask of cones that can be the first in a configuration
         """
@@ -299,7 +299,6 @@ class ConeSorter:
             points=trace,
             configurations=allEndConfigurations,
             coneType=coneType,
-            vehiclePosition=vehiclePosition,
             vehicleDirection=vehicleDirection,
             returnIndividualCosts=False,
         )
@@ -377,8 +376,21 @@ class ConeSorter:
         self,
         conesByType: list[FloatArray],
         carPos: FloatArray,
-        carDir: FloatArray,
+        carDir: float,
     ) -> tuple[FloatArray, FloatArray]:
+        """
+        Sorts the cones into left and right configurations based on the
+        car's position and direction.
+
+        Args:
+            conesByType (list[FloatArray]): A list of arrays containing cones grouped by type.
+            carPos (FloatArray): The position of the car.
+            carDir (FloatArray): The direction of the car.
+
+        Returns:
+            tuple[FloatArray, FloatArray]: A tuple containing the sorted 
+            left and right configurations of cones.
+        """
         conesFlat = flattenConesByTypeArray(conesByType)
 
         (leftScores, leftConfigs) = self.calcConfigurationWithScoresForOneSide(
@@ -400,9 +412,7 @@ class ConeSorter:
             leftConfigs,
             rightScores,
             rightConfigs,
-            conesFlat,
-            carPos,
-            carDir,
+            conesFlat
         )
         leftConfig = leftConfig[leftConfig != -1]
         rightConfig = rightConfig[rightConfig != -1]

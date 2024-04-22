@@ -43,7 +43,7 @@ class ConeSorting:
             useUnknownCones: Whether to use unknown ( as is no color info is known) cones
                 in the sorting algorithm.
         """
-        self.input = ConeSortingInput()
+        self.newInput = ConeSortingInput()
 
         self.state = ConeSortingState(
             maxNNeighbors=maxNNeighbors,
@@ -55,18 +55,18 @@ class ConeSorting:
             useUnknownCones=useUnknownCones,
         )
 
-    def setNewInput(self, input: ConeSortingInput) -> None:
+    def setNewInput(self, newInput: ConeSortingInput) -> None:
         """Save inputs from other nodes in a varible."""
-        self.input = input
+        self.newInput = newInput
 
     def transitionInputToState(self) -> None:
         """Parse and save the inputs in the state varible."""
         self.state.positionGlobal, self.state.directionGlobal = (
-            self.input.slamPosition,
-            self.input.slamDirection,
+            self.newInput.slamPosition,
+            self.newInput.slamDirection,
         )
 
-        self.state.conesByTypeArray = self.input.perceptionCones.copy()
+        self.state.conesByTypeArray = self.newInput.perceptionCones.copy()
         if not self.state.useUnknownCones:
             self.state.conesByTypeArray[ConeTypes.UNKNOWN] = np.zeros((0, 2))
 
@@ -110,7 +110,7 @@ class ConeSortingInput:
         default_factory=lambda: [np.zeros((0, 2)) for _ in ConeTypes]
     )
     slamPosition: FloatArray = field(default_factory=lambda: np.zeros(2))
-    slamDirection: FloatArray = field(default_factory=lambda: np.zeros(2))
+    slamDirection: float = 0.0
 
 
 @dataclass
@@ -125,7 +125,7 @@ class ConeSortingState:
     maxLength: int
     useUnknownCones: bool
     positionGlobal: FloatArray = field(default_factory=lambda: np.zeros(2))
-    directionGlobal: FloatArray = field(default_factory=lambda: np.array([0, 1.0]))
+    directionGlobal: float = 0.0
     conesByTypeArray: list[FloatArray] = field(
         default_factory=lambda: [np.zeros((0, 3)) for _ in ConeTypes]
     )
