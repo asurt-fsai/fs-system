@@ -226,6 +226,8 @@ def insertVirtualConesToExisting(
 
             virtualToClosest = existingCones[closestIndex] - coneToInsert
             virtualToSecondClosest = existingCones[secondClosestIndex] - coneToInsert
+            if np.isnan(virtualToClosest).any():
+                continue
             angleBetweenVirtualConesAndClosestTwo = vecAngleBetween(
                 virtualToClosest, virtualToSecondClosest
             )
