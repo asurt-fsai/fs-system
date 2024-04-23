@@ -98,10 +98,10 @@ class AdjacencyMatrix:
         if inputHash != self.lastMatrixCalcHash or self.lastMatrixCalcHash is None:
             self.lastMatrixCalcHash = inputHash
             self.lastMatrixCalcDistanceMatrix = calcPairwiseDistances(
-                conesXY, dist_to_self=np.inf
+                conesXY, distToSelf=np.inf
             )
         if self.lastMatrixCalcDistanceMatrix is None:
-            return calcPairwiseDistances(conesXY, dist_to_self=np.inf)
+            return calcPairwiseDistances(conesXY, distToSelf=np.inf)
         else:
             return self.lastMatrixCalcDistanceMatrix.copy()
 

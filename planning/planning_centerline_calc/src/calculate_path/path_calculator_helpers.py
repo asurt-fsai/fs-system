@@ -8,7 +8,6 @@ the existing path
 
 """
 import numpy as np
-from numpy.typing import NDArray
 from icecream import ic  # pylint: disable=unused-import
 from typing_extensions import Literal
 
@@ -16,13 +15,11 @@ from src.types_file.types import FloatArray
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import rotate, unit2dVectorFromAngle
 
-ConeTypesForPathCalculation = Literal[ConeTypes.LEFT, ConeTypes.RIGHT]
-
+ConeTypesForPathCalculation = Literal[ConeTypes.left, ConeTypes.right]
+HALF_PI = np.pi / 2
 
 class PathCalculatorHelpers:
     """A class for calculating the update path that will be combined with the existing path."""
-
-    HALF_PI = np.pi / 2
 
     def calculateChordPath(
         self, radius: float, maximumAngle: float, numberOfPoints: int
@@ -46,13 +43,13 @@ class PathCalculatorHelpers:
         # rotate so initial points, point to the right
         pointsCentered: FloatArray = points - [1, 0]  # bring x axis to center
         pointsCenteredScaled: FloatArray = pointsCentered * radius  # scale
-        pointsCenteredScaledRotated = rotate(pointsCenteredScaled, -self.HALF_PI)
+        pointsCenteredScaledRotated = rotate(pointsCenteredScaled, -HALF_PI)
 
         # handle negative angles
         pointsCenteredScaledRotated[:, 1] *= np.sign(maximumAngle)
         return pointsCenteredScaledRotated
 
-    def calculate_almost_straight_path(self) -> FloatArray:
+    def calculateAlmostStraightPath(self) -> FloatArray:
         """
         Calculate a chord path with a very high radius and a very small chord angle.
 

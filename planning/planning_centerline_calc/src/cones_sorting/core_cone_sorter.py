@@ -217,7 +217,7 @@ class ConeSorter:
             self.maxDistToFirst / 1.5,
         )
         angleSign = np.sign(coneRelativeAngles)
-        validAngleSign = 1 if coneType == ConeTypes.LEFT else -1
+        validAngleSign = 1 if coneType == ConeTypes.left else -1
         maskValidSide = angleSign == validAngleSign
         maskIsValidAngle = np.abs(coneRelativeAngles) < np.pi - np.pi / 5
         maskIsValidAngleMin = np.abs(coneRelativeAngles) > np.pi / 10
@@ -324,7 +324,7 @@ class ConeSorter:
         Returns:
             np.ndarray: The sorted trace, 'len(returnValue) <= len(trace)'
         """
-        assert coneType in (ConeTypes.LEFT, ConeTypes.RIGHT)
+        assert coneType in (ConeTypes.left, ConeTypes.right)
 
         noResult = None, None
 
@@ -395,14 +395,14 @@ class ConeSorter:
 
         (leftScores, leftConfigs) = self.calcConfigurationWithScoresForOneSide(
             conesFlat,
-            ConeTypes.LEFT,
+            ConeTypes.left,
             carPos,
             carDir,
         )
 
         (rightScores, rightConfigs) = self.calcConfigurationWithScoresForOneSide(
             conesFlat,
-            ConeTypes.RIGHT,
+            ConeTypes.right,
             carPos,
             carDir,
         )

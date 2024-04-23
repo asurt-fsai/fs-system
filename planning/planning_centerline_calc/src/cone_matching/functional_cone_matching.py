@@ -7,10 +7,9 @@ more stable path calculation
 
 from __future__ import annotations
 
-from typing import Literal, Tuple, cast
+from typing import Tuple, cast
 
 import numpy as np
-from numpy.typing import NDArray
 
 from icecream import ic  # pylint: disable=unused-import
 
@@ -132,8 +131,8 @@ def findBooleanMaskOfAllPotentialMatches(
     ):
         distanceToOtherSide[~maskConeToCandidates] = np.inf
         idxsCandidatesSorted = np.argsort(distanceToOtherSide)[:2]
-        mask_idx_candidate_is_valid = np.isfinite(distanceToOtherSide[idxsCandidatesSorted])
-        idxsCandidatesSorted = idxsCandidatesSorted[mask_idx_candidate_is_valid]
+        maskIdxCandidateIsValid = np.isfinite(distanceToOtherSide[idxsCandidatesSorted])
+        idxsCandidatesSorted = idxsCandidatesSorted[maskIdxCandidateIsValid]
 
         newMask = np.zeros_like(maskConeToCandidates)
         newMask[idxsCandidatesSorted] = True
@@ -144,7 +143,6 @@ def findBooleanMaskOfAllPotentialMatches(
 
 def selectBestMatchCandidate(
     matchableCones: FloatArray,
-    matchDirections: FloatArray,
     matchBooleanMask: BoolArray,
     otherSideCones: FloatArray,
     matchesShouldBeMonotonic: bool,
@@ -200,7 +198,6 @@ def insertVirtualConesToExisting(
     """
     Combine the virtual with the real cones into a single array.
     """
-    # print(locals())
     existingCones, conesToInsert = (
         (otherSideCones, otherSideVirtualCones)
         if len(otherSideCones) > len(otherSideVirtualCones)
@@ -249,11 +246,11 @@ def insertVirtualConesToExisting(
 
     angles = traceAnglesBetween(existingCones)
     # print(np.rad2deg(angles))
-    mask_low_angles = angles < np.deg2rad(85)
-    mask_low_angles = np.concatenate([[False], mask_low_angles, [False]])
+    maskLowAngles = angles < np.deg2rad(85)
+    maskLowAngles = np.concatenate([[False], maskLowAngles, [False]])
 
-    if mask_low_angles.any():
-        existingCones = existingCones[:][~mask_low_angles]
+    if maskLowAngles.any():
+        existingCones = existingCones[:][~maskLowAngles]
 
     return existingCones
 
@@ -291,13 +288,11 @@ def calculateInsertIndexOfNewCone(
 
     if coneIsBetweenClosestTwo:
         return min(closestIndex, secondClosestIndex) + 1
-    else:
-        if closestIndex < secondClosestIndex:
-            return closestIndex
-        elif closestIndex > secondClosestIndex:
-            return closestIndex + 1
-        else:
-            raise ValueError("Unreachable code")
+    if closestIndex < secondClosestIndex:
+        return closestIndex
+    if closestIndex > secondClosestIndex:
+        return closestIndex + 1
+    raise ValueError("Unreachable code")
 
 
 def combineAndSortVirtualWithReal(
@@ -312,12 +307,11 @@ def combineAndSortVirtualWithReal(
     if len(otherSideCones) == 0:
         return (
             otherSideVirtualCones,
-            np.ones(len(otherSideVirtualCones), dtype=bool),
-            [],
+            np.ones(len(otherSideVirtualCones), dtype=bool)
         )
 
     if len(otherSideVirtualCones) == 0:
-        return otherSideCones, np.zeros(len(otherSideCones), dtype=bool), []
+        return otherSideCones, np.zeros(len(otherSideCones), dtype=bool)
 
     sortedCombinedCones = insertVirtualConesToExisting(
         otherSideCones, otherSideVirtualCones, carPos
@@ -351,7 +345,7 @@ def calculateMatchForSide(
         if len(otherSideCones) > 1:
             otherSideSearchDirections = calculateMatchSearchDirection(
                 otherSideCones,
-                ConeTypes.LEFT if coneType == ConeTypes.RIGHT else ConeTypes.RIGHT,
+                ConeTypes.left if coneType == ConeTypes.right else ConeTypes.right,
             )
         else:
             otherSideSearchDirections = np.zeros((0, 2), dtype=float)
@@ -367,7 +361,6 @@ def calculateMatchForSide(
 
         matchesForEachSelectableCone = selectBestMatchCandidate(
             matchableCones,
-            searchDirections,
             usToOthersMatchConesMask,
             otherSideCones,
             matchesShouldBeMonotonic,
@@ -403,7 +396,6 @@ def calculateConesForOtherSide(
         matchesShouldBeMonotonic,
     )
     maskConeHasMatch = matchesForEachSelectableCone != -1
-    # indices_to_keep = np.where(mask_cone_has_match)[0]
     indicesNoMatch = np.where(~maskConeHasMatch)[0]
 
     positionsOfVirtualCones = calculatePositionsOfVirtualCones(
@@ -442,7 +434,7 @@ def matchBothSidesWithVirtualCones(
 
     _, finalMatchingFromLeftToRight, _ = calculateMatchForSide(
         leftConesWithVirtual,
-        ConeTypes.LEFT,
+        ConeTypes.left,
         rightConesWithVirtual,
         majorRadius,
         minorRadius,
@@ -452,7 +444,7 @@ def matchBothSidesWithVirtualCones(
 
     _, finalMatchingFromRightToLeft, _ = calculateMatchForSide(
         rightConesWithVirtual,
-        ConeTypes.RIGHT,
+        ConeTypes.right,
         leftConesWithVirtual,
         majorRadius,
         minorRadius,
@@ -479,8 +471,6 @@ def calculateVirtualConesForBothSides(
     each cone if it is a virtual cone or not and an integer mask indicating for each
     cone the index of the match on the other side.
     """
-    # if len(left_cones) > 20 or len(right_cones) > 20:
-    #     print(locals())
     emptyBoolArr: BoolArray = np.zeros(0, dtype=np.bool_)
     emptyIntArr: IntArray = np.zeros(0, dtype=np.int_)
     emptyConeArray: FloatArray = np.zeros((0, 2), dtype=np.float_)
@@ -507,7 +497,7 @@ def calculateVirtualConesForBothSides(
     rightConesWithVirtual, rightMaskIsVirtual = (
         calculateConesForOtherSide(
             leftCones,
-            ConeTypes.LEFT,
+            ConeTypes.left,
             majorRadius,
             minorRadius,
             maxSearchAngle,
@@ -528,7 +518,7 @@ def calculateVirtualConesForBothSides(
     leftConesWithVirtual, leftMaskIsVirtual = (
         calculateConesForOtherSide(
             rightCones,
-            ConeTypes.RIGHT,
+            ConeTypes.right,
             majorRadius,
             minorRadius,
             maxSearchAngle,
