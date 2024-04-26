@@ -7,6 +7,23 @@
   <maintainer email="mohammed.alaa200080@gmail.com">mohamedalaa</maintainer>
   <license>TODO: License declaration</license>
 
+  <build_depend>rclpy</build_depend>
+  <build_depend>asurt_msgs</build_depend>
+  <build_depend>tf_helper</build_depend>
+  <build_depend>ros2_numpy</build_depend>
+
+  <build_export_depend>rclpy</build_export_depend>
+  <build_export_depend>asurt_msgs</build_export_depend>
+  <build_export_depend>tf_helper</build_export_depend>
+  <build_export_depend>ros2_numpy</build_export_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>asurt_msgs</exec_depend>
+  <exec_depend>tf_helper</exec_depend>
+  <exec_depend>ros2_numpy</exec_depend>
+
+
+
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

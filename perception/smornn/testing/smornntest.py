@@ -6,7 +6,7 @@ import unittest
 import numpy.typing as npt
 import numpy as np
 
-from smornn.scripts import Smornn
+from smornn.Smornn import Smornn
 
 
 class SmornnTest(unittest.TestCase):
