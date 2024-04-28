@@ -503,9 +503,9 @@ void MapOptimization::publishTF() {
   geoQuat = tf2::toMsg(q);
 
   odomAftMapped.header.stamp = timeLaserOdometry;
-  odomAftMapped.pose.pose.orientation.x = -geoQuat.y;
-  odomAftMapped.pose.pose.orientation.y = -geoQuat.z;
-  odomAftMapped.pose.pose.orientation.z = geoQuat.x;
+  odomAftMapped.pose.pose.orientation.x = -geoQuat.x;
+  odomAftMapped.pose.pose.orientation.y = -geoQuat.y;
+  odomAftMapped.pose.pose.orientation.z = geoQuat.z;
   odomAftMapped.pose.pose.orientation.w = geoQuat.w;
   odomAftMapped.pose.pose.position.x = transformAftMapped[3];
   odomAftMapped.pose.pose.position.y = transformAftMapped[4];
@@ -522,9 +522,9 @@ void MapOptimization::publishTF() {
   aftMappedTrans.transform.translation.x = transformAftMapped[3];
   aftMappedTrans.transform.translation.y = transformAftMapped[4];
   aftMappedTrans.transform.translation.z = transformAftMapped[5];
-  aftMappedTrans.transform.rotation.x = -geoQuat.y;
-  aftMappedTrans.transform.rotation.y = -geoQuat.z;
-  aftMappedTrans.transform.rotation.z = geoQuat.x;
+  aftMappedTrans.transform.rotation.x = -geoQuat.x;
+  aftMappedTrans.transform.rotation.y = -geoQuat.y;
+  aftMappedTrans.transform.rotation.z = geoQuat.z;
   aftMappedTrans.transform.rotation.w = geoQuat.w;
   tfBroadcaster->sendTransform(aftMappedTrans);
 }

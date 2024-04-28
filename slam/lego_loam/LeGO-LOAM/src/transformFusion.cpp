@@ -191,14 +191,10 @@ void TransformFusion::laserOdometryHandler(
   geoQuat = tf2::toMsg(q);
 
   laserOdometry2.header.stamp = laserOdometry->header.stamp;
-  //laserOdometry2.pose.pose.orientation.x = -geoQuat.y;
-  //laserOdometry2.pose.pose.orientation.y = -geoQuat.z;
-  //laserOdometry2.pose.pose.orientation.z = geoQuat.x;
-  //laserOdometry2.pose.pose.orientation.w = geoQuat.w;
-  laserOdometry2.pose.pose.orientation.x = 0.5;
-  laserOdometry2.pose.pose.orientation.y = -0.5;
-  laserOdometry2.pose.pose.orientation.z = -0.5;
-  laserOdometry2.pose.pose.orientation.w = 0.5;
+  laserOdometry2.pose.pose.orientation.x = -geoQuat.x;
+  laserOdometry2.pose.pose.orientation.y = -geoQuat.y;
+  laserOdometry2.pose.pose.orientation.z = geoQuat.z;
+  laserOdometry2.pose.pose.orientation.w = geoQuat.w;
   laserOdometry2.pose.pose.position.x = transformMapped[3];
   laserOdometry2.pose.pose.position.y = transformMapped[4];
   laserOdometry2.pose.pose.position.z = transformMapped[5];
@@ -208,9 +204,9 @@ void TransformFusion::laserOdometryHandler(
   laserOdometryTrans.transform.translation.x = transformMapped[3];
   laserOdometryTrans.transform.translation.y = transformMapped[4];
   laserOdometryTrans.transform.translation.z = transformMapped[5];
-  laserOdometryTrans.transform.rotation.x = -geoQuat.y;
-  laserOdometryTrans.transform.rotation.y = -geoQuat.z;
-  laserOdometryTrans.transform.rotation.z = geoQuat.x;
+  laserOdometryTrans.transform.rotation.x = -geoQuat.x;
+  laserOdometryTrans.transform.rotation.y = -geoQuat.y;
+  laserOdometryTrans.transform.rotation.z = geoQuat.z;
   laserOdometryTrans.transform.rotation.w = geoQuat.w;
   tfBroadcaster->sendTransform(laserOdometryTrans);
 }
