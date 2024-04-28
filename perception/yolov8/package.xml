@@ -8,6 +8,7 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
+  <depend>cv2</depend>
   <depend>camera_interface</depend>
   <depend>ultralytics</depend>
   <depend>cv_bridge</depend>

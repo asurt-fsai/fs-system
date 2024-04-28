@@ -1,4 +1,4 @@
-float64 probability
+float32 probability
 uint16 xmin
 uint16 ymin
 uint16 xmax

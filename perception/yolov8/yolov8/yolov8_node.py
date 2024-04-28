@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
-
+from cv2 import imwrite
 from rclpy.node import Node
 from ultralytics import YOLO
 from sensor_msgs.msg import Image
@@ -59,24 +59,29 @@ class Yolov8Node(Node):
         
         detections = BoundingBoxes()
 
-        detections.frame_id = frame_id
+        detections.view_id = int(frame_id)
         detections.object_count = len(boxes)
-        detections.bounding_boxes = [None] * detections.object_count
+        detections.bounding_boxes = [] 
 
         for idx, box in enumerate(boxes):
             
             detection = BoundingBox()
-
-            detection.probability = box.conf[0]
-
-            detection.xmin, detection.ymin, detection.xmax, detection.ymax = box.xyxy[0]
-            detection.x_center, detection.y_center, detection.width, detection.height = box.xywh[0]
+            detection.probability = float(box.conf[0])
+            
+            detection.xmin = int(box.xyxy[0][0])
+            detection.ymin = int(box.xyxy[0][1])
+            detection.xmax = int(box.xyxy[0][2])
+            detection.ymax = int(box.xyxy[0][3])
+            detection.x_center = int(box.xywh[0][0])
+            detection.y_center = int(box.xywh[0][1])
+            detection.width = int(box.xywh[0][2])
+            detection.height = int(box.xywh[0][3])
 
             detection.detection_id = idx
             detection.track_id = 0 #yet to be tracked - track ids are 1-indexed
-            detection.type = box.cls[0]
+            detection.type = int(box.cls[0])
 
-            detections.bounding_boxes[idx] = detection
+            detections.bounding_boxes.append(detection)  
         
         return detections
 
@@ -84,9 +89,9 @@ class Yolov8Node(Node):
         
         cropped_detections = ConeImgArray()
 
-        cropped_detections.frame_id = frame_id
+        cropped_detections.view_id = int(frame_id)
         cropped_detections.object_count = len(boxes)
-        cropped_detections.imgs = [None] * cropped_detections.object_count
+        cropped_detections.imgs = []
 
         for idx, box in enumerate(boxes):
 
@@ -96,39 +101,49 @@ class Yolov8Node(Node):
             cropped_detection.rows = box.shape[0]
             cropped_detection.cols = box.shape[1]
 
-            xmin, ymin, xmax, ymax = box.xyxy[0]
-            cropped_detection.data = img[ymin:ymax, xmin:xmax].ravel()
+            xmin = int(box.xyxy[0][0])
+            ymin = int(box.xyxy[0][1])
+            xmax = int(box.xyxy[0][2])
+            ymax = int(box.xyxy[0][3])
+            
+            cropped_img = img[ymin:ymax, xmin:xmax]
+            cropped_detection.img = self.bridge.cv2_to_imgmsg(cropped_img, encoding="rgb8")
 
-            cropped_detections.imgs[idx] = cropped_detection
+            cropped_detections.imgs.append(cropped_detection) 
 
         return cropped_detections
 
     def callback_yolo(self, msg: Image):
 
+        
+        # Convert ROS Image message to OpenCV image
+        cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="rgb8")
+
+        # Process the image through YOLO
         try:
-            # Convert ROS Image message to OpenCV image
-            cv_image = self.bridge.imgmsg_to_cv2(msg, "rgb8")
+            result = self.detector(cv_image)[0]
 
-            # Process the image through YOLO
-            result = self.model(cv_image)
-            result = result.boxes.cpu().numpy()
+            if (len(result)>0):
+                boxes = result.boxes.cpu().numpy()
 
-            # Process bounding boxes
-            processed_results = self.processBboxes(result, msg.header.frame_id)
+                # Process bounding boxes
+                processed_results = self.processBboxes(boxes, msg.header.frame_id)
+                
+                # Crop bounding boxes
+                cropped_bboxes = self.cropBboxes(cv_image, boxes, msg.header.frame_id)
+                
+                # Publish bounding boxes
+                self.bboxes_publisher.publish(processed_results)
 
-            # Crop bounding boxes
-            cropped_bboxes = self.cropBboxes(cv_image, result, msg.header.frame_id)
+                # Publish cropped bounding boxes
+                self.cropped_bboxes_publisher.publish(cropped_bboxes) 
 
-            # Publish bounding boxes
-            self.bboxes_publisher.publish(processed_results)
-
-            # Publish cropped bounding boxes
-            self.cropped_bboxes_publisher.publish(cropped_bboxes) 
-
-            self.get_logger().info('Published processed results' + msg.header.frame_id)
+                self.get_logger().info('Published processed results' + msg.header.frame_id)
+            else:
+                self.get_logger().info("Image has no detected objects")
 
         except Exception as e:
-            self.get_logger().error(f'Failed to process image: {e}')
+           self.get_logger().error(f'Failed to process image: {e}')        
 
 def main(args=None):
 

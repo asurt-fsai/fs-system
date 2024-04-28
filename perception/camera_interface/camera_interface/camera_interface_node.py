@@ -144,7 +144,7 @@ class CameraNode(Node):
 
             #undistort
             undistorted_img = cv2.remap(left_img, self.mapx, self.mapy, cv2.INTER_LINEAR)
-
+            
             # Convert OpenCV image to ROS2 Image message
             ros_image = self.bridge.cv2_to_imgmsg(undistorted_img, encoding="rgb8")
             ros_image.header.frame_id = str(self.frame_id)

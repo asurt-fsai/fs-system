@@ -9,6 +9,6 @@
         <param name="/yolov8/cropped_detections" value="/yolov8/cropped_detections"/>
 
         <!-- model path -->
-        <param name="/yolov8/model_path" value="/home/mazen/ros2_ws/src/fs-system/perception/yolov8/yolov8/best.pt"/>
+        <param name="/yolov8/model_path" value="/home/mazen/ros2_ws/src/fs-system/perception/yolov8/yolov8/model_pruned.engine"/>
     </node>
 </launch>

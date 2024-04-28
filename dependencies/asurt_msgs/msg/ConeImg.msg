@@ -1,4 +1,4 @@
 uint16 id
 uint16 rows
 uint16 cols
-uint8[] data
+sensor_msgs/Image img

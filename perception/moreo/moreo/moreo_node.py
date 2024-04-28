@@ -87,6 +87,7 @@ class MoreoNode(Node):
     def callback_moreo(self):
         if self.odom_msg and self.kpr_msg:
             self.get_logger().info(f'Ready to process: cone keypoints & odometry data')
+            
             # Reset messages 
             self.odom_msg = None
             self.kpr_msg = None
