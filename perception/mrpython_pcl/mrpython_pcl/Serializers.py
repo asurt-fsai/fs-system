@@ -5,6 +5,7 @@ Serializer functions for transforming between the following data types:
     - ros point cloud: sensor_msgs.msg.PointCloud2
 """
 import rclpy
+from rclpy.time import Time
 from rclpy.clock import Clock
 import numpy as np
 import numpy.typing as npt
@@ -81,7 +82,10 @@ def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> PointCloud:
         return PointCloud()
 
     # parse the cloud into an array
-    cloudArr = np.fromstring(rosPc2.data, dtypeList)  # type: ignore[call-overload]
+
+    # cloudArr = np.fromstring(rosPc2.data, dtypeList)  # type: ignore[call-overload]
+
+    cloudArr = np.frombuffer(rosPc2.data, dtypeList)
 
     # remove the dummy fields that were added
     dummyIdx = []
@@ -183,7 +187,7 @@ def npToRos(cloudArray: npt.NDArray[np.float64], frameId: str = "velodyne") -> P
     # Fill the PointCLoud2 message definition
     # header
     try:
-        cloudRos.header.stamp = Clock().now()
+        cloudRos.header.stamp = Time().to_msg()
     except  rclpy.exceptions.NotInitializedException:
         rclpy.logging.warn("ROS not initialized, using time 0 for header")
 
@@ -256,7 +260,7 @@ def npConesToRos(
     msg.landmarks = landmarks
     msg.header.frame_id = frameId
     try:
-        msg.header.stamp = Clock().now()
+        msg.header.stamp = Time().to_msg()
     except rclpy.exceptions.NotInitializedException:
         rclpy.logging.warn("ROS not initialized, using time 0 for header")
 

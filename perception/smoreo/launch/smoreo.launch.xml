@@ -3,11 +3,21 @@
 	<!-- Arguments -->
 	<arg name="in_tuning" default="False"/>
 	<arg name ="setup_name" default="zed"/>
+	
 		<!-- Physical Parameters -->
 
 	<!-- <include file="$(find-pkg-share common_params)/launch/common_params.launch"/> -->
 	
 	<node name="smoreo" pkg="smoreo" exec="smoreo" output="screen">
+		<!-- Tuner -->
+
+		<!-- <arg name="setup_name" default="flir"/> -->
+		<!-- <node name="smoreo" pkg="smoreo" exec="tuner" args="$(var setup_name)" output="screen"> -->
+
+
+		<param name="/smoreo/camera_raw" 		value="/front_camera_rgb/image_raw" />
+		<param name="/smoreo/cut_off_viz" 		value="/perception/smoreo/cut_off_viz"/>
+
 		<!-- Published topics -->
 		<param name="/smoreo/predicted_landmarks" value="/perception/smoreo/detected"/>
 		<param name="/smoreo/predicted_markers" value="/perception/smoreo/detected_markers"/>
@@ -19,18 +29,22 @@
 
 		<!-- System params -->
 		<!-- <param from="$(find-pkg-share smoreo)/config/$(var setup_name)Params.yaml" /> -->
-		
-		<!-- these are dummy numbers for testing only -->
 		<param name="/smoreo/cut_off_y" value="1000" />
 		<param name="/smoreo/cx" value="336.0" />
 		<param name="/smoreo/cy" value="188.0" />
 		<param name="/smoreo/f" value="336.0" />
-		<param name = "/physical/cone_height" value = "0.4" />
-		<param name = "/physical/camera_height_from_ground" value = "0.45"/>
-		<param name = "/physical/cone_radius" value = "0.1"/>
-		<param name = "/physical/lidar_height" value = "0.45"/>	
+
+
+
+		<param name="/physical/cone_radius"  value="0.16"/>
+		<param name="/physical/cone_height"  value="0.4"/>
+		<param name="/physical/lidar_height"  value="0.3"/>
+		<param name="/physical/car_base_length"  value="2.2"/>
+		<param name="/physical/track_width"  value="3.5"/>
+		<param name="/physical/camera_height_from_ground"  value="0.19"/>
+		
 		<param name = "/smoreo/camera_frame" value = "zed_left" />
-		<!-- - -->
+	
 
 		<param name="/smoreo/hardcode_params" value="True"/>
 		<param name="/smoreo/use_cone_base" value= "True"/>

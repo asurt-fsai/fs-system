@@ -1,14 +1,11 @@
-"""
-Main ros node for the smoreo tuner
-"""
 #!/usr/bin/python3
 import sys
-# from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 # from smoreo.tuner.tunerServer import Tuner
 import rclpy
 from rclpy.node import Node
 from rclpy.parameter import ParameterType
-from custom_interfaces.srv import SmoreoSrv
+from interfaces.srv import SmoreoSrv
 import os
 from typing import Any, Union
 from rcl_interfaces.msg import ParameterDescriptor, ParameterType
@@ -22,7 +19,7 @@ from numpy.typing import NDArray
 
 class TunerSystem(Node):
     def __init__(self):
-        super().__init__("tuner")
+        super().__init__("smoreo")
 
         # self.srv: Server
         self.cutOffPublisher: rclpy.publisher.Publisher
@@ -43,10 +40,10 @@ class TunerSystem(Node):
             )
         self.srv = self.create_service(SmoreoSrv, '/smoreo/camera_raw', self.parametersCallback)
         self.create_timer(0.1, self.timer_callback)
-        # self.tunerStatus = StatusPublisher("/status/tuner")
-        # self.tunerStatus.starting()
+        self.tunerStatus = StatusPublisher("/status/tuner",self)
+        self.tunerStatus.starting()
         self.start()
-        # self.tunerStatus.ready()
+        self.tunerStatus.ready()
        
     
 
@@ -129,7 +126,7 @@ class TunerSystem(Node):
             yaml.dump(params, file)
     def timer_callback(self):        
         self.visualizeCutOff()
-        # self.tunerStatus.running()
+        self.tunerStatus.running()
 
 def main(args = None) -> None:
     """
@@ -143,6 +140,7 @@ def main(args = None) -> None:
     rclpy.shutdown()
 
 if __name__ == "__main__":
+    print("Tuner Node")
     try:
         main()
     except rclpy.exceptions.ROSInterruptException:

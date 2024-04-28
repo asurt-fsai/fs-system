@@ -15,7 +15,9 @@ class Smoreo:
     boxes positions only.
     """
 
-    def __init__(self, params: Dict[str, Any], frameId: str):
+    def __init__(self, params: Dict[str, Any]
+                 , frameId: str
+                 ):
         self.params: Dict[str, Any]
         self.updateParams(params)
         self.allLandMarks = LandmarkArray()

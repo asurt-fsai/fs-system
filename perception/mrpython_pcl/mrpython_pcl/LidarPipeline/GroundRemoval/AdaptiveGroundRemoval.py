@@ -3,12 +3,14 @@ Adaptive Ground Removal based on the paper: https://arxiv.org/abs/1905.05150
 """
 from dataclasses import dataclass
 
-from pcl import PointCloud
+# from pcl import PointCloud
+import pcl
+
 import numpy as np
 import numpy.typing as npt
 
-from ..helpers import SingletonMeta
-from .GroundRemovalMethod import GroundRemovalMethod
+from mrpython_pcl.LidarPipeline.helpers import SingletonMeta
+from mrpython_pcl.LidarPipeline.GroundRemoval.GroundRemovalMethod import GroundRemovalMethod
 
 
 @dataclass
@@ -44,7 +46,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
                         distFromPlaneTh: float > 0"
             raise TypeError(errMsg) from exp
 
-    def removeGround(self, cloud: PointCloud) -> PointCloud:
+    def removeGround(self, cloud: pcl.PointCloud) -> pcl.PointCloud:
         """
         Removes points falling onto the ground plane
 
@@ -81,7 +83,7 @@ class AdaptiveGroundRemoval(GroundRemovalMethod, metaclass=SingletonMeta):
         diffs = np.abs(points[:, 2] - preds.reshape(-1))
         points = points[diffs > self.distFromPlaneTh]
 
-        cloud = PointCloud()
+        cloud = pcl.PointCloud()
         cloud.from_array(points.astype(np.float32))
         return cloud
 
