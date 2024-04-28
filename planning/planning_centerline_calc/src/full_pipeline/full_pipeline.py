@@ -18,6 +18,7 @@ from numpy.typing import NDArray
 from src.cones_sorting.cone_sorting_wrapper import ConeSortingInput, ConeSorting
 from src.cone_matching.core_cone_matching import ConeMatching, ConeMatchingInput
 from src.calculate_path.core_calculate_path import CalculatePath, PathCalculationInput
+from src.corner_case.corner_case_path import CornerCasesPath
 
 from src.utils.cone_types import ConeTypes
 
@@ -92,6 +93,11 @@ class PathPlanner:
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
         matchedConesInput[ConeTypes.left] = sortedLeft
         matchedConesInput[ConeTypes.right] = sortedRight
+        '''
+        if len(sortedLeft) < 3 and len(sortedRight) < 3:
+            cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, matchedConesInput)
+            return cornerCasesPath.getPath()
+        '''
         ### Cone Matching ###
         coneMatchingInput = ConeMatchingInput(matchedConesInput, vehiclePosition, vehicleDirection)
         self.coneMatching.setNewInput(coneMatchingInput)
