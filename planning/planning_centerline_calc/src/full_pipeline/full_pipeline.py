@@ -93,11 +93,11 @@ class PathPlanner:
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
         matchedConesInput[ConeTypes.left] = sortedLeft
         matchedConesInput[ConeTypes.right] = sortedRight
-        '''
-        if len(sortedLeft) < 3 and len(sortedRight) < 3:
+        
+        if (len(sortedLeft) < 3 and len(sortedRight) < 3) and (len(sortedLeft) > 0 and len(sortedRight) > 0):
             cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, matchedConesInput)
             return cornerCasesPath.getPath()
-        '''
+        
         ### Cone Matching ###
         coneMatchingInput = ConeMatchingInput(matchedConesInput, vehiclePosition, vehicleDirection)
         self.coneMatching.setNewInput(coneMatchingInput)

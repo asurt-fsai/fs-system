@@ -98,12 +98,9 @@ class AdjacencyMatrix:
         if inputHash != self.lastMatrixCalcHash or self.lastMatrixCalcHash is None:
             self.lastMatrixCalcHash = inputHash
             self.lastMatrixCalcDistanceMatrix = calcPairwiseDistances(
-                conesXY, distToSelf=np.inf
+                conesXY, dist_to_self=np.inf
             )
-        if self.lastMatrixCalcDistanceMatrix is None:
-            return calcPairwiseDistances(conesXY, distToSelf=np.inf)
-        else:
-            return self.lastMatrixCalcDistanceMatrix.copy()
+        return self.lastMatrixCalcDistanceMatrix.copy()
 
     def findKClosestInPointCloud(self, pairwiseDistance: FloatArray, k: int) -> IntArray:
         """
@@ -155,3 +152,4 @@ class AdjacencyMatrix:
                     visited[i] = 1
             queuePointer += 1
         return cast(IntArray, queue[:queuePointer])
+    

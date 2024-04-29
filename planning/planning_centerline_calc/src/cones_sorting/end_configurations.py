@@ -2,28 +2,18 @@
 Description: This File calculates all the possible paths
 """
 
-from typing import TYPE_CHECKING, Optional, Tuple, Any, cast
+from typing import TYPE_CHECKING, Optional, Tuple, cast
 
 import numpy as np
 
 from src.types_file.types import BoolArray, FloatArray, GenericArray, IntArray
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import (
-    myNjit,
     myIn1d,
     pointsInsideEllipse,
     vecAngleBetween,
     unit2dVectorFromAngle,
 )
-
-if not TYPE_CHECKING:
-
-    @myNjit
-    def cast(type_: Any, value_: Any) -> Any:
-        "Dummy numba jit function"
-        return value_
-
-
 def findAllEndConfigurations(
     points: FloatArray,
     coneType: ConeTypes,
@@ -34,7 +24,7 @@ def findAllEndConfigurations(
     thresholdAbsoluteAngle: float,
     firstKIndicesMustBe: IntArray,
     carPosition: FloatArray,
-    carDirection: FloatArray,
+    carDirection: np.float_,
     carSize: float,
     storeAllEndConfigurations: bool,
 ) -> tuple[IntArray, Optional[tuple[IntArray, BoolArray]]]:
@@ -82,8 +72,8 @@ def findAllEndConfigurations(
         )
         endConfigurations = endConfigurations[maskKeep]
 
-    maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
-    endConfigurations = endConfigurations[maskLengthIsAtleast3]
+    # maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
+    # endConfigurations = endConfigurations[maskLengthIsAtleast3]
 
     # remove last cone from config if it is of unknown or orange type
     lastConeInEachConfigIdx = (
@@ -188,7 +178,7 @@ def implFindAllEndConfigurations(
     thresholdAbsoluteAngle: float,
     firstKIndicesMustBe: IntArray,
     carPosition: FloatArray,
-    carDirection: FloatArray,
+    carDirection: np.float_,
     carSize: float,
     storeAllEndConfigurations: bool,
 ) -> tuple[IntArray, Optional[tuple[IntArray, BoolArray]]]:
@@ -249,8 +239,8 @@ def implFindAllEndConfigurations(
         hasValidNeighbors = positionInStack < targetLength - 1 and np.any(canBeAdded)
         # check that we haven't hit target length and that we have neighbors to add
         if hasValidNeighbors:
-            for i in range(len(canBeAdded)):
-                if not canBeAdded[i]:
+            for i, canBeAdded in enumerate(canBeAdded):
+                if not canBeAdded:
                     continue
 
                 stackEndPointer += 1
@@ -275,10 +265,10 @@ def implFindAllEndConfigurations(
 
     returnValueEndConfigurations: IntArray = endConfigurations[:endConfigurationsPointer]
 
-    maskEndConfigurationsWithMoreThanTwoNodes = (returnValueEndConfigurations != -1).sum(axis=1) > 2
-    returnValueEndConfigurations = returnValueEndConfigurations[
-        maskEndConfigurationsWithMoreThanTwoNodes
-    ]
+    # maskEndConfigurationsWithMoreThanTwoNodes = (returnValueEndConfigurations != -1).sum(axis=1) > 2
+    # returnValueEndConfigurations = returnValueEndConfigurations[
+    #     maskEndConfigurationsWithMoreThanTwoNodes
+    # ]
 
     if storeAllEndConfigurations:
         allConfigurations = allConfigurations[:allConfigurationsCounter]
@@ -304,12 +294,30 @@ def neighborBoolMaskCanBeAddedToAttempt(
     thresholdDirectionalAngle: float,
     thresholdAbsoluteAngle: float,
     carPosition: FloatArray,
-    carDirection: FloatArray,
+    carDirection: np.float_,
     carSize: float,
 ) -> BoolArray:
+    """
+    Determines whether a neighbor cone can be added to the current attempt.
 
-    carDirection = unit2dVectorFromAngle(carDirection)
-    carDirectionNormalized = carDirection / np.linalg.norm(carDirection)
+    Args:
+        trace (FloatArray): Array of cone positions.
+        coneType (ConeTypes): Type of cone (LEFT or RIGHT).
+        currentAttempt (IntArray): Array of cone indices in the current attempt.
+        positionInStack (int): Index of the current cone in the attempt.
+        neighbors (IntArray): Array of neighbor cone indices.
+        thresholdDirectionalAngle (float): Maximum angle in a specific direction for blue cones (counter-clockwise) 
+                                           or yellow cones (clockwise).
+        thresholdAbsoluteAngle (float): Absolute angle between two vectors.
+        carPosition (FloatArray): Position of the car.
+        carDirection (np.float_): Direction of the car.
+        carSize (float): Size of the car.
+
+    Returns:
+        BoolArray: Array indicating whether each neighbor cone can be added to the attempt.
+    """
+    carDirection2d = unit2dVectorFromAngle(np.array(carDirection))
+    carDirectionNormalized = carDirection2d / np.linalg.norm(carDirection2d)
 
     # neighbor can be added if not in current attempt
     canBeAdded = ~myIn1d(neighbors, currentAttempt[: positionInStack + 1])
@@ -376,9 +384,9 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
             if np.abs(diffrence) > thresholdAbsoluteAngle:
                 canBeAdded[i] = False
-            elif coneType == ConeTypes.left:
+            elif coneType == ConeTypes.LEFT:
                 canBeAdded[i] = diffrence < thresholdDirectionalAngle or lenLastToCandidate < 4.0
-            elif coneType == ConeTypes.right:
+            elif coneType == ConeTypes.RIGHT:
                 canBeAdded[i] = diffrence > -thresholdDirectionalAngle or lenLastToCandidate < 4.0
             else:
                 raise AssertionError("Unreachable cone")
@@ -405,7 +413,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
             if canBeAdded[i] and positionInStack == 1:
                 start = trace[currentAttempt[0]]
                 diff = candidateNeighborPos - start
-                directionOffset = vecAngleBetween(carDirection, diff)
+                directionOffset = vecAngleBetween(np.array(unit2dVectorFromAngle(carDirection)), np.array(diff))
                 canBeAdded[i] &= directionOffset < np.pi / 2
 
             if canBeAdded[i] and positionInStack >= 0:
@@ -423,7 +431,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
 def calculateMaskWithinEllipse(
     trace: FloatArray,
-    currentAttempt: FloatArray,
+    currentAttempt: IntArray,
     positionInStack: int,
     neighborsPoints: FloatArray,
 ) -> BoolArray:
@@ -434,9 +442,9 @@ def calculateMaskWithinEllipse(
     maskInEllipse = pointsInsideEllipse(
         neighborsPoints,
         lastInAttempt,
-        majorDirection=secondToLastToLast,
-        majorRadius=6,
-        minorRadius=3,
+        major_direction=secondToLastToLast,
+        major_radius=6,
+        minor_radius=3,
     )
 
     return maskInEllipse
@@ -454,10 +462,10 @@ def maskSecondInAttemptIsOnRightVehicleSide(
 
     angleDiff = angleDiffrence(angleCarToNeighbors, angleCarDir)
 
-    expectedSign = 1 if coneType == ConeTypes.left else -1
+    expectedSign = 1 if coneType == ConeTypes.LEFT else -1
 
     maskExpectedSide = np.sign(angleDiff) == expectedSign
-    maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(5)
+    maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(12) #was5
 
     mask = maskExpectedSide | maskOtherSideTolerance
     return mask

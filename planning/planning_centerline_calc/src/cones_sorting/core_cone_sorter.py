@@ -3,13 +3,12 @@ Description: This module provides functionality for sorting a trace of cones int
 """
 
 from __future__ import annotations
-import sys
 from typing import Optional, Tuple, cast
 
 import numpy as np
 
 from src.utils.cone_types import ConeTypes, invertConeType
-from src.types_file.types import FloatArray, IntArray, BoolArray, SortableConeTypes
+from src.types_file.types import FloatArray, IntArray, BoolArray
 from src.utils.math_utils import (
     angleFrom2dVector,
     rotate,
@@ -190,7 +189,7 @@ class ConeSorter:
     def maskConeCanBeFisrtInConfig(
         self,
         carPosition: FloatArray,
-        carDirection: float,
+        carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
     ) -> Tuple[np.ndarray, BoolArray]:
@@ -200,7 +199,7 @@ class ConeSorter:
         conesXY = cones[:, :2]  # remove cone type
         # print(-carDirection)
         conesRelative = rotate(
-            conesXY - carPosition, -carDirection
+            conesXY - carPosition, -float(carDirection)
         )  # Rotate cones' positions to be relative to the car
 
         coneRelativeAngles = angleFrom2dVector(conesRelative)
@@ -212,12 +211,12 @@ class ConeSorter:
         maskIsInEllipse = pointsInsideEllipse(
             conesXY,
             carPosition,
-            unit2dVectorFromAngle(carDirection),
+            unit2dVectorFromAngle(np.array(carDirection)),
             self.maxDistToFirst * 1.5,
             self.maxDistToFirst / 1.5,
         )
         angleSign = np.sign(coneRelativeAngles)
-        validAngleSign = 1 if coneType == ConeTypes.left else -1
+        validAngleSign = 1 if coneType == ConeTypes.LEFT else -1
         maskValidSide = angleSign == validAngleSign
         maskIsValidAngle = np.abs(coneRelativeAngles) < np.pi - np.pi / 5
         maskIsValidAngleMin = np.abs(coneRelativeAngles) > np.pi / 10
@@ -233,17 +232,11 @@ class ConeSorter:
     def calcScoresAndEndConfigurations(
         self,
         trace: FloatArray,
-        coneType: SortableConeTypes,
-        nNeighbors: int,
+        coneType: ConeTypes,
         startIdx: int,
-        thresholdDirectionalAngle: float,
-        thresholdAbsoluteAngle: float,
         vehiclePosition: FloatArray,
-        vehicleDirection: FloatArray,
-        maxDist: float = np.inf,
-        maxLenth: int = sys.maxsize,
+        vehicleDirection: np.float_,
         firstKIndicesMustBe: Optional[IntArray] = None,
-        returnHistory: bool = False,
     ) -> tuple[FloatArray, IntArray, Optional[tuple[IntArray, BoolArray]]]:
         """
         Sorts a set of points such that the sum of the angles between the points is minimal.
@@ -255,27 +248,21 @@ class ConeSorter:
             n_neighbors: The number of neighbors to be considered. For exhaustive
             search set to `len(trace) - 1`
             start_idx: The index of the point to be set first in the ordering.
-            max_dist: The maximum valid distance between neighbors
-            Defaults to np.inf
-            max_length: The maximum valid length of the tree
-            Defaults to np.inf
-            cone_type:: The type of cone that is being sorted (left or right
-            trace)
-        Raises:
-            ValueError: If `n_neighbors` is greater than len(trace) - 1
-            RuntimeError: If no valid path can be computed
+            vehicle_position: The position of the vehicle   
+            vehicle_direction: The direction of the vehicle
+            first_k_indices_must_be: The indices of the points that must be in the first
         Returns:
             A list of indexes of the points in the optimal ordering, as well as the
             the costs of all end configurations and their corresponding indices
         """
-        matrixObj = AdjacencyMatrix(maxDist)
-        adjecencyMatrix, reachableNodes = matrixObj.createAdjacencyMatrix(
+        nNeighbors = min(self.maxNNeighbors, len(trace) - 1)
+        adjecencyMatrix, reachableNodes = AdjacencyMatrix(self.maxDist).createAdjacencyMatrix(
             cones=trace,
             nNeighbors=nNeighbors,
             startIdx=startIdx,
             coneType=coneType,
         )
-        targetLength = min(reachableNodes.shape[0], maxLenth)
+        targetLength = min(reachableNodes.shape[0], self.maxLength)
 
         if firstKIndicesMustBe is None:
             firstKIndicesMustBe = np.arange(0)
@@ -286,13 +273,13 @@ class ConeSorter:
             startIdx,
             adjecencyMatrix,
             targetLength,
-            thresholdDirectionalAngle,
-            thresholdAbsoluteAngle,
+            self.thresholdDirectionalAngle,
+            self.thresholdAbsoluteAngle,
             firstKIndicesMustBe,
             vehiclePosition,
             vehicleDirection,
             carSize=2.1,
-            storeAllEndConfigurations=returnHistory,
+            storeAllEndConfigurations=False,
         )
 
         costs = costConfigurations(
@@ -302,18 +289,16 @@ class ConeSorter:
             vehicleDirection=vehicleDirection,
             returnIndividualCosts=False,
         )
-        costSortIdx = np.argsort(costs)
-        costs = cast(FloatArray, costs[costSortIdx])
-        allEndConfigurations = cast(IntArray, allEndConfigurations[costSortIdx])
+        allEndConfigurations = cast(IntArray, allEndConfigurations[np.argsort(costs)])
 
-        return (costs, allEndConfigurations, history)
+        return (cast(FloatArray, costs[np.argsort(costs)]), allEndConfigurations, history)
 
     def calcConfigurationWithScoresForOneSide(
         self,
         cones: FloatArray,
         coneType: ConeTypes,
         carPos: FloatArray,
-        carDir: FloatArray,
+        carDir: np.float_,
     ) -> Tuple[Optional[FloatArray], Optional[FloatArray]]:
         """
         Args:
@@ -324,12 +309,12 @@ class ConeSorter:
         Returns:
             np.ndarray: The sorted trace, 'len(returnValue) <= len(trace)'
         """
-        assert coneType in (ConeTypes.left, ConeTypes.right)
+        assert coneType in (ConeTypes.LEFT, ConeTypes.RIGHT)
 
         noResult = None, None
 
-        if len(cones) < 3:
-            return noResult
+        # if len(cones) < 3:
+        #     return noResult
 
         firstK = self.selectFirstKStartingCones(
             carPos,
@@ -350,19 +335,13 @@ class ConeSorter:
         if startIdx is None and firstKIndicesMustBe is None:
             return noResult
 
-        nNeighbors = min(self.maxNNeighbors, len(cones) - 1)
         try:
             returnValue = self.calcScoresAndEndConfigurations(
                 cones,
                 coneType,
-                nNeighbors,
                 startIdx,
-                self.thresholdDirectionalAngle,
-                self.thresholdAbsoluteAngle,
                 carPos,
                 carDir,
-                self.maxDist,
-                self.maxLength,
                 firstKIndicesMustBe,
             )
 
@@ -395,14 +374,14 @@ class ConeSorter:
 
         (leftScores, leftConfigs) = self.calcConfigurationWithScoresForOneSide(
             conesFlat,
-            ConeTypes.left,
+            ConeTypes.LEFT,
             carPos,
             carDir,
         )
 
         (rightScores, rightConfigs) = self.calcConfigurationWithScoresForOneSide(
             conesFlat,
-            ConeTypes.right,
+            ConeTypes.RIGHT,
             carPos,
             carDir,
         )

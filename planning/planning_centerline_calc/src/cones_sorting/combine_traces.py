@@ -189,7 +189,7 @@ def calcNewLengthForConfigsForSameConeIntersection(
     rightConfig: IntArray,
     leftIntersectionIndex: int,
     rightIntersectionIndex: int,
-) -> tuple[int, int]:
+) -> tuple[Optional[int], Optional[int]]:
     """
     Calculates the new length for configurations with the same cone intersection.
 
@@ -201,25 +201,25 @@ def calcNewLengthForConfigsForSameConeIntersection(
         rightIntersectionIndex (int): Index of the right intersection cone.
 
     Returns:
-        tuple[int, int]: A tuple containing the indices to stop the left and right configurations.
+        tuple[Optional[int], Optional[int]]: A tuple containing the indices to stop the
+                                             left and right configurations.
 
     """
     conesXY = cones[:, :2]
     if leftIntersectionIndex > 0 and rightIntersectionIndex > 0:
-        prevLeft = leftConfig[leftIntersectionIndex - 1]
-        prevRight = rightConfig[rightIntersectionIndex - 1]
-        intersectionCone = leftConfig[leftIntersectionIndex]
 
-        distIntersectionToPrevLeft = np.linalg.norm(conesXY[intersectionCone] - conesXY[prevLeft])
-        distIntersectionToPrevRight = np.linalg.norm(conesXY[intersectionCone] - conesXY[prevRight])
+        distIntersectionToPrevLeft = np.linalg.norm(
+            conesXY[leftConfig[leftIntersectionIndex]]
+              - conesXY[leftConfig[leftIntersectionIndex - 1]])
+        distIntersectionToPrevRight = np.linalg.norm(
+            conesXY[leftConfig[leftIntersectionIndex]]
+              - conesXY[rightConfig[rightIntersectionIndex - 1]])
 
-        lowDistance = 3.0
-        leftDistIsVeryLow = distIntersectionToPrevLeft < lowDistance
-        rightDistIsVeryLow = distIntersectionToPrevRight < lowDistance
-        anyDistIsVeryLow = leftDistIsVeryLow or rightDistIsVeryLow
-        bothDistsAreVeryLow = leftDistIsVeryLow and rightDistIsVeryLow
+        leftDistIsVeryLow = distIntersectionToPrevLeft < 3.0
+        rightDistIsVeryLow = distIntersectionToPrevRight < 3.0
 
-        if anyDistIsVeryLow and not bothDistsAreVeryLow:
+        if ((leftDistIsVeryLow or rightDistIsVeryLow)
+            and not (leftDistIsVeryLow and rightDistIsVeryLow)):
             if leftDistIsVeryLow:
                 leftStopIdx = len(leftConfig)
                 rightStopIdx = rightIntersectionIndex
@@ -234,65 +234,93 @@ def calcNewLengthForConfigsForSameConeIntersection(
         rightStopIdx = None
 
     if (
-        leftStopIdx is None
-        and rightStopIdx is None
-        and leftConfig[leftIntersectionIndex] == rightConfig[rightIntersectionIndex]
+        leftConfig[leftIntersectionIndex] == rightConfig[rightIntersectionIndex]
         and leftIntersectionIndex in range(1, len(leftConfig) - 1)  # not first or last
         and rightIntersectionIndex in range(1, len(rightConfig) - 1)
     ):
-        # intersection happens in the middle of the config
-        angleLeft = calcAngleChangeAtPosition(cones[:, :2], leftConfig, leftIntersectionIndex)
-        angleRight = calcAngleChangeAtPosition(cones[:, :2], rightConfig, rightIntersectionIndex)
-
-        signAngleLeft = np.sign(angleLeft)
-        signAngleRight = np.sign(angleRight)
-
-        nConesDiff = abs(len(leftConfig) - len(rightConfig))
-
-        if signAngleLeft == signAngleRight:
-            if signAngleLeft == 1:
-                # this is a left corner, prefer the left
-                leftStopIdx = len(leftConfig)
-                rightStopIdx = rightIntersectionIndex
-            else:
-                # this is a right corner, prefer the right
-                leftStopIdx = leftIntersectionIndex
-                rightStopIdx = len(rightConfig)
-        elif nConesDiff > 2:
-            # if the diffrence in number of cones id greater than 2, we assume the longer config
-            # is the correct one
-            if len(leftConfig) > len(rightConfig):
-                leftStopIdx = len(leftConfig)
-                rightStopIdx = rightIntersectionIndex
-            else:
-                leftStopIdx = leftIntersectionIndex
-                rightStopIdx = len(rightConfig)
-        else:
-            leftStopIdx = leftIntersectionIndex
-            rightStopIdx = rightIntersectionIndex
+        leftStopIdx, rightStopIdx = intersectionInMiddle(
+            leftConfig, rightConfig, leftIntersectionIndex, rightIntersectionIndex, cones)
     elif leftStopIdx is None and rightStopIdx is None:
         # if the intersection is the last cone in the config, we assume that this is an
         # error because the configuration could not continue, so we only remove it from that side
-        leftIntersectionIsAtEnd = leftIntersectionIndex == len(leftConfig) - 1
-        rightIntersectionIsAtEnd = rightIntersectionIndex == len(rightConfig) - 1
 
-        if leftIntersectionIsAtEnd and rightIntersectionIsAtEnd:
+        #Left and right intersection is at end
+        if (leftIntersectionIndex == len(leftConfig) - 1
+            and rightIntersectionIndex == len(rightConfig) - 1):
             leftStopIdx = len(leftConfig) - 1
             rightStopIdx = len(rightConfig) - 1
-
-        elif leftIntersectionIsAtEnd:
+        #Left intersection is at end
+        elif leftIntersectionIndex == len(leftConfig) - 1:
             rightStopIdx = len(rightConfig)
             leftStopIdx = leftIntersectionIndex
-        elif rightIntersectionIsAtEnd:
+        #Right intersection is at end
+        elif rightIntersectionIndex == len(rightConfig) - 1:
             leftStopIdx = len(leftConfig)
             rightStopIdx = rightIntersectionIndex
         else:
             leftStopIdx = leftIntersectionIndex
             rightStopIdx = rightIntersectionIndex
-    assert leftStopIdx is not None
-    assert rightStopIdx is not None
     return leftStopIdx, rightStopIdx
 
+def intersectionInMiddle(
+        leftConfig: IntArray,
+        rightConfig: IntArray,
+        leftIntersectionIndex: int,
+        rightIntersectionIndex: int,
+        cones: FloatArray,
+) -> tuple[int, int]:
+    """
+    Determines the stop indices for the left and right configurations based on the
+    intersection position.
+
+    Args:
+        leftConfig (IntArray): The left configuration of cones.
+        rightConfig (IntArray): The right configuration of cones.
+        leftIntersectionIndex (int): The index of the intersection point in the left configuration.
+        rightIntersectionIndex (int): The index of the intersection point in the 
+                                      right configuration.
+        cones (FloatArray): The array of cone positions.
+        leftStopIdx (int): The stop index for the left configuration.
+        rightStopIdx (int): The stop index for the right configuration.
+
+    Returns:
+        tuple[int, int]: A tuple containing the stop indices for the left and right configurations.
+    """
+
+    # intersection happens in the middle of the config
+    signAngleLeft = np.sign(
+        calcAngleChangeAtPosition(cones[:, :2], leftConfig, leftIntersectionIndex))
+    signAngleRight = np.sign(
+        calcAngleChangeAtPosition(cones[:, :2], rightConfig, rightIntersectionIndex))
+
+    nConesDiff = abs(len(leftConfig) - len(rightConfig))
+
+    if signAngleLeft == signAngleRight:
+        if signAngleLeft == 1:
+            # this is a left corner, prefer the left
+            leftStopIdx = len(leftConfig)
+            rightStopIdx = rightIntersectionIndex
+            return leftStopIdx, rightStopIdx
+
+        # this is a right corner, prefer the right
+        leftStopIdx = leftIntersectionIndex
+        rightStopIdx = len(rightConfig)
+        return leftStopIdx, rightStopIdx
+    if nConesDiff > 2:
+        # if the difference in the number of cones is greater than 2, we assume the longer config
+        # is the correct one
+        if len(leftConfig) > len(rightConfig):
+            leftStopIdx = len(leftConfig)
+            rightStopIdx = rightIntersectionIndex
+            return leftStopIdx, rightStopIdx
+
+        leftStopIdx = leftIntersectionIndex
+        rightStopIdx = len(rightConfig)
+        return leftStopIdx, rightStopIdx
+
+    leftStopIdx = leftIntersectionIndex
+    rightStopIdx = rightIntersectionIndex
+    return leftStopIdx, rightStopIdx
 
 def calcAngleChangeAtPosition(
     cones: FloatArray,
