@@ -85,6 +85,7 @@ class PathPlanner:
         Returns:
             NDArray[np.float_]: The calculated path as a NumPy array.
         """
+        
         ### Cones Sorting ###
         coneSortingInput = ConeSortingInput(cones, vehiclePosition, vehicleDirection)
         self.coneSorting.setNewInput(coneSortingInput)
