@@ -197,7 +197,7 @@ class ConeSorter:
         Return a mask of cones that can be the first in a configuration
         """
         conesXY = cones[:, :2]  # remove cone type
-        print(carDirection)
+        # print(carDirection)
 
         conesRelative = rotate(
             conesXY - carPosition, -(carDirection)

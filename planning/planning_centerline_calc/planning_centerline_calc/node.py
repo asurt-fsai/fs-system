@@ -15,6 +15,7 @@ from tf_transformations import euler_from_quaternion
 from src.full_pipeline.full_pipeline import PathPlanner
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import angleFrom2dVector
+import matplotlib.pyplot as plt
 
 class PlanningNode(Node):
     """
@@ -45,13 +46,17 @@ class PlanningNode(Node):
         self.cones = None
         self.carPosition = np.array([0, 0])
         self.carDirection = 0
+        self.pathPlanner = PathPlanner()
         self.subscriber1 = self.create_subscription(
             LandmarkArray, "/Landmarks/Observed", self.receiveFromPerception, 10
         )
         self.subscriber2 = self.create_subscription(
             Odometry, "/carmaker/Odometry", self.receiveFromLocalization, 10
         )
+        plt.ion()
         self.publisher = self.create_publisher(Path, "/topic3", 10)
+        self.figure, self.ax = plt.subplots()
+        self.figure.show()
 
     def receiveFromPerception(self, msg: LandmarkArray) -> None:
         """
@@ -65,15 +70,15 @@ class PlanningNode(Node):
         for landmark in msg.landmarks:
             if landmark.type == Landmark.BLUE_CONE:
                 self.cones[ConeTypes.BLUE] = np.vstack(
-                    (self.cones[ConeTypes.BLUE], [landmark.position.x, landmark.position.y])
+                    (self.cones[ConeTypes.BLUE], np.array([landmark.position.x, landmark.position.y]))
                 )
-            elif landmark.identifier == Landmark.YELLOW_CONE:
+            elif landmark.type == Landmark.YELLOW_CONE:
                 self.cones[ConeTypes.YELLOW] = np.vstack(
-                    (self.cones[ConeTypes.YELLOW], [landmark.position.x, landmark.position.y])
+                    (self.cones[ConeTypes.YELLOW], np.array([landmark.position.x, landmark.position.y]))
                 )
             else:
                 self.cones[ConeTypes.UNKNOWN] = np.vstack(
-                    (self.cones[ConeTypes.UNKNOWN], [landmark.position.x, landmark.position.y])
+                    (self.cones[ConeTypes.UNKNOWN], np.array([landmark.position.x, landmark.position.y]))
                 )
 
         self.sendToControl()
@@ -89,18 +94,20 @@ class PlanningNode(Node):
         pose = msg.pose.pose
         orientation_q = pose.orientation
         self.carPosition = np.array([pose.position.x, pose.position.y])
+        
         orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
         (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
         self.carDirection = yaw
+        # print(self.carDirection)
 
     def sendToControl(self) -> None:
         """
         Sends the calculated path to control.
         """
-        pathPlanner = PathPlanner()
+        
         if self.carDirection is None:
             return
-        self.path = pathPlanner.calculatePathInGlobalFrame(
+        self.path = self.pathPlanner.calculatePathInGlobalFrame(
             vehiclePosition=self.carPosition, vehicleDirection=self.carDirection, cones=self.cones
         )
         if self.path is not None:
@@ -123,6 +130,13 @@ class PlanningNode(Node):
 
             self.publisher.publish(path)
             self.get_logger().info("Path Sent...")
+            self.ax.clear()
+            self.ax.scatter(self.cones[ConeTypes.UNKNOWN][:,0],self.cones[ConeTypes.UNKNOWN][:,1],c="black")
+            self.ax.scatter(self.cones[ConeTypes.BLUE][:,0],self.cones[ConeTypes.BLUE][:,1],c="blue")
+            self.ax.scatter(self.cones[ConeTypes.YELLOW][:,0],self.cones[ConeTypes.YELLOW][:,1],c="yellow")
+            self.ax.scatter(self.carPosition[0], self.carPosition[1], c="red")
+            self.ax.scatter(self.path[:,0], self.path[:,1])
+            plt.pause(0.001)
 
 
 def main(args: Any = None) -> None:
