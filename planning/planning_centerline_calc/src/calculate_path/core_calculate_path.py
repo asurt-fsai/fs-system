@@ -349,7 +349,7 @@ class CalculatePath:
 
         vectorVehicleDirection = angleToVector(self.input.directionGlobal)
 
-        angleToFirstPoint = vecAngleBetween(carToFirstPoint, vectorVehicleDirection)
+        angleToFirstPoint = vecAngleBetween(carToFirstPoint+0.00001, vectorVehicleDirection+0.00001)
 
         # there is path behind car or start is close enough
         if distanceToFirstPoint < 0.5 or angleToFirstPoint > np.pi / 2:

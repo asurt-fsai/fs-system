@@ -91,8 +91,8 @@ def findAllEndConfigurations(
     endConfigurations[maskLastConeIsNotOfType, lastConeInEachConfigIdxMasked] = -1
 
     # keep only configs with at least 3 cones
-    maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
-    endConfigurations = endConfigurations[maskLengthIsAtleast3]
+    # maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
+    # endConfigurations = endConfigurations[maskLengthIsAtleast3]
     # print(endConfigurations[0])
     # print(len(endConfigurations))
     # remove identical configurations
@@ -384,9 +384,9 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
             if np.abs(diffrence) > thresholdAbsoluteAngle:
                 canBeAdded[i] = False
-            elif coneType == ConeTypes.LEFT:
+            elif coneType == ConeTypes.left:
                 canBeAdded[i] = diffrence < thresholdDirectionalAngle or lenLastToCandidate < 4.0
-            elif coneType == ConeTypes.RIGHT:
+            elif coneType == ConeTypes.right:
                 canBeAdded[i] = diffrence > -thresholdDirectionalAngle or lenLastToCandidate < 4.0
             else:
                 raise AssertionError("Unreachable cone")
@@ -442,9 +442,9 @@ def calculateMaskWithinEllipse(
     maskInEllipse = pointsInsideEllipse(
         neighborsPoints,
         lastInAttempt,
-        major_direction=secondToLastToLast,
-        major_radius=6,
-        minor_radius=3,
+        majorDirection=secondToLastToLast,
+        majorRadius=6,
+        minorRadius=3,
     )
 
     return maskInEllipse
@@ -462,7 +462,7 @@ def maskSecondInAttemptIsOnRightVehicleSide(
 
     angleDiff = angleDiffrence(angleCarToNeighbors, angleCarDir)
 
-    expectedSign = 1 if coneType == ConeTypes.LEFT else -1
+    expectedSign = 1 if coneType == ConeTypes.left else -1
 
     maskExpectedSide = np.sign(angleDiff) == expectedSign
     maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(12) #was5
