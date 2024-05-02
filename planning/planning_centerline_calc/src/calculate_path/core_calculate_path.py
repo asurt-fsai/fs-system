@@ -225,10 +225,13 @@ class CalculatePath:
 
         # select n last points of the path and estimate the circle they form
         relevantPath = pathInfrontOfCar[-10:]
-        centerX, centerY, radius = circleFit(relevantPath)
-        center = np.array([centerX, centerY])
+        try:
+            centerX, centerY, radius = circleFit(relevantPath)
+            center = np.array([centerX, centerY])
 
-        radiusToUse = min(max(radius, 10), 100)
+            radiusToUse = min(max(radius, 10), 100)
+        except ZeroDivisionError:
+            radiusToUse = 100
 
         if radiusToUse < 80:
             # ic(center_x, center_y, radius_to_use)
