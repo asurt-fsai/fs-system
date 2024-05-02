@@ -85,20 +85,33 @@ class PathPlanner:
         Returns:
             NDArray[np.float_]: The calculated path as a NumPy array.
         """
-        
+
+        totalNumOfCones = len(cones[ConeTypes.BLUE]) + len(cones[ConeTypes.UNKNOWN]) + len(cones[ConeTypes.YELLOW])
+        if 0 < totalNumOfCones < 3:
+            cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, cones)
+            result = cornerCasesPath.getPath()
+            self.calculatePath.previousPaths = np.concatenate(
+                (self.calculatePath.previousPaths[-15:], result), axis=0
+            )
+            return result
+
         ### Cones Sorting ###
-        coneSortingInput = ConeSortingInput(cones, vehiclePosition, vehicleDirection)
+        coneSortingInput = ConeSortingInput(cones, vehiclePosition, float(vehicleDirection))
         self.coneSorting.setNewInput(coneSortingInput)
         sortedLeft, sortedRight = self.coneSorting.runConeSorting()
 
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
         matchedConesInput[ConeTypes.left] = sortedLeft
         matchedConesInput[ConeTypes.right] = sortedRight
-        
-        if (len(sortedLeft) < 3 and len(sortedRight) < 3) and (len(sortedLeft) > 0 and len(sortedRight) > 0):
+
+        if 0 < len(sortedLeft) < 3 and 0 < len(sortedRight) < 3:
             cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, matchedConesInput)
-            return cornerCasesPath.getPath()
-        
+            result = cornerCasesPath.getPath()
+            self.calculatePath.previousPaths = np.concatenate(
+                (self.calculatePath.previousPaths[-15:], result), axis=0
+            )
+            return result
+
         ### Cone Matching ###
         coneMatchingInput = ConeMatchingInput(matchedConesInput, vehiclePosition, vehicleDirection)
         self.coneMatching.setNewInput(coneMatchingInput)
