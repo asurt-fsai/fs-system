@@ -117,7 +117,7 @@ class CameraNode(Node):
         self.generate_undistort_maps(params)
 
         #set-up camera capture 
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(-1)
 
         if not self.cap.isOpened():
             self.get_logger().error('Could not open camera')
@@ -144,9 +144,10 @@ class CameraNode(Node):
 
             #undistort
             undistorted_img = cv2.remap(left_img, self.mapx, self.mapy, cv2.INTER_LINEAR)
+            rgb_img = cv2.cvtColor(undistorted_img, cv2.COLOR_BGR2RGB)
             
             # Convert OpenCV image to ROS2 Image message
-            ros_image = self.bridge.cv2_to_imgmsg(undistorted_img, encoding="rgb8")
+            ros_image = self.bridge.cv2_to_imgmsg(rgb_img, encoding="rgb8")
             ros_image.header.frame_id = str(self.frame_id)
             
             # Publish the image

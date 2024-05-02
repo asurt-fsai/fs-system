@@ -1,0 +1,12 @@
+<launch>
+    <node pkg="visualizer" exec="visualizer_node" name="visualizer_node">
+
+        <!-- Subscribed topics -->
+        <param name="camera_feed" value="/camera_interface/camera_feed"/>
+        <param name="bboxes" value="/yolov8/detections"/>
+
+        <!-- Published topics -->
+        <param name="viz_bboxes" value="/visualizer/viz_bboxes"/>
+
+    </node>
+</launch>

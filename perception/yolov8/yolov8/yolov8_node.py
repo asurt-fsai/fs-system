@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import rclpy
-from cv2 import imwrite
 from rclpy.node import Node
 from ultralytics import YOLO
 from sensor_msgs.msg import Image
@@ -122,7 +121,7 @@ class Yolov8Node(Node):
         # Process the image through YOLO
         try:
             result = self.detector(cv_image)[0]
-
+            
             if (len(result)>0):
                 boxes = result.boxes.cpu().numpy()
 
