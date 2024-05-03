@@ -26,14 +26,14 @@ def generate_launch_description():
     package='tf2_ros',
     executable='static_transform_publisher',
     name='camera_init_to_map',
-    arguments=['0', '0', '0', '0', '0', '0', 'map', 'camera_init'],
+    arguments=['0', '0', '0', '1.570795', '0', '1.570795', 'map', 'camera_init'], #1.570795
   )
 
   transform_camera = Node(
     package='tf2_ros',
     executable='static_transform_publisher',
     name='base_link_to_camera',
-    arguments=['0', '0', '0', '0', '0', '0', 'camera', 'base_link'],
+    arguments=['0', '0', '0', '-1.570795', '-1.570795', '0', 'camera', 'base_link'],
   )
 
   transform_velodyne = Node(

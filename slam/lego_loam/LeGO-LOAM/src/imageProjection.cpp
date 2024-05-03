@@ -449,7 +449,7 @@ void ImageProjection::publishClouds() {
   auto PublishCloud = [](rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub, sensor_msgs::msg::PointCloud2& temp,
                           const pcl::PointCloud<PointType>::Ptr& cloud) {
     if (pub->get_subscription_count() != 0) {
-       sensor_msgs::msg::PointCloud2 _temp;
+      sensor_msgs::msg::PointCloud2 _temp;
       pcl::toROSMsg(*cloud, _temp);
       _temp.header.stamp = temp.header.stamp;
       _temp.header.frame_id = temp.header.frame_id;

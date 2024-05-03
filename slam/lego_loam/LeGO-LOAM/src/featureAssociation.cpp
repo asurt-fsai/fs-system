@@ -171,11 +171,11 @@ void FeatureAssociation::adjustDistortion() {
   PointType point;
 
   for (int i = 0; i < cloudSize; i++) {
-    point.x = segmentedCloud->points[i].x;
-    point.y = segmentedCloud->points[i].y;
-    point.z = segmentedCloud->points[i].z;
+    point.x = segmentedCloud->points[i].y;
+    point.y = segmentedCloud->points[i].z;
+    point.z = segmentedCloud->points[i].x;
 
-    float ori = -atan2(point.y, point.x);
+    float ori = -atan2(point.x, point.z);
     if (!halfPassed) {
       if (ori < segInfo.start_orientation - M_PI / 2)
         ori += 2 * M_PI;
@@ -1186,9 +1186,9 @@ void FeatureAssociation::adjustOutlierCloud() {
   PointType point;
   int cloudSize = outlierCloud->points.size();
   for (int i = 0; i < cloudSize; ++i) {
-    point.x = outlierCloud->points[i].x;
-    point.y = outlierCloud->points[i].y;
-    point.z = outlierCloud->points[i].z;
+    point.x = outlierCloud->points[i].y;
+    point.y = outlierCloud->points[i].z;
+    point.z = outlierCloud->points[i].x;
     point.intensity = outlierCloud->points[i].intensity;
     outlierCloud->points[i] = point;
   }
@@ -1201,9 +1201,9 @@ void FeatureAssociation::publishOdometry() {
   geoQuat = tf2::toMsg(q);
 
   laserOdometry.header.stamp = cloudHeader.stamp;
-  laserOdometry.pose.pose.orientation.x = -geoQuat.x;
-  laserOdometry.pose.pose.orientation.y = -geoQuat.y;
-  laserOdometry.pose.pose.orientation.z = geoQuat.z;
+  laserOdometry.pose.pose.orientation.x = -geoQuat.y;
+  laserOdometry.pose.pose.orientation.y = -geoQuat.z;
+  laserOdometry.pose.pose.orientation.z = geoQuat.x;
   laserOdometry.pose.pose.orientation.w = geoQuat.w;
   laserOdometry.pose.pose.position.x = transformSum[3];
   laserOdometry.pose.pose.position.y = transformSum[4];
@@ -1214,9 +1214,9 @@ void FeatureAssociation::publishOdometry() {
   laserOdometryTrans.transform.translation.x = transformSum[3];
   laserOdometryTrans.transform.translation.y = transformSum[4];
   laserOdometryTrans.transform.translation.z = transformSum[5];
-  laserOdometryTrans.transform.rotation.x = -geoQuat.x;
-  laserOdometryTrans.transform.rotation.y = -geoQuat.y;
-  laserOdometryTrans.transform.rotation.z = geoQuat.z;
+  laserOdometryTrans.transform.rotation.x = -geoQuat.y;
+  laserOdometryTrans.transform.rotation.y = -geoQuat.z;
+  laserOdometryTrans.transform.rotation.z = geoQuat.x;
   laserOdometryTrans.transform.rotation.w = geoQuat.w;
   tfBroadcaster->sendTransform(laserOdometryTrans);
 }
