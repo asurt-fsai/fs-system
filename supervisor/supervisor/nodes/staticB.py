@@ -25,7 +25,7 @@ class StaticB(Node):
     """
 
     def __init__(self) -> None:
-        self.node=super().__init__('StaticB_Node')
+        super().__init__('StaticB_Node')
 
         self.declare_parameters(
             namespace='',
@@ -57,7 +57,7 @@ class StaticB(Node):
         Run Static B
         """
         self.get_logger().info("Starting Static B")
-
+        
         velTopic = self.get_parameter("/control/velocity").get_parameter_value().string_value
         isFinishedTopic = self.get_parameter("/finisher/is_finished").get_parameter_value().string_value
         stateTopic = self.get_parameter("/state").get_parameter_value().string_value
@@ -68,9 +68,12 @@ class StaticB(Node):
         finishPub = self.create_publisher(Bool, isFinishedTopic, 10)
 
 
-        time.sleep(4)
-        vel = 2 * np.pi * 50 * 0.253 / 60  # 50 rpm
-        velPub.publish(Float32(data=vel))
+        time.sleep(10)
+        
+        vel = Float32(data =(2 * np.pi * 50 * 0.253 / 60))  # 50 rpm
+        statePub.publish(Int16(data=2))
+        self.get_logger().info("yes")
+        velPub.publish(vel)
         self.get_logger().info(str(vel))
         time.sleep(10)
 
@@ -78,7 +81,7 @@ class StaticB(Node):
 
         # CALLING EBS SERVICE HERE
 
-        ############################S
+        ############################
     
         client=self.create_client(Trigger,ebsTopic)#define the client
         while not client.wait_for_service(timeout_sec=0.25): # wait for the server to be up
@@ -89,12 +92,13 @@ class StaticB(Node):
         #call async is non blocking mean that it will not wait for the response.
         future_obj = client.call_async(request) 
         rclpy.spin_until_future_complete(self, future_obj) # spin until the response object is received
- 
-        
-       #############################
         self.get_logger().warn('DOOOOOOOOOONE')
-        statePub.publish(2)  # 2 is for finished
-        finishPub.publish(True)  # 1 is for finished
+        
+
+        statePub.publish(Int16(data=3))  # 3 is for EBS
+        msg = Bool()
+        msg.data = True
+        finishPub.publish(msg) 
 
 def callback(request:Trigger.Request,response:Trigger.Response):
     response.success=True
