@@ -60,6 +60,7 @@ MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut
   pubHistoryKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/history_cloud", 2);
   pubIcpKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/corrected_cloud", 2);
   pubRecentKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/recent_cloud", 2);
+  pubOdomAftMappedAdjusted = this->create_publisher<nav_msgs::msg::Odometry>("/aft_mapped_adjusted", 5);
 
   tfBroadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -82,6 +83,12 @@ MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut
 
   aftMappedTrans.header.frame_id = "camera_init";
   aftMappedTrans.child_frame_id = "aft_mapped";
+
+  odomAftMappedAdjusted.header.frame_id = "map_adjusted";
+  odomAftMappedAdjusted.child_frame_id = "aft_adjusted";
+
+  aftMappedTrans.header.frame_id = "map_adjusted";
+  aftMappedTrans.child_frame_id = "aft_adjusted";
 
   // Declare parameters
   this->declare_parameter(PARAM_ENABLE_LOOP, true);
@@ -499,7 +506,7 @@ pcl::PointCloud<PointType>::Ptr MapOptimization::transformPointCloud(
 void MapOptimization::publishTF() {
   tf2::Quaternion q;
   geometry_msgs::msg::Quaternion geoQuat;
-  q.setRPY(transformAftMapped[2], -transformAftMapped[0], -transformAftMapped[1]);
+  q.setRPY(transformAftMapped[0], transformAftMapped[2], transformAftMapped[1]);
   geoQuat = tf2::toMsg(q);
 
   odomAftMapped.header.stamp = timeLaserOdometry;
@@ -527,6 +534,33 @@ void MapOptimization::publishTF() {
   aftMappedTrans.transform.rotation.z = geoQuat.x;
   aftMappedTrans.transform.rotation.w = geoQuat.w;
   tfBroadcaster->sendTransform(aftMappedTrans);
+
+  odomAftMappedAdjusted.header.stamp = timeLaserOdometry;
+  odomAftMappedAdjusted.pose.pose.orientation.x = -geoQuat.x;
+  odomAftMappedAdjusted.pose.pose.orientation.y = -geoQuat.y;
+  odomAftMappedAdjusted.pose.pose.orientation.z = geoQuat.z;
+  odomAftMappedAdjusted.pose.pose.orientation.w = geoQuat.w;
+  odomAftMappedAdjusted.pose.pose.position.x = transformAftMapped[5];
+  odomAftMappedAdjusted.pose.pose.position.y = transformAftMapped[3];
+  odomAftMappedAdjusted.pose.pose.position.z = transformAftMapped[4];
+  odomAftMappedAdjusted.twist.twist.angular.x = transformBefMapped[0];
+  odomAftMappedAdjusted.twist.twist.angular.y = transformBefMapped[1];
+  odomAftMappedAdjusted.twist.twist.angular.z = transformBefMapped[2];
+  odomAftMappedAdjusted.twist.twist.linear.x = transformBefMapped[3];
+  odomAftMappedAdjusted.twist.twist.linear.y = transformBefMapped[4];
+  odomAftMappedAdjusted.twist.twist.linear.z = transformBefMapped[5];
+  pubOdomAftMappedAdjusted->publish(odomAftMappedAdjusted);
+
+  
+  aftMappedTransAdjusted.header.stamp = timeLaserOdometry;
+  aftMappedTransAdjusted.transform.translation.x = transformAftMapped[3];
+  aftMappedTransAdjusted.transform.translation.y = transformAftMapped[4];
+  aftMappedTransAdjusted.transform.translation.z = transformAftMapped[5];
+  aftMappedTransAdjusted.transform.rotation.x = -geoQuat.x;
+  aftMappedTransAdjusted.transform.rotation.y = -geoQuat.y;
+  aftMappedTransAdjusted.transform.rotation.z = geoQuat.z;
+  aftMappedTransAdjusted.transform.rotation.w = geoQuat.w;
+  tfBroadcaster->sendTransform(aftMappedTransAdjusted);
 }
 
 void MapOptimization::publishKeyPosesAndFrames() {

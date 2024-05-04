@@ -51,6 +51,12 @@ def generate_launch_description():
     parameters=[config_file],
     remappings=[('/lidar_points', '/velodyne_points')],
   )
+  transform_adjusted = Node(
+    package='tf2_ros',
+    executable='static_transform_publisher',
+    name='map_to_adjust',
+    arguments=['0', '0', '0', '0', '0', '0', 'map', 'map_adjusted'],
+  )
 
   # Rviz
   rviz_node = Node(
@@ -69,6 +75,7 @@ def generate_launch_description():
   ld.add_action(lego_loam_node)
   ld.add_action(transform_map)
   ld.add_action(transform_camera)
+  ld.add_action(transform_adjusted)
   ld.add_action(transform_velodyne)
   ld.add_action(rviz_node)
 

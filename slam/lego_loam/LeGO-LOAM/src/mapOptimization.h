@@ -69,6 +69,7 @@ class MapOptimization : public rclcpp::Node {
 
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubLaserCloudSurround;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pubOdomAftMapped;
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pubOdomAftMappedAdjusted;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubKeyPoses;
 
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubHistoryKeyFrames;
@@ -76,7 +77,9 @@ class MapOptimization : public rclcpp::Node {
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubRecentKeyFrames;
 
   nav_msgs::msg::Odometry odomAftMapped;
+  nav_msgs::msg::Odometry odomAftMappedAdjusted;
   geometry_msgs::msg::TransformStamped aftMappedTrans;
+  geometry_msgs::msg::TransformStamped aftMappedTransAdjusted;
   std::shared_ptr<tf2_ros::TransformBroadcaster> tfBroadcaster;
 
   std::vector<pcl::PointCloud<PointType>::Ptr> cornerCloudKeyFrames;

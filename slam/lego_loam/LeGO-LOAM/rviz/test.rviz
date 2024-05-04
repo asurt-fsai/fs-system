@@ -175,12 +175,12 @@ Visualization Manager:
         Head Radius: 0.5
         Shaft Length: 1
         Shaft Radius: 0.20000000298023224
-        Value: Arrow
-      Topic: /aft_mapped_to_init
+        Value: Axes
+      Topic: /aft_mapped_adjusted
       Unreliable: false
       Value: true
     - Class: rviz_default_plugins/TF
-      Enabled: true
+      Enabled: false
       Frame Timeout: 15
       Frames:
         All Enabled: false
