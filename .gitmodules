@@ -1,6 +1,6 @@
-[submodule "dependencies/ros_numpy"]
-	path = dependencies/ros_numpy
-	url = https://github.com/asurt-fsai/ros_numpy
+[submodule "dependencies/ros2_numpy"]
+	path = dependencies/ros2_numpy
+	url = https://github.com/Box-Robotics/ros2_numpy.git
 [submodule "dependencies/ackermann_msgs"]
 	path = dependencies/ackermann_msgs
 	url = https://github.com/asurt-fsai/ackermann_msgs
@@ -31,3 +31,9 @@
 [submodule "slam/hdl_global_localization"]
 	path = slam/hdl_global_localization
 	url = https://github.com/asurt-fsai/hdl_global_localization
+[submodule "dependencies/tf_helper"]
+	path = dependencies/tf_helper
+	url = https://github.com/asurt-fsai/tf_helper.git
+[submodule "dependencies/asurt_msgs"]
+	path = dependencies/asurt_msgs
+	url = https://github.com/asurt-fsai/asurt_msgs.git
