@@ -44,7 +44,7 @@ class ConeMatchingState:
     matchesShouldBeMonotonic: bool
     sortedLeft: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
     sortedRight: FloatArray = field(default_factory=lambda: np.zeros((0, 2)))
-    positionGlobal: FloatArray = field(init=False)  # might be float
+    positionGlobal: FloatArray = field(init=False)
     directionGlobal: np.float_ = np.float_(0)
 
 
@@ -116,7 +116,7 @@ class ConeMatching:
             self.state.maxSearchAngle,
             self.state.matchesShouldBeMonotonic,
         )
-        
+
         return (
             leftConesWithVirtual,
             rightConesWithVirtual,

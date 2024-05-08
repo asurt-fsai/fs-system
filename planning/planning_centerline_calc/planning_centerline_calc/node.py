@@ -3,18 +3,19 @@
 Path planning node
 This node is responsible for starting the path planning module
 """
+
+from typing import Any, List
 import rclpy
 from rclpy.node import Node
 from asurt_msgs.msg import LandmarkArray,Landmark
 from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped
 import numpy as np
-from typing import Any
 from tf_transformations import euler_from_quaternion
 
 from src.full_pipeline.full_pipeline import PathPlanner
 from src.utils.cone_types import ConeTypes
-from src.utils.math_utils import angleFrom2dVector
+from src.types_file import FloatArray
 import matplotlib.pyplot as plt
 
 class PlanningNode(Node):
@@ -42,10 +43,10 @@ class PlanningNode(Node):
     def __init__(self) -> None:
         super().__init__("planning_node")
         self.get_logger().info("Path Planner instantiated...")
-        self.path = None
-        self.cones = None
+        self.path: FloatArray = np.zeros((0, 2))
+        self.cones: List[FloatArray] = [np.zeros((0, 2)) for _ in ConeTypes]
         self.carPosition = np.array([0, 0])
-        self.carDirection = 0
+        self.carDirection = np.float_(0.0)
         self.pathPlanner = PathPlanner()
         self.subscriber1 = self.create_subscription(
             LandmarkArray, "/Landmarks/Observed", self.receiveFromPerception, 10
@@ -70,15 +71,21 @@ class PlanningNode(Node):
         for landmark in msg.landmarks:
             if landmark.type == Landmark.BLUE_CONE:
                 self.cones[ConeTypes.BLUE] = np.vstack(
-                    (self.cones[ConeTypes.BLUE], np.array([landmark.position.x, landmark.position.y]))
+                    (self.cones[ConeTypes.BLUE],
+                     np.array([landmark.position.x,
+                               landmark.position.y]))
                 )
             elif landmark.type == Landmark.YELLOW_CONE:
                 self.cones[ConeTypes.YELLOW] = np.vstack(
-                    (self.cones[ConeTypes.YELLOW], np.array([landmark.position.x, landmark.position.y]))
+                    (self.cones[ConeTypes.YELLOW],
+                     np.array([landmark.position.x,
+                               landmark.position.y]))
                 )
             else:
                 self.cones[ConeTypes.UNKNOWN] = np.vstack(
-                    (self.cones[ConeTypes.UNKNOWN], np.array([landmark.position.x, landmark.position.y]))
+                    (self.cones[ConeTypes.UNKNOWN],
+                     np.array([landmark.position.x,
+                               landmark.position.y]))
                 )
 
         self.sendToControl()
@@ -92,19 +99,17 @@ class PlanningNode(Node):
         """
         # get car_position, car_direction
         pose = msg.pose.pose
-        orientation_q = pose.orientation
+        orientationQ = pose.orientation
         self.carPosition = np.array([pose.position.x, pose.position.y])
-        
-        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
-        (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
+
+        orientationList = [orientationQ.x, orientationQ.y, orientationQ.z, orientationQ.w]
+        (roll, pitch, yaw) = euler_from_quaternion(orientationList)
         self.carDirection = yaw
-        # print(self.carDirection)
 
     def sendToControl(self) -> None:
         """
         Sends the calculated path to control.
         """
-        
         if self.carDirection is None:
             return
         self.path = self.pathPlanner.calculatePathInGlobalFrame(

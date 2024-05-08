@@ -216,25 +216,25 @@ def insertVirtualConesToExisting(
         if len(indicesSortedByDistances) == 1:
             indexToInsert = calculateInsertIndexForOneCone(carPosition, existingCones, coneToInsert)
         else:
-            closestIndex, secondClosestIndex = indicesSortedByDistances[:2]
+            #closestIndex, secondClosestIndex = indicesSortedByDistances[:2]
 
-            if np.abs(closestIndex - secondClosestIndex) != 1:
+            if np.abs(indicesSortedByDistances[0] - indicesSortedByDistances[1]) != 1:
                 continue
 
-            virtualToClosest = existingCones[closestIndex] - coneToInsert
-            virtualToSecondClosest = existingCones[secondClosestIndex] - coneToInsert
+            virtualToClosest = existingCones[indicesSortedByDistances[0]] - coneToInsert
+            virtualToSecondClosest = existingCones[indicesSortedByDistances[1]] - coneToInsert
             if np.isnan(virtualToClosest).any():
                 continue
             angleBetweenVirtualConesAndClosestTwo = vecAngleBetween(
                 virtualToClosest, virtualToSecondClosest
             )
 
-            coneIsBetweenClosestTwo = cast(bool, angleBetweenVirtualConesAndClosestTwo > np.pi / 2)
+            #coneIsBetweenClosestTwo = cast(bool, angleBetweenVirtualConesAndClosestTwo > np.pi / 2)
 
             indexToInsert = calculateInsertIndexOfNewCone(
-                closestIndex,
-                secondClosestIndex,
-                coneIsBetweenClosestTwo,
+                indicesSortedByDistances[0],
+                indicesSortedByDistances[1],
+                cast(bool, angleBetweenVirtualConesAndClosestTwo > np.pi / 2),
             )
 
         existingCones: FloatArray = np.insert(  # type: ignore
@@ -245,7 +245,6 @@ def insertVirtualConesToExisting(
         )
 
     angles = traceAnglesBetween(existingCones)
-    # print(np.rad2deg(angles))
     maskLowAngles = angles < np.deg2rad(85)
     maskLowAngles = np.concatenate([[False], maskLowAngles, [False]])
 
@@ -395,8 +394,8 @@ def calculateConesForOtherSide(
         maxSearchAngle,
         matchesShouldBeMonotonic,
     )
-    maskConeHasMatch = matchesForEachSelectableCone != -1
-    indicesNoMatch = np.where(~maskConeHasMatch)[0]
+    #maskConeHasMatch = matchesForEachSelectableCone != -1
+    indicesNoMatch = np.where(~(matchesForEachSelectableCone != -1))[0]
 
     positionsOfVirtualCones = calculatePositionsOfVirtualCones(
         matchableCones, indicesNoMatch, searchDirections, minTrackWidth
@@ -404,19 +403,16 @@ def calculateConesForOtherSide(
 
     # removedOtherSideConeType
 
-    # we do not care about the history in prod, only for debugging/visualization
     result = combineAndSortVirtualWithReal(
         otherSideCones,
         positionsOfVirtualCones,
         carPos,
     )
-    combinedAndSortedCones = result[0]
-    maskIsVirtual = result[1]
-    if len(combinedAndSortedCones) < 2:
-        combinedAndSortedCones = otherSideCones
-        maskIsVirtual = np.zeros(len(otherSideCones), dtype=bool)
-
-    return combinedAndSortedCones, maskIsVirtual
+    #combinedAndSortedCones = result[0]
+    #maskIsVirtual = result[1]
+    if len(result[0]) < 2:
+        result = otherSideCones, np.zeros(len(otherSideCones), dtype=bool)
+    return result
 
 
 def matchBothSidesWithVirtualCones(

@@ -472,16 +472,16 @@ def eulerAnglesToQuaternion(eulerAngles: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The quaternion representation in [..., 4] [x, y, z, w] order
     """
-    rollIndex, pitchIndex, yawIndex = 0, 1, 2
+    #rollIndex, pitchIndex, yawIndex = 0, 1, 2
     sinValues = np.sin(eulerAngles * 0.5)
     cosValues = np.cos(eulerAngles * 0.5)
 
-    cosYaw = cosValues[..., yawIndex]
-    sinYaw = sinValues[..., yawIndex]
-    cosPitch = cosValues[..., pitchIndex]
-    sinPitch = sinValues[..., pitchIndex]
-    cosRoll = cosValues[..., rollIndex]
-    sinRoll = sinValues[..., rollIndex]
+    cosYaw = cosValues[..., 2]
+    sinYaw = sinValues[..., 2]
+    cosPitch = cosValues[..., 1]
+    sinPitch = sinValues[..., 1]
+    cosRoll = cosValues[..., 0]
+    sinRoll = sinValues[..., 0]
 
     quaternionX = sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw
     quaternionY = cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw
@@ -507,11 +507,11 @@ def quaternionToEulerAngles(quaternion: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: The Euler angles as an [..., 3] array. Order is [roll, pitch, yaw]
     """
-    xIndex, yIndex, zIndex, wIndex = 0, 1, 2, 3
-    xValue = quaternion[..., xIndex]
-    yValue = quaternion[..., yIndex]
-    zValue = quaternion[..., zIndex]
-    wValue = quaternion[..., wIndex]
+    #xIndex, yIndex, zIndex, wIndex = 0, 1, 2, 3
+    xValue = quaternion[..., 0]
+    yValue = quaternion[..., 1]
+    zValue = quaternion[..., 2]
+    wValue = quaternion[..., 3]
 
     ySquare = yValue * yValue
     temporary0 = -2.0 * (ySquare + zValue * zValue) + 1.0

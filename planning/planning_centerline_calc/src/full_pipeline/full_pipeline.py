@@ -13,12 +13,12 @@ from __future__ import annotations
 from typing import List, Optional
 
 import numpy as np
-from numpy.typing import NDArray
 
 from src.cones_sorting.cone_sorting_wrapper import ConeSortingInput, ConeSorting
 from src.cone_matching.core_cone_matching import ConeMatching, ConeMatchingInput
 from src.calculate_path.core_calculate_path import CalculatePath, PathCalculationInput
 from src.corner_case.corner_case_path import CornerCasesPath
+from src.types_file import FloatArray
 
 from src.utils.cone_types import ConeTypes
 
@@ -61,32 +61,32 @@ class PathPlanner:
             mpcPathLength=20,
             mpcPredictionHorizon=40,
         )
-        self.globalPath: Optional[NDArray[np.float_]] = None
+        self.globalPath: Optional[FloatArray] = None
 
-    def setGlobalPath(self, globalPath: NDArray[np.float_]) -> None:
+    def setGlobalPath(self, globalPath: FloatArray) -> None:
         """Sets Global Path."""
         self.globalPath = globalPath
 
     def calculatePathInGlobalFrame(
         self,
-        cones: List[NDArray[np.float_]],
-        vehiclePosition: NDArray[np.float_],
+        cones: List[FloatArray],
+        vehiclePosition: FloatArray,
         vehicleDirection: np.float_,
-    ) -> NDArray[np.float_]:
+    ) -> FloatArray:
         """
         Calculates a path for the vehicle in the global frame based on the provided cones, 
         vehicle position, and direction.
 
         Args:
-            cones (List[NDArray[np.float_]]): A list of NumPy arrays representing cone positions.
-            vehiclePosition (NDArray[np.float_]): The vehicle's current position as a NumPy array.
+            cones (List[FloatArray]): A list of NumPy arrays representing cone positions.
+            vehiclePosition (FloatArray): The vehicle's current position as a NumPy array.
             vehicleDirection (np.float_): The vehicle's current heading direction in radians.
 
         Returns:
-            NDArray[np.float_]: The calculated path as a NumPy array.
+            FloatArray: The calculated path as a NumPy array.
         """
 
-        totalNumOfCones = len(cones[ConeTypes.BLUE]) + len(cones[ConeTypes.UNKNOWN]) + len(cones[ConeTypes.YELLOW])
+        totalNumOfCones = len(cones[0]) + len(cones[1]) + len(cones[2]) # blue, unknown, yellow
         if 0 < totalNumOfCones < 3:
             cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, cones)
             result = cornerCasesPath.getPath()
@@ -98,13 +98,13 @@ class PathPlanner:
         ### Cones Sorting ###
         coneSortingInput = ConeSortingInput(cones, vehiclePosition, float(vehicleDirection))
         self.coneSorting.setNewInput(coneSortingInput)
-        sortedLeft, sortedRight = self.coneSorting.runConeSorting()
+        sortedCones = self.coneSorting.runConeSorting()     #sortedCones = sortedLeft, sortedRight
 
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
-        matchedConesInput[ConeTypes.left] = sortedLeft
-        matchedConesInput[ConeTypes.right] = sortedRight
+        matchedConesInput[ConeTypes.left] = sortedCones[0]
+        matchedConesInput[ConeTypes.right] = sortedCones[1]
 
-        if 0 < len(sortedLeft) < 3 and 0 < len(sortedRight) < 3:
+        if 0 < len(sortedCones[0]) < 3 and 0 < len(sortedCones[1]) < 3:
             cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, matchedConesInput)
             result = cornerCasesPath.getPath()
             self.calculatePath.previousPaths = np.concatenate(
@@ -133,6 +133,5 @@ class PathPlanner:
             self.globalPath,
         )
         self.calculatePath.setNewInput(pathCalculationInput)
-        result = self.calculatePath.runPathCalculation()
 
-        return result
+        return self.calculatePath.runPathCalculation()
