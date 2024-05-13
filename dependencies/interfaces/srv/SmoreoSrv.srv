@@ -1,0 +1,8 @@
+float64 f
+float64 cx
+float64 cy
+float64 cone_h
+float64 camera_h
+int32 cut_off_y
+---
+bool success
