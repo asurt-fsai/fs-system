@@ -168,12 +168,12 @@ class SmoreoSystem(Node):
             self.boundingBoxes = None
 
             try:
-                predictedLandmarks.header.stamp = rclpy.clock.Clock.now()
+                predictedLandmarks.header.stamp = self.get_clock().now().to_msg()
             except rclpy.exceptions.NotInitializedException:
                 rclpy.logging.warn("ROS not initialized, using time 0 for header")
 
-            self.publishers_landmarkPub.publish(predictedLandmarks)
-            self.publishers_markersPub.publish(self.markerViz.conesToMarkers(predictedLandmarks))
+            self._publishers_landmarkPub.publish(predictedLandmarks)
+            self._publishers_markersPub.publish(self.markerViz.conesToMarkers(predictedLandmarks))
             return predictedLandmarks
         return None
     
@@ -189,6 +189,8 @@ class SmoreoSystem(Node):
         -----------
         None
         """
+        # print on terminal
+        self.get_logger().info("Received Bounding Boxes")
         self.boundingBoxes = processBboxes(boundingBoxes)
 
     def start(self, useConeBase: bool, inTuning: bool) -> None:
@@ -202,7 +204,7 @@ class SmoreoSystem(Node):
         coneRadius = self.get_parameter("/physical/cone_radius").get_parameter_value().double_value
         coneHeight = self.get_parameter("/physical/cone_height").get_parameter_value().double_value
         lidarHeight = self.get_parameter("/physical/lidar_height").get_parameter_value().double_value
-        self.markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
+        self.markerViz = MarkerViz(self, coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         self.boundingBoxes = None
         self.smoreo = Smoreo(self.params, self.get_parameter("/smoreo/camera_frame").get_parameter_value().string_value)
         if not self.has_parameter("/smoreo/bounding_boxes"):

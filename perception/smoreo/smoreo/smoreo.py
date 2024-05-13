@@ -148,7 +148,8 @@ class Smoreo:
         self.allLandMarks.landmarks = []
         cameraHeight = self.params["camera_height_from_ground"]
         for box in bboxes:
-            bboxH, _, bboxCy, bboxCx, _, _, _ = box
+            # bboxH, _, bboxCy, bboxCx, _, _, _ = box
+            bboxH,bboxCy,bboxCx,_,_,_,_,_,_ ,_,_,_ = box
             if self.filterNearBoxes(float(bboxCy)):
                 x = bboxCx - self.params["cx"]
                 yBottom = bboxCy + bboxH // 2 - self.params["cy"]

@@ -19,7 +19,7 @@ from numpy.typing import NDArray
 
 class TunerSystem(Node):
     def __init__(self):
-        super().__init__("smoreo")
+        super().__init__("tuner")
 
         # self.srv: Server
         self.cutOffPublisher: rclpy.publisher.Publisher
@@ -31,11 +31,11 @@ class TunerSystem(Node):
                 ('/smoreo/camera_raw', rclpy.Parameter.Type.STRING),
                 ('/smoreo/cut_off_viz', rclpy.Parameter.Type.STRING),
                 ('smoreo/f',rclpy.Parameter.Type.DOUBLE),
-                ('smoreo/cx',rclpy.Parameter.Type.DOUBLE),
-                ('smoreo/cy',rclpy.Parameter.Type.DOUBLE),
-                ('smoreo/cone_h',rclpy.Parameter.Type.DOUBLE),
-                ('smoreo/camera_h',rclpy.Parameter.Type.DOUBLE),
-                ('smoreo/cut_off_y',rclpy.Parameter.Type.INTEGER)
+                ('/smoreo/cx',rclpy.Parameter.Type.DOUBLE),
+                ('/smoreo/cy',rclpy.Parameter.Type.DOUBLE),
+                ('/physical/cone_height',rclpy.Parameter.Type.DOUBLE),
+                ('/physical/camera_height_from_ground',rclpy.Parameter.Type.DOUBLE),
+                ('/smoreo/cut_off_y',rclpy.Parameter.Type.INTEGER)
             ]
             )
         self.srv = self.create_service(SmoreoSrv, '/smoreo/camera_raw', self.parametersCallback)
@@ -63,7 +63,7 @@ class TunerSystem(Node):
         Visualize the cut off line
         """
         if self.lastImage is not None:
-            cutOffy = self.get_parameter("smoreo/cut_off_y").get_parameter_value().integer_value
+            cutOffy = self.get_parameter("/smoreo/cut_off_y").get_parameter_value().integer_value
             startPoint = (0, cutOffy)
             endPoint = (self.lastImage.shape[1], cutOffy)
             out = cv.line(self.lastImage.copy(), startPoint, endPoint, (0, 0, 0), 10)
@@ -78,6 +78,7 @@ class TunerSystem(Node):
         ------------
         image: Image
         """
+        self.get_logger().info("Received image")
         image = np.frombuffer(image.data, dtype=np.uint8).reshape(image.height, image.width, -1)
         self.lastImage = np.array(image)
 
@@ -85,6 +86,7 @@ class TunerSystem(Node):
         """
         Start the node
         """
+        self.get_logger().info("Starting Tuner Node")
         
         if not self.has_parameter("/smoreo/camera_raw") or not self.has_parameter("/smoreo/cut_off_viz"):
             raise ValueError(
@@ -108,12 +110,12 @@ class TunerSystem(Node):
         # Get the parameters
         params = {
             "smoreo": {
-                "f": TunerSystem.get_parameter("smoreo/f").get_parameter_value().double_value,
-                "cx": TunerSystem.get_parameter("smoreo/cx").get_parameter_value().double_value,
-                "cy": TunerSystem.get_parameter("smoreo/cy").get_parameter_value().double_value,
-                "cone_height": TunerSystem.get_parameter("smoreo/cone_height").get_parameter_value().double_value,
-                "camera_height_from_ground": TunerSystem.get_parameter("smoreo/camera_height_from_ground").get_parameter_value().double_value,
-                "cut_off_y": TunerSystem.get_parameter("smoreo/cut_off_y").get_parameter_value().double_value,
+                "f": TunerSystem.get_parameter("/smoreo/f").get_parameter_value().double_value,
+                "cx": TunerSystem.get_parameter("/smoreo/cx").get_parameter_value().double_value,
+                "cy": TunerSystem.get_parameter("/smoreo/cy").get_parameter_value().double_value,
+                "cone_height": TunerSystem.get_parameter("/physical/cone_height").get_parameter_value().double_value,
+                "camera_height_from_ground": TunerSystem.get_parameter("/physical/camera_height_from_ground").get_parameter_value().double_value,
+                "cut_off_y": TunerSystem.get_parameter("/smoreo/cut_off_y").get_parameter_value().double_value,
             }
         }
         # Dump the parameters to a yaml file i the config folder
