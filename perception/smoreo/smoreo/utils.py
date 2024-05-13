@@ -22,16 +22,19 @@ def processBboxes(boundingBoxes: BoundingBoxes) -> npt.NDArray[np.float64]:
     """
     bboxes = []
     for box in boundingBoxes.bounding_boxes:
-        height = box.height
-        width = box.width
-        centerX = box.x_center
-        centerY = box.y_center
-        boxId = box.id
-        boxType = box.type
-        classPob = box.probability
+        probability= box.probability
         xmin = box.xmin
         ymin = box.ymin
         xmax = box.xmax
         ymax = box.ymax
-        bboxes.append([height, width, centerY, centerX, boxId, boxType, classPob, xmin, ymin, xmax, ymax])
+        centerX = box.x_center
+        centerY = box.y_center
+        width = box.width
+        height = box.height
+        detectionId = box.detection_id
+        trackId = box.track_id
+        boxType = box.type
+
+        bboxes.append([height, centerY,  centerX, width,detectionId, boxType, probability, xmin, ymin, xmax, ymax,trackId])
+
     return np.asarray(bboxes)

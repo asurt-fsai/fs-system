@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             "smoreo= smoreo.smoreo_system:main"
+            # 'tuner= smoreo.tuner:main',
         ],
 
     },
