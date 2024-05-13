@@ -4,16 +4,21 @@
   <let name="tune" default="False"/>
 
   <!-- Run smoreo without tuning  -->
+
   <include file="$(find-pkg-share smoreo)/launch/smoreo.launch" >
+  <node name="smoreo" pkg="smoreo" exec="smoreo" args="$(var setup_name)" output="screen">
       <let name="setup_name" value="$(var setup_name)"/>
       <let name="in_tuning" value="$(var tune)"/>
+  </node>
   </include>
 
 
   <!-- Run smoreo with tuning  -->
   <group if="$(var tune)">
     <include file="$(find-pkg-share smoreo)/launch/smoreo_tuner.launch">
+    <node name="smoreo" pkg="smoreo" exec="smoreo" args="$(var setup_name)" output="screen">
       <let  name="setup_name" value="$(var setup_name)"/>
+      </node>
     </include>
   </group>
 </launch>

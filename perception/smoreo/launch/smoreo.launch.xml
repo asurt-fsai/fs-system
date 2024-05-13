@@ -3,7 +3,7 @@
 	<!-- Arguments -->
 	<arg name="in_tuning" default="False"/>
 	<arg name ="setup_name" default="zed"/>
-	
+	<arg name="setup_name" default="flir"/>
 		<!-- Physical Parameters -->
 
 	<!-- <include file="$(find-pkg-share common_params)/launch/common_params.launch"/> -->
@@ -11,11 +11,11 @@
 	<node name="smoreo" pkg="smoreo" exec="smoreo" output="screen">
 		<!-- Tuner -->
 
-		<!-- <arg name="setup_name" default="flir"/> -->
-		<!-- <node name="smoreo" pkg="smoreo" exec="tuner" args="$(var setup_name)" output="screen"> -->
+	
+	<!-- <node name="tuner" pkg="smoreo" exec="tuner" args="$(var setup_name)" output="screen"> -->
 
 
-		<param name="/smoreo/camera_raw" 		value="/front_camera_rgb/image_raw" />
+		<param name="/smoreo/camera_raw" 		value="/camera_interface/camera_feed " />
 		<param name="/smoreo/cut_off_viz" 		value="/perception/smoreo/cut_off_viz"/>
 
 		<!-- Published topics -->
@@ -23,12 +23,13 @@
 		<param name="/smoreo/predicted_markers" value="/perception/smoreo/detected_markers"/>
 
 		<!-- Subscribed topics -->
-		<param name="/smoreo/bounding_boxes" value="/darknet_ros/bounding_boxes"/>
+		<param name="/smoreo/bounding_boxes" value="/yolov8/detections"/>
 		<param name = "/smoreo/camera_info" value = "/zed/zed_node/left/camera_info" />
 		<param name = "/smoreo/camera_info" value = "zed_left" />
 
 		<!-- System params -->
 		<!-- <param from="$(find-pkg-share smoreo)/config/$(var setup_name)Params.yaml" /> -->
+		
 		<param name="/smoreo/cut_off_y" value="1000" />
 		<param name="/smoreo/cx" value="336.0" />
 		<param name="/smoreo/cy" value="188.0" />
@@ -54,4 +55,5 @@
 
 	</node>
 	<!-- Nodes to be launched -->
+	<!-- <node pkg="rqt_reconfigure" exec="rqt_reconfigure" name="rqt_reconfigure"/> -->
 </launch>
