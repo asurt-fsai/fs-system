@@ -112,7 +112,8 @@ class LidarSystem(Node):
                 - isDefaultEnabled is True and default is None
         """
         if self.isDefaultEnabled and default is not None:
-            return self.get_parameter_or(param, default).get_parameter_value()
+            self.declare_parameter(param, default)
+            # return self.get_parameter_or(param, default).get_parameter_value()
         return self.get_parameter(param).get_parameter_value()
 
     def buildPipeline(self) -> LidarRosWrapper:
@@ -143,15 +144,16 @@ class LidarSystem(Node):
             publishers_detected,
             publishers_tracked,
             publishers_detected_markers,
+            self,
             filterer,
             clusterer,
             coneClassifier,
             tracker,
             lidarHeight,
-            subsample,
+            subsample
         )
 
-        velodyneTopic = self.getParam("/perception/lidar/velodyne_topic","/velodyne_points").string_value
+        velodyneTopic = self.getParam("/perception/lidar/velodyne_topic").string_value
         self.subscription = self.create_subscription(PointCloud2,velodyneTopic, callback=lidarPipeline.setPointcloud, qos_profile=10)
 
         return lidarPipeline
@@ -283,7 +285,7 @@ class LidarSystem(Node):
         coneRadius = self.getParam("/physical/cone_radius",0.228).double_value
         coneHeight = self.getParam("/physical/cone_height",0.4).double_value
         lidarHeight = self.getParam("/physical/lidar_height",0.1).double_value
-        markerViz = MarkerViz(coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
+        markerViz = MarkerViz(self,coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         return markerViz
     
     def timer_callback(self):

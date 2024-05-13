@@ -115,7 +115,7 @@ class LidarPipeline(metaclass=SingletonMeta):
             if self.subsample:
                 cloud = self.filterer.subsample(cloud)
             cloudFil = cloud.to_array()
-
+            
             clusterCenters = self.clusterer.cluster(cloudFil)
         except Exception as exp:  # pylint: disable=broad-except
             raise RuntimeError("Error in preprocessing") from exp

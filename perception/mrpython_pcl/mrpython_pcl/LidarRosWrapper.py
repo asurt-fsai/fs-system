@@ -30,12 +30,14 @@ class LidarRosWrapper(LidarPipeline):
         publishers_detected: rclpy.publisher.Publisher,
         publishers_tracked: rclpy.publisher.Publisher,
         publishers_detected_markers: rclpy.publisher.Publisher,
+        node,
         *args: Any,
         **kwargs: Any,
     ):
         super().__init__(*args, **kwargs)
         self.markerViz = markerViz
         self.frameId = ""
+        self.node = node
 
         # Parameter Validation
         publishers = [publishers_filtered , publishers_clustered, 
@@ -60,31 +62,38 @@ class LidarRosWrapper(LidarPipeline):
         self.frameId = pointcloud.header.frame_id
         pointcloud = rosToPcl(pointcloud)
         super().setPointcloud(pointcloud)
+        self.node.get_logger().info("Received pointcloud")
 
     def run(self,node) -> Optional[Dict[str, npt.NDArray[np.float64]]]:
         output: Optional[Dict[str, npt.NDArray[np.float64]]] = super().run()
 
         if output is None:
             return None
-
+        
         output["filtered"] = npToRos(output["filtered"], self.frameId)
         output["clustered"] = npToRos(output["clustered"], self.frameId)
+      
         output["clusterCenters"] = npConesToRos(output["clusterCenters"], self.frameId)
         output["detected"] = npConesToRos(output["detected"], self.frameId)
+
 
         node.publishers_filtered.publish(output["filtered"])
         node.publishers_clustered.publish(output["clustered"])
         node.publishers_detected.publish(output["detected"])
 
+
         # MarkerArray visualizations
         detectedMarkers = self.markerViz.conesToMarkers(output["detected"])
         node.publishers_detected_markers.publish(detectedMarkers)
+       
 
         if "tracked" in output:
             output["tracked"] = npConesToRos(output["tracked"], self.frameId, addIDs=True)
+            
             node.publishers["tracked"].publish(output["tracked"])
-
+            
             trackedMarkers = self.markerViz.conesToMarkers(output["tracked"])
+           
             node.publishers_tracked_markers.publish(trackedMarkers)
 
         return output

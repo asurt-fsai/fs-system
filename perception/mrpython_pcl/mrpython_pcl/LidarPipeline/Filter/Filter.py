@@ -231,7 +231,7 @@ class Filter(metaclass=SingletonMeta):
         ----------
         cloud: PointCloud
             Point cloud to subsample from
-        ratio: float, optional, default 0.8
+        ratio: float, optional, default 0.4
             Fraction of points to sample from the point cloud
         temprature: float, optional, default 500
             Temperature for the "softmax-like" function used for sampling

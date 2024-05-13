@@ -6,7 +6,6 @@ Serializer functions for transforming between the following data types:
 """
 import rclpy
 from rclpy.time import Time
-from rclpy.clock import Clock
 import numpy as np
 import numpy.typing as npt
 from pcl import PointCloud, PointCloud_PointXYZI
@@ -110,6 +109,7 @@ def rosToPcl(rosPc2: PointCloud2, squeeze: bool = True) -> PointCloud:
         cloudNp = np.array([x, y, z]).T
 
     cloud = npToPcl(cloudNp)
+    
     return cloud
 
 
@@ -249,8 +249,8 @@ def npConesToRos(
 
     for cone in cones:
         landmark = Landmark()
-        landmark.position.x = cone[0]
-        landmark.position.y = cone[1]
+        landmark.position.x = float(cone[0])
+        landmark.position.y = float(cone[1])
         landmark.type = 4  # Unknown type
         if addIDs:
             landmark.identifier = cone[2]
