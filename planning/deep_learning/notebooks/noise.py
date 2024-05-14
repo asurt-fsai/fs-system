@@ -40,7 +40,8 @@ def modify_cones(data, change_percentage=0.05):
 
 
 def main():
-    folder_path = 'C:/Users/Jumana/Desktop/test/'
+    folder_path = 'C:/Users/Jumana/Desktop/FS-AI/REPO/Planning-DL-Data/Without Noise/CCW'
+    output_path= 'C:/Users/Jumana/Desktop/FS-AI/REPO/Planning-DL-Data/With Noise/CCW'
     change_percentage = 0.05  # 5% of blue and yellow cones will change color
 
     for filename in os.listdir(folder_path):
@@ -54,7 +55,9 @@ def main():
             modified_data = {
                 'x': cones_data['x'],
                 'y': cones_data['y'],
-                'color': cones_data['color']
+                'color': cones_data['color'],
+                'pathX': cones_data['pathX'],
+                'pathY': cones_data['pathY']
             }
             for i, color in enumerate(cones_data['color']):
                 if color == 'blue' or color == 'yellow':
