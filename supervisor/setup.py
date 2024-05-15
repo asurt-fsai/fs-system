@@ -25,8 +25,10 @@ setup(
             "staticAtest = supervisor.nodes.staticA:main",
             "supervisor_node = supervisor.nodes.supervisor_node:main",
             "interface = supervisor.GUI.gui:main",
-            "testgui = supervisor.testgui:main",
-            "testModule = supervisor.GUI.statemachine:main"
+            "testgui = supervisor.GUI.MYstateMachine:main",
+            "testCanState = supervisor.testCanState:main",
+            "testModule = supervisor.GUI.statemachine:main",
+            "testAutoDemo = supervisor.nodes.AutoDemo:main"
             
         ],
     },
