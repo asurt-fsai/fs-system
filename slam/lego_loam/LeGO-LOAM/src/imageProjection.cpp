@@ -42,6 +42,50 @@ const std::string PARAM_SEGMENT_LINE = "image_projection.segment_valid_line_num"
 ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>& output_channel)
     : Node(name),  _output_channel(output_channel)
 {
+  /* Handles the projection of LiDAR data into a 2D image plane and segmentation of the ground and obstacles.
+  
+   Attributes
+   ----------
+   _sub_laser_cloud : Subscription to raw LiDAR point cloud data.
+   _pub_full_cloud : Publisher for the full point cloud projected into a 2D image plane.
+   _pub_full_info_cloud : Publisher for the full point cloud with additional information per point.
+   _pub_ground_cloud : Publisher for the detected ground points in the point cloud.
+   _pub_segmented_cloud : Publisher for the segmented non-ground points in the point cloud.
+   _pub_segmented_cloud_pure : Publisher for the pure segmented non-ground points without additional information.
+   _pub_segmented_cloud_info : Publisher for metadata information about the segmented cloud.
+   _pub_outlier_cloud : Publisher for outlier points detected during segmentation.
+  
+   Methods
+   -------
+   ImageProjection(const std::string &name, Channel<ProjectionOut>& output_channel) :
+       Constructs an ImageProjection object and initializes ROS communication.
+       Parameters include the name of the node and a reference to the output channel for processed data.
+  
+   void resetParameters() :
+       Resets and initializes parameters and storage containers used in LiDAR data processing.
+  
+   void cloudHandler(const sensor_msgs::msg::PointCloud2::SharedPtr laserCloudMsg) :
+       Callback function for the LiDAR point cloud subscription. Handles incoming raw point cloud data.
+  
+   void projectPointCloud() :
+       Projects the raw 3D LiDAR point cloud into a 2D image plane based on the LiDAR's intrinsic parameters.
+  
+   void findStartEndAngle() :
+       Calculates the start and end angles of the LiDAR scan to assist in segmenting the point cloud.
+  
+   void groundRemoval() :
+       Segments the ground from the point cloud based on the sensor's mounting angle and the ground's expected slope.
+  
+   void cloudSegmentation() :
+       Segments the non-ground points for further processing, such as object detection and avoidance.
+  
+   void labelComponents(int row, int col) :
+       Labels the components in the segmented cloud to differentiate between distinct objects.
+  
+   void publishClouds() :
+       Publishes various forms of processed point clouds for visualization and further processing.
+ */
+  
   _sub_laser_cloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       "/lidar_points", 1, std::bind(&ImageProjection::cloudHandler, this, std::placeholders::_1));
 
@@ -118,6 +162,47 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
 }
 
 void ImageProjection::resetParameters() {
+
+  /* Summary: Resets and initializes parameters and storage containers for processing a new LiDAR scan.
+
+   Extended Description: Prepares for a new LiDAR scan by resetting internal states, clearing point clouds,
+   and reinitializing matrices related to scan processing. It fills point clouds with NaN values to denote 
+   unassigned points and sets matrices for range, ground detection, and labeling to their default values. 
+   This process ensures that the system is ready for a fresh set of LiDAR data, effectively separating 
+   the processing of the current scan from any previous scans.
+
+   Parameters
+   ----------
+   - cloud_size : size_t
+       The total number of points that can be stored in the cloud, calculated based on the LiDAR's vertical and horizontal resolution.
+   - nanPoint : PointType
+       A point filled with NaN values, used to initialize the point clouds.
+   - _laser_cloud_in : pcl::PointCloud<PointType>::Ptr
+       The input cloud received from the LiDAR sensor, cleared to remove previous scan data.
+   - _ground_cloud : pcl::PointCloud<PointType>::Ptr
+       Cloud containing ground points, cleared for the new scan.
+   - _segmented_cloud : pcl::PointCloud<PointType>::Ptr
+       Cloud containing segmented non-ground points, cleared for the new scan.
+   - _segmented_cloud_pure : pcl::PointCloud<PointType>::Ptr
+       Cloud containing purely segmented points without ground points, cleared for the new scan.
+   - _outlier_cloud : pcl::PointCloud<PointType>::Ptr
+       Cloud containing outlier points, cleared for the new scan.
+   - _range_mat : Eigen::MatrixXf
+       Matrix holding the range (distance) information of each point in the scan, reinitialized to maximum float values.
+   - _ground_mat : Eigen::MatrixXi
+       Matrix indicating whether a point is ground or not, reset to zero.
+   - _label_mat : Eigen::MatrixXi
+       Matrix used for labeling points in the cloud, reset to zero.
+   - _label_count : int
+       Counter for the number of labels used in segmentation, reset to 1.
+   - _seg_msg : cloud_msgs::msg::CloudInfo
+       Data structure to hold information about the segmented cloud, reset for the new scan processing.
+
+   Returns
+   -------
+   This function updates the internal state of the ImageProjection object to be ready for the next scan processing.
+*/
+
   const size_t cloud_size = _vertical_scans * _horizontal_scans;
   PointType nanPoint;
   nanPoint.x = std::numeric_limits<float>::quiet_NaN();
@@ -154,6 +239,34 @@ void ImageProjection::resetParameters() {
 
 void ImageProjection::cloudHandler(
     const sensor_msgs::msg::PointCloud2::SharedPtr laserCloudMsg) {
+
+  /* Summary: Handles the processing of incoming raw LiDAR point cloud data.
+
+   Extended Description: This method is the main processing pipeline for LiDAR point cloud data. 
+   It begins by resetting internal parameters to prepare for a new scan. Then, it converts the incoming
+   ROS point cloud message to PCL format, removing any NaN points in the process. It calculates the start
+   and end angles of the scan, projects the 3D points into a 2D range image, removes ground points, 
+   segments the remaining points into meaningful clusters, and finally publishes the processed data for further use.
+
+   Parameters
+   ----------
+   - laserCloudMsg : sensor_msgs::msg::PointCloud2::SharedPtr
+       The incoming LiDAR scan data in ROS point cloud message format.
+
+   Steps
+   -----
+   1. Reset internal parameters to prepare for new scan data.
+   2. Convert ROS message to PCL point cloud and remove NaN points.
+   3. Calculate the start and end angles of the LiDAR scan.
+   4. Project the 3D LiDAR points into a 2D range image.
+   5. Remove ground points from the projected image.
+   6. Segment the non-ground points into clusters.
+   7. Publish various processed point clouds for visualization and further processing.
+
+   Returns
+   -------
+   This function processes the input point cloud and publishes the results.
+*/
   // Reset parameters
   resetParameters();
 
@@ -176,6 +289,44 @@ void ImageProjection::cloudHandler(
 
 
 void ImageProjection::projectPointCloud() {
+
+  /* Summary: Projects the 3D LiDAR points into a 2D range image.
+
+   Extended Description: This method takes the 3D point cloud data from the LiDAR and projects it onto a 2D plane to 
+   create a range image. Each point's position in the image is determined by its vertical and horizontal angles relative
+   to the LiDAR sensor. This projection facilitates the subsequent processing steps, such as ground removal and point cloud segmentation,
+   by simplifying the data structure and reducing the computational complexity.
+
+   Parameters
+   ----------
+   - cloudSize : size_t
+       The total number of points in the incoming LiDAR point cloud.
+   - thisPoint : PointType
+       A temporary variable to store the current point being processed.
+   - range : float
+       The distance from the LiDAR sensor to the point.
+   - verticalAngle : float
+       The vertical angle of the point relative to the sensor.
+   - rowIdn : int
+       The row index in the 2D range image for the current point.
+   - horizonAngle : float
+       The horizontal angle of the point relative to the sensor.
+   - columnIdn : int
+       The column index in the 2D range image for the current point.
+   - index : size_t
+       The index of the point in the flattened 2D range image array.
+
+   Steps
+   -----
+   1. Calculate the range for each point in the cloud.
+   2. Determine the vertical and horizontal angles of each point.
+   3. Compute the corresponding row and column indices in the 2D range image.
+   4. Store the point in the appropriate location in the 2D range image, along with its range as intensity value.
+
+   Returns
+   -------
+   This function modifies the internal 2D range image representation of the 3D point cloud.
+*/
   // range image projection
   const size_t cloudSize = _laser_cloud_in->points.size();
 
@@ -224,6 +375,36 @@ void ImageProjection::projectPointCloud() {
 }
 
 void ImageProjection::findStartEndAngle() {
+
+  /* Summary: Calculates the start and end orientations of the LiDAR scan.
+
+   Extended Description: This method identifies the starting and ending points of the LiDAR scan based on
+   the point cloud data. It calculates the orientations (angles) of the first and last points relative to 
+   the LiDAR sensor to determine the overall scan range. These orientations are used in segmenting the point cloud by
+   identifying the beginning and end of each scan, which is crucial for accurate segmentation and analysis of the data.
+
+   Parameters
+   ----------
+   - point : PointType
+       A variable to hold the first and last points of the LiDAR scan for calculating orientations.
+
+   Steps
+   -----
+   1. Calculate the orientation angle for the first point in the point cloud.
+   2. Calculate the orientation angle for the last point in the point cloud.
+   3. Adjust the end orientation to ensure it represents a complete scan cycle.
+
+   Returns
+   -------
+   - _seg_msg.start_orientation : float
+       The calculated start orientation of the LiDAR scan.
+   - _seg_msg.end_orientation : float
+       The calculated end orientation of the LiDAR scan, adjusted for continuity.
+   - _seg_msg.orientation_diff : float
+       The difference in orientation between the start and end of the scan, representing the scan's angular span.
+
+   This function modifies the `start_orientation`, `end_orientation`, and `orientation_diff` fields of the `_seg_msg`.
+*/
   // start and end orientation of this cloud
   auto point = _laser_cloud_in->points.front();
   _seg_msg.start_orientation = -std::atan2(point.y, point.x);
@@ -241,6 +422,37 @@ void ImageProjection::findStartEndAngle() {
 }
 
 void ImageProjection::groundRemoval() {
+
+  /* Summary: Segments the ground points from the LiDAR scan.
+
+   Extended Description: This method analyses the point cloud to identify and segment ground points based on the sensor's
+   mounting angle and the geometric properties of the points. It utilizes a vertical angle calculation to differentiate 
+   ground points from non-ground points. Points are classified into three categories: -1 for no information, 0 for non-ground, and 1 for ground.
+   This classification is crucial for subsequent processing stages, such as obstacle detection and path planning.
+
+   Parameters
+   ----------
+   - lowerInd, upperInd : int
+       Indices for the current point and the point directly above it in the point cloud.
+   - dX, dY, dZ : float
+       Differences in the x, y, and z coordinates between two vertically adjacent points.
+   - vertical_angle : float
+       The angle between the vertical axis and the line connecting two vertically adjacent points.
+
+   Returns
+   -------
+   - _ground_mat : Eigen::MatrixXi
+       A matrix indicating whether each point is ground (-1 for no info, 0 for non-ground, 1 for ground).
+   - _label_mat : Eigen::MatrixXi
+       A matrix used for labeling points during segmentation, where ground points and points without valid information are marked as -1.
+
+   This function updates `_ground_mat` to reflect the ground segmentation and modifies `_label_mat` accordingly.
+
+   Note
+   ----
+   Ground points are identified based on their vertical angle relative to the sensor mount angle. Points with a vertical angle 
+   close to the sensor mount angle are considered ground.
+*/
   // _ground_mat
   // -1, no valid info to check if ground of not
   //  0, initial value, after validation, means not ground
@@ -296,6 +508,35 @@ void ImageProjection::groundRemoval() {
 }
 
 void ImageProjection::cloudSegmentation() {
+
+  /* Summary: Segments the cloud into ground, segmented non-ground, and outlier points.
+
+   Extended Description: This function segments the LiDAR point cloud into ground points, non-ground points, 
+   and outliers based on the previously identified ground matrix and labeling. It iterates through the cloud, 
+   labeling components and organizing points into their respective categories for further processing.
+
+   Parameters
+   ----------
+   - Operates directly on class attributes including _ground_mat, _label_mat, and point cloud data.
+
+   Returns
+   -------
+   - _seg_msg : Contains metadata about the segmentation, including indices and flags for ground points.
+   - _segmented_cloud : pcl::PointCloud<PointType>
+       Stores the segmented non-ground points.
+   - _segmented_cloud_pure : pcl::PointCloud<PointType>
+       Stores the pure segmented non-ground points for visualization.
+   - _outlier_cloud : pcl::PointCloud<PointType>
+       Stores the outlier points detected during segmentation.
+   - _label_mat : Eigen::MatrixXi
+       Updated during labeling to reflect the segmentation.
+
+   Note
+   ----
+   The segmentation process identifies points that are not part of the ground and distinguishes between potentially 
+   useful non-ground points and outliers. Outliers are points that do not meet the criteria for being included in the segmentation 
+   but are not necessarily noise or erroneous readings.
+*/
   // segmentation process
   for (int i = 0; i < _vertical_scans; ++i)
     for (int j = 0; j < _horizontal_scans; ++j)
@@ -355,6 +596,49 @@ void ImageProjection::cloudSegmentation() {
 }
 
 void ImageProjection::labelComponents(int row, int col) {
+
+  /* Summary: Labels connected components in the segmented LiDAR cloud to identify distinct objects.
+
+   Extended Description: This function implements a region growing algorithm to label each point in the segmented cloud. 
+   It starts from a seed point and expands to neighboring points based on the similarity criteria determined by the 
+   angle threshold `_segment_theta`. Points within this threshold are considered part of the same object and are labeled identically. 
+   The algorithm distinguishes between valid segments and outliers, labeling them accordingly for further processing.
+
+   Parameters
+   ----------
+   - row : int
+       The row index of the seed point in the range image.
+   - col : int
+       The column index of the seed point in the range image.
+
+   - segmentThetaThreshold : float
+       Calculated from `_segment_theta`, determines the angular similarity for expanding the segment.
+   - lineCountFlag : std::vector<bool>
+       Flags to indicate if a row in the range image has been included in the current segment.
+   - queue : boost::circular_buffer<Eigen::Vector2i>
+       Queue used for the region growing algorithm, stores indices of points to be evaluated.
+   - all_pushed : boost::circular_buffer<Eigen::Vector2i>
+       Stores all points that have been added to the queue during the segmentation process.
+   - neighborIterator : array of Eigen::Vector2i
+       Predefined offsets used to iterate over the immediate neighbors of a point in the range image.
+
+   Returns
+   -------
+   - _label_mat : Eigen::MatrixXi
+       Updated with new labels for each point, indicating their membership to a specific segment or marking them as outliers.
+   - _label_count : int
+       Incremented for each new valid segment identified during the process.
+
+   - _range_mat : Eigen::MatrixXf
+       Contains the range (distance) information for each point in the cloud, used to determine point adjacency and similarity.
+   - segmentThetaThreshold : float
+       The angle threshold used to determine if a neighboring point is part of the same segment.
+
+   Note
+   ----
+   The function modifies `_label_mat` directly to assign labels to each point, facilitating the segmentation of the cloud into distinct 
+   objects based on geometric continuity.
+*/
 
   const float segmentThetaThreshold = tan(_segment_theta);
 
@@ -441,6 +725,45 @@ void ImageProjection::labelComponents(int row, int col) {
 }
 
 void ImageProjection::publishClouds() {
+
+  /* Summary: Publishes various processed point clouds and their associated information.
+
+   Extended Description: This method is responsible for publishing different types of processed LiDAR point clouds, 
+   including the full cloud, ground points, segmented cloud, outliers, and more. It checks for subscribers before publishing
+   to avoid unnecessary computations. The function also prepares and sends processed data to the next stage in the pipeline 
+   through the `_output_channel`.
+
+   Parameters
+   ----------
+   temp : sensor_msgs::msg::PointCloud2
+       A temporary ROS message used for publishing each processed cloud. It is updated with the current header information.
+   PublishCloud : Lambda Function
+       A lambda function defined within `publishClouds` to streamline the publishing process for different point clouds. 
+       It takes a publisher object, a ROS message template, and a point cloud to publish.
+
+   _output_channel : Channel for sending processed output to the next stage.
+
+   Returns
+   -------
+   - out : ProjectionOut
+       An object containing pointers to the outlier cloud, segmented cloud, and the segmented cloud message. 
+       This object is sent through the `_output_channel`.
+
+   Publishers
+   ----------
+   - _pub_outlier_cloud : Publisher for outlier cloud points.
+   - _pub_segmented_cloud : Publisher for segmented cloud points.
+   - _pub_full_cloud : Publisher for the complete projected cloud.
+   - _pub_ground_cloud : Publisher for ground points.
+   - _pub_segmented_cloud_pure : Publisher for purely segmented cloud points.
+   - _pub_full_info_cloud : Publisher for the full cloud with additional info.
+   - _pub_segmented_cloud_info : Publisher for segmented cloud metadata.
+
+   Note
+   ----
+   This function encapsulates the publishing logic for various point clouds and encapsulates the process of preparing data
+   for subsequent processing stages.
+*/
 
   sensor_msgs::msg::PointCloud2 temp;
   temp.header.stamp = _seg_msg.header.stamp;

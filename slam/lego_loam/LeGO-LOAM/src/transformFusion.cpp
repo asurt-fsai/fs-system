@@ -33,6 +33,64 @@
 #include "transformFusion.h"
 
 TransformFusion::TransformFusion(const std::string &name) : Node(name) {
+
+  /* Constructor for the TransformFusion class, initializing the ROS node, publishers, and subscribers for odometry data integration.
+
+   This constructor sets up the TransformFusion node to subscribe to odometry data (`/laser_odom_to_init`) and 
+   mapped odometry data (`/aft_mapped_to_init`). It publishes integrated odometry data to the `/integrated_to_init` topic. 
+   The constructor initializes various transformation arrays used for processing the odometry and mapping data, ensuring all 
+   transformation values start at zero. It also sets up a TransformBroadcaster for sending out the final, fused transformation to other ROS nodes.
+
+   Parameters
+   ----------
+   name : std::string
+       The name of the ROS node.
+
+   Attributes
+   ----------
+   pubLaserOdometry2 : rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr
+       Publisher for the integrated odometry data.
+   subLaserOdometry : rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
+       Subscriber for the raw laser odometry data.
+   subOdomAftMapped : rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
+       Subscriber for the odometry data after map optimization.
+   laserOdometry2 : nav_msgs::msg::Odometry
+       The message for the integrated odometry to be published, with frame IDs set for the 'camera_init' and 'Lidar'.
+   laserOdometryTrans : geometry_msgs::msg::TransformStamped
+       The transform message for broadcasting the odometry, with frame IDs set for the 'camera_init' and 'Lidar'.
+   tfBroadcaster : std::shared_ptr<tf2_ros::TransformBroadcaster>
+       Broadcaster for sending the final transformation to the tf2 transform library in ROS.
+   transformSum : float[6]
+       Array for accumulating transformations.
+   transformIncre : float[6]
+       Array for incremental transformations.
+   transformMapped : float[6]
+       Array for transformations after mapping.
+   transformBefMapped : float[6]
+       Array for transformations before mapping.
+   transformAftMapped : float[6]
+       Array for transformations after mapping adjustments.
+
+   Methods
+   -------
+   void transformAssociateToMap():
+       Associates the current laser odometry data with the map frame, adjusting the transformation to account for any discrepancies between the laser odometry and the map-optimized odometry.
+
+   void laserOdometryHandler(const nav_msgs::msg::Odometry::SharedPtr laserOdometry):
+       Callback for the laser odometry subscriber. It processes the incoming laser odometry data, associates it with the map, and publishes and broadcasts the fused odometry.
+
+       Parameters:
+       - laserOdometry : nav_msgs::msg::Odometry::SharedPtr
+           The incoming laser odometry data.
+
+   void odomAftMappedHandler(const nav_msgs::msg::Odometry::SharedPtr odomAftMapped):
+       Callback for the map-optimized odometry subscriber. It updates the internal state with the latest map-optimized odometry data, ensuring that the transformation to the map is accurate.
+
+       Parameters:
+       - odomAftMapped : nav_msgs::msg::Odometry::SharedPtr
+           The incoming map-optimized odometry data.
+*/
+
   pubLaserOdometry2 = this->create_publisher<nav_msgs::msg::Odometry>("/integrated_to_init", 5);
   subLaserOdometry = this->create_subscription<nav_msgs::msg::Odometry>(
       "/laser_odom_to_init", 5, std::bind(&TransformFusion::laserOdometryHandler, this, std::placeholders::_1));
@@ -57,6 +115,46 @@ TransformFusion::TransformFusion(const std::string &name) : Node(name) {
 }
 
 void TransformFusion::transformAssociateToMap() {
+
+  /* Summary: Adjusts the transformation parameters to better align the current odometry with the map frame.
+
+   Extended Description: This method computes incremental transformations by comparing the current odometry data (before mapping) 
+   with the map-optimized data (after mapping). It uses trigonometric operations to adjust the pose of the vehicle, ensuring a 
+   better alignment with the map. The adjustments involve calculating differences in position and orientation, then applying these 
+   to refine the vehicle's estimated pose. This process aids in achieving a more accurate localization by ensuring the odometry data 
+   is well aligned with the global map.
+
+   Parameters
+   ----------
+   transformSum : float[6]
+       Accumulated transformations up to the current point, used as a reference for adjustment calculations.
+   transformBefMapped : float[6]
+       Transformations before mapping, representing the vehicle's pose before map optimizations are applied.
+   transformAftMapped : float[6]
+       Transformations after mapping, representing the optimized pose post-map alignment.
+   x1, y1, z1 : float
+       Intermediate variables for calculating adjustments in the vehicle's position.
+   x2, y2, z2 : float
+       Adjusted position variables after applying rotational transformations.
+   sbcx, cbcx, sbcy, cbcy, sbcz, cbcz : float
+       Sine and cosine of the accumulated transformations, used for rotational adjustment calculations.
+   sblx, cblx, sbly, cbly, sblz, cblz : float
+       Sine and cosine of the transformations before mapping, used in pose adjustment calculations.
+   salx, calx, saly, caly, salz, calz : float
+       Sine and cosine of the transformations after mapping, for refining the pose adjustments.
+   srx, srycrx, crycrx, srzcrx, crzcrx : float
+       Variables for calculating the final rotational adjustments based on the alignment discrepancies.
+   transformIncre : float[6]
+       Incremental transformations computed to refine alignment with the map.
+   transformMapped : float[6]
+       The vehicle's pose estimation updated to reflect a more accurate alignment with the map.
+
+   Returns
+   -------
+   This function updates internal state variables (transformIncre and transformMapped) to adjust the vehicle's pose based on 
+   the current odometry data and its relation to the map.
+*/
+
   float x1 = cos(transformSum[1]) * (transformBefMapped[3] - transformSum[3]) -
              sin(transformSum[1]) * (transformBefMapped[5] - transformSum[5]);
   float y1 = transformBefMapped[4] - transformSum[4];
@@ -181,6 +279,44 @@ void TransformFusion::transformAssociateToMap() {
 
 void TransformFusion::laserOdometryHandler(
     const nav_msgs::msg::Odometry::SharedPtr laserOdometry) {
+
+  /* Summary: Processes incoming laser odometry data, aligns it with the map, and publishes the integrated odometry.
+
+   Extended Description: This method acts as a callback for incoming laser odometry messages. It converts the odometry 
+   message to a transform format, stored in `transformSum`. It then adjusts this transform to align better with the map 
+   using `transformAssociateToMap`. The adjusted transform updates the orientation and position in the `laserOdometry2` 
+   message, which is then published. Additionally, the transform is broadcasted to other system components requiring the 
+   vehicle's pose.
+
+   Parameters
+   ----------
+   laserOdometry : const nav_msgs::msg::Odometry::SharedPtr
+       Shared pointer to the incoming laser odometry message.
+
+   q : tf2::Quaternion
+       Quaternion for the rotation part of the transformed odometry data.
+   geoQuat : geometry_msgs::msg::Quaternion
+       ROS-compatible quaternion `q`, for message publishing.
+   transformSum : float[6]
+       Temporary transform format storage of incoming odometry data.
+   transformMapped : float[6]
+       Adjusted transform after map alignment.
+
+   laserOdometry2 : nav_msgs::msg::Odometry
+       Updated odometry message with pose based on the transformed and map-aligned data.
+   laserOdometryTrans : geometry_msgs::msg::TransformStamped
+       Transform message with updated translation and rotation for broadcasting.
+
+   Publishers
+   ----------
+   pubLaserOdometry2 : rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr
+       Publishes the integrated odometry data to the `/integrated_to_init` topic.
+
+   Returns
+   -------
+   This function publishes the `laserOdometry2` message and broadcasts the `laserOdometryTrans` transform.
+*/
+
   OdometryToTransform(*laserOdometry, transformSum);
 
   transformAssociateToMap();
@@ -213,6 +349,39 @@ void TransformFusion::laserOdometryHandler(
 
 void TransformFusion::odomAftMappedHandler(
     const nav_msgs::msg::Odometry::SharedPtr odomAftMapped) {
+
+  /* Summary: Updates transformations based on map-optimized odometry data.
+
+   Extended Description: This callback function is invoked upon receiving map-optimized odometry data. It extracts the orientation 
+   and position from the odometry message and converts the orientation from quaternion to roll, pitch, and yaw format. These values 
+   are used to update the `transformAftMapped` array, reflecting the latest map-optimized pose. Additionally, the function captures 
+   the vehicle's angular and linear velocities from the odometry message's twist component, updating the `transformBefMapped` array 
+   to aid in subsequent transformations.
+
+   Parameters
+   ----------
+   odomAftMapped : const nav_msgs::msg::Odometry::SharedPtr
+       Shared pointer to the incoming map-optimized odometry message.
+
+   roll, pitch, yaw : double
+       Orientation of the vehicle extracted from the odometry message, converted from quaternion to Euler angles.
+   geoQuat : geometry_msgs::msg::Quaternion
+       The quaternion representing the vehicle's orientation, extracted directly from the odometry message.
+   transformAftMapped : float[6]
+       Updates this array with the latest pose (orientation and position) based on the map-optimized odometry data.
+   transformBefMapped : float[6]
+       Updates this array with the latest angular and linear velocities from the map-optimized odometry data.
+
+   Subscribers
+   -----------
+   subOdomAftMapped : rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
+       Subscribes to the `/aft_mapped_to_init` topic, receiving map-optimized odometry data that triggers this callback.
+
+   Returns
+   -------
+   This function updates internal state variables to reflect the latest map-optimized pose and velocities.
+*/
+
   double roll, pitch, yaw;
   geometry_msgs::msg::Quaternion geoQuat = odomAftMapped->pose.pose.orientation;
   tf2::Matrix3x3(tf2::Quaternion(geoQuat.z, -geoQuat.x, -geoQuat.y, geoQuat.w))
