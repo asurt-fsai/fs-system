@@ -8,11 +8,11 @@ class Test(Node):
     def __init__(self):
         super().__init__("test_node")
         # generate random points
-        self.nLandmarks = 1
+        self.nLandmarks = 100
         self.landmarks = np.array([])
         for i in range(self.nLandmarks):
             i = i
-            self.landmarks = np.append(self.landmarks, np.random.rand(2) * 1)
+            self.landmarks = np.append(self.landmarks, np.random.rand(2) * 50)
         self.landmarks = self.landmarks.reshape(self.nLandmarks, 2)
         # create publisher
         self.markerPub = self.create_publisher(MarkerArray, "landmarks_marker", 10)
@@ -30,8 +30,8 @@ class Test(Node):
             marker.id = i
             marker.type = marker.CUBE
             marker.action = marker.ADD
-            marker.pose.position.x = self.landmarks[i, 0] + np.random.normal(0, 0.5)
-            marker.pose.position.y = self.landmarks[i, 1] + np.random.normal(0, 0.5)
+            marker.pose.position.x = self.landmarks[i, 0] + np.random.normal(0, 0.1)
+            marker.pose.position.y = self.landmarks[i, 1] + np.random.normal(0, 0.1)
             marker.pose.position.z = 0.0
             marker.scale.x = 0.1
             marker.scale.y = 0.1

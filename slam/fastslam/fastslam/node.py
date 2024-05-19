@@ -9,6 +9,7 @@ from icecream import ic
 from .fastslam import FastSLAM
 from visualization_msgs.msg import Marker, MarkerArray
 from nav_msgs.msg import Odometry
+from message_filters import Subscriber, ApproximateTimeSynchronizer
 
 
 class FastSlamNode(Node):
@@ -16,21 +17,19 @@ class FastSlamNode(Node):
         super().__init__("fastslam_node")
         self.landmarks = np.array([])
         self.observations = np.array([])
-        self.landmarksSub = self.create_subscription(
-            MarkerArray, "landmarks_marker", self.landmarkCallback, 10
-        )
-        self.odomSub = self.create_subscription(
-            Odometry, "/carmaker/Odometry", self.odomCallback, 10
-        )
+
         self.markerPub = self.create_publisher(MarkerArray, "landmarks_marker_hung", 10)
         self.fastSlam = FastSLAM()
 
-    def odomCallback(self, msg: Odometry):
-        odom = np.array([msg.pose.pose.position.x, msg.pose.pose.position.y, 0])
-        self.fastSlam.estimatePose(odom)
+        self.tss = ApproximateTimeSynchronizer({Subscriber(self,LandmarkArray,"/Landmarks/Observed"),Subscriber(self,Odometry,"/carmaker/Odometry")},10,0.1,True)
+        self.tss.registerCallback(self.callback)
 
-    def landmarkCallback(self, msg: MarkerArray):
-        start = time.time()
+    def callback(self, landmarks:LandmarkArray, odometry:Odometry):
+        print(landmarks.landmarks[0].position)
+        print(odometry.pose.pose.position)
+
+
+    def callback(self, msg: LandmarkArray, odom: Odometry):
         self.observations = np.array([])
         for marker in msg.markers:
             self.observations = np.append(
@@ -39,11 +38,17 @@ class FastSlamNode(Node):
         if self.landmarks.size == 0:
             self.landmarks = self.observations
         hung = HungarianAlg(self.observations, self.landmarks)
-        self.landmarks = hung.solve()
-        hung.printResults()
-        end = time.time()
-        print("Size:", hung.n, hung.m)
-        ic(end - start)
+        self.landmarks, associatedObservations = hung.solve()
+
+        # convert observations to range-bearing
+        observations = []
+        for obs in associatedObservations:
+            zObs = complex(obs[0], obs[1])
+            pose = complex(odom.pose.pose.position.x, odom.pose.pose.position.y)
+            r = abs(zObs - pose)
+            b = np.arctan2(obs[1] - odom.pose.pose.position.y, obs[0] - odom.pose.pose.position.x) - odom.pose.pose.orientation.z
+            observations.append([r, b, obs[2]])
+        
 
         mrkArr = MarkerArray()
         for i in range(self.landmarks.shape[0]):
