@@ -1,0 +1,33 @@
+[0.000000] (-) TimerEvent: {}
+[0.000271] (-) JobUnselected: {'identifier': 'asurt_msgs'}
+[0.000325] (-) JobUnselected: {'identifier': 'camera_interface'}
+[0.000354] (-) JobUnselected: {'identifier': 'centerline_calc'}
+[0.000374] (-) JobUnselected: {'identifier': 'common_params'}
+[0.000585] (-) JobUnselected: {'identifier': 'eufs_msgs'}
+[0.000714] (-) JobUnselected: {'identifier': 'interfaces'}
+[0.000741] (-) JobUnselected: {'identifier': 'kp_reg'}
+[0.000797] (-) JobUnselected: {'identifier': 'lqr'}
+[0.000816] (-) JobUnselected: {'identifier': 'moreo'}
+[0.000832] (-) JobUnselected: {'identifier': 'planning_apf'}
+[0.000847] (-) JobUnselected: {'identifier': 'planning_trees'}
+[0.000960] (-) JobUnselected: {'identifier': 'pure_pursuit'}
+[0.000975] (-) JobUnselected: {'identifier': 'simple_pure_pursuit'}
+[0.001059] (-) JobUnselected: {'identifier': 'slam_manager'}
+[0.001073] (-) JobUnselected: {'identifier': 'supervisor'}
+[0.001086] (-) JobUnselected: {'identifier': 'tf_helper'}
+[0.001100] (-) JobUnselected: {'identifier': 'tracker'}
+[0.001113] (-) JobUnselected: {'identifier': 'trapper'}
+[0.001126] (-) JobUnselected: {'identifier': 'visualizer'}
+[0.001140] (-) JobUnselected: {'identifier': 'waypoint_cleaner'}
+[0.001153] (-) JobUnselected: {'identifier': 'yolov8'}
+[0.001165] (-) JobUnselected: {'identifier': 'zed_opencv'}
+[0.001180] (smoreo) JobQueued: {'identifier': 'smoreo', 'dependencies': OrderedDict([('asurt_msgs', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/asurt_msgs'), ('interfaces', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/interfaces')])}
+[0.001213] (mrpython_pcl) JobQueued: {'identifier': 'mrpython_pcl', 'dependencies': OrderedDict([('asurt_msgs', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/asurt_msgs'), ('common_params', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/common_params'), ('tf_helper', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/tf_helper')])}
+[0.001233] (smornn) JobQueued: {'identifier': 'smornn', 'dependencies': OrderedDict([('asurt_msgs', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/asurt_msgs'), ('tf_helper', '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/tf_helper')])}
+[0.001263] (smoreo) JobStarted: {'identifier': 'smoreo'}
+[0.007804] (smoreo) JobEnded: {'identifier': 'smoreo', 'rc': 1}
+[0.008451] (mrpython_pcl) JobStarted: {'identifier': 'mrpython_pcl'}
+[0.013174] (mrpython_pcl) JobEnded: {'identifier': 'mrpython_pcl', 'rc': 1}
+[0.014489] (smornn) JobStarted: {'identifier': 'smornn'}
+[0.019088] (smornn) JobEnded: {'identifier': 'smornn', 'rc': 1}
+[0.030184] (-) EventReactorShutdown: {}

@@ -1,0 +1,24 @@
+[0.637s] Invoking command in '/media/ezzedinayman/Local Disk/FS-System/fs-system/perception/kp_reg': PYTHONPATH=/media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/prefix_override:/media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/kp_reg build --build-base /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build install --record /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/install.log --single-version-externally-managed install_data
+[0.920s] running egg_info
+[0.921s] writing ../../build/kp_reg/kp_reg.egg-info/PKG-INFO
+[0.921s] writing dependency_links to ../../build/kp_reg/kp_reg.egg-info/dependency_links.txt
+[0.921s] writing entry points to ../../build/kp_reg/kp_reg.egg-info/entry_points.txt
+[0.922s] writing requirements to ../../build/kp_reg/kp_reg.egg-info/requires.txt
+[0.922s] writing top-level names to ../../build/kp_reg/kp_reg.egg-info/top_level.txt
+[0.924s] reading manifest file '../../build/kp_reg/kp_reg.egg-info/SOURCES.txt'
+[0.924s] writing manifest file '../../build/kp_reg/kp_reg.egg-info/SOURCES.txt'
+[0.924s] running build
+[0.925s] running build_py
+[0.925s] copying kp_reg/kpr_node.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+[0.925s] running install
+[0.925s] running install_lib
+[0.926s] copying /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg/kpr_node.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+[0.927s] byte-compiling /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg/kpr_node.py to kpr_node.cpython-310.pyc
+[0.928s] running install_data
+[0.928s] running install_egg_info
+[0.930s] removing '/media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg-0.0.0-py3.10.egg-info' (and everything under it)
+[0.930s] Copying ../../build/kp_reg/kp_reg.egg-info to /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg-0.0.0-py3.10.egg-info
+[0.932s] running install_scripts
+[0.950s] Installing kpr_node script to /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/kp_reg
+[0.951s] writing list of installed files to '/media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/install.log'
+[0.970s] Invoked command in '/media/ezzedinayman/Local Disk/FS-System/fs-system/perception/kp_reg' returned '0': PYTHONPATH=/media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/prefix_override:/media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/kp_reg build --build-base /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build install --record /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/install.log --single-version-externally-managed install_data

@@ -1,5 +1,5 @@
 <launch>
-    <node pkg="moreo" exec="kpr_node" name="keypoint_regressor">
+    <node pkg="kp_reg" exec="kpr_node" name="keypoint_regressor">
 
         <!-- Subscribed topics -->
         <param name="/kpr/bboxes" value="/tracker/tracks"/>

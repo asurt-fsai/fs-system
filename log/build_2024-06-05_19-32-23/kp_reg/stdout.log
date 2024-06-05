@@ -1,0 +1,41 @@
+running egg_info
+creating ../../build/kp_reg/kp_reg.egg-info
+writing ../../build/kp_reg/kp_reg.egg-info/PKG-INFO
+writing dependency_links to ../../build/kp_reg/kp_reg.egg-info/dependency_links.txt
+writing entry points to ../../build/kp_reg/kp_reg.egg-info/entry_points.txt
+writing requirements to ../../build/kp_reg/kp_reg.egg-info/requires.txt
+writing top-level names to ../../build/kp_reg/kp_reg.egg-info/top_level.txt
+writing manifest file '../../build/kp_reg/kp_reg.egg-info/SOURCES.txt'
+reading manifest file '../../build/kp_reg/kp_reg.egg-info/SOURCES.txt'
+writing manifest file '../../build/kp_reg/kp_reg.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+copying kp_reg/kpr_model.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+copying kp_reg/kpr_node.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+copying kp_reg/resnet.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+copying kp_reg/__init__.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg
+running install
+running install_lib
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+copying /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg/kpr_model.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+copying /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg/kpr_node.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+copying /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg/resnet.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+copying /media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/build/lib/kp_reg/__init__.py -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg
+byte-compiling /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg/kpr_model.py to kpr_model.cpython-310.pyc
+byte-compiling /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg/kpr_node.py to kpr_node.cpython-310.pyc
+byte-compiling /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg/resnet.py to resnet.cpython-310.pyc
+byte-compiling /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg/__init__.py to __init__.cpython-310.pyc
+running install_data
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/share/ament_index
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/share/ament_index/resource_index
+creating /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/share/ament_index/resource_index/packages
+copying resource/kp_reg -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/share/ament_index/resource_index/packages
+copying package.xml -> /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/share/kp_reg
+running install_egg_info
+Copying ../../build/kp_reg/kp_reg.egg-info to /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/python3.10/site-packages/kp_reg-0.0.0-py3.10.egg-info
+running install_scripts
+Installing keypoint_regressor script to /media/ezzedinayman/Local Disk/FS-System/fs-system/install/kp_reg/lib/kp_reg
+writing list of installed files to '/media/ezzedinayman/Local Disk/FS-System/fs-system/build/kp_reg/install.log'

@@ -1,3 +1,4 @@
+import os
 from setuptools import find_packages, setup
 
 package_name = 'kp_reg'
@@ -10,6 +11,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name, 'launch'), ['launch/kp_reg.launch.xml'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -20,7 +22,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "keypoint_regressor = kp_reg.kpr_node:main"
+            "kpr_node = kp_reg.kpr_node:main"
         ],
     },
 )

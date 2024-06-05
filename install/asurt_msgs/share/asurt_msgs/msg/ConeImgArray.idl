@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from asurt_msgs/msg/ConeImgArray.msg
+// generated code does not contain a copyright notice
+
+#include "asurt_msgs/msg/ConeImg.idl"
+
+module asurt_msgs {
+  module msg {
+    struct ConeImgArray {
+      uint32 view_id;
+
+      uint16 object_count;
+
+      sequence<asurt_msgs::msg::ConeImg> imgs;
+    };
+  };
+};

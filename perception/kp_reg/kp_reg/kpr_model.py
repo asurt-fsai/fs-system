@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from resnet import ResNet
+from .resnet import ResNet
 import torch.nn.functional
 
 

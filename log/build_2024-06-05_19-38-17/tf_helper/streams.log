@@ -1,0 +1,28 @@
+[0.014s] Invoking command in '/media/ezzedinayman/Local Disk/FS-System/fs-system/build/tf_helper': CMAKE_PREFIX_PATH=/media/ezzedinayman/Local Disk/FS-System/fs-system/install/asurt_msgs:/media/ezzedinayman/Local Disk/FS-System/fs-system/install/common_params /home/ezzedinayman/.local/bin/cmake /media/ezzedinayman/Local Disk/FS-System/fs-system/dependencies/tf_helper -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/media/ezzedinayman/Local Disk/FS-System/fs-system/install/tf_helper
+[0.042s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.042s]   Compatibility with CMake < 3.5 will be removed from a future version of
+[0.042s]   CMake.
+[0.042s] 
+[0.042s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.042s]   CMake that the project does not need compatibility with older versions.
+[0.042s] 
+[0.042s] [0m
+[0.061s] [31mCMake Error at CMakeLists.txt:4 (find_package):
+[0.061s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.061s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.062s]   CMake did not find one.
+[0.062s] 
+[0.062s]   Could not find a package configuration file provided by "catkin" with any
+[0.062s]   of the following names:
+[0.062s] 
+[0.062s]     catkinConfig.cmake
+[0.062s]     catkin-config.cmake
+[0.062s] 
+[0.062s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.062s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.062s]   provides a separate development package or SDK, be sure it has been
+[0.062s]   installed.
+[0.062s] 
+[0.062s] [0m
+[0.062s] -- Configuring incomplete, errors occurred!
+[0.066s] Invoked command in '/media/ezzedinayman/Local Disk/FS-System/fs-system/build/tf_helper' returned '1': CMAKE_PREFIX_PATH=/media/ezzedinayman/Local Disk/FS-System/fs-system/install/asurt_msgs:/media/ezzedinayman/Local Disk/FS-System/fs-system/install/common_params /home/ezzedinayman/.local/bin/cmake /media/ezzedinayman/Local Disk/FS-System/fs-system/dependencies/tf_helper -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/media/ezzedinayman/Local Disk/FS-System/fs-system/install/tf_helper

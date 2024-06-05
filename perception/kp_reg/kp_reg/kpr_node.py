@@ -2,8 +2,8 @@ import cv2
 import torch
 import rclpy
 import numpy as np
-from rclpy import Node
-from kpr_model import KeypointNet
+from rclpy.node import Node
+from .kpr_model import KeypointNet
 from asurt_msgs.msg import ConeImg, ConeImgArray, KeyPoints, BoundingBox, BoundingBoxes
 
 class KeyPointRegressorNode(Node):
@@ -59,6 +59,7 @@ class KeyPointRegressorNode(Node):
         self.cone_subscriber = self.create_subscription(ConeImgArray, cone_msg_topic, self.queue_detections, 10)
         self.bbox_subscriber = self.create_subscription(BoundingBoxes, bboxes_msg_topic, self.process_Bboxes, 10)
         self.kps_publisher = self.create_publisher(KeyPoints, kps_msg_topic, 10)
+        self.get_logger().info("KEYPOINT REGRESSOR STARTED")
     
     def queue_detections(self, cone_detections_msg):
         '''
