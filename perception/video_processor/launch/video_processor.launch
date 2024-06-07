@@ -8,9 +8,20 @@
 
         <!-- video path -->
         <param name="/video_processor/video_path" value="/home/ezzedinayman/fs_test_ws/data/autocross.mp4"/>
-        <param name="/video_processor/image_width" value="640"/>
-        <param name="/video_processor/image_height" value="480"/>
-        <param name="/video_processor/callback_timer" value="0.1"/>
+        <param name="/video_processor/image_width" value="672"/>
+        <param name="/video_processor/image_height" value="376"/>
+        <param name="/video_processor/callback_timer" value="0.3"/>
+
+        <!-- camera params -->
+        <param name="/camera_interface/cx" value="348.13569685"/>
+        <param name="/camera_interface/cy" value="170.94638731"/>
+        <param name="/camera_interface/fx" value="360.02287019"/>
+        <param name="/camera_interface/fy" value="359.43717375"/>
+        <param name="/camera_interface/k1" value="-0.11924763"/>
+        <param name="/camera_interface/k2" value="-0.09340822"/>
+        <param name="/camera_interface/p1" value="0.00170718"/>
+        <param name="/camera_interface/p2" value="0.00122067"/>
+        <param name="/camera_interface/k3" value="0.09476736"/>
 
     </node>
 </launch>
