@@ -1,0 +1,16 @@
+<launch>
+    <node pkg="video_processor" exec="video_processor" name="video_processor">
+
+        <!-- Subscribed topics -->
+
+        <!-- Published topics -->
+        <param name="/camera_interface/camera_feed" value="/camera_interface/camera_feed"/>
+
+        <!-- video path -->
+        <param name="/video_processor/video_path" value="/home/ezzedinayman/fs_test_ws/data/autocross.mp4"/>
+        <param name="/video_processor/image_width" value="640"/>
+        <param name="/video_processor/image_height" value="480"/>
+        <param name="/video_processor/callback_timer" value="0.1"/>
+
+    </node>
+</launch>

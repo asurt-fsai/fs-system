@@ -1,7 +1,7 @@
 import os
 from setuptools import find_packages, setup
 
-package_name = 'tracker'
+package_name = 'video_processor'
 
 setup(
     name=package_name,
@@ -11,18 +11,18 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        (os.path.join('share', package_name, 'launch'), ['launch/tracker.launch'])
+        (os.path.join('share', package_name, 'launch'), ['launch/video_processor.launch'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='mazen',
-    maintainer_email='mazenelaraby9@gmail.com',
+    maintainer='ezzedinayman',
+    maintainer_email='ezz_ayman@hotmail.com',
     description='TODO: Package description',
-    license='TODO: License declaration',
+    license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "tracker_node = tracker.tracker_node:main"
+            "video_processor = video_processor.video_processor_node:main"
         ],
     },
 )

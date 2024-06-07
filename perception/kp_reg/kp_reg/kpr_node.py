@@ -3,6 +3,7 @@ import torch
 import rclpy
 import numpy as np
 from rclpy.node import Node
+from cv_bridge import CvBridge
 from .kpr_model import KeypointNet
 from asurt_msgs.msg import ConeImg, ConeImgArray, KeyPoints, BoundingBox, BoundingBoxes
 
@@ -23,6 +24,7 @@ class KeyPointRegressorNode(Node):
             ]
         )
         
+        self.bridge = None
         self.model = None
         self.cone_subscriber = None
         self.bbox_subscriber = None
@@ -52,42 +54,59 @@ class KeyPointRegressorNode(Node):
         self.views_ids_queue = []
         self.cones_msgs_queue = []
         
+        self.bridge = CvBridge()
         self.model = KeypointNet()
         self.model.load_state_dict(torch.load(MODEL_PATH).get('model'))
-        self.model.eval()
+        
         
         self.cone_subscriber = self.create_subscription(ConeImgArray, cone_msg_topic, self.queue_detections, 10)
         self.bbox_subscriber = self.create_subscription(BoundingBoxes, bboxes_msg_topic, self.process_Bboxes, 10)
         self.kps_publisher = self.create_publisher(KeyPoints, kps_msg_topic, 10)
         self.get_logger().info("KEYPOINT REGRESSOR STARTED")
     
-    def queue_detections(self, cone_detections_msg):
+
+    
+    def queue_detections(self, cones_images_msg):
         '''
         This function queues cone images until its bbox arrives from tracker
         '''
+    
         #FOR MEMORY
         if len(self.views_ids_queue)>10:
             self.views_ids_queue.pop(0)
             self.cones_msgs_queue.pop(0)
         ###########
         
-        self.views_ids_queue.append(cone_detections_msg.view_id)
-        self.cones_msgs_queue.append(cone_detections_msg)
+        frame_id = cones_images_msg.view_id
+        object_count = cones_images_msg.object_count
+        self.views_ids_queue.append(frame_id)
+        self.cones_msgs_queue.append(cones_images_msg)
+        self.get_logger().info(f"Recieved Detections of Frame {frame_id}")
         
+        ##################################### DEBUGGING #################################################
+        self.get_logger().info(f"Detecting Keypoints")
         
-    
-    
-    def seqto2D(self, cone_msg:ConeImg):
+        if(object_count!=0):
+            self.get_logger().info(f'{object_count}')
             
-        cone_img = cone_msg.data.reshape(cone_msg.rows, cone_msg.cols)
-        return cone_img
+            results = self.kpr_infer(cones_images_msg)
+        
+        kps_msg = self.prepare_keypoints_msg(frame_id, object_count, list(np.zeros(object_count)), list(np.zeros(object_count)), results)
+        self.get_logger().info(f"Publishing Keypoints")
+        self.kps_publisher.publish(kps_msg)
+        ##############################################################################
+    
+    # def seqto2D(self, cone_msg:ConeImg):
+            
+    #     cone_img = cone_msg.img.reshape(cone_msg.rows, cone_msg.cols)
+    #     return cone_img
     
     
     def prep_image(self, image, target_image_size = (80, 80)):
         
         image = cv2.resize(image, target_image_size)
-        image = (image.transpose((2, 0, 1)) / 255.0)[np.newaxis, :]
-        
+        image = (image.transpose((2, 0, 1)) / 255.0)
+        # image = (image / 255.0)[np.newaxis, :]
         return image
     
     def prepare_batch_of_cones(self, cones_array_msg:ConeImgArray):
@@ -95,8 +114,8 @@ class KeyPointRegressorNode(Node):
         #This function prepares a batch of cones **from single msg** to be infered into KeyPoint Regressor
         
         cones = []
-        for cone_msg in cones_array_msg:
-            cone_image = self.seqto2D(cone_msg)
+        for cone_msg in cones_array_msg.imgs:
+            cone_image = self.bridge.imgmsg_to_cv2(cone_msg.img, desired_encoding="rgb8")
             cone_image = self.prep_image(cone_image)
             cones.append(cone_image)
         
@@ -148,14 +167,15 @@ class KeyPointRegressorNode(Node):
     def kpr_infer(self, cones_array_msg):
          
         try:
-            
             cones_batch = self.prepare_batch_of_cones(cones_array_msg)
+            
+            self.model.eval()
             output = self.model(cones_batch)
+            self.get_logger().info(f"{output[-1]}")
+        except Exception as e:
+            self.get_logger().error(f"Failed to infere keypoint regressor {e}")
             
-        except:
-            self.get_logger().error(f"Failed to infere keypoint regressor")
-            
-        keypoints = self.map_keypoints_to_global(self, output)
+        keypoints = self.map_keypoints_to_global(output[-1].detach())
         
         return keypoints
         
@@ -198,6 +218,7 @@ class KeyPointRegressorNode(Node):
         #Publish It
         self.kps_publisher.publish(kps_msg)
         
+        
             
         
             
@@ -211,11 +232,13 @@ def main(args=None):
         rclpy.spin(node)
     except KeyboardInterrupt:
         print("Caught KeyboardInterrupt, shutting down.")
-    except Exception as e:
-        print(f"Caught exception: {e}") # Handle other exceptions
-    finally:
         node.destroy_node()
         rclpy.shutdown()
+    # except Exception as e:
+    #     print(f"Caught exception: {e}") # Handle other exceptions
+    # finally:
+    #     node.destroy_node()
+    #     rclpy.shutdown()
         
 if __name__ == '__main__':
     main()

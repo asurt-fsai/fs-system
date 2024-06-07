@@ -96,7 +96,7 @@ class Yolov8Node(Node):
 
             cropped_detection = ConeImg()
 
-            cropped_detection.id = idx
+            cropped_detection.detection_id = idx
             cropped_detection.rows = box.shape[0]
             cropped_detection.cols = box.shape[1]
 

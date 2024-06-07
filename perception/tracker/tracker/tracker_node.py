@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
 import rclpy
-import sort_tracker
+from .sort_tracker import Sort
 
 from rclpy.node import Node
 from asurt_msgs.msg import BoundingBoxes, BoundingBox
@@ -50,7 +50,7 @@ class TrackerNode(Node):
 
         # Create a tracker for each class of cones
         for _ in range(len(self.classes)):
-            self.trackers.append(sort_tracker.Sort(max_age, min_hits, min_iou_thresh))
+            self.trackers.append(Sort(max_age, min_hits, min_iou_thresh))
     
     def parseBboxes(self, bounding_boxes):
 
