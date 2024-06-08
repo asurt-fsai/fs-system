@@ -8,7 +8,7 @@
         <!-- Published topics -->
         <param name="/moreo/landmark_array" value="/moreo/landmark_array"/>
 
-        <!-- tracker hyper-params -->
+        <!-- moreo hyper-params -->
         <param name="/moreo/min_baseline" value="0.12"/>
         
     </node>
