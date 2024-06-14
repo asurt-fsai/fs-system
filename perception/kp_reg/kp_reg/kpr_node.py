@@ -18,7 +18,7 @@ class KeyPointRegressorNode(Node):
             namespace='',
             parameters = [
                 ('/kpr/model_path', rclpy.Parameter.Type.STRING),
-                ('/kpr/bboxes', rclpy.Parameter.Type.STRING),
+                ('/kpr/bboxes_yolo', rclpy.Parameter.Type.STRING),
                 ('/kpr/cropped_detections', rclpy.Parameter.Type.STRING),
                 ('/kpr/keypoints_topic', rclpy.Parameter.Type.STRING )
             ]
@@ -27,12 +27,13 @@ class KeyPointRegressorNode(Node):
         self.bridge = None
         self.model = None
         self.cone_subscriber = None
-        self.bbox_subscriber = None
+        self.bbox_yolo_subscriber = None
+        self.tracks_subscriber = None
         self.kps_publisher = None
-        
-        self.flag = None
-        self.views_ids_queue = None
-        self.cones_msgs_queue = None
+        self.bboxes = None
+        self.keypoints = None
+        self.bboxes_flag = None
+        self.keypoints_flag = None
         
         self.start()
         
@@ -42,65 +43,120 @@ class KeyPointRegressorNode(Node):
         MODEL_PATH = self.get_parameter('/kpr/model_path').get_parameter_value().string_value
         
         #TO BE SUBSCRIBED
-        bboxes_msg_topic = self.get_parameter('/kpr/bboxes').get_parameter_value().string_value
+        # tracks_msg_topic = self.get_parameter('/kpr/bboxes').get_parameter_value().string_value
+        bboxes_msg_topic = self.get_parameter('/kpr/bboxes_yolo').get_parameter_value().string_value
         cone_msg_topic = self.get_parameter('/kpr/cropped_detections').get_parameter_value().string_value
         
         #TO BE PUBLISHED
         kps_msg_topic = self.get_parameter('/kpr/keypoints_topic').get_parameter_value().string_value
 
-        self.flag = 0
-        self.bboxes_queue = []
+        self.bboxes_flag = 0
+        self.keypoints_flag = 0
         
-        self.views_ids_queue = []
-        self.cones_msgs_queue = []
+    
+        
         
         self.bridge = CvBridge()
         self.model = KeypointNet()
         self.model.load_state_dict(torch.load(MODEL_PATH).get('model'))
+        self.model.eval()
         
+        self.cone_subscriber = self.create_subscription(ConeImgArray, cone_msg_topic, self.callback_keypoints, 10)
+        self.bbox_yolo_subscriber = self.create_subscription(BoundingBoxes, bboxes_msg_topic, self.callback_bboxes, 10)
         
-        self.cone_subscriber = self.create_subscription(ConeImgArray, cone_msg_topic, self.queue_detections, 10)
-        self.bbox_subscriber = self.create_subscription(BoundingBoxes, bboxes_msg_topic, self.process_Bboxes, 10)
+        # self.tracks_subscriber = self.create_subscription(BoundingBoxes, tracks_msg_topic, self.assign_track_id, 10)
+        
         self.kps_publisher = self.create_publisher(KeyPoints, kps_msg_topic, 10)
         self.get_logger().info("KEYPOINT REGRESSOR STARTED")
     
-
     
-    def queue_detections(self, cones_images_msg):
-        '''
-        This function queues cone images until its bbox arrives from tracker
-        '''
     
-        #FOR MEMORY
-        if len(self.views_ids_queue)>10:
-            self.views_ids_queue.pop(0)
-            self.cones_msgs_queue.pop(0)
-        ###########
+    def callback_bboxes(self, bboxes):
+        self.bboxes = bboxes
+        self.bboxes_flag = 1
+        self.get_logger().info(f"Recieved BBoxes of Frame {bboxes.view_id}")
+        self.callback_send_kps()
+        
+        
+    
+    def callback_keypoints(self, cones_images_msg):
         
         frame_id = cones_images_msg.view_id
         object_count = cones_images_msg.object_count
-        self.views_ids_queue.append(frame_id)
-        self.cones_msgs_queue.append(cones_images_msg)
-        self.get_logger().info(f"Recieved Detections of Frame {frame_id}")
         
-        ##################################### DEBUGGING #################################################
+        self.get_logger().info(f"Recieved Cones Images of Frame {frame_id}")
+        
+        
+        ##################################### KEYPOINTS #################################################
         self.get_logger().info(f"Detecting Keypoints")
-        
-        if(object_count!=0):
-            self.get_logger().info(f'{object_count}')
+        if(object_count>0):
             
             results = self.kpr_infer(cones_images_msg)
-        
-        kps_msg = self.prepare_keypoints_msg(frame_id, object_count, list(np.zeros(object_count)), list(np.zeros(object_count)), results)
-        self.get_logger().info(f"Publishing Keypoints")
-        self.kps_publisher.publish(kps_msg)
+            self.keypoints_flag = 1
+            self.keypoints = results
+            self.callback_send_kps()
+    
+        else:
+            self.get_logger().info(f"NO OBJECTS DETECTED IN FRAME {frame_id}")
         ##############################################################################
     
-    # def seqto2D(self, cone_msg:ConeImg):
+    def callback_send_kps(self):
+        if self.bboxes_flag and self.keypoints_flag:
             
-    #     cone_img = cone_msg.img.reshape(cone_msg.rows, cone_msg.cols)
-    #     return cone_img
+            frame_id = self.bboxes.view_id
+            object_count = self.keypoints.shape[0]
+            
+            object_count_from_yolo = self.bboxes.object_count
+            assert(object_count==object_count_from_yolo)
+            
+            bboxes_info = self.bboxes.bounding_boxes
+            
+            keypoints, classes = self.map_keypoints_to_bbox(self.keypoints, bboxes_info)
+                
+            kps_msg = self.prepare_keypoints_msg(frame_id, object_count, list(np.zeros(object_count)), classes, keypoints)
+            self.get_logger().info(f"Publishing Keypoints")
+            self.kps_publisher.publish(kps_msg)
+            
+            self.keypoints_flag = 0
+            self.bboxes_flag = 0
+            
+            
+            
     
+################################################################################################################
+    
+    def dequeue_kps_from_yolo(self, bboxes):
+        '''
+        This function queues bboxe coming from yolo until its bbox arrives from tracker
+        '''
+        
+        frame_id = bboxes.view_id
+        
+        # DEQUEUE KPS
+        if len(self.frame_ids_of_keypoints):
+            
+            idx = self.frame_ids_of_keypoints.index(frame_id) #GET FRAME DATA FROM QUEUE
+            kps = self.keypoints[idx]
+            
+            
+            object_count = kps.shape[0]
+            
+            object_count_from_yolo = bboxes.object_count
+            assert(object_count==object_count_from_yolo)
+            
+            bboxes_info = bboxes.bounding_boxes
+            
+            # #FOR MEMORY
+            # if len(self.views_ids_queue)>10:
+            #     self.views_ids_queue.pop(0)
+            #     self.cones_msgs_queue.pop(0)
+            # ###########
+            
+            keypoints, classes = self.map_keypoints_to_bbox(kps, bboxes_info)
+                
+            kps_msg = self.prepare_keypoints_msg(frame_id, object_count, list(np.zeros(object_count)), classes, keypoints)
+            self.get_logger().info(f"Publishing Keypoints")
+            self.kps_publisher.publish(kps_msg)
     
     def prep_image(self, image, target_image_size = (80, 80)):
         
@@ -120,28 +176,31 @@ class KeyPointRegressorNode(Node):
             cones.append(cone_image)
         
         batch = np.stack(cones)
-        batch = torch.from_numpy(batch).type('torch.FloatTensor')
+        batch = torch.from_numpy(batch).type('torch.FloatTensor').contiguous()
         
         return batch
 
     
-    def map_keypoints_to_global(self, kpr_output):
+    def map_keypoints_to_bbox(self, keypoints, bboxes):
             
-        kpr_output = kpr_output.numpy()
+        # self.get_logger().info(keypoints.shape)
+        keypoints = keypoints.numpy()
         
-        for idx, kps in enumerate(kpr_output):
-            
-            bbox_info = self.bboxes_queue[idx]
-            
-            scale_w = bbox_info.w / 80
-            scale_h = bbox_info.h / 80
-            
-            kps[:,0] = kps[:,0]*scale_w + bbox_info.x_min
-            kps[:,1] = kps[:,1]*scale_h + bbox_info.y_min
+        classes = []
         
-        self.flag = 0
+        for idx, kps in enumerate(keypoints):
+            
+            bbox_info = bboxes[idx]
+            classes.append(bbox_info.type)
+            scale_w = bbox_info.width / 80
+            scale_h = bbox_info.height / 80
+            
+            kps[:,0] = kps[:,0]*scale_w + bbox_info.xmin
+            kps[:,1] = kps[:,1]*scale_h + bbox_info.ymin
+            
+            
         
-        return kpr_output
+        return keypoints, classes
                 
                      
          
@@ -149,7 +208,7 @@ class KeyPointRegressorNode(Node):
         
         msg = KeyPoints()
         
-        msg.frame_id = view_id
+        msg.view_id = view_id
         msg.object_count = object_count
         
         #FOR TESTING
@@ -157,7 +216,9 @@ class KeyPointRegressorNode(Node):
         assert(len(classes)==object_count)
         ###########################
         
-        msg.keypoints = keypoints_array.ravel()
+        
+        # self.get_logger().info(keypoints_array)
+        msg.keypoints = keypoints_array.ravel().tolist()
         
         
         return msg
@@ -168,19 +229,18 @@ class KeyPointRegressorNode(Node):
          
         try:
             cones_batch = self.prepare_batch_of_cones(cones_array_msg)
-            
-            self.model.eval()
-            output = self.model(cones_batch)
-            self.get_logger().info(f"{output[-1]}")
+            with torch.no_grad():
+                keypoints = self.model(cones_batch)[-1]
+    
         except Exception as e:
             self.get_logger().error(f"Failed to infere keypoint regressor {e}")
-            
-        keypoints = self.map_keypoints_to_global(output[-1].detach())
+            self.get_logger().error(f"Batch Shape {cones_batch.shape}")
+            # self.get_logger().error(f"Batch Shape {keypoints.shape}")
         
         return keypoints
         
         
-    def process_Bboxes(self, bboxes_msg):
+    def assign_track_id(self, bboxes_msg):
         
         view_id = bboxes_msg.view_id
         

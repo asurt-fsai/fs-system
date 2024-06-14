@@ -3,6 +3,7 @@
 
         <!-- Subscribed topics -->
         <param name="/kpr/bboxes" value="/tracker/tracks"/>
+        <param name="/kpr/bboxes_yolo" value="/yolov8/detections"/>
         <param name="/kpr/cropped_detections" value="/yolov8/cropped_detections"/>
 
         <!-- Published topics -->
