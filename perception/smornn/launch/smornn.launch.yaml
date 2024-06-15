@@ -1,0 +1,29 @@
+launch:
+
+- node:
+    pkg: "smornn"
+    exec: "smornn_node"
+    name: "smornnNode"
+    namespace: 'smornn'
+    param:
+    -
+        name: "/perception/smornn/min_dist_neighbor"
+        value: 1.0
+    -
+        name: "/perception/smornn/frame_id"
+        value: "kit"
+    -
+        name: "/perception/smoreo/detected"
+        value: "/perception/smoreo/detected"
+    -
+        name: "/perception/lidar/detected"
+        value: "/perception/lidar/detected"
+    -
+        name: "/perception/smornn/detected"
+        value: "/perception/smornn/detected"
+    -
+        name: "/perception/smornn/detected_markers"
+        value: "/perception/smornn/detected_markers"
+
+# - include:
+#     file: "$(find-pkg-share common_params)/launch/topics/common_params.launch"
