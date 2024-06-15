@@ -31,9 +31,6 @@
 [submodule "slam/hdl_global_localization"]
 	path = slam/hdl_global_localization
 	url = https://github.com/asurt-fsai/hdl_global_localization
-[submodule "dependencies/tf_helper"]
-	path = dependencies/tf_helper
-	url = https://github.com/asurt-fsai/tf_helper.git
 [submodule "dependencies/asurt_msgs"]
 	path = dependencies/asurt_msgs
 	url = https://github.com/asurt-fsai/asurt_msgs.git
