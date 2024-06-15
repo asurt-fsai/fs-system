@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 	<!-- Arguments -->
-	<arg name="in_tuning" default="False"/>
+	<arg name="in_tuning" default="True"/>
 	<arg name ="setup_name" default="zed"/>
 	<arg name="setup_name" default="flir"/>
 		<!-- Physical Parameters -->

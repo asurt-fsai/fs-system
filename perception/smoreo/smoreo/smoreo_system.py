@@ -27,7 +27,7 @@ class SmoreoSystem(Node):
         self.create_timer(0.01, self.timer_callback)
         self.status = StatusPublisher("/status/smoreo",self)
         
-        self.params: Dict[str, Any]
+        # self.params: Dict[str, Any]
         self._publishers_landmarkPub: rclpy.publisher.Publisher
         self._publishers_markersPub: rclpy.publisher.Publisher
         self.boundingBoxes: BoundingBoxes
@@ -60,7 +60,7 @@ class SmoreoSystem(Node):
         
 
         self.cone_base = self.get_parameter("/smoreo/use_cone_base").get_parameter_value().bool_value
-        self.in_tuning = self.get_parameter("/smoreo/in_tuning").get_parameter_value().bool_value
+        self.inTuning = self.get_parameter("/smoreo/in_tuning").get_parameter_value().bool_value
 
     
     def getParams(self) -> Dict[str, Any]:
@@ -112,8 +112,9 @@ class SmoreoSystem(Node):
         # coneHeight = self.get_parameter("/physical/cone_height", 0.4).get_parameter_value().double_value
         coneHeight = self.get_parameter("/physical/cone_height").get_parameter_value().double_value
 
-        cutOffY = self.get_parameter("/smoreo/cut_off_y").get_parameter_value().double_value
+        cutOffY = self.get_parameter("/smoreo/cut_off_y").get_parameter_value().integer_value
 
+        
         worldToCameraRotation = [0.5, -0.5, 0.5, 0.5]
         params = {
             "cx": cameraCx,
@@ -130,6 +131,7 @@ class SmoreoSystem(Node):
             "cut_off_y": float(cutOffY),
             "cone_height": coneHeight,
         }
+        
         return params
 
     def createPublishers(self) -> None:
@@ -164,7 +166,7 @@ class SmoreoSystem(Node):
             if self.inTuning:
                 newParams = self.getParams()
                 self.smoreo.updateParams(newParams)
-            predictedLandmarks = self.smoreo.predictLandmarks(self.boundingBoxes)
+            predictedLandmarks = self.smoreo.predictLandmarks(self,self.boundingBoxes)
             self.boundingBoxes = None
 
             try:
@@ -173,6 +175,7 @@ class SmoreoSystem(Node):
                 rclpy.logging.warn("ROS not initialized, using time 0 for header")
 
             self._publishers_landmarkPub.publish(predictedLandmarks)
+            self.get_logger().info(f'published predicted landmarks, length is {len(predictedLandmarks.landmarks)}')
             self._publishers_markersPub.publish(self.markerViz.conesToMarkers(predictedLandmarks))
             return predictedLandmarks
         return None
@@ -192,6 +195,8 @@ class SmoreoSystem(Node):
         # print on terminal
         self.get_logger().info("Received Bounding Boxes")
         self.boundingBoxes = processBboxes(boundingBoxes)
+        self.get_logger().info(f"bounding boxes length is {len(self.boundingBoxes)}")
+
 
     def start(self, useConeBase: bool, inTuning: bool) -> None:
         """
@@ -236,7 +241,7 @@ def main(args = None) -> None:
     if not node.has_parameter("/smoreo/in_tuning"):
         raise ValueError("smoreo: in_tuning is not set")
 
-    node.start(node.cone_base, node.in_tuning)
+    node.start(node.cone_base, node.inTuning)
     node.status.ready()
     
     rclpy.spin(node)

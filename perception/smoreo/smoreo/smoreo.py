@@ -68,7 +68,7 @@ class Smoreo:
             raise TypeError(errMsg) from exp
         self.params = params
 
-    def filterNearBoxes(self, bboxCy: float) -> bool:
+    def filterNearBoxes(self, bboxCy: float,node:None) -> bool:
         """
         Filter boxes that are close to the car, since their base
         will mostly be behind the car tires which will lead to
@@ -94,7 +94,7 @@ class Smoreo:
         return True
 
     def addToLandmarkArray(
-        self, pose: npt.NDArray[np.float32], box: npt.NDArray[np.float64]
+        self, pose: npt.NDArray[np.float32], box: npt.NDArray[np.float64], node:None
     ) -> None:
         """
         Create landmark object for the passed cone
@@ -114,7 +114,7 @@ class Smoreo:
         """
         if not isinstance(pose, np.ndarray) or not isinstance(box, np.ndarray):
             raise TypeError("smoreo: pose and bounding box must be numpy arrays")
-        if not pose.shape == (1, 3) or not box.shape == (7,):
+        if not pose.shape == (1, 3) or not box.shape == (12,):
             raise ValueError(
                 "smoreo: pose must be a 1x3 array and bounding box must be a 7x1 array"
             )
@@ -128,7 +128,7 @@ class Smoreo:
 
         self.allLandMarks.landmarks.append(cone)
 
-    def predictLandmarks(self, bboxes: npt.NDArray[np.float64]) -> LandmarkArray:
+    def predictLandmarks(self,node, bboxes: npt.NDArray[np.float64]) -> LandmarkArray:
         """
         Uses the bounding boxes to estimate a
         3d position for every box by dynamically projecting
@@ -150,7 +150,7 @@ class Smoreo:
         for box in bboxes:
             # bboxH, _, bboxCy, bboxCx, _, _, _ = box
             bboxH,bboxCy,bboxCx,_,_,_,_,_,_ ,_,_,_ = box
-            if self.filterNearBoxes(float(bboxCy)):
+            if self.filterNearBoxes(float(bboxCy),node):
                 x = bboxCx - self.params["cx"]
                 yBottom = bboxCy + bboxH // 2 - self.params["cy"]
                 yTop = bboxCy - bboxH // 2 - self.params["cy"]
@@ -167,7 +167,7 @@ class Smoreo:
                 )
                 pose = self.params["worldCords_inCamera"].T @ pose.T
                 pose = pose.reshape(1, 3)
-                self.addToLandmarkArray(pose, box)
+                self.addToLandmarkArray(pose, box,node)
                 poses.append(pose.reshape(1, 3))
         return self.allLandMarks
 
