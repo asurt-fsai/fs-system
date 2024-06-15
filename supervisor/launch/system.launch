@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  	<arg name="use_bag" default="false"/>
-	<param name="/supervisor/is_bag_system" value="$(arg use_bag)"/>
-
-	<include file="$(find supervisor)/launch/frames.launch"/>
- 	<node name="mesh_viz" pkg="supervisor" type="mesh_viz.py"/>
-	<node name="supervisor" pkg="supervisor" type="mission_launcher_test_node.py" output="screen"/>
-</launch>
