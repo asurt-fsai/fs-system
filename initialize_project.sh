@@ -30,6 +30,7 @@ sudo apt-get install --no-install-recommends -y \
     python$PYTHON_SUFFIX-pip \
     python$PYTHON_SUFFIX-rosdep \
     python$PYTHON_SUFFIX-rosinstall \
+    pre-commit \
     wget \
     $ADDITIONAL_PACKAGES
 
