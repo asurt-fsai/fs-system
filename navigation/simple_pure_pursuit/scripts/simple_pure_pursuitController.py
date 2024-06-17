@@ -10,7 +10,7 @@ from typing import List, Tuple
 from nav_msgs.msg import Path
 from rclpy.node import Node
 
-# from tf_helper.TFHelper import TFHelper
+from tf_helper.TFHelper import TFHelper
 
 
 class SimplePurePursuit:
@@ -34,9 +34,9 @@ class SimplePurePursuit:
         self.xList: List[float] = []
         self.yList: List[float] = []
 
-        # self.helper = TFHelper("control")
-        self.lookAhead = self.node.get_parameter("/control/look_ahead_constant")
-        self.baseLength = self.node.get_parameter("/physical/car_base_length")
+        self.helper = TFHelper("control")
+        self.lookAhead:float = self.node.get_parameter("/control/look_ahead_constant").get_parameter_value().double_value
+        self.baseLength:float = self.node.get_parameter("/physical/car_base_length").get_parameter_value().double_value
         # [m] car length
 
     def add(self, waypointsMsg: Path) -> None:
@@ -50,9 +50,8 @@ class SimplePurePursuit:
 
         """
 
-        # self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
+        self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
 
-        self.waypoints = waypointsMsg
         self.points = waypointsMsg.poses
 
     def searchTargetIndex(self) -> int:
