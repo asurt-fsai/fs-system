@@ -5,6 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "nav_msgs/msg/odometry.hpp"
+#include "std_msgs/msg/bool.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include <tf2/LinearMath/Quaternion.h>
 #include "cloud_msgs/msg/cloud_info.hpp"
