@@ -12,7 +12,6 @@ from std_srvs.srv import Trigger
 
 
 
-
 class StaticB(Node):
     """
     Static B
@@ -40,16 +39,19 @@ class StaticB(Node):
                         
             ])
         self.drivingFlag = False
-        self.started = True
+        self.started = False
         self.status = StatusPublisher("/status/staticB", self)
 
     def drivingFlagCallback(self, msg: Bool) -> None:
         """
         Callback for the driving flag
         """
+        self.get_logger().info("inside driving callback")
         self.drivingFlag = msg.data
         if not self.started and self.drivingFlag:
+            self.get_logger().info("inside if condition")
             self.started = True
+            #self.run()
 
     #@staticmethod
     def run(self) -> None:
@@ -82,7 +84,8 @@ class StaticB(Node):
         # CALLING EBS SERVICE HERE
 
         ############################
-    
+
+        self.get_logger().warn('ebs called')
         client=self.create_client(Trigger,ebsTopic)#define the client
         while not client.wait_for_service(timeout_sec=0.25): # wait for the server to be up
             self.get_logger().warn('waiting for server')
@@ -100,11 +103,12 @@ class StaticB(Node):
         msg.data = True
         finishPub.publish(msg) 
 
-def callback(request:Trigger.Request,response:Trigger.Response):
-    response.success=True
-    response.message = "hey there"
-    print("sending back response:",response.success)
-    return response
+    def callback(self,request:Trigger.Request,response:Trigger.Response):
+        response.success=True
+        response.message = "hey there"
+        self.get_logger().info("sending back response from logger:"+ str(response.success))
+        print("sending back response:",response.success)
+        return response
     
 
 def main() -> None:
@@ -114,27 +118,41 @@ def main() -> None:
 
     rclpy.init()
     staticB = StaticB()
-    drivingFlagTopic = staticB.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
-    staticB.create_subscription(Bool, drivingFlagTopic, staticB.drivingFlagCallback, 10)
-
     staticB.status.starting()
     staticB.status.ready()
 
+    #heartbeartRateThread = IntervalTimer(0.5, staticB.status.running)
+    drivingFlagTopic = staticB.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
+    staticB.create_subscription(Bool, drivingFlagTopic, staticB.drivingFlagCallback, 10)
+
+
     rate = staticB.create_rate(10)
+    
+    #heartbeartRateThread.start()
     while rclpy.ok():
         staticB.status.running()
-        staticB.create_service(Trigger, "/ros_can/ebs",callback)
+        staticB.get_logger().info("inside while")
+        staticB.create_service(Trigger, "/ros_can/ebs",staticB.callback)
         if staticB.started:
+            
+            staticB.get_logger().info("runn")
             staticB.run()
             break
+        
+        rclpy.spin_once(staticB, timeout_sec=0.1)
+        
 
-        while rclpy.ok():
-            rclpy.spin(staticB) #the spin must exist to enter the callback for the service
-        pass
+    #rclpy.spin(staticB)    
+
+        # while rclpy.ok():
+        #     staticB.get_logger().info("inside second while")
+        #     rclpy.spin(staticB) #the spin must exist to enter the callback for the service
+        # pass
 
 
 
-        rate.sleep()
+    
+    rclpy.shutdown() 
 
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ class AutonomousDemo(Node):
         self.declare_parameter('/state', rclpy.Parameter.Type.STRING)
         self.declare_parameter('/finisher/is_finished', rclpy.Parameter.Type.STRING)
         self.declare_parameter("/vcu/curr_vel", rclpy.Parameter.Type.STRING)
-        self.declare_parameter("/ros_can/ebs", rclpy.Parameter.Type.STRING)
+        self.declare_parameter('/ros_can/ebs', rclpy.Parameter.Type.STRING) 
         self.declare_parameter("/supervisor/driving_flag", rclpy.Parameter.Type.STRING)
 
         
@@ -41,7 +41,8 @@ class AutonomousDemo(Node):
         self.drivingFlag = msg.data
         if not self.started and self.drivingFlag:
             self.started = True
-            self.run()
+            #self.run()
+         
 
 
     def run(self) -> None:
@@ -57,7 +58,8 @@ class AutonomousDemo(Node):
         steerTopic = self.get_parameter("/control/steering").get_parameter_value().string_value
         vcuCurrVelTopic = self.get_parameter("/vcu/curr_vel").get_parameter_value().string_value
         maxSteerDouble = self.get_parameter("maxSteer").get_parameter_value().double_value
-        ebsTopic = self.get_parameter("/ros_can/ebs").get_parameter_value().string_value
+        ebsTopic = self.get_parameter('/ros_can/ebs').get_parameter_value().string_value
+        self.get_logger().info(ebsTopic)
 
         velPub = self.create_publisher(Float32, velTopic, 10)
         steerPub = self.create_publisher(Float32, steerTopic, 10)
@@ -150,19 +152,20 @@ class AutonomousDemo(Node):
         
         client=self.create_client(Trigger, ebsTopic)  # define the client
         self.get_logger().info("1")
-        while not client.wait_for_service(timeout_sec=0.25): # wait for the server to be up
+        while not client.wait_for_service(timeout_sec=1.0): # wait for the server to be up
             self.get_logger().warn('waiting for server')
             # define the request to be called
-            self.get_logger().info("2")
-            request = Trigger.Request()  # Define the request inside the loop
-            self.get_logger().info("3")
+        self.get_logger().info("2")
+        request = Trigger.Request()  # Define the request inside the loop
+        self.get_logger().info("3")
 
-            # call async is non-blocking meaning that it will not wait for the response.
-            future_obj = client.call_async(request)
-            self.get_logger().info("4")
-            rclpy.spin_until_future_complete(self, future_obj) # spin until the response object is received
-            self.get_logger().info("5")
-            self.get_logger().warn('DOOOOOOOOOONE')
+        # call async is non-blocking meaning that it will not wait for the response.
+        future_obj = client.call_async(request)
+        self.get_logger().info(str(future_obj))
+        self.get_logger().info("4")
+        rclpy.spin_until_future_complete(self, future_obj) # spin until the response object is received
+        self.get_logger().info("5")
+        self.get_logger().warn('DOOOOOOOOOONE')
 
  
     
@@ -172,11 +175,13 @@ class AutonomousDemo(Node):
         msg.data = True
         finishPub.publish(msg) 
 
-def callback(request:Trigger.Request,response:Trigger.Response):
-    response.success=True
-    response.message = "hey there"
-    print("sending back response:",response.success)
-    return response
+    def callback(self,request:Trigger.Request,response:Trigger.Response):
+        response.success=True
+        response.message = "hey there"
+        self.get_logger().info("sending back response from logger:"+ str(response.success))
+
+        print("sending back response:",response.success)
+        return response
 
 def main() -> None:
     """
@@ -187,24 +192,24 @@ def main() -> None:
     autonomousDemo = AutonomousDemo()
     drivingFlagTopic = autonomousDemo.get_parameter("/supervisor/driving_flag").get_parameter_value().string_value
     autonomousDemo.create_subscription(Bool, drivingFlagTopic, autonomousDemo.drivingFlagCallback, 10)
-    
+    autonomousDemo.create_service(Trigger,"/ros_can/ebs",autonomousDemo.callback)
     autonomousDemo.status.starting()
     autonomousDemo.status.ready()
-
+    autonomousDemo.get_logger().info("1")
     rate = autonomousDemo.create_rate(10)
     while rclpy.ok():
         autonomousDemo.status.running()
-        autonomousDemo.create_service(Trigger, "/ros_can/ebs",callback)
+        autonomousDemo.get_logger().info("2")
         if autonomousDemo.started:
+            autonomousDemo.get_logger().info("3")
             autonomousDemo.run()
             break
 
-        while rclpy.ok():
-            rclpy.spin(autonomousDemo) #the spin must exist to enter the callback for the service
-        pass
+        rclpy.spin_once(autonomousDemo, timeout_sec=0.1)
+        autonomousDemo.get_logger().info("4")
+        #rclpy.spin(autonomousDemo) #the spin must exist to enter the callback for the service
 
-
-        rate.sleep()
+        #rate.sleep()
 
 if __name__ == "__main__":
     try:
