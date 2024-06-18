@@ -1,4 +1,4 @@
-# VLP-16
+# VLP-32C
 image_projection:
   ros__parameters:
     laser:
