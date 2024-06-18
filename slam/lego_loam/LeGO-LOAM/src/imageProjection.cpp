@@ -46,14 +46,14 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
   
    Attributes
    ----------
-   _sub_laser_cloud : Subscription to raw LiDAR point cloud data.
-   _pub_full_cloud : Publisher for the full point cloud projected into a 2D image plane.
-   _pub_full_info_cloud : Publisher for the full point cloud with additional information per point.
-   _pub_ground_cloud : Publisher for the detected ground points in the point cloud.
-   _pub_segmented_cloud : Publisher for the segmented non-ground points in the point cloud.
-   _pub_segmented_cloud_pure : Publisher for the pure segmented non-ground points without additional information.
-   _pub_segmented_cloud_info : Publisher for metadata information about the segmented cloud.
-   _pub_outlier_cloud : Publisher for outlier points detected during segmentation.
+   subLaserCloud : Subscription to raw LiDAR point cloud data.
+   pubFullCloud : Publisher for the full point cloud projected into a 2D image plane.
+   pubFullInfoCloud : Publisher for the full point cloud with additional information per point.
+   pubGroundCloud : Publisher for the detected ground points in the point cloud.
+   pubSegmentedCloud : Publisher for the segmented non-ground points in the point cloud.
+   pubSegmentedCloudPure : Publisher for the pure segmented non-ground points without additional information.
+   pubSegmentedCloudInfo : Publisher for metadata information about the segmented cloud.
+   pubOutlierCloud : Publisher for outlier points detected during segmentation.
   
    Methods
    -------
@@ -86,16 +86,16 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
        Publishes various forms of processed point clouds for visualization and further processing.
  */
   
-  _sub_laser_cloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
+  subLaserCloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       "/lidar_points", 1, std::bind(&ImageProjection::cloudHandler, this, std::placeholders::_1));
 
-  _pub_full_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_projected", 1);
-  _pub_full_info_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_info", 1);
-  _pub_ground_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/ground_cloud", 1);
-  _pub_segmented_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud", 1);
-  _pub_segmented_cloud_pure = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud_pure", 1);
-  _pub_segmented_cloud_info = this->create_publisher<cloud_msgs::msg::CloudInfo>("/segmented_cloud_info", 1);
-  _pub_outlier_cloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud", 1);
+  pubFullCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_projected", 1);
+  pubFullInfoCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_info", 1);
+  pubGroundCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/ground_cloud", 1);
+  pubSegmentedCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud", 1);
+  pubSegmentedCloudPure = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud_pure", 1);
+  pubSegmentedCloudInfo = this->create_publisher<cloud_msgs::msg::CloudInfo>("/segmented_cloud_info", 1);
+  pubOutlierCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud", 1);
 
   // Declare parameters
   this->declare_parameter(PARAM_VERTICAL_SCANS, rclcpp::PARAMETER_INTEGER);
@@ -111,41 +111,41 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
   float vertical_angle_top;
 
   // Read parameters
-  if (!this->get_parameter(PARAM_VERTICAL_SCANS, _vertical_scans)) {
+  if (!this->get_parameter(PARAM_VERTICAL_SCANS, verticalScans)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_VERTICAL_SCANS.c_str());
   }
-  if (!this->get_parameter(PARAM_HORIZONTAL_SCANS, _horizontal_scans)) {
+  if (!this->get_parameter(PARAM_HORIZONTAL_SCANS, horizontalScans)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_HORIZONTAL_SCANS.c_str());
   }
-  if (!this->get_parameter(PARAM_ANGLE_BOTTOM, _ang_bottom)) {
+  if (!this->get_parameter(PARAM_ANGLE_BOTTOM, angBottom)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_ANGLE_BOTTOM.c_str());
   }
   if (!this->get_parameter(PARAM_ANGLE_TOP, vertical_angle_top)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_ANGLE_TOP.c_str());
   }
-  if (!this->get_parameter(PARAM_GROUND_INDEX, _ground_scan_index)) {
+  if (!this->get_parameter(PARAM_GROUND_INDEX, groundScanIndex)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s found", PARAM_GROUND_INDEX.c_str());
   }
-  if (!this->get_parameter(PARAM_SENSOR_ANGLE, _sensor_mount_angle)) {
+  if (!this->get_parameter(PARAM_SENSOR_ANGLE, sensorMountAngle)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SENSOR_ANGLE.c_str());
   }
-  if (!this->get_parameter(PARAM_SEGMENT_THETA, _segment_theta)) {
+  if (!this->get_parameter(PARAM_SEGMENT_THETA, segmentTheta)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SEGMENT_THETA.c_str());
   }
-  if (!this->get_parameter(PARAM_SEGMENT_POINT, _segment_valid_point_num)) {
+  if (!this->get_parameter(PARAM_SEGMENT_POINT, segmentValidPointNum)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SEGMENT_POINT.c_str());
   }
-  if (!this->get_parameter(PARAM_SEGMENT_LINE, _segment_valid_line_num)) {
+  if (!this->get_parameter(PARAM_SEGMENT_LINE, segmentValidLineNum)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SEGMENT_LINE.c_str());
   }
 
-  _ang_resolution_X = (M_PI*2) / (_horizontal_scans);
-  _ang_resolution_Y = DEG_TO_RAD*(vertical_angle_top - _ang_bottom) / float(_vertical_scans-1);
-  _ang_bottom = -( _ang_bottom - 0.1) * DEG_TO_RAD;
-  _segment_theta *= DEG_TO_RAD;
-  _sensor_mount_angle *= DEG_TO_RAD;
+  angResolutionX = (M_PI*2) / (horizontalScans);
+  angResolutionY = DEG_TO_RAD*(vertical_angle_top - angBottom) / float(verticalScans-1);
+  angBottom = -( angBottom - 0.1) * DEG_TO_RAD;
+  segmentTheta *= DEG_TO_RAD;
+  sensorMountAngle *= DEG_TO_RAD;
 
-  const size_t cloud_size = _vertical_scans * _horizontal_scans;
+  const size_t cloud_size = verticalScans * horizontalScans;
 
   _laser_cloud_in.reset(new pcl::PointCloud<PointType>());
   _full_cloud.reset(new pcl::PointCloud<PointType>());
@@ -203,7 +203,7 @@ void ImageProjection::resetParameters() {
    This function updates the internal state of the ImageProjection object to be ready for the next scan processing.
 */
 
-  const size_t cloud_size = _vertical_scans * _horizontal_scans;
+  const size_t cloud_size = verticalScans * horizontalScans;
   PointType nanPoint;
   nanPoint.x = std::numeric_limits<float>::quiet_NaN();
   nanPoint.y = std::numeric_limits<float>::quiet_NaN();
@@ -215,9 +215,9 @@ void ImageProjection::resetParameters() {
   _segmented_cloud_pure->clear();
   _outlier_cloud->clear();
 
-  _range_mat.resize(_vertical_scans, _horizontal_scans);
-  _ground_mat.resize(_vertical_scans, _horizontal_scans);
-  _label_mat.resize(_vertical_scans, _horizontal_scans);
+  _range_mat.resize(verticalScans, horizontalScans);
+  _ground_mat.resize(verticalScans, horizontalScans);
+  _label_mat.resize(verticalScans, horizontalScans);
 
   _range_mat.fill(FLT_MAX);
   _ground_mat.setZero();
@@ -229,8 +229,8 @@ void ImageProjection::resetParameters() {
   std::fill(_full_info_cloud->points.begin(), _full_info_cloud->points.end(),
             nanPoint);
 
-  _seg_msg.start_ring_index.assign(_vertical_scans, 0);
-  _seg_msg.end_ring_index.assign(_vertical_scans, 0);
+  _seg_msg.start_ring_index.assign(verticalScans, 0);
+  _seg_msg.end_ring_index.assign(verticalScans, 0);
 
   _seg_msg.segmented_cloud_ground_flag.assign(cloud_size, false);
   _seg_msg.segmented_cloud_col_ind.assign(cloud_size, 0);
@@ -341,20 +341,20 @@ void ImageProjection::projectPointCloud() {
     float verticalAngle = std::asin(thisPoint.z / range);
         //std::atan2(thisPoint.z, sqrt(thisPoint.x * thisPoint.x + thisPoint.y * thisPoint.y));
 
-    int rowIdn = (verticalAngle + _ang_bottom) / _ang_resolution_Y;
-    if (rowIdn < 0 || rowIdn >= _vertical_scans) {
+    int rowIdn = (verticalAngle + angBottom) / angResolutionY;
+    if (rowIdn < 0 || rowIdn >= verticalScans) {
       continue;
     }
 
     float horizonAngle = std::atan2(thisPoint.x, thisPoint.y);
 
-    int columnIdn = -round((horizonAngle - M_PI_2) / _ang_resolution_X) + _horizontal_scans * 0.5;
+    int columnIdn = -round((horizonAngle - M_PI_2) / angResolutionX) + horizontalScans * 0.5;
 
-    if (columnIdn >= _horizontal_scans){
-      columnIdn -= _horizontal_scans;
+    if (columnIdn >= horizontalScans){
+      columnIdn -= horizontalScans;
     }
 
-    if (columnIdn < 0 || columnIdn >= _horizontal_scans){
+    if (columnIdn < 0 || columnIdn >= horizontalScans){
       continue;
     }
 
@@ -366,7 +366,7 @@ void ImageProjection::projectPointCloud() {
 
     thisPoint.intensity = (float)rowIdn + (float)columnIdn / 10000.0;
 
-    size_t index = columnIdn + rowIdn * _horizontal_scans;
+    size_t index = columnIdn + rowIdn * horizontalScans;
     _full_cloud->points[index] = thisPoint;
     // the corresponding range of a point is saved as "intensity"
     _full_info_cloud->points[index] = thisPoint;
@@ -457,10 +457,10 @@ void ImageProjection::groundRemoval() {
   // -1, no valid info to check if ground of not
   //  0, initial value, after validation, means not ground
   //  1, ground
-  for (int j = 0; j < _horizontal_scans; ++j) {
-    for (int i = 0; i < _ground_scan_index; ++i) {
-      int lowerInd = j + (i)*_horizontal_scans;
-      int upperInd = j + (i + 1) * _horizontal_scans;
+  for (int j = 0; j < horizontalScans; ++j) {
+    for (int i = 0; i < groundScanIndex; ++i) {
+      int lowerInd = j + (i)*horizontalScans;
+      int upperInd = j + (i + 1) * horizontalScans;
 
       if (_full_cloud->points[lowerInd].intensity == -1 ||
           _full_cloud->points[upperInd].intensity == -1) {
@@ -480,7 +480,7 @@ void ImageProjection::groundRemoval() {
 
       // TODO: review this change
 
-      if ( (vertical_angle - _sensor_mount_angle) <= 10 * DEG_TO_RAD) {
+      if ( (vertical_angle - sensorMountAngle) <= 10 * DEG_TO_RAD) {
         _ground_mat(i, j) = 1;
         _ground_mat(i + 1, j) = 1;
       }
@@ -490,8 +490,8 @@ void ImageProjection::groundRemoval() {
   // mark entry that doesn't need to label (ground and invalid point) for
   // segmentation note that ground remove is from 0~_N_scan-1, need _range_mat
   // for mark label matrix for the 16th scan
-  for (int i = 0; i < _vertical_scans; ++i) {
-    for (int j = 0; j < _horizontal_scans; ++j) {
+  for (int i = 0; i < verticalScans; ++i) {
+    for (int j = 0; j < horizontalScans; ++j) {
       if (_ground_mat(i, j) == 1 ||
           _range_mat(i, j) == FLT_MAX) {
         _label_mat(i, j) = -1;
@@ -499,10 +499,10 @@ void ImageProjection::groundRemoval() {
     }
   }
 
-  for (int i = 0; i <= _ground_scan_index; ++i) {
-    for (int j = 0; j < _horizontal_scans; ++j) {
+  for (int i = 0; i <= groundScanIndex; ++i) {
+    for (int j = 0; j < horizontalScans; ++j) {
       if (_ground_mat(i, j) == 1)
-        _ground_cloud->push_back(_full_cloud->points[j + i * _horizontal_scans]);
+        _ground_cloud->push_back(_full_cloud->points[j + i * horizontalScans]);
     }
   }
 }
@@ -538,22 +538,22 @@ void ImageProjection::cloudSegmentation() {
    but are not necessarily noise or erroneous readings.
 */
   // segmentation process
-  for (int i = 0; i < _vertical_scans; ++i)
-    for (int j = 0; j < _horizontal_scans; ++j)
+  for (int i = 0; i < verticalScans; ++i)
+    for (int j = 0; j < horizontalScans; ++j)
       if (_label_mat(i, j) == 0) labelComponents(i, j);
 
   int sizeOfSegCloud = 0;
   // extract segmented cloud for lidar odometry
-  for (int i = 0; i < _vertical_scans; ++i) {
+  for (int i = 0; i < verticalScans; ++i) {
     _seg_msg.start_ring_index[i] = sizeOfSegCloud - 1 + 5;
 
-    for (int j = 0; j < _horizontal_scans; ++j) {
+    for (int j = 0; j < horizontalScans; ++j) {
       if (_label_mat(i, j) > 0 || _ground_mat(i, j) == 1) {
         // outliers that will not be used for optimization (always continue)
         if (_label_mat(i, j) == 999999) {
-          if (i > _ground_scan_index && j % 5 == 0) {
+          if (i > groundScanIndex && j % 5 == 0) {
             _outlier_cloud->push_back(
-                _full_cloud->points[j + i * _horizontal_scans]);
+                _full_cloud->points[j + i * horizontalScans]);
             continue;
           } else {
             continue;
@@ -561,7 +561,7 @@ void ImageProjection::cloudSegmentation() {
         }
         // majority of ground points are skipped
         if (_ground_mat(i, j) == 1) {
-          if (j % 5 != 0 && j > 5 && j < _horizontal_scans - 5) continue;
+          if (j % 5 != 0 && j > 5 && j < horizontalScans - 5) continue;
         }
         // mark ground points so they will not be considered as edge features
         // later
@@ -573,7 +573,7 @@ void ImageProjection::cloudSegmentation() {
         _seg_msg.segmented_cloud_range[sizeOfSegCloud] =
             _range_mat(i, j);
         // save seg cloud
-        _segmented_cloud->push_back(_full_cloud->points[j + i * _horizontal_scans]);
+        _segmented_cloud->push_back(_full_cloud->points[j + i * horizontalScans]);
         // size of seg cloud
         ++sizeOfSegCloud;
       }
@@ -583,11 +583,11 @@ void ImageProjection::cloudSegmentation() {
   }
 
   // extract segmented cloud for visualization
-  for (int i = 0; i < _vertical_scans; ++i) {
-    for (int j = 0; j < _horizontal_scans; ++j) {
+  for (int i = 0; i < verticalScans; ++i) {
+    for (int j = 0; j < horizontalScans; ++j) {
       if (_label_mat(i, j) > 0 && _label_mat(i, j) != 999999) {
         _segmented_cloud_pure->push_back(
-            _full_cloud->points[j + i * _horizontal_scans]);
+            _full_cloud->points[j + i * horizontalScans]);
         _segmented_cloud_pure->points.back().intensity =
             _label_mat(i, j);
       }
@@ -601,7 +601,7 @@ void ImageProjection::labelComponents(int row, int col) {
 
    Extended Description: This function implements a region growing algorithm to label each point in the segmented cloud. 
    It starts from a seed point and expands to neighboring points based on the similarity criteria determined by the 
-   angle threshold `_segment_theta`. Points within this threshold are considered part of the same object and are labeled identically. 
+   angle threshold `segmentTheta`. Points within this threshold are considered part of the same object and are labeled identically. 
    The algorithm distinguishes between valid segments and outliers, labeling them accordingly for further processing.
 
    Parameters
@@ -612,7 +612,7 @@ void ImageProjection::labelComponents(int row, int col) {
        The column index of the seed point in the range image.
 
    - segmentThetaThreshold : float
-       Calculated from `_segment_theta`, determines the angular similarity for expanding the segment.
+       Calculated from `segmentTheta`, determines the angular similarity for expanding the segment.
    - lineCountFlag : std::vector<bool>
        Flags to indicate if a row in the range image has been included in the current segment.
    - queue : boost::circular_buffer<Eigen::Vector2i>
@@ -640,10 +640,10 @@ void ImageProjection::labelComponents(int row, int col) {
    objects based on geometric continuity.
 */
 
-  const float segmentThetaThreshold = tan(_segment_theta);
+  const float segmentThetaThreshold = tan(segmentTheta);
 
-  std::vector<bool> lineCountFlag(_vertical_scans, false);
-  const size_t cloud_size = _vertical_scans * _horizontal_scans;
+  std::vector<bool> lineCountFlag(verticalScans, false);
+  const size_t cloud_size = verticalScans * horizontalScans;
   using Coord2D = Eigen::Vector2i;
   boost::circular_buffer<Coord2D> queue(cloud_size);
   boost::circular_buffer<Coord2D> all_pushed(cloud_size);
@@ -668,14 +668,14 @@ void ImageProjection::labelComponents(int row, int col) {
       int thisIndX = fromInd.x() + iter.x();
       int thisIndY = fromInd.y() + iter.y();
       // index should be within the boundary
-      if (thisIndX < 0 || thisIndX >= _vertical_scans){
+      if (thisIndX < 0 || thisIndX >= verticalScans){
         continue;
       }
       // at range image margin (left or right side)
       if (thisIndY < 0){
-        thisIndY = _horizontal_scans - 1;
+        thisIndY = horizontalScans - 1;
       }
-      if (thisIndY >= _horizontal_scans){
+      if (thisIndY >= horizontalScans){
         thisIndY = 0;
       }
       // prevent infinite loop (caused by put already examined point back)
@@ -688,7 +688,7 @@ void ImageProjection::labelComponents(int row, int col) {
       float d2 = std::min(_range_mat(fromInd.x(), fromInd.y()),
                     _range_mat(thisIndX, thisIndY));
 
-      float alpha = (iter.x() == 0) ? _ang_resolution_X : _ang_resolution_Y;
+      float alpha = (iter.x() == 0) ? angResolutionX : angResolutionY;
       float tang = (d2 * sin(alpha) / (d1 - d2 * cos(alpha)));
 
       if (tang > segmentThetaThreshold) {
@@ -707,12 +707,12 @@ void ImageProjection::labelComponents(int row, int col) {
   if (all_pushed.size() >= 30){
     feasibleSegment = true;
   }
-  else if (static_cast<int>(all_pushed.size()) >= _segment_valid_point_num) {
+  else if (static_cast<int>(all_pushed.size()) >= segmentValidPointNum) {
     int lineCount = 0;
-    for (int i = 0; i < _vertical_scans; ++i) {
+    for (int i = 0; i < verticalScans; ++i) {
       if (lineCountFlag[i] == true) ++lineCount;
     }
-    if (lineCount >= _segment_valid_line_num) feasibleSegment = true;
+    if (lineCount >= segmentValidLineNum) feasibleSegment = true;
   }
   // segment is valid, mark these points
   if (feasibleSegment == true) {
@@ -751,13 +751,13 @@ void ImageProjection::publishClouds() {
 
    Publishers
    ----------
-   - _pub_outlier_cloud : Publisher for outlier cloud points.
-   - _pub_segmented_cloud : Publisher for segmented cloud points.
-   - _pub_full_cloud : Publisher for the complete projected cloud.
-   - _pub_ground_cloud : Publisher for ground points.
-   - _pub_segmented_cloud_pure : Publisher for purely segmented cloud points.
-   - _pub_full_info_cloud : Publisher for the full cloud with additional info.
-   - _pub_segmented_cloud_info : Publisher for segmented cloud metadata.
+   - pubOutlierCloud : Publisher for outlier cloud points.
+   - pubSegmentedCloud : Publisher for segmented cloud points.
+   - pubFullCloud : Publisher for the complete projected cloud.
+   - pubGroundCloud : Publisher for ground points.
+   - pubSegmentedCloudPure : Publisher for purely segmented cloud points.
+   - pubFullInfoCloud : Publisher for the full cloud with additional info.
+   - pubSegmentedCloudInfo : Publisher for segmented cloud metadata.
 
    Note
    ----
@@ -780,15 +780,15 @@ void ImageProjection::publishClouds() {
     }
   };
 
-  PublishCloud(_pub_outlier_cloud, temp, _outlier_cloud);
-  PublishCloud(_pub_segmented_cloud, temp, _segmented_cloud);
-  PublishCloud(_pub_full_cloud, temp, _full_cloud);
-  PublishCloud(_pub_ground_cloud, temp, _ground_cloud);
-  PublishCloud(_pub_segmented_cloud_pure, temp, _segmented_cloud_pure);
-  PublishCloud(_pub_full_info_cloud, temp, _full_info_cloud);
+  PublishCloud(pubOutlierCloud, temp, _outlier_cloud);
+  PublishCloud(pubSegmentedCloud, temp, _segmented_cloud);
+  PublishCloud(pubFullCloud, temp, _full_cloud);
+  PublishCloud(pubGroundCloud, temp, _ground_cloud);
+  PublishCloud(pubSegmentedCloudPure, temp, _segmented_cloud_pure);
+  PublishCloud(pubFullInfoCloud, temp, _full_info_cloud);
 
-  if (_pub_segmented_cloud_info->get_subscription_count() != 0) {
-    _pub_segmented_cloud_info->publish(_seg_msg);
+  if (pubSegmentedCloudInfo->get_subscription_count() != 0) {
+    pubSegmentedCloudInfo->publish(_seg_msg);
   }
 
   //--------------------

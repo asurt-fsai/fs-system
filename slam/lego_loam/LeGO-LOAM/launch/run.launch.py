@@ -77,6 +77,6 @@ def generate_launch_description():
   ld.add_action(transform_camera)
   ld.add_action(transform_adjusted)
   ld.add_action(transform_velodyne)
-  #ld.add_action(rviz_node)  modules should not launch rviz by themselves 
+  #ld.add_action(rviz_node)  #modules should not launch rviz by themselves 
 
   return ld

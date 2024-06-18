@@ -33,29 +33,29 @@ class ImageProjection : public rclcpp::Node {
   pcl::PointCloud<PointType>::Ptr _segmented_cloud_pure;
   pcl::PointCloud<PointType>::Ptr _outlier_cloud;
 
-  int _vertical_scans;
-  int _horizontal_scans;
-  float _ang_bottom;
-  float _ang_resolution_X;
-  float _ang_resolution_Y;
-  float _segment_theta;
-  int _segment_valid_point_num;
-  int _segment_valid_line_num;
-  int _ground_scan_index;
-  float _sensor_mount_angle;
+  int verticalScans;
+  int horizontalScans;
+  float angBottom;
+  float angResolutionX;
+  float angResolutionY;
+  float segmentTheta;
+  int segmentValidPointNum;
+  int segmentValidLineNum;
+  int groundScanIndex;
+  float sensorMountAngle;
 
   Channel<ProjectionOut>& _output_channel;
 
-  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr _sub_laser_cloud;
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr subLaserCloud;
 
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_full_cloud;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_full_info_cloud;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubFullCloud;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubFullInfoCloud;
 
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_ground_cloud;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_segmented_cloud;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_segmented_cloud_pure;
-  rclcpp::Publisher<cloud_msgs::msg::CloudInfo>::SharedPtr _pub_segmented_cloud_info;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_outlier_cloud;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubGroundCloud;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubSegmentedCloud;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubSegmentedCloudPure;
+  rclcpp::Publisher<cloud_msgs::msg::CloudInfo>::SharedPtr pubSegmentedCloudInfo;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubOutlierCloud;
 
   cloud_msgs::msg::CloudInfo _seg_msg;
 

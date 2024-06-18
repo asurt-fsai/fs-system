@@ -19,13 +19,13 @@ class FeatureAssociation : public rclcpp::Node {
 
  private:
 
-  int _vertical_scans;
-  int _horizontal_scans;
-  float _scan_period;
-  float _edge_threshold;
-  float _surf_threshold;
-  float _nearest_feature_dist_sqr;
-  int _mapping_frequency_div;
+  int verticalScans;
+  int horizontalScans;
+  float scanPeriod;
+  float edgeThreshold;
+  float surfThreshold;
+  float nearestFeatureDistSqr;
+  int mappingFrequencyDiv;
 
   std::thread _run_thread;
 
@@ -58,10 +58,10 @@ class FeatureAssociation : public rclcpp::Node {
   std::vector<int> cloudNeighborPicked;
   std::vector<int> cloudLabel;
 
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_cloud_corner_last;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_cloud_surf_last;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubCloudCornerLast;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubCloudSurfLast;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr pubLaserOdometry;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr _pub_outlier_cloudLast;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubOutlierCloudLast;
 
   int skipFrameNum;
   bool systemInitedLM;

@@ -59,13 +59,13 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
    - pubCornerPointsLessSharp : Publisher for less sharp corner points.
    - pubSurfPointsFlat : Publisher for flat surface points.
    - pubSurfPointsLessFlat : Publisher for less flat surface points.
-   - _pub_cloud_corner_last : Publisher for last corner points cloud.
-   - _pub_cloud_surf_last : Publisher for last surface points cloud.
-   - _pub_outlier_cloudLast : Publisher for last outlier points cloud.
+   - pubCloudCornerLast : Publisher for last corner points cloud.
+   - pubCloudSurfLast : Publisher for last surface points cloud.
+   - pubOutlierCloudLast : Publisher for last outlier points cloud.
    - pubLaserOdometry : Publisher for laser odometry.
    - tfBroadcaster : Broadcaster for transform.
    - _cycle_count : (int), Cycle counter for controlling the frequency of mapping.
-   - _nearest_feature_dist_sqr : (float), Squared distance for nearest feature search.
+   - nearestFeatureDistSqr : (float), Squared distance for nearest feature search.
   
    Methods
    -------
@@ -91,9 +91,9 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
   pubSurfPointsFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_flat", 1);
   pubSurfPointsLessFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_less_flat", 1);
 
-  _pub_cloud_corner_last = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_corner_last", 2);
-  _pub_cloud_surf_last = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_surf_last", 2);
-  _pub_outlier_cloudLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud_last", 2);
+  pubCloudCornerLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_corner_last", 2);
+  pubCloudSurfLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_surf_last", 2);
+  pubOutlierCloudLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud_last", 2);
   pubLaserOdometry = this->create_publisher<nav_msgs::msg::Odometry>("/laser_odom_to_init", 5);
 
   tfBroadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
@@ -109,32 +109,32 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
   this->declare_parameter(PARAM_SURF_THRESHOLD,rclcpp::PARAMETER_DOUBLE );
   this->declare_parameter(PARAM_DISTANCE,rclcpp::PARAMETER_DOUBLE );
 
-  float nearest_dist;
+  float nearestDist;
 
   // Read parameters
-  if (!this->get_parameter(PARAM_VERTICAL_SCANS, _vertical_scans)) {
+  if (!this->get_parameter(PARAM_VERTICAL_SCANS, verticalScans)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_VERTICAL_SCANS.c_str());
   }
-  if (!this->get_parameter(PARAM_HORIZONTAL_SCANS, _horizontal_scans)) {
+  if (!this->get_parameter(PARAM_HORIZONTAL_SCANS, horizontalScans)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_HORIZONTAL_SCANS.c_str());
   }
-  if (!this->get_parameter(PARAM_SCAN_PERIOD, _scan_period)) {
+  if (!this->get_parameter(PARAM_SCAN_PERIOD, scanPeriod)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SCAN_PERIOD.c_str());
   }
-  if (!this->get_parameter(PARAM_FREQ_DIVIDER, _mapping_frequency_div)) {
+  if (!this->get_parameter(PARAM_FREQ_DIVIDER, mappingFrequencyDiv)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_FREQ_DIVIDER.c_str());
   }
-  if (!this->get_parameter(PARAM_EDGE_THRESHOLD, _edge_threshold)) {
+  if (!this->get_parameter(PARAM_EDGE_THRESHOLD, edgeThreshold)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_EDGE_THRESHOLD.c_str());
   }
-  if (!this->get_parameter(PARAM_SURF_THRESHOLD, _surf_threshold)) {
+  if (!this->get_parameter(PARAM_SURF_THRESHOLD, surfThreshold)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_SURF_THRESHOLD.c_str());
   }
-  if (!this->get_parameter(PARAM_DISTANCE, nearest_dist)) {
+  if (!this->get_parameter(PARAM_DISTANCE, nearestDist)) {
     RCLCPP_WARN(this->get_logger(), "Parameter %s not found", PARAM_DISTANCE.c_str());
   }
 
-  _nearest_feature_dist_sqr = nearest_dist*nearest_dist;
+  nearestFeatureDistSqr = nearestDist*nearestDist;
 
   initializationValue();
 
@@ -206,7 +206,7 @@ void FeatureAssociation::initializationValue() {
      The function initializes and prepares internal state for lidar data processing, affecting class member variables.
   */
 
-  const size_t cloud_size = _vertical_scans * _horizontal_scans;
+  const size_t cloud_size = verticalScans * horizontalScans;
   cloudSmoothness.resize(cloud_size);
 
   downSizeFilter.setLeafSize(0.2, 0.2, 0.2);
@@ -316,7 +316,7 @@ void FeatureAssociation::adjustDistortion() {
 
     float relTime = (ori - segInfo.start_orientation) / segInfo.orientation_diff;
     point.intensity =
-        int(segmentedCloud->points[i].intensity) + _scan_period * relTime;
+        int(segmentedCloud->points[i].intensity) + scanPeriod * relTime;
 
     segmentedCloud->points[i] = point;
   }
@@ -454,7 +454,7 @@ void FeatureAssociation::extractFeatures() {
 
      Parameters
      ----------
-     _vertical_scans : int
+     verticalScans : int
          The number of vertical scan lines in the lidar data, used to iterate over each scan line.
      sp, ep : int
          Start and end points for processing segments within a scan line, calculated for each segment.
@@ -464,7 +464,7 @@ void FeatureAssociation::extractFeatures() {
          Index of the current point being evaluated within the cloudSmoothness vector.
      cloudSmoothness : std::vector<pair<float, int>>
          A vector containing pairs of smoothness values and corresponding point indices, sorted to facilitate feature extraction.
-     _edge_threshold, _surf_threshold : float
+     edgeThreshold, surfThreshold : float
          Thresholds for distinguishing between sharp edges, less sharp edges, and flat surfaces based on point curvature.
 
      Returns
@@ -487,7 +487,7 @@ void FeatureAssociation::extractFeatures() {
   surfPointsFlat->clear();
   surfPointsLessFlat->clear();
 
-  for (int i = 0; i < _vertical_scans; i++) {
+  for (int i = 0; i < verticalScans; i++) {
     surfPointsLessFlatScan->clear();
 
     for (int j = 0; j < 6; j++) {
@@ -508,7 +508,7 @@ void FeatureAssociation::extractFeatures() {
       for (int k = ep; k >= sp; k--) {
         int ind = cloudSmoothness[k].ind;
         if (cloudNeighborPicked[ind] == 0 &&
-            cloudCurvature[ind] > _edge_threshold &&
+            cloudCurvature[ind] > edgeThreshold &&
             segInfo.segmented_cloud_ground_flag[ind] == false) {
           largestPickedNum++;
           if (largestPickedNum <= 2) {
@@ -550,7 +550,7 @@ void FeatureAssociation::extractFeatures() {
       for (int k = sp; k <= ep; k++) {
         int ind = cloudSmoothness[k].ind;
         if (cloudNeighborPicked[ind] == 0 &&
-            cloudCurvature[ind] < _surf_threshold &&
+            cloudCurvature[ind] < surfThreshold &&
             segInfo.segmented_cloud_ground_flag[ind] == true) {
           cloudLabel[ind] = -1;
           surfPointsFlat->push_back(segmentedCloud->points[ind]);
@@ -849,12 +849,12 @@ void FeatureAssociation::findCorrespondingCornerFeatures(int iterCount) {
                                        pointSearchSqDis);
       int closestPointInd = -1, minPointInd2 = -1;
 
-      if (pointSearchSqDis[0] < _nearest_feature_dist_sqr) {
+      if (pointSearchSqDis[0] < nearestFeatureDistSqr) {
         closestPointInd = pointSearchInd[0];
         int closestPointScan =
             int(laserCloudCornerLast->points[closestPointInd].intensity);
 
-        float pointSqDis, minPointSqDis2 = _nearest_feature_dist_sqr;
+        float pointSqDis, minPointSqDis2 = nearestFeatureDistSqr;
         for (int j = closestPointInd + 1; j < cornerPointsSharpNum; j++) {
           if (int(laserCloudCornerLast->points[j].intensity) >
               closestPointScan + 2.5) {
@@ -990,13 +990,13 @@ void FeatureAssociation::findCorrespondingSurfFeatures(int iterCount) {
                                      pointSearchSqDis);
       int closestPointInd = -1, minPointInd2 = -1, minPointInd3 = -1;
 
-      if (pointSearchSqDis[0] < _nearest_feature_dist_sqr) {
+      if (pointSearchSqDis[0] < nearestFeatureDistSqr) {
         closestPointInd = pointSearchInd[0];
         int closestPointScan =
             int(laserCloudSurfLast->points[closestPointInd].intensity);
 
-        float pointSqDis, minPointSqDis2 = _nearest_feature_dist_sqr,
-                          minPointSqDis3 = _nearest_feature_dist_sqr;
+        float pointSqDis, minPointSqDis2 = nearestFeatureDistSqr,
+                          minPointSqDis3 = nearestFeatureDistSqr;
         for (int j = closestPointInd + 1; j < surfPointsFlatNum; j++) {
           if (int(laserCloudSurfLast->points[j].intensity) >
               closestPointScan + 2.5) {
@@ -1599,8 +1599,8 @@ void FeatureAssociation::checkSystemInitialization() {
 
      Publishes
      ---------
-     - _pub_cloud_corner_last: Publishes the last corner point cloud for visualization or further processing.
-     - _pub_cloud_surf_last: Publishes the last surface point cloud for visualization or further processing.
+     - pubCloudCornerLast: Publishes the last corner point cloud for visualization or further processing.
+     - pubCloudSurfLast: Publishes the last surface point cloud for visualization or further processing.
 */
 
   pcl::PointCloud<PointType>::Ptr laserCloudTemp = cornerPointsLessSharp;
@@ -1621,13 +1621,13 @@ void FeatureAssociation::checkSystemInitialization() {
   pcl::toROSMsg(*laserCloudCornerLast, laserCloudCornerLast2);
   laserCloudCornerLast2.header.stamp = cloudHeader.stamp;
   laserCloudCornerLast2.header.frame_id = "camera";
-  _pub_cloud_corner_last->publish(laserCloudCornerLast2);
+  pubCloudCornerLast->publish(laserCloudCornerLast2);
 
   sensor_msgs::msg::PointCloud2 laserCloudSurfLast2;
   pcl::toROSMsg(*laserCloudSurfLast, laserCloudSurfLast2);
   laserCloudSurfLast2.header.stamp = cloudHeader.stamp;
   laserCloudSurfLast2.header.frame_id = "camera";
-  _pub_cloud_surf_last->publish(laserCloudSurfLast2);
+  pubCloudSurfLast->publish(laserCloudSurfLast2);
 
   systemInitedLM = true;
 }
@@ -1915,9 +1915,9 @@ void FeatureAssociation::publishCloudsLast() {
 
    Publishes
    ---------
-     - _pub_outlier_cloudLast: Publishes adjusted outlier points.
-     - _pub_cloud_corner_last: Publishes the last frame's corner points.
-     - _pub_cloud_surf_last: Publishes the last frame's surface points.
+     - pubOutlierCloudLast: Publishes adjusted outlier points.
+     - pubCloudCornerLast: Publishes the last frame's corner points.
+     - pubCloudSurfLast: Publishes the last frame's surface points.
 
    Note
    ----
@@ -1971,9 +1971,9 @@ void FeatureAssociation::publishCloudsLast() {
       }
     };
 
-    Publish(_pub_outlier_cloudLast, outlierCloud);
-    Publish(_pub_cloud_corner_last, laserCloudCornerLast);
-    Publish(_pub_cloud_surf_last, laserCloudSurfLast);
+    Publish(pubOutlierCloudLast, outlierCloud);
+    Publish(pubCloudCornerLast, laserCloudCornerLast);
+    Publish(pubCloudSurfLast, laserCloudSurfLast);
   }
 }
 
@@ -1994,7 +1994,7 @@ void FeatureAssociation::runFeatureAssociation() {
    Parameters
    ----------
    - Engages with multiple internal data structures to store and process LiDAR data.
-   - Utilizes `_cycle_count` to manage the frequency of output for mapping optimization, controlled by `_mapping_frequency_div`.
+   - Utilizes `_cycle_count` to manage the frequency of output for mapping optimization, controlled by `mappingFrequencyDiv`.
 
    Returns
    -------
@@ -2048,7 +2048,7 @@ void FeatureAssociation::runFeatureAssociation() {
     //--------------
     _cycle_count++;
 
-    if (static_cast<int>(_cycle_count) == _mapping_frequency_div) {
+    if (static_cast<int>(_cycle_count) == mappingFrequencyDiv) {
       _cycle_count = 0;
       AssociationOut out;
       out.cloud_corner_last.reset(new pcl::PointCloud<PointType>());
