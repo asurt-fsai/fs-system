@@ -16,21 +16,6 @@
 [submodule "dependencies/zed_wrapper"]
 	path = dependencies/zed_wrapper
 	url = https://github.com/stereolabs/zed-ros-wrapper.git
-[submodule "slam/aloam"]
-	path = slam/aloam
-	url = https://github.com/asurt-fsai/SC-A-LOAM
-[submodule "slam/hdl_localization"]
-	path = slam/hdl_localization
-	url = https://github.com/asurt-fsai/hdl_localization
-[submodule "slam/ndt_omp"]
-	path = slam/ndt_omp
-	url = https://github.com/asurt-fsai/ndt_omp
-[submodule "slam/fast_gicp"]
-	path = slam/fast_gicp
-	url = https://github.com/asurt-fsai/fast_gicp
-[submodule "slam/hdl_global_localization"]
-	path = slam/hdl_global_localization
-	url = https://github.com/asurt-fsai/hdl_global_localization
 [submodule "dependencies/tf_helper"]
 	path = dependencies/tf_helper
 	url = https://github.com/asurt-fsai/tf_helper.git

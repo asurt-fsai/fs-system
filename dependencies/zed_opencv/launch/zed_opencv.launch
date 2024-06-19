@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <node name="zed_opencv" pkg="zed_opencv" type="zed_opencv_node.py" output="screen"/>
-</launch>
