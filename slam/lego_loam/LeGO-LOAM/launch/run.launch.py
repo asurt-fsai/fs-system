@@ -15,7 +15,7 @@ def generate_launch_description():
   stdout_colorized_envvar = SetEnvironmentVariable('RCUTILS_COLORIZED_OUTPUT', '1')
 
   # Simulated time
-  use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+  use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
   # Nodes Configurations
   config_file = os.path.join(get_package_share_directory('lego_loam_sr'), 'config', 'loam_config.yaml')
