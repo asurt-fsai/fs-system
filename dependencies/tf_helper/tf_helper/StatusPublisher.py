@@ -4,7 +4,10 @@ StatusPublisher class to provide an easy way to publish a heartbeat
 from typing import List
 from threading import Lock
 
-import rospy
+
+from rclpy.node import Node
+from rclpy.qos import QoSProfile, QoSDurabilityPolicy
+
 from asurt_msgs.msg import NodeStatus
 
 
@@ -27,13 +30,17 @@ class StatusPublisher:
 
     topicNamesCreated: List[str] = []
 
-    def __init__(self, topicName: str):
+    def __init__(self, topicName: str, nodeObject: Node) -> None:
         if topicName in StatusPublisher.topicNamesCreated:
             raise ValueError(
                 "StatusPublisher: Topic name already exists, \
                  can't publish a heartbeat on the same topic twice"
             )
-        self.publisher = rospy.Publisher(topicName, NodeStatus, queue_size=5, latch=True)
+        latchingQOS = QoSProfile(depth=1, durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
+        self.nodeObject = nodeObject
+        self.publisher = self.nodeObject.create_publisher(
+            topic=topicName, msg_type=NodeStatus, qos_profile=latchingQOS
+        )
         StatusPublisher.topicNamesCreated.append(topicName)
         self.lock = Lock()
 
@@ -47,7 +54,7 @@ class StatusPublisher:
             Base NodeStatus message
         """
         msg = NodeStatus()
-        msg.header.stamp = rospy.Time.now()
+        msg.header.stamp = self.nodeObject.get_clock().now().to_msg()
         return msg
 
     def starting(self) -> None:

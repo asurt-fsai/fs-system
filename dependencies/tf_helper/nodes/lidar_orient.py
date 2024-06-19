@@ -4,10 +4,11 @@ Ros node to subscribe to velodyne_points and republish it in the fixed horizonta
 The lidar is placed at an angle so this node transforms the points
 by the inverse of that angle to not affect slam
 """
-import rospy
+import rclpy
+from rclpy.node import Node
 
-from tf_helper.TFHelper import TFHelper
-from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper_ros2.TFHelper import TFHelper
+from tf_helper_ros2.StatusPublisher import StatusPublisher
 from sensor_msgs.msg import PointCloud2
 
 
@@ -26,49 +27,55 @@ class VelodyneTransformer:  # pylint: disable=too-few-public-methods
     """
 
     def __init__(self, velodyneTopic: str, velodyneFixedTopic: str, velodyneFixedFrame: str):
-        self.status = StatusPublisher("/status/lidar_orient")
+        super().__init__('lidar_orient')
+        self.declare_parameters(namespace='',
+                                parameters=[
+                                    ('VelodyneTopic', ''),
+                                    ('VelodyneFixedTopic', ''),
+                                    ('VelodyneFixedFrame', '')
+                                ])
+        VelodyneTopic = self.get_parameter('VelodyneTopic').get_parameter_value().string_value
+        VelodyneFixedTopic = self.get_parameter('VelodyneFixedTopic').get_parameter_value().string_value
+        VelodyneFixedFrame = self.get_parameter('VelodyneFixedFrame').get_parameter_value().string_value
+
+        self.status = StatusPublisher(self, "/status/lidar_orient")
         self.status.starting()
 
-        self.helper = TFHelper("lidar_orient")
-        self.velodyneFixedFrame = velodyneFixedFrame
-
-        self.fixedPcPub = rospy.Publisher(velodyneFixedTopic, PointCloud2, queue_size=10)
-
-        rospy.Subscriber(velodyneTopic, PointCloud2, self.pcCallback)
+        self.helper = TFHelper(self)
+        self.VelodyneFixedFrame = VelodyneFixedFrame
+        
+        self.fixed_pc_pub = self.create_publisher(PointCloud2, VelodyneFixedTopic, 10)
+        self.subscription = self.create_subscription(PointCloud2, VelodyneTopic, self.pc_callback, 10)
+        
         self.status.ready()
 
     def pcCallback(self, pointcloud: PointCloud2) -> None:
         """
-        Callback function for the velodyne points
-        Publishes the transformed velodyne points
+        Callback function for the Velodyne points.
+        Publishes the transformed Velodyne points.
 
         Parameters
         ----------
         pointcloud : PointCloud2
-            The velodyne points
+            The Velodyne points.
         """
-        fixedPc = self.helper.transformMsg(pointcloud, self.velodyneFixedFrame)
+        fixedPc = self.helper.transformMsg(pointcloud, self.velodyneFixedFrame)  # Adjusted for ROS 2
         self.fixedPcPub.publish(fixedPc)
         self.status.running()
 
 
-def main() -> None:
-    """
-    Main Loop
-    """
-    rospy.init_node("lidar_orient")
+def main(args=None):
+    rclpy.init(args=args)
+    # In ROS 2, consider using the parameter server or declare_parameters to handle parameters.
+    transformer = VelodyneTransformer()
 
-    velodyneTopic = rospy.get_param("/tf_helper/velodyne_topic")
-    velodyneFixedTopic = rospy.get_param("/tf_helper/velodyne_fixed_topic")
-    velodyneFixedFrame = rospy.get_param("/tf_helper/velodyne_fixed_frame")
-
-    VelodyneTransformer(velodyneTopic, velodyneFixedTopic, velodyneFixedFrame)
-
-    rospy.spin()
-
-
-if __name__ == "__main__":
     try:
-        main()
-    except rospy.ROSInterruptException:
+        rclpy.spin(transformer)
+    except KeyboardInterrupt:
         pass
+    finally:
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

@@ -2,7 +2,10 @@
 Class MarkerViz for visualizing cones using ROS markers
 """
 from typing import List
-import rospy
+
+
+from rclpy.node import Node
+
 from visualization_msgs.msg import Marker, MarkerArray
 
 from asurt_msgs.msg import Landmark, LandmarkArray
@@ -13,11 +16,13 @@ class MarkerViz:
     Class for visualizing cones using ROS markers
     """
 
-    def __init__(self, coneRadius: float, coneHeight: float, zShift: float = 0):
+    def __init__(self, nodeObject: Node, coneRadius: float, coneHeight: float, zShift: float = 0):
         self.coneRadius = coneRadius
         self.coneHeight = coneHeight
         self.zShift = zShift
         self.counter = 0
+
+        self.nodeObject = nodeObject
 
     def createDeleteMsg(self, frameId: str) -> Marker:
         """
@@ -35,7 +40,7 @@ class MarkerViz:
         """
         delMsg = Marker()
         delMsg.header.frame_id = frameId
-        delMsg.header.stamp = rospy.Time.now()
+        delMsg.header.stamp = self.nodeObject.get_clock().now().to_msg()
         delMsg.type = Marker.CUBE
         delMsg.action = Marker.DELETEALL
         return delMsg
@@ -89,7 +94,7 @@ class MarkerViz:
         """
         msg = Marker()
         msg.header.frame_id = frameId
-        msg.header.stamp = rospy.Time.now()
+        msg.header.stamp = self.nodeObject.get_clock().now().to_msg()
         msg.ns = str(self.counter)
         msg.id = idx
         msg.type = Marker.CUBE

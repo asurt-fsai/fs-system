@@ -2,19 +2,24 @@
 Helper class to help with transforming messages between different tf frames
 """
 from typing import Optional, Tuple, Any, Dict
-import tf
-import tf2_ros
-import rospy
-
+import time
 import numpy as np
 import numpy.typing as npt
+import transformations
+
+from rclpy.node import Node
+from tf2_ros.buffer import Buffer
+from tf2_ros.transform_listener import TransformListener
+from tf2_ros import LookupException, ConnectivityException, ExtrapolationException
+from geometry_msgs.msg import TransformStamped
 
 from nav_msgs.msg import Path
 from sensor_msgs.msg import PointCloud2
 from asurt_msgs.msg import LandmarkArray
 from visualization_msgs.msg import MarkerArray
 
-from .utils import npToRos, rosToPcl
+
+from utils import Utils
 
 
 class TFHelper:
@@ -22,12 +27,13 @@ class TFHelper:
     Helper class that can transform a message between any two frames available in tf
     """
 
-    def __init__(self, nodeName: str):
-        self.nodeName = nodeName
-        self.tfBuffer = tf2_ros.Buffer()
-        tf2_ros.TransformListener(self.tfBuffer)
-        rospy.sleep(0.2)  # To ensure a tf has been received
+    def __init__(self, nodeObject: Node):
+        self.nodeObject = nodeObject
+        self.tfBuffer = Buffer()
+        self.listener = TransformListener(self.tfBuffer, self.nodeObject)
+        time.sleep(0.2)  # To ensure a tf has been received
         self.warningPrinted: Dict[str, int] = {}
+        self.utils = Utils(nodeObject)
 
     def getTransform(
         self, fromId: str, toId: str
@@ -52,21 +58,22 @@ class TFHelper:
             yaw: float, rotation around z axis
         """
         try:
-            trans = self.tfBuffer.lookup_transform(toId, fromId, rospy.Time(0))
+            trans: TransformStamped = self.tfBuffer.lookup_transform(
+                toId, fromId, self.nodeObject.get_clock().now().to_msg()
+            )
+
             trans = trans.transform
             translation = trans.translation.x, trans.translation.y, trans.translation.z
-            rot = tf.transformations.euler_from_quaternion(
+            rot = transformations.euler_from_quaternion(
                 [trans.rotation.x, trans.rotation.y, trans.rotation.z, trans.rotation.w]
             )
             return translation, rot
 
-        except (
-            tf2_ros.LookupException,
-            tf2_ros.ConnectivityException,
-            tf2_ros.ExtrapolationException,
-        ):
+        except (LookupException, ConnectivityException, ExtrapolationException):
             if fromId + toId not in self.warningPrinted:
-                rospy.logwarn(self.nodeName + ": Couldn't get tf from " + fromId + " to " + toId)
+                self.nodeObject.get_logger().warn(
+                    f"{self.nodeObject.get_name()}: Couldn't get tf from {fromId } to {toId}"
+                )
                 self.warningPrinted[fromId + toId] = 1
             else:
                 self.warningPrinted[fromId + toId] += 1
@@ -284,9 +291,9 @@ class TFHelper:
             If the transformation is not possible, the message is returned as is (with old frame_id)
         """
         fromId = rosMsg.header.frame_id
-        npPc = rosToPcl(rosMsg).to_array()
+        npPc = self.utils.rosToPcl(rosMsg).to_array()
         npPc[:, :3] = self.transformArr3d(npPc[:, :3], fromId, toId)
-        return npToRos(npPc, toId)
+        return self.utils.npToRos(npPc, toId)
 
     def transformMsg(self, rosMsg: Any, toId: str) -> Any:
         """
@@ -318,5 +325,5 @@ class TFHelper:
         if isinstance(rosMsg, PointCloud2):
             return self.transformPointcloud(rosMsg, toId)
 
-        rospy.logerr(type(rosMsg), " not implemented in tf_helper")
+        self.nodeObject.get_logger().error(f"{type(rosMsg)} not implemented in tf_helper")
         return None
