@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- <node name="mission_launcher_test_node" pkg="supervisor" type="mission_launcher_test_node.py"/> -->
+	<test test-name="supervisor_mission_launcher_test" pkg="supervisor" type="test_mission_launcher.py"/>
+</launch>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+	<param name="/ros_can/twist" value="/ros_can/twist"/>
+	<param name="/ros_can/cmd" value="/cmd"/>
+	<param name="/ros_can/can_state" value="/ros_can/can_state"/>
+	<param name="/control/velocity" value="/control/velocity"/>
+	<param name="/control/steering" value="/control/steering"/>
+	<param name="/supervisor/driver_state" value="/supervisor/driver_state"/>
+	<param name="/supervisor/driving_flag" value="/supervisor/driving_flag"/>
+	<param name="/supervisor/mission_flag" value="/supervisor/mission_flag"/>
+	<param name="/finisher/is_finished" value="/finisher/is_finished"/>
+
+
+	<param name="/vcu/curr_vel" value="/vcu/curr_vel"/>
+	<param name="/vcu/control_vel" value="/vcu/control_vel"/>
+	<param name="/vcu/control_steer" value="/vcu/control_steer"/>
+
+	<node name = "supervisor" pkg = "supervisor" type = "supervisor_node.py" output="screen"/>
+	<node name = "driver" pkg = "supervisor" type = "driver_node.py" output="screen"/>
+	<node name = "ros_can_simulator" pkg = "supervisor" type = "ros_can_simulator.py" output="screen"/>
+</launch>
