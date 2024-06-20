@@ -165,7 +165,7 @@ def implFindAllEndConfigurations(
     """
     targetLength = int(configurationParameters[1])
     stack: IntArray = np.zeros((10, 2), dtype=np.int32)
-    currentAttempt: FloatArray = np.zeros(targetLength, dtype=np.float32) - 1
+    currentAttempt: IntArray = np.zeros(targetLength, dtype=np.int32) - 1
     if len(firstKIndicesMustBe) > 0:
         pos = len(firstKIndicesMustBe) - 1
         currentAttempt[:pos] = firstKIndicesMustBe[:-1]
@@ -191,7 +191,7 @@ def findAllEndConfigurationsLoop(
     configurationParameters: Tuple[int, int, float, float],
     adjacencyMatrix: IntArray,
     stack: IntArray,
-    currentAttempt: FloatArray,
+    currentAttempt: IntArray,
     carOdometry: Tuple[FloatArray, np.float_],
 ) -> np.ndarray[np.int32, Any]:
     """
@@ -203,7 +203,7 @@ def findAllEndConfigurationsLoop(
         configurationParameters (FloatArray): The configuration parameters.
         adjacencyMatrix (IntArray): The adjacency matrix.
         stack (IntArray): The stack data structure.
-        currentAttempt (FloatArray): The current attempt.
+        currentAttempt (IntArray): The current attempt.
         carOdometry: The car odometry data.
 
     Returns:
@@ -268,7 +268,7 @@ FLOAT = Union[float, np.float32] if TYPE_CHECKING else np.float32
 def neighborBoolMaskCanBeAddedToAttempt(
     trace: FloatArray,
     coneType: ConeTypes,
-    currentAttempt: FloatArray,
+    currentAttempt: IntArray,
     positionInStack: int,
     neighbors: IntArray,
     configurationParameters: Tuple[int, int, float, float],
@@ -350,7 +350,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
             # angle2 - angle1
             diffrence = angleDiffrence(
                 np.arctan2(lastToCandidate[1], lastToCandidate[0]).astype(FLOAT),
-                np.arctan2(secondToLastToLast[1], secondToLastToLast[0]).astpe(FLOAT),
+                np.arctan2(secondToLastToLast[1], secondToLastToLast[0]).astype(FLOAT),
             )
 
             if np.abs(diffrence) > configurationParameters[3]:
@@ -411,7 +411,7 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
 def calculateMaskWithinEllipse(
     trace: FloatArray,
-    currentAttempt: FloatArray,
+    currentAttempt: IntArray,
     positionInStack: int,
     neighborsPoints: FloatArray,
 ) -> BoolArray:
@@ -494,7 +494,7 @@ def angleDiffrence(angle1: FloatArray, angle2: FloatArray) -> FloatArray:
 
 def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
     trace: FloatArray,
-    currentAttempt: FloatArray,
+    currentAttempt: IntArray,
     positionInStack: int,
     neighbors: IntArray,
     canBeAdded: BoolArray,
