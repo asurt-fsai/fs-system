@@ -118,7 +118,7 @@ class StaticA(Node):
         msg = Bool()
         msg.data = True
         finishPub.publish(msg)
-        finishPub.publish(True)  # 1 is for finished
+       
         
     
 
