@@ -1,0 +1,8 @@
+StaticA_Node:
+    ros__parameters:
+        maxSteer: 27.2
+        '/control/velocity': '/control/velocity'
+        '/control/steering': '/control/steering'
+        '/finisher/is_finished': '/finisher/is_finished'
+        '/state': '/state'
+        '/supervisor/driving_flag': '/supervisor/driving_flag'

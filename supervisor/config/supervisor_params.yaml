@@ -1,0 +1,18 @@
+supervisor:
+    ros__parameters:
+        '/control/steering': "/control/steering"
+        '/state': "/state"
+        '/control/velocity': '/control/velocity'
+        '/ros_can/twist': "/roSs_can/twist"
+        '/ros_can/cmd': "/cmd"
+        '/ros_can/can_state': "/ros_can/can_state"
+        '/ros_can/ebs': "/ros_can/ebs"
+        '/supervisor/driver_state': "/supervisor/driver_state"
+        '/supervisor/driving_flag': "/supervisor/driving_flag"
+        '/supervisor/mission_flag': "/supervisor/mission_flag"
+        '/finisher/is_finished': "/finisher/is_finished"
+        '/visualizer/marker': "/visualizer/marker"
+        '/visualizer/button': "/visualizer/button"
+        '/vcu/curr_vel': "/vcu/curr_vel"
+        '/vcu/control_vel': "/vcu/control_vel"
+        '/vcu/control_steer': "/vcu/control_steer"
