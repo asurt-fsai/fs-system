@@ -33,10 +33,10 @@ class CornerCasesPath:
         '''
         calculates the path
         '''
-        if len(self.cones[ConeTypes.left]) == 2:
+        if len(self.cones[ConeTypes.left]) >= 2:
             sortedCones = sortCones(self.cones[ConeTypes.left], self.carPosition)
             return self.getPathFrom2PointsSameSide(sortedCones, ConeTypes.BLUE)
-        if len(self.cones[ConeTypes.right]) == 2:
+        if len(self.cones[ConeTypes.right]) >= 2:
             sortedCones = sortCones(self.cones[ConeTypes.right], self.carPosition)
             return self.getPathFrom2PointsSameSide(sortedCones, ConeTypes.YELLOW)
         if len(self.cones[ConeTypes.left]) == 1 and len(self.cones[ConeTypes.right]) == 1:
