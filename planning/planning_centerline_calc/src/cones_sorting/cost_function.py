@@ -4,7 +4,7 @@ Description: This File calculates the costs for the different path versions
 import numpy as np
 
 from src.cones_sorting.nearby_cone_search import numberConesOnEachSideForEachConfig
-from src.types_file.types import BoolArray, FloatArray, IntArray, SortableConeTypes
+from src.types_file.types import BoolArray, FloatArray, IntArray
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import (
     angleDifference,
@@ -17,8 +17,8 @@ from src.utils.math_utils import (
 def costConfigurations(
     points: FloatArray,
     configurations: IntArray,
-    coneType: SortableConeTypes,
-    vehicleDirection: FloatArray,
+    coneType: ConeTypes,
+    vehicleDirection: np.float_,
     *,
     returnIndividualCosts: bool,
 ) -> FloatArray:
@@ -70,7 +70,7 @@ def costConfigurations(
     )
 
     if returnIndividualCosts:
-        return finalCosts
+        return finalCosts.astype(float)
 
     return finalCosts.sum(axis=-1)  # type: ignore
 
@@ -80,7 +80,8 @@ def calcAngleCostForConfigurations(
     configurations: IntArray,
 ) -> FloatArray:
     """
-    Calculates the angle cost for the provided configurations given a set of points and many index lists defining the configurations
+    Calculates the angle cost for the provided configurations
+    given a set of points and many index lists defining the configurations
     Args:
         points: The points to be used
         configurations: An array of indicies defining the configurations
@@ -111,7 +112,8 @@ def calcAngleCostForConfigurations(
 
 def calcAngleToNext(points: FloatArray, configurations: IntArray) -> FloatArray:
     """
-    Calculates the angle from one cone t the previous and the next one for all the provided configurations
+    Calculates the angle from one cone the previous
+    and the next one for all the provided configurations
     """
     allToNext = getConfigurationsDiff(points, configurations)
 
@@ -135,7 +137,7 @@ def getConfigurationsDiff(points: FloatArray, configurations: IntArray) -> Float
     Returns:
         np.array: The differences from one point to the next for each configuration
     """
-    result: FloatArray
+    results: FloatArray
     results = points[configurations[..., :-1]]
     results -= points[configurations[..., 1:]]
     return results
@@ -175,12 +177,23 @@ def calcNumberOfConesCost(configurations: IntArray) -> FloatArray:
 
 
 def calcInitialDirectionCost(
-    points: FloatArray, configurations: IntArray, vehicleDirection: FloatArray
+    points: FloatArray, configurations: IntArray, vehicleDirection: np.float_
 ) -> FloatArray:
-    vehicleDirection = unit2dVectorFromAngle(vehicleDirection)
+    """
+    Calculates the initial direction cost between points and vehicle direction.
+
+    Args:
+        points (FloatArray): Array of points.
+        configurations (IntArray): Array of configurations.
+        vehicleDirection (FloatArray): Array representing the vehicle direction.
+
+    Returns:
+        FloatArray: Array of initial direction costs.
+    """
+    vehicleDirectionArray = unit2dVectorFromAngle(np.array(vehicleDirection))
     pointsConfigFirstTwo = np.diff(points[configurations][:, :2], axis=1)[:, 0]
 
-    return vecAngleBetween(pointsConfigFirstTwo, vehicleDirection)
+    return vecAngleBetween(pointsConfigFirstTwo, vehicleDirectionArray)
 
 
 def calcChangeOfDirectionCost(points: FloatArray, configurations: IntArray) -> FloatArray:
@@ -199,12 +212,12 @@ def calcChangeOfDirectionCost(points: FloatArray, configurations: IntArray) -> F
         A cost for each configuration
     """
     out = np.zeros(configurations.shape[0])
-    for i, c in enumerate(configurations):
-        c = c[c != -1]
-        if len(c) == 3:
+    for i, config in enumerate(configurations):
+        config = config[config != -1]
+        if len(config) == 3:
             continue
 
-        pointsOfConfiguration = points[c]
+        pointsOfConfiguration = points[config]
 
         diff1 = pointsOfConfiguration[1:] - pointsOfConfiguration[:-1]
 
@@ -221,8 +234,19 @@ def calcChangeOfDirectionCost(points: FloatArray, configurations: IntArray) -> F
 
 
 def calcConesOnEitherCost(
-    points: FloatArray, configurations: IntArray, coneType: SortableConeTypes
+    points: FloatArray, configurations: IntArray, coneType: ConeTypes
 ) -> FloatArray:
+    """
+    Calculates the cost function for cones on either side.
+
+    Args:
+        points (FloatArray): Array of points.
+        configurations (IntArray): Array of configurations.
+        coneType (SortableConeTypes): Type of cone.
+
+    Returns:
+        FloatArray: Array of calculated cost values.
+    """
     nGood, nBad = numberConesOnEachSideForEachConfig(
         points,
         configurations,
@@ -254,12 +278,12 @@ def calcWrongDirectionCost(
 
     unwantedDirectionSign = 1 if coneType == ConeTypes.left else -1
 
-    for i, c in enumerate(configurations):
-        c = c[c != -1]
-        if len(c) == 3:
+    for i, config in enumerate(configurations):
+        config = config[config != -1]
+        if len(config) == 3:
             continue
 
-        pointsOfConfiguration = points[c]
+        pointsOfConfiguration = points[config]
 
         diff1 = pointsOfConfiguration[1:] - pointsOfConfiguration[:-1]
 

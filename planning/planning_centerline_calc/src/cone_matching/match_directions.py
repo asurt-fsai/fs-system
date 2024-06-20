@@ -6,14 +6,12 @@ import numpy as np
 
 from src.utils.cone_types import ConeTypes
 from src.utils.math_utils import myNjit, rotate
-from src.types_file.types import FloatArray
+from src.types_file.types import FloatArray, IntArray
 
 
 @myNjit
 def calculateSearchDirectionForOne(
-    cones: FloatArray,
-    idxs: FloatArray,
-    coneType: ConeTypes
+    cones: FloatArray, idxs: IntArray, coneType: ConeTypes
 ) -> FloatArray:
     """
     Calculates the search direction for one cone

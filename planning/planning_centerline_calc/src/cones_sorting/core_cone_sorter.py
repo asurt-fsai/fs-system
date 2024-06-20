@@ -74,7 +74,7 @@ class ConeSorter:
         carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
-    ) -> Optional[np.ndarray]:
+    ) -> Optional[IntArray]:
         """
         Return the index of the starting cones. Pick the cone that is closest in front
         of the car and the cone that is closest behind the car.
@@ -84,10 +84,16 @@ class ConeSorter:
         if index1 is None:
             return None
 
-        conesToCar = cones[:, :2] - carPosition
-        angleToCar = vecAngleBetween(conesToCar, unit2dVectorFromAngle(np.array(carDirection)))
-
-        maskShouldBeNotSelected = np.abs(angleToCar) < np.pi / 2
+        # The mask should not be selected if the absolute angle between the distance
+        #  of the cone to the car and the car is less than pi/2
+        maskShouldBeNotSelected = (
+            np.abs(
+                vecAngleBetween(
+                    cones[:, :2] - carPosition, unit2dVectorFromAngle(np.array(carDirection))
+                )
+            )
+            < np.pi / 2
+        )
         idxsToSkip = np.where(maskShouldBeNotSelected)[0]
         if index1 not in idxsToSkip:
             idxsToSkip = np.concatenate([idxsToSkip, np.array([index1])])
@@ -100,53 +106,60 @@ class ConeSorter:
         if index2 is None:
             return np.array([index1], dtype=np.int_)
 
-        coneDir1 = cones[index1, :2] - cones[index2, :2]
-        coneDir2 = cones[index2, :2] - cones[index1, :2]
-
-        angle1 = vecAngleBetween(coneDir1, unit2dVectorFromAngle(np.array(carDirection)))
-        angle2 = vecAngleBetween(coneDir2, unit2dVectorFromAngle(np.array(carDirection)))
-
-        if angle1 > angle2:
+        # Switch if the angle between the first cone and the car is larger than
+        #  the second cone and the car
+        if vecAngleBetween(
+            cones[index1, :2] - cones[index2, :2], unit2dVectorFromAngle(np.array(carDirection))
+        ) > vecAngleBetween(
+            cones[index2, :2] - cones[index1, :2], unit2dVectorFromAngle(np.array(carDirection))
+        ):
             index1, index2 = index2, index1
 
-        dist = np.linalg.norm(coneDir1)
-        if dist > self.maxDist * 1.1 or dist < 1.4:
+        # If the distance between the first cone and the car is larger than the MaxDist*1.1
+        #  or the distance is less than 1.4 than return only the first cone
+        if (
+            np.linalg.norm(cones[index1, :2] - cones[index2, :2]) > self.maxDist * 1.1
+            or np.linalg.norm(cones[index1, :2] - cones[index2, :2]) < 1.4
+        ):
             return np.array([index1], dtype=np.int_)
 
-        twoCones = np.array([index2, index1], dtype=np.int_)
+        twoCones: IntArray = np.array([index2, index1], dtype=np.int_)
 
         # find the third cone
         index3 = self.selectStartingCone(
             carPosition, carDirection, cones, coneType, indexToSkip=twoCones
         )
-
-        carToIndex2 = cones[index2, :2] - carPosition
-        angleToIndex2 = vecAngleBetween(carToIndex2, unit2dVectorFromAngle(np.array(carDirection)))
-
-        if angleToIndex2 > np.pi / 2:
-            return twoCones
-
-        if index3 is None:
-            return twoCones
-
-        # check if the third cone is close enough to the first cone
-        minDistToFirstTwo = np.linalg.norm(cones[index3, :2] - cones[twoCones, :2], axis=1).min()
-
-        if minDistToFirstTwo > self.maxDist * 1.1:
-            return twoCones
-
-        twoConesPos = cones[twoCones, :2]
-        thirdCone = cones[index3, :2][None]
-
+        # Combine the position of the two cones with the third cone
         newCones, *_ = combineAndSortVirtualWithReal(
-            twoConesPos, thirdCone, carPosition
+            cones[twoCones, :2], cones[index3, :2][None], carPosition
         )
 
         last, middle, first = myCdistSqEuclidean(newCones, cones[:, :2]).argmin(axis=1)
 
-        middleToLast = cones[last, :2] - cones[middle, :2]
-        middleToFirst = cones[first, :2] - cones[middle, :2]
-        if vecAngleBetween(middleToLast, middleToFirst) < np.pi / 1.5:
+        # If the angle between the second cone to the car and the car is less than pi/2
+        #  or there is no index3
+        # or if the third cone is close enough to the first cone
+        if (
+            vecAngleBetween(
+                cones[index2, :2] - carPosition, unit2dVectorFromAngle(np.array(carDirection))
+            )
+            > np.pi / 2
+            or index3 is None
+            or (
+                np.linalg.norm(cones[index3, :2] - cones[twoCones, :2], axis=1).min()
+                > self.maxDist * 1.1
+            )
+        ):
+            return twoCones
+
+        # If angle between the middle cone to the last cones
+        #  and the middle to the first less than pi/1.5, return 2 cones
+        if (
+            vecAngleBetween(
+                cones[last, :2] - cones[middle, :2], cones[first, :2] - cones[middle, :2]
+            )
+            < np.pi / 1.5
+        ):
             return twoCones
 
         return np.array([last, middle, first], dtype=np.int_)
@@ -157,7 +170,7 @@ class ConeSorter:
         carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
-        indexToSkip: Optional[np.ndarray] = None,
+        indexToSkip: Optional[IntArray] = None,
     ) -> Optional[int]:
         """
         Return the index of the starting cone
@@ -192,7 +205,7 @@ class ConeSorter:
         carDirection: np.float_,
         cones: FloatArray,
         coneType: ConeTypes,
-    ) -> Tuple[np.ndarray, BoolArray]:
+    ) -> Tuple[FloatArray, BoolArray]:
         """
         Return a mask of cones that can be the first in a configuration
         """
@@ -200,25 +213,13 @@ class ConeSorter:
         # print(carDirection)
 
         conesRelative = rotate(
-            conesXY - carPosition, -(carDirection)
+            conesXY - carPosition, -float(carDirection)
         )  # Rotate cones' positions to be relative to the car
 
         coneRelativeAngles = angleFrom2dVector(conesRelative)
 
-        traceDistance = np.linalg.norm(
-            conesRelative, axis=-1
-        )  # The distances between the car and the cones.
-
-        maskIsInEllipse = pointsInsideEllipse(
-            conesXY,
-            carPosition,
-            unit2dVectorFromAngle(np.array(carDirection)),
-            self.maxDistToFirst * 1.5,
-            self.maxDistToFirst / 1.5,
-        )
-        angleSign = np.sign(coneRelativeAngles)
-        validAngleSign = 1 if coneType == ConeTypes.left else -1
-        maskValidSide = angleSign == validAngleSign
+        # cone is in valid sign if the angle sign the same as the valid angle sign
+        maskValidSide = np.sign(coneRelativeAngles) == (1 if coneType == ConeTypes.left else -1)
         maskIsValidAngle = np.abs(coneRelativeAngles) < np.pi - np.pi / 5
         maskIsValidAngleMin = np.abs(coneRelativeAngles) > np.pi / 10
         maskIsRightColor = cones[:, 2] == coneType
@@ -226,9 +227,23 @@ class ConeSorter:
         maskSide = (maskValidSide * maskIsValidAngle * maskIsValidAngleMin) + maskIsRightColor
 
         maskIsNotOppositeConeType = cones[:, 2] != invertConeType(coneType)
-        maskIsValid = maskIsInEllipse * maskSide * maskIsNotOppositeConeType
+        # The mask is falid id the points are in the ellipse
+        #  and in the correct side and is not an opposite cone type
+        maskIsValid = (
+            pointsInsideEllipse(
+                conesXY,
+                carPosition,
+                unit2dVectorFromAngle(np.array(carDirection)),
+                self.maxDistToFirst * 1.5,
+                self.maxDistToFirst / 1.5,
+            )
+            * maskSide
+            * maskIsNotOppositeConeType
+        )
 
-        return traceDistance, maskIsValid
+        # Return the distances between the car and the cones,
+        #  and the mask of cones that can be the first in a configuration
+        return np.linalg.norm(conesRelative, axis=-1), maskIsValid
 
     def calcScoresAndEndConfigurations(
         self,
@@ -249,7 +264,7 @@ class ConeSorter:
             n_neighbors: The number of neighbors to be considered. For exhaustive
             search set to `len(trace) - 1`
             start_idx: The index of the point to be set first in the ordering.
-            vehicle_position: The position of the vehicle   
+            vehicle_position: The position of the vehicle
             vehicle_direction: The direction of the vehicle
             first_k_indices_must_be: The indices of the points that must be in the first
         Returns:
@@ -268,22 +283,23 @@ class ConeSorter:
         if firstKIndicesMustBe is None:
             firstKIndicesMustBe = np.arange(0)
 
-        allEndConfigurations, history = findAllEndConfigurations(
-            trace,
-            coneType,
+        configurationParameters: Tuple[int, int, float, float] = (
             startIdx,
-            adjecencyMatrix,
             targetLength,
             self.thresholdDirectionalAngle,
             self.thresholdAbsoluteAngle,
+        )
+        vehicleOdometry = (vehiclePosition, vehicleDirection)
+        allEndConfigurations = findAllEndConfigurations(
+            trace,
+            coneType,
+            configurationParameters,
+            adjecencyMatrix,
             firstKIndicesMustBe,
-            vehiclePosition,
-            vehicleDirection,
-            carSize=2.1,
-            storeAllEndConfigurations=False,
+            vehicleOdometry,
         )
         if len(allEndConfigurations) == 1:
-            return (np.array([0.0]), allEndConfigurations, history)
+            return (np.array([0.0]).astype(float), allEndConfigurations, None)
         costs = costConfigurations(
             points=trace,
             configurations=allEndConfigurations,
@@ -293,7 +309,7 @@ class ConeSorter:
         )
         allEndConfigurations = cast(IntArray, allEndConfigurations[np.argsort(costs)])
 
-        return (cast(FloatArray, costs[np.argsort(costs)]), allEndConfigurations, history)
+        return (cast(FloatArray, costs[np.argsort(costs)]), allEndConfigurations, None)
 
     def calcConfigurationWithScoresForOneSide(
         self,
@@ -301,7 +317,7 @@ class ConeSorter:
         coneType: ConeTypes,
         carPos: FloatArray,
         carDir: np.float_,
-    ) -> Tuple[Optional[FloatArray], Optional[FloatArray]]:
+    ) -> Tuple[Optional[FloatArray], Optional[IntArray]]:
         """
         Args:
             cones: The trace to be sorted.
@@ -357,7 +373,7 @@ class ConeSorter:
         self,
         conesByType: list[FloatArray],
         carPos: FloatArray,
-        carDir: float,
+        carDir: np.float_,
     ) -> tuple[FloatArray, FloatArray]:
         """
         Sorts the cones into left and right configurations based on the
@@ -369,7 +385,7 @@ class ConeSorter:
             carDir (FloatArray): The direction of the car.
 
         Returns:
-            tuple[FloatArray, FloatArray]: A tuple containing the sorted 
+            tuple[FloatArray, FloatArray]: A tuple containing the sorted
             left and right configurations of cones.
         """
         conesFlat = flattenConesByTypeArray(conesByType)
@@ -389,11 +405,7 @@ class ConeSorter:
         )
 
         (leftConfig, rightConfig) = calcFinalConfigsForLeftAndRight(
-            leftScores,
-            leftConfigs,
-            rightScores,
-            rightConfigs,
-            conesFlat
+            leftScores, leftConfigs, rightScores, rightConfigs, conesFlat
         )
         leftConfig = leftConfig[leftConfig != -1]
         rightConfig = rightConfig[rightConfig != -1]

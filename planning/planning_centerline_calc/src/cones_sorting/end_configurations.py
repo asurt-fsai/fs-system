@@ -2,7 +2,7 @@
 Description: This File calculates all the possible paths
 """
 
-from typing import TYPE_CHECKING, Optional, Tuple, cast
+from typing import TYPE_CHECKING, Tuple, cast, Any, Union
 
 import numpy as np
 
@@ -14,66 +14,51 @@ from src.utils.math_utils import (
     vecAngleBetween,
     unit2dVectorFromAngle,
 )
+
+
 def findAllEndConfigurations(
     points: FloatArray,
     coneType: ConeTypes,
-    startIndx: int,
+    configurationParameters: Tuple[int, int, float, float],
     adjacencyMatrix: IntArray,
-    targetLength: int,
-    thresholdDirectionalAngle: float,
-    thresholdAbsoluteAngle: float,
     firstKIndicesMustBe: IntArray,
-    carPosition: FloatArray,
-    carDirection: np.float_,
-    carSize: float,
-    storeAllEndConfigurations: bool,
-) -> tuple[IntArray, Optional[tuple[IntArray, BoolArray]]]:
+    vehicleOdometry: tuple[FloatArray, np.float_],
+) -> IntArray:
     """
     Finds all the possible paths that include all the reachable nodes from the starting
     Args:
-        start_idx: The index of the starting node
         adjacency_matrix: The adjacency matrix indicating which nodes are
-        connected to which
-        target_length: The length of the path that the search is searching for
+                          connected to which
+        configurationParameters[0]: startIdx: The index of the starting node
+        configurationParameters[1]: targetLength: The length of the path
+                                    that the search is searching for
+        configurationParameters[2]: thresholdDirectionalAngle
+        configurationParameters[3]: thresholdAbsoluteAngle
     Raises:
         NoPathError: If no path has been found
     Returns:
         A 2d array of configurations (indices) that define a path
     """
 
-    neighborsFlat, borders = adjacecnyMatrixToBordersAndTargets(adjacencyMatrix)
-    # print(adjacencyMatrix)
-    # print(neighborsFlat)
-    # print(borders)
     pointsXY = points[:, :2]
 
-    (
-        endConfigurations,
-        allConfigurationsAndItsEndConfigurationIndicator,
-    ) = implFindAllEndConfigurations(
+    endConfigurations: np.ndarray[Any, np.dtype[np.int_]] = implFindAllEndConfigurations(
         pointsXY,
         coneType,
-        startIndx,
-        neighborsFlat,
-        borders,
-        targetLength,
-        thresholdDirectionalAngle,
-        thresholdAbsoluteAngle,
+        configurationParameters,
+        adjacencyMatrix,
         firstKIndicesMustBe,
-        carPosition,
-        carDirection,
-        carSize,
-        storeAllEndConfigurations,
+        vehicleOdometry,
     )
 
     if len(firstKIndicesMustBe) > 0 and len(endConfigurations) > 0:
-        maskKeep = (endConfigurations[:, : len(firstKIndicesMustBe)] == firstKIndicesMustBe).all(
-            axis=1
-        )
-        endConfigurations = endConfigurations[maskKeep]
-
-    # maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
-    # endConfigurations = endConfigurations[maskLengthIsAtleast3]
+        endConfigurations = endConfigurations[
+            np.array(
+                (endConfigurations[:, : len(firstKIndicesMustBe)] == firstKIndicesMustBe).all(
+                    axis=1
+                )
+            )
+        ]
 
     # remove last cone from config if it is of unknown or orange type
     lastConeInEachConfigIdx = (
@@ -90,19 +75,12 @@ def findAllEndConfigurations(
 
     endConfigurations[maskLastConeIsNotOfType, lastConeInEachConfigIdxMasked] = -1
 
-    # keep only configs with at least 3 cones
-    # maskLengthIsAtleast3 = (endConfigurations != -1).sum(axis=1) >= 3
-    # endConfigurations = endConfigurations[maskLengthIsAtleast3]
-    # print(endConfigurations[0])
-    # print(len(endConfigurations))
     # remove identical configurations
     endConfigurations = np.unique(endConfigurations, axis=0)
-    # print(endConfigurations[0])
-    # print(len(endConfigurations))
+
     # remove subsets
     areEqualMask = endConfigurations[:, None] == endConfigurations
-    areMinus1Mask = endConfigurations == -1
-    areEqualMask = areEqualMask | areMinus1Mask
+    areEqualMask = areEqualMask | (endConfigurations == -1)
 
     isDuplicate = areEqualMask.all(axis=-1).sum(axis=0) > 1
 
@@ -111,7 +89,7 @@ def findAllEndConfigurations(
     if len(endConfigurations) == 0:
         raise NoPathError("Could not create a valid trace using the provided points")
 
-    return endConfigurations, allConfigurationsAndItsEndConfigurationIndicator
+    return endConfigurations
 
 
 def adjacecnyMatrixToBordersAndTargets(
@@ -170,132 +148,131 @@ def adjacecnyMatrixToBordersAndTargets(
 def implFindAllEndConfigurations(
     trace: FloatArray,
     coneType: ConeTypes,
-    startIdx: int,
-    adjacecnyNeighbors: IntArray,
-    adjacencyBorders: IntArray,
-    targetLength: int,
-    thresholdDirectionalAngle: float,
-    thresholdAbsoluteAngle: float,
+    configurationParameters: Tuple[int, int, float, float],
+    adjacencyMatrix: IntArray,
     firstKIndicesMustBe: IntArray,
-    carPosition: FloatArray,
-    carDirection: np.float_,
-    carSize: float,
-    storeAllEndConfigurations: bool,
-) -> tuple[IntArray, Optional[tuple[IntArray, BoolArray]]]:
+    carOdometry: Tuple[FloatArray, np.float_],
+) -> IntArray:
     """
     Finds all the possible paths up to length target length.
     Args:
-        start_idx: The index of the starting node
+        configurationParameters[0] = start_idx: The index of the starting node
         adjacency_neighbors: The indices of the sink for each edge
         adjacency_borders: The start position of the indices of each node
         target_length: The length of the path that the search is searching for
     Returns:
         A 2d array of configurations (indices) that define all the valid paths
     """
-    endConfigurations: IntArray = np.full((10, targetLength), -1, dtype=np.int32)
-    endConfigurationsPointer = 0
+    targetLength = int(configurationParameters[1])
     stack: IntArray = np.zeros((10, 2), dtype=np.int32)
-    stackEndPointer = 0
-    currentAttempt: IntArray = np.zeros(targetLength, dtype=np.int32) - 1
+    currentAttempt: FloatArray = np.zeros(targetLength, dtype=np.float32) - 1
     if len(firstKIndicesMustBe) > 0:
         pos = len(firstKIndicesMustBe) - 1
         currentAttempt[:pos] = firstKIndicesMustBe[:-1]
         stack[0] = [firstKIndicesMustBe[-1], pos]
     else:
-        stack[0] = [startIdx, 0]
+        # We will use the startIdx
+        stack[0] = [int(configurationParameters[0]), 0]
 
-    if storeAllEndConfigurations:
-        allConfigurationsCounter = 0
-        allConfigurations = endConfigurations.copy()
-        configurationsIsEnd = np.zeros(endConfigurations.shape[0], dtype=np.bool_)
+    return findAllEndConfigurationsLoop(
+        trace,
+        coneType,
+        configurationParameters,
+        adjacencyMatrix,
+        stack,
+        currentAttempt,
+        carOdometry,
+    )
 
-    while stackEndPointer >= 0:
+
+def findAllEndConfigurationsLoop(
+    trace: FloatArray,
+    coneType: ConeTypes,
+    configurationParameters: Tuple[int, int, float, float],
+    adjacencyMatrix: IntArray,
+    stack: IntArray,
+    currentAttempt: FloatArray,
+    carOdometry: Tuple[FloatArray, np.float_],
+) -> np.ndarray[np.int32, Any]:
+    """
+    Finds all possible end configurations using a loop-based approach.
+
+    Args:
+        trace (FloatArray): The trace data.
+        coneType (ConeTypes): The type of cone.
+        configurationParameters (FloatArray): The configuration parameters.
+        adjacencyMatrix (IntArray): The adjacency matrix.
+        stack (IntArray): The stack data structure.
+        currentAttempt (FloatArray): The current attempt.
+        carOdometry: The car odometry data.
+
+    Returns:
+        tuple[IntArray]: A tuple containing the end configurations.
+    """
+    adjacecnyNeighbors, adjacencyBorders = adjacecnyMatrixToBordersAndTargets(adjacencyMatrix)
+    endConfigurations: IntArray = np.full((10, int(configurationParameters[1])), -1, dtype=np.int32)
+    pointers = [0, 0]  # endConfigurationsPointer, stackEndPointer
+    while pointers[1] >= 0:
         # pop the index and the position from the stack
-        nextIdx, positionInStack = stack[stackEndPointer]
-        stackEndPointer -= 1
+        nextIdx, positionInStack = stack[pointers[1]]
+        pointers[1] -= 1
 
         # add the node to the current path
         currentAttempt[positionInStack] = nextIdx
         currentAttempt[positionInStack + 1 :] = -1
 
         # get the neighbors of the last node in the attempt
-        neighbors = adjacecnyNeighbors[adjacencyBorders[nextIdx] : adjacencyBorders[nextIdx + 1]]
-        # print(len(adjacecnyNeighbors))
-        # print(adjacencyBorders)
-        # print(nextIdx)
         canBeAdded = neighborBoolMaskCanBeAddedToAttempt(
             trace,
             coneType,
             currentAttempt,
             positionInStack,
-            neighbors,
-            thresholdDirectionalAngle,
-            thresholdAbsoluteAngle,
-            carPosition,
-            carDirection,
-            carSize,
+            adjacecnyNeighbors[
+                adjacencyBorders[nextIdx] : adjacencyBorders[nextIdx + 1]  # neighbors
+            ],
+            configurationParameters,
+            carOdometry,
         )
 
-        hasValidNeighbors = positionInStack < targetLength - 1 and np.any(canBeAdded)
         # check that we haven't hit target length and that we have neighbors to add
-        if hasValidNeighbors:
+        if positionInStack < int(configurationParameters[1]) - 1 and np.any(canBeAdded):
             for i, canBeAdded in enumerate(canBeAdded):
                 if not canBeAdded:
                     continue
 
-                stackEndPointer += 1
+                pointers[1] += 1
 
-                stack = resizeStackIfNeeded(stack, stackEndPointer)
-                stack[stackEndPointer] = [neighbors[i], positionInStack + 1]
+                stack = resizeStackIfNeeded(stack, pointers[1])
+                stack[pointers[1]] = [
+                    adjacecnyNeighbors[adjacencyBorders[nextIdx] : adjacencyBorders[nextIdx + 1]][
+                        i
+                    ],
+                    positionInStack + 1,
+                ]
 
         # leaf
         else:
-            endConfigurations = resizeStackIfNeeded(endConfigurations, endConfigurationsPointer)
+            endConfigurations = resizeStackIfNeeded(endConfigurations, pointers[0])
 
-            endConfigurations[endConfigurationsPointer:] = currentAttempt.copy()
+            endConfigurations[pointers[0] :] = currentAttempt.copy()
 
-            endConfigurationsPointer += 1
+            pointers[0] += 1
 
-        if storeAllEndConfigurations:
-            allConfigurations = resizeStackIfNeeded(allConfigurations, allConfigurationsCounter)
-            configurationsIsEnd = resizeStackIfNeeded(configurationsIsEnd, allConfigurationsCounter)
-            allConfigurations[allConfigurationsCounter] = currentAttempt
-            configurationsIsEnd[allConfigurationsCounter] = not hasValidNeighbors
-            allConfigurationsCounter += 1
-
-    returnValueEndConfigurations: IntArray = endConfigurations[:endConfigurationsPointer]
-
-    # maskEndConfigurationsWithMoreThanTwoNodes = (returnValueEndConfigurations != -1).sum(axis=1) > 2
-    # returnValueEndConfigurations = returnValueEndConfigurations[
-    #     maskEndConfigurationsWithMoreThanTwoNodes
-    # ]
-
-    if storeAllEndConfigurations:
-        allConfigurations = allConfigurations[:allConfigurationsCounter]
-        configurationsIsEnd = configurationsIsEnd[:allConfigurationsCounter]
-
-    configHistory = None
-    if storeAllEndConfigurations:
-        configHistory = (allConfigurations, configurationsIsEnd)
-
-    return returnValueEndConfigurations, configHistory
+    return np.array(endConfigurations[: pointers[0]]).astype(np.int32)
 
 
 # for numba
-FLOAT = float if TYPE_CHECKING else np.float32
+FLOAT = Union[float, np.float32] if TYPE_CHECKING else np.float32
 
 
 def neighborBoolMaskCanBeAddedToAttempt(
     trace: FloatArray,
     coneType: ConeTypes,
-    currentAttempt: IntArray,
+    currentAttempt: FloatArray,
     positionInStack: int,
     neighbors: IntArray,
-    thresholdDirectionalAngle: float,
-    thresholdAbsoluteAngle: float,
-    carPosition: FloatArray,
-    carDirection: np.float_,
-    carSize: float,
+    configurationParameters: Tuple[int, int, float, float],
+    carOdometry: Tuple[FloatArray, np.float_],
 ) -> BoolArray:
     """
     Determines whether a neighbor cone can be added to the current attempt.
@@ -306,42 +283,42 @@ def neighborBoolMaskCanBeAddedToAttempt(
         currentAttempt (IntArray): Array of cone indices in the current attempt.
         positionInStack (int): Index of the current cone in the attempt.
         neighbors (IntArray): Array of neighbor cone indices.
-        thresholdDirectionalAngle (float): Maximum angle in a specific direction for blue cones (counter-clockwise) 
-                                           or yellow cones (clockwise).
-        thresholdAbsoluteAngle (float): Absolute angle between two vectors.
-        carPosition (FloatArray): Position of the car.
-        carDirection (np.float_): Direction of the car.
-        carSize (float): Size of the car.
+        configurationParameters[2] = thresholdDirectionalAngle (float): Maximum angle
+                                           in a specific direction for blue cones
+                                           (counter-clockwise) or yellow cones (clockwise).
+        configurationParameters[3] = thresholdAbsoluteAngle (float): Absolute angle between
+                                     two vectors.
+        carOdometry[0] = carPosition (FloatArray): Position of the car.
+        carOdometry[1] = carDirection (np.float_): Direction of the car.
 
     Returns:
         BoolArray: Array indicating whether each neighbor cone can be added to the attempt.
     """
-    carDirection2d = unit2dVectorFromAngle(np.array(carDirection))
-    carDirectionNormalized = carDirection2d / np.linalg.norm(carDirection2d)
+    carDirectionNormalized = unit2dVectorFromAngle(np.array(carOdometry[1])) / np.linalg.norm(
+        unit2dVectorFromAngle(np.array(carOdometry[1]))
+    )
 
     # neighbor can be added if not in current attempt
     canBeAdded = ~myIn1d(neighbors, currentAttempt[: positionInStack + 1])
-    neighborsPoints = trace[neighbors]
     if positionInStack >= 1:
-        maskInEllipse = calculateMaskWithinEllipse(
-            trace, currentAttempt, positionInStack, neighborsPoints
-        )
 
-        canBeAdded = canBeAdded & maskInEllipse
+        canBeAdded = canBeAdded & (
+            calculateMaskWithinEllipse(trace, currentAttempt, positionInStack, trace[neighbors])
+        )
 
     if positionInStack == 0:
-        # the second cone in the attempt should be on the expected side pf the car (left cone on the left side of the car and right cone on the right side of the car)
-        maskSecondConeRightSide = maskSecondInAttemptIsOnRightVehicleSide(
-            coneType, carPosition, carDirectionNormalized, neighborsPoints
+        # the second cone in the attempt should be on the expected side of the car
+        #  (left cone on the left side of the car and right cone on the right side of the car)
+
+        canBeAdded = canBeAdded & (
+            maskSecondInAttemptIsOnRightVehicleSide(
+                coneType, carOdometry[0], carDirectionNormalized, trace[neighbors]
+            )
         )
 
-        canBeAdded = canBeAdded & maskSecondConeRightSide
-
-    for i in range(len(canBeAdded)):
+    for i, _ in enumerate(canBeAdded):
         if not canBeAdded[i]:
             continue
-
-        candidateNeighbor = neighbors[i]
 
         # find if there is a cone that is between the last cone in the attempt and the
         # candidate neighbor, if so we do not want to persue this path, because it will
@@ -353,10 +330,9 @@ def neighborBoolMaskCanBeAddedToAttempt(
             neighbors,
             canBeAdded,
             i,
-            candidateNeighbor,
+            neighbors[i],  # candidate neighbor
         )
 
-        candidateNeighborPos = trace[neighbors[i]]
         # calculate angle between second to last to last vector in attempt and the vector
         # between the last node and the candidate neighbor
         # add to current attempt only if the angle between the current last vector and
@@ -366,43 +342,43 @@ def neighborBoolMaskCanBeAddedToAttempt(
         # is an absolute angle between the two vectors.
 
         if canBeAdded[i] and positionInStack >= 1:
-            secondToLastInAttempt = trace[currentAttempt[positionInStack - 1]]
-            lastInAttempt = trace[currentAttempt[positionInStack]]
-            secondToLastToLast = lastInAttempt - secondToLastInAttempt
-            lastToCandidate = candidateNeighborPos - lastInAttempt
-            angle1 = cast(
-                FLOAT,
-                np.arctan2(secondToLastToLast[1], secondToLastToLast[0]),
+            secondToLastToLast = (
+                trace[currentAttempt[positionInStack]] - trace[currentAttempt[positionInStack - 1]]
             )
-            angle2 = cast(
-                FLOAT,
-                np.arctan2(lastToCandidate[1], lastToCandidate[0]),
-            )
+            lastToCandidate = trace[neighbors[i]] - trace[currentAttempt[positionInStack]]
             # order is important here
-            diffrence = angleDiffrence(angle2, angle1)
-            lenLastToCandidate = np.linalg.norm(lastToCandidate)
+            # angle2 - angle1
+            diffrence = angleDiffrence(
+                np.arctan2(lastToCandidate[1], lastToCandidate[0]).astype(FLOAT),
+                np.arctan2(secondToLastToLast[1], secondToLastToLast[0]).astpe(FLOAT),
+            )
 
-            if np.abs(diffrence) > thresholdAbsoluteAngle:
+            if np.abs(diffrence) > configurationParameters[3]:
                 canBeAdded[i] = False
             elif coneType == ConeTypes.left:
-                canBeAdded[i] = diffrence < thresholdDirectionalAngle or lenLastToCandidate < 4.0
+                canBeAdded[i] = (
+                    diffrence < configurationParameters[2] or np.linalg.norm(lastToCandidate) < 4.0
+                )
             elif coneType == ConeTypes.right:
-                canBeAdded[i] = diffrence > -thresholdDirectionalAngle or lenLastToCandidate < 4.0
-            else:
-                raise AssertionError("Unreachable cone")
+                canBeAdded[i] = (
+                    diffrence > -configurationParameters[2] or np.linalg.norm(lastToCandidate) < 4.0
+                )
 
             # check if cone candidate causes change in direction in attempt
             if positionInStack >= 2:
-                thirdToLast = trace[currentAttempt[positionInStack - 2]]
-                thirdToLastToSecondToLast = secondToLastInAttempt - thirdToLast
-                angle3 = cast(
-                    FLOAT,
-                    np.arctan2(
-                        thirdToLastToSecondToLast[1],
-                        thirdToLastToSecondToLast[0],
-                    ),
+                diffrence2 = angleDiffrence(
+                    np.arctan2(secondToLastToLast[1], secondToLastToLast[0]).astype(FLOAT),
+                    np.arctan2(  # thirdToLastToSecondToLast
+                        (
+                            trace[currentAttempt[positionInStack - 1]]
+                            - trace[currentAttempt[positionInStack - 2]]
+                        )[1],
+                        (
+                            trace[currentAttempt[positionInStack - 1]]
+                            - trace[currentAttempt[positionInStack - 2]]
+                        )[0],
+                    ).astype(FLOAT),
                 )
-                diffrence2 = angleDiffrence(angle1, angle3)
 
                 if (
                     np.sign(diffrence2) != np.sign(diffrence2)
@@ -411,19 +387,23 @@ def neighborBoolMaskCanBeAddedToAttempt(
                     canBeAdded[i] = False
 
             if canBeAdded[i] and positionInStack == 1:
-                start = trace[currentAttempt[0]]
-                diff = candidateNeighborPos - start
-                directionOffset = vecAngleBetween(np.array(unit2dVectorFromAngle(carDirection)), np.array(diff))
-                canBeAdded[i] &= directionOffset < np.pi / 2
+                # and with the canBeAdded the direction offset that is less than pi/2
+                canBeAdded[i] &= (
+                    vecAngleBetween(
+                        np.array(unit2dVectorFromAngle(np.array(carOdometry[1]))),
+                        np.array(trace[neighbors[i]] - trace[currentAttempt[0]]),
+                    )
+                    < np.pi / 2
+                )
 
             if canBeAdded[i] and positionInStack >= 0:
                 # make sure that no intersection with car occurs
-                lastInAttempt = trace[currentAttempt[positionInStack]]
-                carStart = carPosition - carDirectionNormalized * carSize / 2  #
-                carEnd = carPosition + carDirectionNormalized * carSize  #
-
+                # 2.1 is the carSize
                 canBeAdded[i] &= not linesSegmentsIntersectIndicator(
-                    lastInAttempt, candidateNeighborPos, carStart, carEnd
+                    trace[currentAttempt[positionInStack]],  # last in attempt
+                    trace[neighbors[i]],
+                    carOdometry[0] - carDirectionNormalized * 2.1 / 2,  # car start
+                    carOdometry[0] + carDirectionNormalized * 2.1,  # car end
                 )
 
     return canBeAdded
@@ -431,10 +411,22 @@ def neighborBoolMaskCanBeAddedToAttempt(
 
 def calculateMaskWithinEllipse(
     trace: FloatArray,
-    currentAttempt: IntArray,
+    currentAttempt: FloatArray,
     positionInStack: int,
     neighborsPoints: FloatArray,
 ) -> BoolArray:
+    """
+    Calculates a mask indicating which points in the neighborsPoints array are within an ellipse.
+
+    Args:
+        trace (FloatArray): Array of trace points.
+        currentAttempt (IntArray): Array of indices representing the current attempt.
+        positionInStack (int): The position of the current attempt in the stack.
+        neighborsPoints (FloatArray): Array of neighboring points.
+
+    Returns:
+        BoolArray: Array indicating which points are within the ellipse.
+    """
     lastInAttempt = trace[currentAttempt[positionInStack]]
     secondToLastInAttempt = trace[currentAttempt[positionInStack - 1]]
     secondToLastToLast = lastInAttempt - secondToLastInAttempt
@@ -456,6 +448,20 @@ def maskSecondInAttemptIsOnRightVehicleSide(
     carDirectionNormalized: FloatArray,
     neighborsPoints: FloatArray,
 ) -> BoolArray:
+    """
+    Determines the mask indicating whether the second cone in the attempt is on the right side
+    of the vehicle.
+
+    Args:
+        coneType (ConeTypes): The type of cone (left or right).
+        carPosition (FloatArray): The position of the car.
+        carDirectionNormalized (FloatArray): The normalized direction vector of the car.
+        neighborsPoints (FloatArray): The positions of the neighboring cones.
+
+    Returns:
+        BoolArray: A boolean array indicating whether the second cone is on the right side
+        of the vehicle.
+    """
     carToNeighbors = neighborsPoints - carPosition
     angleCarDir = np.arctan2(carDirectionNormalized[1], carDirectionNormalized[0])
     angleCarToNeighbors = np.arctan2(carToNeighbors[:, 1], carToNeighbors[:, 0])
@@ -465,10 +471,10 @@ def maskSecondInAttemptIsOnRightVehicleSide(
     expectedSign = 1 if coneType == ConeTypes.left else -1
 
     maskExpectedSide = np.sign(angleDiff) == expectedSign
-    maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(12) #was5
+    maskOtherSideTolerance = np.abs(angleDiff) < np.deg2rad(12)  # was5
 
     mask = maskExpectedSide | maskOtherSideTolerance
-    return mask
+    return np.asarray(mask, dtype=bool)
 
 
 def angleDiffrence(angle1: FloatArray, angle2: FloatArray) -> FloatArray:
@@ -488,13 +494,28 @@ def angleDiffrence(angle1: FloatArray, angle2: FloatArray) -> FloatArray:
 
 def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
     trace: FloatArray,
-    currentAttempt: IntArray,
+    currentAttempt: FloatArray,
     positionInStack: int,
     neighbors: IntArray,
     canBeAdded: BoolArray,
     i: int,
     candidateNeighbor: int,
-):
+) -> None:
+    """
+    Checks if a neighbor lies between the last cone in the attempt and the candidate neighbor.
+
+    Args:
+        trace (FloatArray): Array of trace values.
+        currentAttempt (IntArray): Array of indices representing the current attempt.
+        positionInStack (int): Position of the current attempt in the stack.
+        neighbors (IntArray): Array of neighbor indices.
+        canBeAdded (BoolArray): Array indicating whether a neighbor can be added.
+        i (int): Index of the current neighbor.
+        candidateNeighbor (int): Index of the candidate neighbor.
+
+    Returns:
+        None
+    """
     for neighbor in neighbors:
         if neighbor == neighbors[i]:
             continue
@@ -507,12 +528,13 @@ def checkIfNeighborLiesBetweenLastInAttemptAndCandidate(
         distToLastInAttempt = np.linalg.norm(neighborToLastInAttempt)
 
         # if the angle between the 2 vectors is more than 150 degrees then the neighbor
-        # cone is between the last cone in the attemot and the candidate neighbor to the
+        # cone is between the last cone in the attempt and the candidate neighbor to the
         # attempt
         if (
             distToCandidate < 6.0
             and distToLastInAttempt < 6.0
-            and vecAngleBetween(neighborToLastInAttempt + 0.000001, neighborToCandidate + 0.000001) > np.deg2rad(150)
+            and vecAngleBetween(neighborToLastInAttempt + 0.000001, neighborToCandidate + 0.000001)
+            > np.deg2rad(150)
         ):
             canBeAdded[i] = False
             break
@@ -529,7 +551,8 @@ def linesSegmentsIntersectIndicator(
     epsilon: float = _DEFAULT_EPSILON,
 ) -> bool:
     """
-    Given the start and endpoint of two 2d-line segments indicate if the two line segments intersect.
+    Given the start and endpoint of two 2d-line segments indicate
+    if the two line segments intersect.
 
     Args:
         segment_a_start: The start point of the first line segment.
@@ -544,10 +567,12 @@ def linesSegmentsIntersectIndicator(
     # Adapted from https://stackoverflow.com/a/42727584
     homogeneous = _makeSegmentsHomogeneous(segmentAStart, segmentAEnd, segmentBStart, segmentBEnd)
 
-    lineA = np.cross(homogeneous[0], homogeneous[1])  # get first line
-    lineB = np.cross(homogeneous[2], homogeneous[3])  # get second line
-    interX, interY, interZ = np.cross(lineA, lineB)  # point of intersection
-
+    # point of intersection
+    crossProduct: np.ndarray[float, Any] = np.cross(
+        np.cross(homogeneous[0], homogeneous[1]),  # get first line
+        np.cross(homogeneous[2], homogeneous[3]),  # get second line
+    )
+    interX, interY, interZ = crossProduct.flatten()
     # lines are parallel <=> z is zero
     if np.abs(interZ) < epsilon:
         return _handleLineSegmentsIntersectParallelCase(
@@ -557,6 +582,30 @@ def linesSegmentsIntersectIndicator(
     # find intersection point
     intersectionX, intersectionY = np.array([interX / interZ, interY / interZ])
 
+    return calcBoundingBox(homogeneous, intersectionX, intersectionY)
+
+
+def calcBoundingBox(
+    homogeneous: FloatArray,
+    intersectionX: float,
+    intersectionY: float,
+    epsilon: float = _DEFAULT_EPSILON,
+) -> bool:
+    """
+    Calculates the bounding box for a given set of homogeneous coordinates and
+    checks if the intersection point lies within the bounding boxes.
+
+    Args:
+        homogeneous (FloatArray): The homogeneous coordinates of the segments.
+        intersectionX (float): The x-coordinate of the intersection point.
+        intersectionY (float): The y-coordinate of the intersection point.
+        epsilon (float, optional): A small value used for numerical stability.
+        Defaults to _DEFAULT_EPSILON.
+
+    Returns:
+        bool: True if the intersection point lies within both bounding boxes,
+        False otherwise.
+    """
     # bounding boxes
     segmentALeft, segmentARight = np.sort(homogeneous[:2, 0])
     segmentBLeft, segmentBRight = np.sort(homogeneous[2:, 0])
@@ -572,7 +621,6 @@ def linesSegmentsIntersectIndicator(
         and (segmentABottom - epsilon <= intersectionY <= segmentATop + epsilon)
         and (segmentBBottom - epsilon <= intersectionY <= segmentBTop + epsilon)
     )
-
     return bool(returnValue)
 
 
@@ -596,7 +644,7 @@ def _handleLineSegmentsIntersectParallelCase(
     segmentAEnd: FloatArray,
     segmentBStart: FloatArray,
     segmentBEnd: FloatArray,
-    epsilon: float,
+    epsilon: float = _DEFAULT_EPSILON,
 ) -> bool:
     # lines are parallel only one slope calculation nessessary
     diffrence: FloatArray = segmentAEnd - segmentAStart
@@ -660,7 +708,7 @@ def doubleStackLen(stack: GenericArray) -> GenericArray:
     """
     _len = stack.shape[0]
     newShape = (_len * 2, *stack.shape[1:])
-    newBuffer = np.full(newShape, -1, dtype=stack.dtype)
+    newBuffer: np.ndarray[np.int_, Any] = np.full(newShape, -1, dtype=stack.dtype)
 
     newBuffer[:_len] = stack
     return newBuffer

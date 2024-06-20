@@ -31,7 +31,7 @@ class PathPlanner:
 
     1. ConeSorting: Sorts the cones based on their relative position to the vehicle.
     2. ConeMatching: Matches cones from left and right sides based on their positions.
-    3. CalculatePath: Calculates the optimal path for the vehicle considering 
+    3. CalculatePath: Calculates the optimal path for the vehicle considering
                        sorted and matched cones, as well as a potentially provided global path.
 
     Attributes:
@@ -40,15 +40,15 @@ class PathPlanner:
         calculatePath: An instance of the CalculatePath class for path calculation.
         globalPath: A global path to be considered during path planning (Optional).
     """
+
     def __init__(self) -> None:
         self.coneSorting = ConeSorting(
             maxNNeighbors=5,
-            maxDist=7,     #default=6.5
+            maxDist=7,  # default=6.5
             maxDistToFirst=10.0,
             maxLength=7,  # default=12
             thresholdDirectionalAngle=np.deg2rad(40),
             thresholdAbsoluteAngle=np.deg2rad(65),
-            useUnknownCones=True,
         )
         self.coneMatching = ConeMatching(
             minTrackWidth=3,
@@ -74,7 +74,7 @@ class PathPlanner:
         vehicleDirection: np.float_,
     ) -> FloatArray:
         """
-        Calculates a path for the vehicle in the global frame based on the provided cones, 
+        Calculates a path for the vehicle in the global frame based on the provided cones,
         vehicle position, and direction.
 
         Args:
@@ -86,8 +86,7 @@ class PathPlanner:
             FloatArray: The calculated path as a NumPy array.
         """
 
-        totalNumOfCones = len(cones[0]) + len(cones[1]) + len(cones[2]) # blue, unknown, yellow
-        if 0 < totalNumOfCones < 3:
+        if 0 < (len(cones[0]) + len(cones[1]) + len(cones[2])) < 3:  # blue, unknown, yellow
             cornerCasesPath = CornerCasesPath(vehiclePosition, vehicleDirection, cones)
             result = cornerCasesPath.getPath()
             self.calculatePath.previousPaths = np.concatenate(
@@ -96,9 +95,9 @@ class PathPlanner:
             return result
 
         ### Cones Sorting ###
-        coneSortingInput = ConeSortingInput(cones, vehiclePosition, float(vehicleDirection))
+        coneSortingInput = ConeSortingInput(cones, vehiclePosition, vehicleDirection)
         self.coneSorting.setNewInput(coneSortingInput)
-        sortedCones = self.coneSorting.runConeSorting()     #sortedCones = sortedLeft, sortedRight
+        sortedCones = self.coneSorting.runConeSorting()  # sortedCones = sortedLeft, sortedRight
 
         matchedConesInput = [np.zeros((0, 2)) for _ in ConeTypes]
         matchedConesInput[ConeTypes.left] = sortedCones[0]

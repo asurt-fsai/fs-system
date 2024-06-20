@@ -25,7 +25,6 @@ class ConeSorting:
         maxLength: int,
         thresholdDirectionalAngle: float,
         thresholdAbsoluteAngle: float,
-        useUnknownCones: bool,
     ):
         """
         Init method.
@@ -45,15 +44,15 @@ class ConeSorting:
         """
         self.newInput = ConeSortingInput()
 
-        self.state = ConeSortingState(
+        self.const = ConeSortingConstants(
             maxNNeighbors=maxNNeighbors,
             maxDist=maxDist,
             maxDistToFirst=maxDistToFirst,
             maxLength=maxLength,
             thresholdDirectionalAngle=thresholdDirectionalAngle,
             thresholdAbsoluteAngle=thresholdAbsoluteAngle,
-            useUnknownCones=useUnknownCones,
         )
+        self.state = ConeSortingState()
 
     def setNewInput(self, newInput: ConeSortingInput) -> None:
         """Save inputs from other nodes in a varible."""
@@ -67,8 +66,7 @@ class ConeSorting:
         )
 
         self.state.conesByTypeArray = self.newInput.perceptionCones.copy()
-        if not self.state.useUnknownCones:
-            self.state.conesByTypeArray[ConeTypes.UNKNOWN] = np.zeros((0, 2))
+        self.state.conesByTypeArray[ConeTypes.UNKNOWN] = np.zeros((0, 2))
 
     def runConeSorting(
         self,
@@ -85,12 +83,12 @@ class ConeSorting:
 
         # calculate the sorted cones
         coneSorter = ConeSorter(
-            self.state.maxNNeighbors,
-            self.state.maxDist,
-            self.state.maxDistToFirst,
-            self.state.maxLength,
-            self.state.thresholdDirectionalAngle,
-            self.state.thresholdAbsoluteAngle,
+            self.const.maxNNeighbors,
+            self.const.maxDist,
+            self.const.maxDistToFirst,
+            self.const.maxLength,
+            self.const.thresholdDirectionalAngle,
+            self.const.thresholdAbsoluteAngle,
         )
 
         leftCones, rightCones = coneSorter.sortLeftRight(
@@ -110,12 +108,12 @@ class ConeSortingInput:
         default_factory=lambda: [np.zeros((0, 2)) for _ in ConeTypes]
     )
     slamPosition: FloatArray = field(default_factory=lambda: np.zeros(2))
-    slamDirection: float = 0.0
+    slamDirection: np.float_ = np.float_(0.0)
 
 
 @dataclass
-class ConeSortingState:
-    """Dataclass holding calculation variables."""
+class ConeSortingConstants:
+    """Dataclass holding calculation parameters"""
 
     thresholdDirectionalAngle: float
     thresholdAbsoluteAngle: float
@@ -123,9 +121,14 @@ class ConeSortingState:
     maxDist: float
     maxDistToFirst: float
     maxLength: int
-    useUnknownCones: bool
+
+
+@dataclass
+class ConeSortingState:
+    """Dataclass holding calculation variables."""
+
     positionGlobal: FloatArray = field(default_factory=lambda: np.zeros(2))
-    directionGlobal: float = 0.0
+    directionGlobal: np.float_ = np.float_(0.0)
     conesByTypeArray: list[FloatArray] = field(
         default_factory=lambda: [np.zeros((0, 3)) for _ in ConeTypes]
     )
