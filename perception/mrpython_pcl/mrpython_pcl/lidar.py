@@ -10,7 +10,7 @@ from asurt_msgs.msg import LandmarkArray
 from sensor_msgs.msg import PointCloud2
 from visualization_msgs.msg import MarkerArray
 from tf_helper.MarkerViz import MarkerViz
-# from smoreo.MarkerViz import MarkerViz
+from tf_helper.StatusPublisher import StatusPublisher
 
 from .LidarPipeline.Filter.Filter import Filter
 from .LidarPipeline.GroundRemoval.SimpleGroundRemoval import SimpleGroundRemoval
@@ -18,7 +18,7 @@ from .LidarPipeline.ConeClassifier.ConeClassifier import ConeClassifier
 from .LidarPipeline.Clusterer.MeanClusterer import MeanClusterer
 from .LidarPipeline.Clusterer.AbstractClusterer import Clusterer
 from .LidarRosWrapper import LidarRosWrapper
-from tf_helper.StatusPublisher import StatusPublisher
+
 
 class LidarSystem(Node):
     def __init__(self, isDefaultEnabled: bool = False):
@@ -27,11 +27,11 @@ class LidarSystem(Node):
        
         self.isDefaultEnabled  = isDefaultEnabled
 
-        self.publishers_filtered: rclpy.publisher.Publisher
-        self.publishers_clustered: rclpy.publisher.Publisher
-        self.publishers_detected: rclpy.publisher.Publisher
-        self.publishers_tracked: rclpy.publisher.Publisher
-        self.publishers_detected_markers: rclpy.publisher.Publisher
+        self.publishersFiltered: rclpy.publisher.Publisher
+        self.publishersClustered: rclpy.publisher.Publisher
+        self.publishersDetected: rclpy.publisher.Publisher
+        self.publishersTracked: rclpy.publisher.Publisher
+        self.publishersDetectedMarkers: rclpy.publisher.Publisher
 
         self.declare_parameters(
             namespace='',
@@ -78,7 +78,7 @@ class LidarSystem(Node):
             )
 
         
-        self.create_timer(0.1, self.timer_callback)
+        self.create_timer(0.1, self.timerCallback)
         self.status = StatusPublisher("/status/lidar",self)
         self.status.starting()
         
@@ -135,15 +135,15 @@ class LidarSystem(Node):
         lidarHeight = self.getParam("/physical/lidar_height",0.1).double_value
         subsample = self.getParam("/perception/lidar/subsample",False).bool_value  
         
-        publishers_filtered, publishers_clustered,publishers_detected, publishers_tracked,publishers_detected_markers= self.buildPublishers()
+        publishersFiltered, publishersClustered,publishersDetected, publishersTracked,publishersDetectedMarkers= self.buildPublishers()
         lidarPipeline = LidarRosWrapper(
             # publishers,
             markerViz,
-            publishers_filtered,
-            publishers_clustered,
-            publishers_detected,
-            publishers_tracked,
-            publishers_detected_markers,
+            publishersFiltered,
+            publishersClustered,
+            publishersDetected,
+            publishersTracked,
+            publishersDetectedMarkers,
             self,
             filterer,
             clusterer,
@@ -175,13 +175,13 @@ class LidarSystem(Node):
         detectedMarkersTopic = self.getParam("/perception/lidar/detected_markers_topic", "/placeholder/lidar/detected_markers").string_value
 
      
-        self.publishers_filtered = self.create_publisher( PointCloud2,filteredTopic, 10)
-        self.publishers_clustered = self.create_publisher(PointCloud2,clusteredTopics,  10)
-        self.publishers_detected = self.create_publisher( LandmarkArray,detectedConesTopic, 10)
-        self.publishers_tracked = self.create_publisher( LandmarkArray, trackedConesTopic,10)
-        self.publishers_detected_markers = self.create_publisher(MarkerArray,detectedMarkersTopic,  10)
+        self.publishersFiltered = self.create_publisher( PointCloud2,filteredTopic, 10)
+        self.publishersClustered = self.create_publisher(PointCloud2,clusteredTopics,  10)
+        self.publishersDetected = self.create_publisher( LandmarkArray,detectedConesTopic, 10)
+        self.publishersTracked = self.create_publisher( LandmarkArray, trackedConesTopic,10)
+        self.publishersDetectedMarkers = self.create_publisher(MarkerArray,detectedMarkersTopic,  10)
 
-        return self.publishers_filtered, self.publishers_clustered,  self.publishers_detected, self.publishers_tracked,  self.publishers_detected_markers
+        return self.publishersFiltered, self.publishersClustered,  self.publishersDetected, self.publishersTracked,  self.publishersDetectedMarkers
 
  
 
@@ -288,7 +288,10 @@ class LidarSystem(Node):
         markerViz = MarkerViz(self,coneRadius, coneHeight, -1 * lidarHeight + coneHeight / 2)
         return markerViz
     
-    def timer_callback(self):
+    def timerCallback(self):
+        """
+         This method is called periodically by the ROS timer to process the LiDAR data.
+        """
         try:
             out = self.lidar.run(self)
         except Exception as exp:  # pylint: disable=broad-except

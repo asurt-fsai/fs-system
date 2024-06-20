@@ -3,13 +3,11 @@ A ros wrapper for the LidarPipeline class
 """
 from typing import Dict, Any, Optional
 
-import rclpy
 import numpy as np
 import numpy.typing as npt
 from sensor_msgs.msg import PointCloud2
 from tf_helper.MarkerViz import MarkerViz
-# from smoreo.MarkerViz import MarkerViz
-
+import rclpy
 
 from .LidarPipeline.LidarPipeline import LidarPipeline
 from .Serializers import npToRos, npConesToRos, rosToPcl
@@ -25,11 +23,11 @@ class LidarRosWrapper(LidarPipeline):
     def __init__(
         self,
         markerViz: MarkerViz,
-        publishers_filtered: rclpy.publisher.Publisher,
-        publishers_clustered: rclpy.publisher.Publisher,
-        publishers_detected: rclpy.publisher.Publisher,
-        publishers_tracked: rclpy.publisher.Publisher,
-        publishers_detected_markers: rclpy.publisher.Publisher,
+        publishersFiltered: rclpy.publisher.Publisher,
+        publishersClustered: rclpy.publisher.Publisher,
+        publishersDetected: rclpy.publisher.Publisher,
+        publishersTracked: rclpy.publisher.Publisher,
+        publishersDetectedMarkers: rclpy.publisher.Publisher,
         node,
         *args: Any,
         **kwargs: Any,
@@ -40,9 +38,9 @@ class LidarRosWrapper(LidarPipeline):
         self.node = node
 
         # Parameter Validation
-        publishers = [publishers_filtered , publishers_clustered, 
-                      publishers_detected, publishers_tracked,    
-                      publishers_detected_markers]
+        publishers = [publishersFiltered , publishersClustered, 
+                      publishersDetected, publishersTracked,    
+                      publishersDetectedMarkers]
 
         try:
             for value in publishers:
@@ -77,14 +75,14 @@ class LidarRosWrapper(LidarPipeline):
         output["detected"] = npConesToRos(output["detected"], self.frameId)
 
 
-        node.publishers_filtered.publish(output["filtered"])
-        node.publishers_clustered.publish(output["clustered"])
-        node.publishers_detected.publish(output["detected"])
+        node.publishersFiltered.publish(output["filtered"])
+        node.publishersClustered.publish(output["clustered"])
+        node.publishersDetected.publish(output["detected"])
 
 
         # MarkerArray visualizations
         detectedMarkers = self.markerViz.conesToMarkers(output["detected"])
-        node.publishers_detected_markers.publish(detectedMarkers)
+        node.publishersDetectedMarkers.publish(detectedMarkers)
        
 
         if "tracked" in output:
@@ -94,6 +92,6 @@ class LidarRosWrapper(LidarPipeline):
             
             trackedMarkers = self.markerViz.conesToMarkers(output["tracked"])
            
-            node.publishers_tracked_markers.publish(trackedMarkers)
+            node.publishersTrackedMarkers.publish(trackedMarkers)
 
         return output
