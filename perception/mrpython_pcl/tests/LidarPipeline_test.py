@@ -1,5 +1,3 @@
-# pylint: disable=all
-# mypy: ignore-errors
 """
 Tests for the LidarPipeline class
 """
@@ -158,6 +156,7 @@ def testEasy() -> None:
         print("Ground truth {} cones".format(len(gt_detected)))
         plt.scatter(gt_detected[:, 0], gt_detected[:, 1])
         plt.scatter(output["detected"][:, 0], output["detected"][:, 1])
+        plt.savefig("scatter_plot.png")  # Save the figure to a file
         # plt.scatter(output['cluster_centers'][:, 0], output['cluster_centers'][:, 1])
         plt.show()
 
