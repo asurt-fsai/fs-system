@@ -54,7 +54,7 @@ class PlanningDlNode(Node):  # type: ignore
         )
         self.publisher = self.create_publisher(Path, "/dl_path", 10)
 
-    def receiveFromPerception(self, msg: LandmarkArray) -> None:
+    def receiveFromSlam(self, msg: LandmarkArray) -> None:
         """
         Receives a message from perception and processes the landmarks.
 
