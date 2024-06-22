@@ -100,7 +100,7 @@ class MyPlannerTransformer(nn.Module):
         else:
             tgt = tgt.reshape(1, -1, 2)
         with torch.no_grad():
-            for _ in range(4):
+            for _ in range(15):
                 prediction = self.forward(src, tgt)
                 tgt = torch.cat((tgt, prediction[:, -1:]), dim=1)
 
