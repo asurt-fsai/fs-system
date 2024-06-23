@@ -33,7 +33,7 @@ class SmornnNode(Node):
 
     def __init__(self) -> None:
         """
-        Init function
+        Init function for smornn node
         """
         super().__init__("smornnNode")
 
@@ -52,6 +52,24 @@ class SmornnNode(Node):
     def setParameters(self) -> None:
         """
         Get parameters from the parameter server and set them to their respective variables
+
+        Parameters
+        ----------
+        lidarHeight: float
+            The height of the lidar sensor from the ground
+
+        coneHeight: float
+            The height of the cone
+
+        coneRadius: float
+            The radius of the cone
+
+        frameId: str
+            The frame id of the cones
+
+        minDistNeighbor: float
+            The minimum distance between two cones to be considered as neighbors
+
         """
         lidarHeight = self.get_parameter("physical.lidar_height").get_parameter_value().double_value
         coneHeight = self.get_parameter("physical.cone_height").get_parameter_value().double_value
@@ -72,6 +90,22 @@ class SmornnNode(Node):
     def initPubAndSub(self) -> None:
         """
         Initialize Publishers and subscribers for smornn node
+
+        Parameters
+        ----------
+
+        publishTopic: str
+            The topic to publish the detected cones
+
+        markerTopic: str
+            The topic to publish the detected cones as markers
+
+        lidarTopic: str
+            The topic to subscribe to the detected cones from the lidar
+
+        smoreoTopic: str
+            The topic to subscribe to the detected cones from the smoreo
+
         """
         publishTopic = (
             self.get_parameter("perception.smornn.detected").get_parameter_value().string_value
@@ -108,7 +142,14 @@ class SmornnNode(Node):
 
     def lidarCallback(self, cones: LandmarkArray) -> None:
         """
-        Callback function for lidar
+        Callback function for lidar, Transforms the cones to required frame and passes it to
+        Smornn class
+
+        Parameters
+        ----------
+        cones: LandmarkArray
+            The detected cones from the lidar
+
         """
         cones = self.tfHelper.transformLandmarkArrayMsg(cones, self.frameId)
         cones = self.utils.parseLandmarks(cones)
@@ -121,7 +162,14 @@ class SmornnNode(Node):
 
     def smoreoCallback(self, cones: LandmarkArray) -> None:
         """
-        Callback function for smoreo
+        Callback function for smoreo, Transforms the cones to required frame and passes it
+        to Smornn class
+
+        Parameters
+        ----------
+        cones: LandmarkArray
+            The detected cones from the camera
+
         """
         cones = self.tfHelper.transformLandmarkArrayMsg(cones, self.frameId)
         cones = self.utils.parseLandmarks(cones)
