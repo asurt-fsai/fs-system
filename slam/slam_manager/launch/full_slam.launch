@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<include file="$(find aloam_velodyne)/launch/aloam_velodyne_HDL_32.launch"/>
-	<include file="$(find hdl_localization)/launch/hdl_localization.launch"/>
-	<include file="$(find slam_manager)/launch/switching_node.launch"/>
-</launch>

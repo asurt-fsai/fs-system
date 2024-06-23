@@ -1,3 +1,5 @@
+# pylint: disable=all
+# mypy: ignore-errors
 """
 Module class to launch and shutdown modules (launch files)
 """

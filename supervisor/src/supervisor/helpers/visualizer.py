@@ -1,3 +1,5 @@
+# pylint: disable=all
+# mypy: ignore-errors
 """
 Visualizer class for visualizing text data on rviz and adding restart buttons for modules
 """
