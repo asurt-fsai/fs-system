@@ -1,0 +1,10 @@
+{
+    "modules": [
+        {
+            "pkg": "supervisor",
+            "launch_file": "staticA_launch.py",
+            "heartbeats_topic": "/status/staticA",
+            "is_node_msg": true
+        }
+    ]
+}

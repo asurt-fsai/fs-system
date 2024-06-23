@@ -1,0 +1,11 @@
+{
+    "modules": [
+        {
+        "pkg": "mrpython_pcl" ,
+        "launch_file":"lidar.launch",
+        "heartbeats_topic":"/status/lidar",
+        "is_node_msg":true
+        }
+
+    ]
+}

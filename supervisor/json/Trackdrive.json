@@ -1,0 +1,76 @@
+{
+    "modules": [
+        {
+            "pkg": "supervisor",
+            "launch_file": "frames.launch",
+            "heartbeats_topic": null,
+            "is_node_msg": false
+        },
+        {
+            "pkg": "tf_helper",
+            "launch_file": "lidar_orient.launch",
+            "heartbeats_topic": "/status/lidar_orient",
+            "is_node_msg": true
+        },
+        {
+            "pkg": "mrpython_pcl",
+            "launch_file": "lidar.launch",
+            "heartbeats_topic": "/status/lidar",
+            "is_node_msg": true
+        },
+        {
+            "pkg": "darknet_ros",
+            "launch_file": "darknet_ros.launch",
+            "heartbeats_topic": "/darknet_ros/detection_image",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "smoreo",
+            "launch_file": "smoreo_sys.launch",
+            "heartbeats_topic": "/status/smoreo",
+            "is_node_msg": true
+        },
+        {
+            "pkg": "smornn",
+            "launch_file": "smornn.launch",
+            "heartbeats_topic": "/status/smornn",
+            "is_node_msg": true
+        },
+        {
+            "pkg": "slam_manager",
+            "launch_file": "full_slam.launch",
+            "heartbeats_topic": "/odom",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "planning_trees",
+            "launch_file": "planning.launch",
+            "heartbeats_topic": "/planning/waypoints",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "simple_pure_pursuit",
+            "launch_file": "launch.launch",
+            "heartbeats_topic": "/control/cmd",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "velodyne_pointcloud",
+            "launch_file": "VLP-32C_points.launch",
+            "heartbeats_topic": "/velodyne_points",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "zed_wrapper",
+            "launch_file": "zed.launch",
+            "heartbeats_topic": "/zed/zed_node/left/image_rect_color",
+            "is_node_msg": false
+        },
+        {
+            "pkg": "supervisor",
+            "launch_file": "trackDrive.launch",
+            "heartbeats_topic": "/status/trackDrive",
+            "is_node_msg": true
+        }
+    ]
+}

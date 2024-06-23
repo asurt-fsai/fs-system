@@ -22,9 +22,20 @@ setup(
     license="TODO: License declaration",
     tests_require=["pytest"],
     entry_points={
-        "console_scripts": [
-            "testing = tf_helper.statusPublisherTest:main",
-            "testing2 = tf_helper.markerVizTest:main",
+        'console_scripts': [
+            "staticB= supervisor.nodes.staticB:main",
+            "autoDemo= supervisor.nodes.autoDemo:main",
+            "staticAtest = supervisor.nodes.staticA:main",
+            "supervisor_node = supervisor.nodes.supervisor_node:main",
+            "interface = supervisor.GUI.gui:main",
+            "testgui = supervisor.GUI.MYstateMachine:main",
+            "testCanState = supervisor.testCanState:main",
+            "testVcmd = supervisor.testVcmd:main",
+            "testWspeeds = supervisor.testWspeeds:main",
+            "testModule = supervisor.GUI.statemachine:main",
+            "testAutoDemo = supervisor.nodes.AutoDemo:main",
+            "testmissionlauncher = supervisor.nodes.AutoDemo:main",
+            
         ],
     },
 )

@@ -14,6 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
         (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
+        (os.path.join("share",package_name,"json"),glob("json/*.json"))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -32,7 +33,8 @@ setup(
             "testgui = supervisor.GUI.MYstateMachine:main",
             "testCanState = supervisor.testCanState:main",
             "testModule = supervisor.GUI.statemachine:main",
-            "testAutoDemo = supervisor.nodes.AutoDemo:main"
+            "testAutoDemo = supervisor.nodes.AutoDemo:main",
+            "testmissionLauncher = supervisor.Testing.test_mission_launcher:main"
             
         ],
     },

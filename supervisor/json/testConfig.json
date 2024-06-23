@@ -1,0 +1,10 @@
+{
+    "modules": [
+        {
+            "pkg": "supervisor",
+            "launch_file": "placeholder_test_node.launch",
+            "heartbeats_topic": "/status/placeholder_test_node",
+            "is_node_msg":true
+        }
+    ]
+}
