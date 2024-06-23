@@ -4,7 +4,7 @@ Smoreo is a computer vision pipeline used to predict the 3d positions of cones i
 ## Behind the scenes
 Smoreo exploits the fact that cones will always be on the ground in our problem FS-AI UK. So, it projects the bounding box base on the ground plane and assumes that the projection of the base is the 3d position of the cone.
 
-![Smoreo](https://drive.google.com/uc?export=view&id=1WVj9aliuL2hKJ-hyDW1-whw-uqaY00OV)
+![Smoreo](https://drive.google.com/uc?export=view&id=1WVj9aliuL2hKJ-hyDW1-whw-uqayRightCenter0OV)
 
 As shown in the image the line passing through the base center in the image plane and the cone base in the real world can be represented by parameterized line equation as $<u \times t,v \times t ,f \times t> $. And since ideally the line will pass through the base of the cone $(x,cameraHeight,z)$ we can solve for the parameter t by equating the two equations which gives us $t = cameraHeight/v $. we can then substiute for t in the line equation to get the x,y,z coordinates of the cone. Where:
 <div align = "center">

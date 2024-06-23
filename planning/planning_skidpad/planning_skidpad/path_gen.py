@@ -80,7 +80,7 @@ class SkidPad(Node):  # type: ignore[misc]
         # self.timeStart = time.time()
         path, self.conePositions = self.pathGen.getPath(self.state, self.conePositions)
         # self.timeStep = time.time() - self.timeStart
-        self.get_logger().info(f"time_step is {self.timeStep} ")
+        # self.get_logger().info(f"time_step is {self.timeStep} ")
 
         if path is None:
             return
