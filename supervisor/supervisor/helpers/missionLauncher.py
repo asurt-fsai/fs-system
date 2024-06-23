@@ -8,7 +8,8 @@ from typing import List, Dict, Optional
 import rclpy
 from eufs_msgs.msg import CanState
 from asurt_msgs.msg import NodeStatus
-
+from rclpy.node import Node
+from ament_index_python.packages import get_package_share_directory
 from .module import Module
 from .visualizer import Visualizer
 
@@ -23,7 +24,7 @@ AMIToConfig = {
 }
 
 
-class MissionLauncher:
+class MissionLauncher(Node):
     """
     This class launches the mission
     based on the mission type received
@@ -38,6 +39,7 @@ class MissionLauncher:
     """
 
     def __init__(self, visualizer: Optional[Visualizer] = None) -> None:
+        super().__init__('mission_launcher_node')  # Unique node name
         self.visualizer = visualizer
         self.missionType = "Not Selected"
         self.isLaunched = False
@@ -48,10 +50,15 @@ class MissionLauncher:
         Open the config file and return it as a dict.
         """
         with open(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "../configs/", fileName),
+            os.path.join(get_package_share_directory('supervisor'), 'json', fileName),
             encoding="utf-8",
         ) as configFile:
             config = json.load(configFile)
+
+            
+          
+            
+
 
         return config  # type: ignore
 
@@ -60,16 +67,19 @@ class MissionLauncher:
         Launches a mission based on the mission type received
         """
         if self.isLaunched:
-            rclpy.get_logger().info("Trying to launch a mission while another mission is running, ignoring")
+            self.get_logger().info("Trying to launch a mission while another mission is running, ignoring")
             return
+        else:
+            self.get_logger().info("Launching mission")
 
         if mission == -1:
-            config = self.openConfig("testConfig.json")
+            config = self.openConfig("testConfig.json") 
             self.missionType = "test mission"
         else:
             try:
                 config = self.openConfig(AMIToConfig[mission] + ".json")
                 self.missionType = AMIToConfig[mission]
+                self.get_logger().info(f"Launching mission: {self.missionType}")
             except KeyError as exc:
                 raise KeyError(f"Invalid mission type: {mission}") from exc
 
@@ -77,9 +87,12 @@ class MissionLauncher:
             self.modules.append(
                 Module(i["pkg"], i["launch_file"], i["heartbeats_topic"], bool(i["is_node_msg"]))
             )
-
+        
         for idx, module in enumerate(self.modules):
+            self.get_logger().info(f"Launching {module.pkg}")
+            self.get_logger().info(f"Launching {module.launchFile}")
             module.launch()
+            self.get_logger().info(f"after launch ")
             self.isLaunched = True
             if self.visualizer:
                 self.visualizer.addButton(7.5, -0.7 * idx, module)
