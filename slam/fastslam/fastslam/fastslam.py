@@ -232,7 +232,7 @@ class FastSLAM:
                 else:
                     w = self.calcWeightSingle(particles[indParticle], observation[:, iz], self.Q)
                     particles[indParticle].weight *= w
-                    particles[indParticle] = self.update_landmark(particles[indParticle], observation[:, iz], self.Q)
+                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[:, iz], self.Q)
 
         return particles
         
