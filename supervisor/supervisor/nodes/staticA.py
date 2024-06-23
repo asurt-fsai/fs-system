@@ -43,7 +43,7 @@ class StaticA(Node):
         self.declare_parameter("/finisher/is_finished", rclpy.Parameter.Type.STRING)
         self.declare_parameter('/state', rclpy.Parameter.Type.STRING)
         self.declare_parameter('/supervisor/driving_flag', rclpy.Parameter.Type.STRING)
-
+        self.get_logger().info("Static A Node Started")
         self.started = False
         self.drivingFlag = False
         self.status = StatusPublisher("/status/staticA", self)
@@ -130,7 +130,7 @@ def main() -> None:
     """
 
     rclpy.init()
-    
+  
     staticA = StaticA()
     staticA.status.starting()
     staticA.status.ready()

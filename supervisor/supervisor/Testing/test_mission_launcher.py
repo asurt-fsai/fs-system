@@ -26,6 +26,7 @@ def main():
     rclpy.init()
     test=TestModule()
     test.run()
+    rclpy.spin(test)
 
 
 

@@ -3,13 +3,17 @@ Module class to launch and shutdown modules (launch files)
 """
 from typing import Optional
 
+from ament_index_python.packages import get_package_share_directory
 import rclpy
 import time
 from rclpy.node import Node
 import launch
 from asurt_msgs.msg import NodeStatus
 from .intervalTimer import IntervalTimer
-
+import launch.actions
+import launch.substitutions
+import launch_ros.actions
+import os
 
 
 class Module(Node):  # pylint: disable=too-many-instance-attributes
@@ -37,7 +41,9 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         heartbeat: Optional[str] = None,
         isHeartbeatNodestatus: bool = True,
     ) -> None:
-        super().__init__('Module')
+        
+        super().__init__("Module")
+        
         self.pkg = pkg
         self.launchFile = launchFile
         self.state = NodeStatus.SHUTDOWN
@@ -90,35 +96,88 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         parent = roslaunch.parent.ROSLaunchParent(uuid, roslaunchFile)
         parent.start()
         '''
-        # Create launch description
-        ld = launch.LaunchDescription()
+        '''
+        use_sim_time = LaunchConfiguration("use_sim_time", default="false")
+            param_dir = os.path.join(get_package_share_directory('supervisor'), 'config', 'staticA_params.yaml')
 
-        # Set node status to STARTING
-        self.state =NodeStatus.STARTING
+            static_a_node = launch_ros.actions.Node(
+                package='supervisor',
+                executable='staticAtest',
+                parameters=[param_dir],
+                output='screen'
+            )
 
-        # Resolve launch file arguments
-        launch_file_path = launch.substitutions.LaunchConfiguration('launch_file')
-        pkg_path = launch.substitutions.LaunchConfiguration('pkg')
-        resolved_launch_file = launch.actions.IncludeLaunchDescription(
-            launch.launch_description_sources.PythonLaunchDescriptionSource(launch_file_path),
-            launch_arguments={'pkg': pkg_path}.items())
+            tkinter_node = launch_ros.actions.Node(
+                package='supervisor',
+                executable='interface',
+                name='tkinter_node',
+                namespace='tkinter_node',
+                output='screen'
+            )
 
-        # Add actions to launch description
-        ld.add_action(resolved_launch_file)
+            return launch.LaunchDescription([
+                DeclareLaunchArgument(
+                    'param_dir',
+                    default_value=param_dir,
+                    description='Full path to the parameter file to load'),
+                static_a_node,
+                tkinter_node
+            ])
 
-        # Execute launch description
-        return launch.LaunchDescription([ld])
+        '''
+
+        # # Create launch description
+        
+
+        # # Set node status to STARTING
+        # self.state =NodeStatus.STARTING
+
+        # # Resolve launch file arguments
+        # launch_file_path = self.launchFile
+        # # launch_file_path = launch.substitutions.LaunchConfiguration('launch_file')
+        # pkg_path = self.pkg  #launch.substitutions.LaunchConfiguration('pkg')
+        # resolved_launch_file = launch.actions.IncludeLaunchDescription(
+        #     launch.launch_description_sources.PythonLaunchDescriptionSource(launch_file_path),
+        #     launch_arguments={'pkg': pkg_path}.items())
+
+        # # Add actions to launch description
+        # ld.add_action(resolved_launch_file)
+
+        # # Execute launch description
+        # return launch.LaunchDescription([ld])
+        # Define the path to your launch file
+         # Create the launch service
+        
+        
+        launch_service = launch.LaunchService()
+    # Define the path to your launch file
+        launch_file_path = os.path.join(get_package_share_directory('supervisor'), 'launch', self.launchFile)
+
+        # Include the launch description from your staticA_launch.py file
+        launch_description = launch.LaunchDescription([
+            launch.actions.IncludeLaunchDescription(
+                launch.launch_description_sources.PythonLaunchDescriptionSource(launch_file_path)
+            ),
+        ])
+    
+
+        # Include the launch description in the launch service
+        launch_service.include_launch_description(launch_description)
+
+        # Run the launch service
+        launch_service.run()
+
+
 
     def shutdown(self) -> None:
         """
         Shuts down the module.
         """
         if self.moduleHandle is not None:
-            self.moduleHandle.shutdown()
-            if self.hasHeartbeat:
+           if self.hasHeartbeat:
                 self.heartbeartRateThread.stop()
                 self.heartbeartRateThread = IntervalTimer(1, self.updateHeartbeatRate)
-            self.moduleHandle = None
+            
         self.state = NodeStatus.SHUTDOWN
 
     def heartbeatCallback(self, msg: NodeStatus) -> None:
