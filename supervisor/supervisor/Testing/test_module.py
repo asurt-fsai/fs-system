@@ -8,7 +8,7 @@ import time
 from rclpy.node import Node
 import launch
 from asurt_msgs.msg import NodeStatus
-from .intervalTimer import IntervalTimer
+from supervisor.helpers.intervalTimer import IntervalTimer
 
 
 
@@ -37,7 +37,6 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         heartbeat: Optional[str] = None,
         isHeartbeatNodestatus: bool = True,
     ) -> None:
-        super().__init__('Module')
         self.pkg = pkg
         self.launchFile = launchFile
         self.state = NodeStatus.SHUTDOWN
@@ -152,7 +151,7 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         """
         Updates the heartbeat rate, called using a looping thread
         """
-        timeDiff = time.time() - self.lastHeartbeatTime
+        timeDiff = time.time - self.lastHeartbeatTime
         self.lastHeartbeatTime = time.time
         newHeartbeartRate = self.heartbeatCount / (timeDiff + 0.001)  # avoid division by
         self.heartbeatCount = 0
@@ -164,3 +163,4 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
 
     def __del__(self) -> None:
         self.shutdown()
+
