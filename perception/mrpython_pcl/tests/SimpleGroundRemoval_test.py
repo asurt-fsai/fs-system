@@ -1,5 +1,3 @@
-# pylint: disable=all
-# mypy: ignore-errors
 """
 Tests for the SimpleGroundRemoval class
 """

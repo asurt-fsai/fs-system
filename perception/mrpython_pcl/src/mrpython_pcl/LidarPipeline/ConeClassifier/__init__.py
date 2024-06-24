@@ -1,4 +1,0 @@
-"""
-.
-"""
-from .ConeClassifier import ConeClassifier

@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-	<include file="$(find mrpython_pcl)/launch/lidar_params.launch" />
-	<test test-name="test_lidar_ros_wrapper" pkg="mrpython_pcl" type="LidarRosWrapper_test.py" />
-</launch>

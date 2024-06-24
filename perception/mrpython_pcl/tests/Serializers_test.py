@@ -1,5 +1,3 @@
-# pylint: disable=all
-# mypy: ignore-errors
 """
 Tests for the Serializers methods
 """
@@ -24,7 +22,7 @@ sys.path.insert(0, os.path.join(packagePath, "devel/lib/python3/dist-packages"))
 from sensor_msgs.msg import PointCloud2
 from asurt_msgs.msg import LandmarkArray
 
-from mrpython_pcl.ros.Serializers import (
+from mrpython_pcl.Serializers import (
     rosToPcl,
     npToPcl,
     pclToRos,
