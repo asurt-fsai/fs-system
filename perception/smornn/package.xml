@@ -2,10 +2,13 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>smornn</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
+
+  <version>2.0.0</version>
+  <description>Smornn package for perception pipeline, Used to combine Lidar perception readings with
+  vision perception readings to output colored cones output with high accuracy</description>
   <maintainer email="mohammed.alaa200080@gmail.com">mohamedalaa</maintainer>
-  <license>TODO: License declaration</license>
+  <license>MITs</license>
+
 
   <build_depend>rclpy</build_depend>
   <build_depend>asurt_msgs</build_depend>
@@ -19,9 +22,14 @@
 
   <exec_depend>rclpy</exec_depend>
   <exec_depend>asurt_msgs</exec_depend>
+  <exec_depend>ros2launch</exec_depend>
   <exec_depend>tf_helper</exec_depend>
   <exec_depend>ros2_numpy</exec_depend>
 
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
 
 
   <test_depend>ament_copyright</test_depend>
