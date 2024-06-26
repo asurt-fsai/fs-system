@@ -1,0 +1,6 @@
+source;share/planning_acceleration/hook/pythonpath.ps1
+source;share/planning_acceleration/hook/pythonpath.dsv
+source;share/planning_acceleration/hook/pythonpath.sh
+source;../../build/planning_acceleration/share/planning_acceleration/hook/pythonpath_develop.ps1
+source;../../build/planning_acceleration/share/planning_acceleration/hook/pythonpath_develop.dsv
+source;../../build/planning_acceleration/share/planning_acceleration/hook/pythonpath_develop.sh

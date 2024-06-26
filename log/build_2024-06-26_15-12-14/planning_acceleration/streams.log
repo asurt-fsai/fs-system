@@ -1,0 +1,25 @@
+[3.305s] Invoking command in '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/prefix_override:/home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages:${PYTHONPATH} WSLENV=ELECTRON_RUN_AS_NODE/w:WT_SESSION:WT_PROFILE_ID: /usr/bin/python3 setup.py develop --editable --build-directory /home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/build --no-deps install_data
+[3.782s] running develop
+[4.113s] running egg_info
+[4.113s] creating planning_acceleration.egg-info
+[4.113s] writing planning_acceleration.egg-info/PKG-INFO
+[4.114s] writing dependency_links to planning_acceleration.egg-info/dependency_links.txt
+[4.115s] writing entry points to planning_acceleration.egg-info/entry_points.txt
+[4.115s] writing requirements to planning_acceleration.egg-info/requires.txt
+[4.116s] writing top-level names to planning_acceleration.egg-info/top_level.txt
+[4.116s] writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+[4.118s] reading manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+[4.119s] writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+[4.174s] running build_ext
+[4.174s] Creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages/planning-acceleration.egg-link (link to .)
+[4.175s] 
+[4.176s] Installed /home/farah/GitHub/acceleration/fs-system/build/planning_acceleration
+[4.176s] running install_data
+[4.176s] creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share
+[4.176s] creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index
+[4.177s] creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index
+[4.177s] creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages
+[4.177s] copying resource/planning_acceleration -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages
+[4.178s] creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration
+[4.178s] copying package.xml -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration
+[4.217s] Invoked command in '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration' returned '0': CONDA_PROMPT_MODIFIER=(base) PYTHONPATH=/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/prefix_override:/home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages:${PYTHONPATH} WSLENV=ELECTRON_RUN_AS_NODE/w:WT_SESSION:WT_PROFILE_ID: /usr/bin/python3 setup.py develop --editable --build-directory /home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/build --no-deps install_data

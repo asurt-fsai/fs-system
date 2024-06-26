@@ -1,0 +1,83 @@
+[0.000000] (-) TimerEvent: {}
+[0.001000] (-) JobUnselected: {'identifier': 'asurt_msgs'}
+[0.001265] (-) JobUnselected: {'identifier': 'common_params'}
+[0.001449] (-) JobUnselected: {'identifier': 'eufs_msgs'}
+[0.001625] (-) JobUnselected: {'identifier': 'fastslam'}
+[0.001802] (-) JobUnselected: {'identifier': 'mrpython_pcl'}
+[0.001978] (-) JobUnselected: {'identifier': 'simple_pure_pursuit'}
+[0.002148] (-) JobUnselected: {'identifier': 'smoreo'}
+[0.002321] (-) JobUnselected: {'identifier': 'smornn'}
+[0.002490] (-) JobUnselected: {'identifier': 'supervisor'}
+[0.002659] (-) JobUnselected: {'identifier': 'tf_helper'}
+[0.002749] (planning_acceleration) JobQueued: {'identifier': 'planning_acceleration', 'dependencies': OrderedDict()}
+[0.006579] (planning_acceleration) JobStarted: {'identifier': 'planning_acceleration'}
+[0.098432] (-) TimerEvent: {}
+[0.201178] (-) TimerEvent: {}
+[0.303902] (-) TimerEvent: {}
+[0.404836] (-) TimerEvent: {}
+[0.505325] (-) TimerEvent: {}
+[0.605903] (-) TimerEvent: {}
+[0.706503] (-) TimerEvent: {}
+[0.807013] (-) TimerEvent: {}
+[0.907750] (-) TimerEvent: {}
+[1.008284] (-) TimerEvent: {}
+[1.108857] (-) TimerEvent: {}
+[1.209382] (-) TimerEvent: {}
+[1.310010] (-) TimerEvent: {}
+[1.410550] (-) TimerEvent: {}
+[1.511133] (-) TimerEvent: {}
+[1.611738] (-) TimerEvent: {}
+[1.712554] (-) TimerEvent: {}
+[1.813493] (-) TimerEvent: {}
+[1.914487] (-) TimerEvent: {}
+[2.015406] (-) TimerEvent: {}
+[2.116363] (-) TimerEvent: {}
+[2.217262] (-) TimerEvent: {}
+[2.318176] (-) TimerEvent: {}
+[2.419118] (-) TimerEvent: {}
+[2.520079] (-) TimerEvent: {}
+[2.621382] (-) TimerEvent: {}
+[2.722480] (-) TimerEvent: {}
+[2.823758] (-) TimerEvent: {}
+[2.924696] (-) TimerEvent: {}
+[3.025673] (-) TimerEvent: {}
+[3.126761] (-) TimerEvent: {}
+[3.227775] (-) TimerEvent: {}
+[3.308694] (planning_acceleration) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'develop', '--editable', '--build-directory', '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/build', '--no-deps', 'install_data'], 'cwd': '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'CONDA_PROMPT_MODIFIER': '(base)', 'USER': 'farah', 'GIT_ASKPASS': '/home/farah/.vscode-server/bin/5437499feb04f7a586f677b155b039bc2b3669eb/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'WT_PROFILE_ID': '{e5a83caa-4c73-52b3-ae6b-bc438d721ef9}', 'MOTD_SHOWN': 'update-motd', 'HOME': '/home/farah', 'CONDA_SHLVL': '1', 'OLDPWD': '/home/farah/GitHub/acceleration/fs-system/dependencies', 'TERM_PROGRAM_VERSION': '1.90.2', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-2e430253-3f85-497d-8d1e-0f8222c2737f.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/farah/.vscode-server/bin/5437499feb04f7a586f677b155b039bc2b3669eb/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/home/farah/.vscode-server/bin/5437499feb04f7a586f677b155b039bc2b3669eb/node', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', '_CE_M': '', 'WSL_DISTRO_NAME': 'Ubuntu-22.04', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/farah/turtlebot3_localization/install:/home/farah/kalman/install:/home/farah/Session/install:/home/farah/Session/src/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'farah', 'NAME': 'Code', 'WSL_INTEROP': '/run/WSL/1775_interop', 'PULSE_SERVER': 'unix:/mnt/wslg/PulseServer', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', '_CE_CONDA': '', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/home/farah/.vscode-server/bin/5437499feb04f7a586f677b155b039bc2b3669eb/bin/remote-cli:/home/farah/conda_root/bin:/home/farah/conda_root/condabin:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Eclipse Adoptium/jdk-21.0.3.9-hotspot/bin:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Microsoft/jdk-11.0.16.101-hotspot/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/mefof/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0/LocalCache/local-packages/Python311/Scripts:/mnt/c/users/mefof/appdata/local/packages/pythonsoftwarefoundation.python.3.11_qbz5n2kfra8p0/localcache/local-packages/python311/site-packages:/mnt/c/Users/mefof/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/TDM-GCC-64/bin:/mnt/c/Program Files/dotnet:/mnt/c/Users/mefof/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/mefof/AppData/Local/Programs/Python/Python312:/mnt/c/Users/mefof/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/mefof/AppData/Local/Microsoft/WindowsApps:/mnt/c/intelFPGA/18.1/modelsim_ase/win32aloem:/mnt/c/Users/mefof/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/mefof/AppData/Local/GitHubDesktop/bin:/snap/bin', 'WT_SESSION': 'fe59d434-b91a-4f8e-9630-0686863356cb', 'XDG_RUNTIME_DIR': '/run/user/1000/', 'DISPLAY': ':0', 'LANG': 'C.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-bc8c1728c8.sock', 'TERM_PROGRAM': 'vscode', 'XML_CATALOG_FILES': 'file:///home/farah/conda_root/etc/xml/catalog file:///etc/xml/catalog', 'AMENT_PREFIX_PATH': '/home/farah/turtlebot3_localization/install/turtlebot3_simulations:/home/farah/turtlebot3_localization/install/turtlebot3_gazebo:/home/farah/turtlebot3_localization/install/turtlebot3_fake_node:/home/farah/turtlebot3_localization/install/kalman_filter:/home/farah/kalman/install/controller:/home/farah/Session/install/trial_pkg:/home/farah/Session/install/task_bringup:/home/farah/Session/install/task:/home/farah/Session/src/install/trial_pkg:/opt/ros/humble', 'CONDA_PYTHON_EXE': '/home/farah/conda_root/bin/python', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CONDA_DEFAULT_ENV': 'base', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration', 'CONDA_EXE': '/home/farah/conda_root/bin/conda', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/farah/GitHub/acceleration/fs-system/build/planning_acceleration/prefix_override:/home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages:/home/farah/turtlebot3_localization/build/kalman_filter:/home/farah/turtlebot3_localization/install/kalman_filter/lib/python3.10/site-packages:/home/farah/kalman/install/controller/lib/python3.10/site-packages:/home/farah/Session/build/trial_pkg:/home/farah/Session/install/trial_pkg/lib/python3.10/site-packages:/home/farah/Session/build/task:/home/farah/Session/install/task/lib/python3.10/site-packages:/home/farah/Session/src/install/trial_pkg/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'CONDA_PREFIX': '/home/farah/conda_root', 'COLCON': '1', 'WSL2_GUI_APPS_ENABLED': '1', 'HOSTTYPE': 'x86_64', 'CMAKE_PREFIX_PATH': '/home/farah/turtlebot3_localization/install/turtlebot3_simulations:/home/farah/turtlebot3_localization/install/turtlebot3_gazebo:/home/farah/turtlebot3_localization/install/turtlebot3_fake_node:/home/farah/Session/install/task_bringup', 'WSLENV': 'ELECTRON_RUN_AS_NODE/w:WT_SESSION:WT_PROFILE_ID:'}, 'shell': False}
+[3.328108] (-) TimerEvent: {}
+[3.428927] (-) TimerEvent: {}
+[3.529434] (-) TimerEvent: {}
+[3.629917] (-) TimerEvent: {}
+[3.730431] (-) TimerEvent: {}
+[3.789820] (planning_acceleration) StdoutLine: {'line': b'running develop\n'}
+[3.830641] (-) TimerEvent: {}
+[3.931275] (-) TimerEvent: {}
+[4.031902] (-) TimerEvent: {}
+[4.120232] (planning_acceleration) StdoutLine: {'line': b'running egg_info\n'}
+[4.120432] (planning_acceleration) StdoutLine: {'line': b'creating planning_acceleration.egg-info\n'}
+[4.120834] (planning_acceleration) StdoutLine: {'line': b'writing planning_acceleration.egg-info/PKG-INFO\n'}
+[4.121731] (planning_acceleration) StdoutLine: {'line': b'writing dependency_links to planning_acceleration.egg-info/dependency_links.txt\n'}
+[4.122629] (planning_acceleration) StdoutLine: {'line': b'writing entry points to planning_acceleration.egg-info/entry_points.txt\n'}
+[4.122878] (planning_acceleration) StdoutLine: {'line': b'writing requirements to planning_acceleration.egg-info/requires.txt\n'}
+[4.123258] (planning_acceleration) StdoutLine: {'line': b'writing top-level names to planning_acceleration.egg-info/top_level.txt\n'}
+[4.123669] (planning_acceleration) StdoutLine: {'line': b"writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'\n"}
+[4.125261] (planning_acceleration) StdoutLine: {'line': b"reading manifest file 'planning_acceleration.egg-info/SOURCES.txt'\n"}
+[4.126753] (planning_acceleration) StdoutLine: {'line': b"writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'\n"}
+[4.132061] (-) TimerEvent: {}
+[4.181373] (planning_acceleration) StdoutLine: {'line': b'running build_ext\n'}
+[4.181905] (planning_acceleration) StdoutLine: {'line': b'Creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages/planning-acceleration.egg-link (link to .)\n'}
+[4.182861] (planning_acceleration) StdoutLine: {'line': b'\n'}
+[4.183243] (planning_acceleration) StdoutLine: {'line': b'Installed /home/farah/GitHub/acceleration/fs-system/build/planning_acceleration\n'}
+[4.183371] (planning_acceleration) StdoutLine: {'line': b'running install_data\n'}
+[4.183553] (planning_acceleration) StdoutLine: {'line': b'creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share\n'}
+[4.183944] (planning_acceleration) StdoutLine: {'line': b'creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index\n'}
+[4.184282] (planning_acceleration) StdoutLine: {'line': b'creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index\n'}
+[4.184708] (planning_acceleration) StdoutLine: {'line': b'creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages\n'}
+[4.184944] (planning_acceleration) StdoutLine: {'line': b'copying resource/planning_acceleration -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages\n'}
+[4.185267] (planning_acceleration) StdoutLine: {'line': b'creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration\n'}
+[4.185398] (planning_acceleration) StdoutLine: {'line': b'copying package.xml -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration\n'}
+[4.224175] (planning_acceleration) CommandEnded: {'returncode': 0}
+[4.236168] (-) TimerEvent: {}
+[4.337925] (-) TimerEvent: {}
+[4.408511] (planning_acceleration) JobEnded: {'identifier': 'planning_acceleration', 'rc': 0}
+[4.411655] (-) EventReactorShutdown: {}

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>planning_acceleration</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="farahhsalamaa@gmail.com">farah</maintainer>
+  <license>TODO: License declaration</license>
+
+  <depend>asurt_msgs</depend>
+  <exec_depend>asurt_msgs</exec_depend>
+  <build_depend>asurt_msgs</build_depend>
+
+  <depend>tf_helper</depend>
+  <exec_depend>tf_helper</exec_depend>
+  <build_depend>tf_helper</build_depend>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

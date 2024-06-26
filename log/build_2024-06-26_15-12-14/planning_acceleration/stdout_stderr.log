@@ -1,0 +1,23 @@
+running develop
+running egg_info
+creating planning_acceleration.egg-info
+writing planning_acceleration.egg-info/PKG-INFO
+writing dependency_links to planning_acceleration.egg-info/dependency_links.txt
+writing entry points to planning_acceleration.egg-info/entry_points.txt
+writing requirements to planning_acceleration.egg-info/requires.txt
+writing top-level names to planning_acceleration.egg-info/top_level.txt
+writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+reading manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+writing manifest file 'planning_acceleration.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/lib/python3.10/site-packages/planning-acceleration.egg-link (link to .)
+
+Installed /home/farah/GitHub/acceleration/fs-system/build/planning_acceleration
+running install_data
+creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share
+creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index
+creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index
+creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages
+copying resource/planning_acceleration -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/ament_index/resource_index/packages
+creating /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration
+copying package.xml -> /home/farah/GitHub/acceleration/fs-system/install/planning_acceleration/share/planning_acceleration
