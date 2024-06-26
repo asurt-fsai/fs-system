@@ -111,9 +111,7 @@ class AccPlanningNode(Node):
             return
         calculatePath = CalculatePath(self.carPosition, self.carDirection, self.cones)
         self.path = calculatePath.getPath()
-        self.calculatePath.previousPaths = np.concatenate(
-            (self.calculatePath.previousPaths[-15:], self.path), axis=0
-        )
+
         if self.path is not None:
             timestamp = self.get_clock().now().to_msg()
             path = Path()
