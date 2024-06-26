@@ -8,7 +8,7 @@ from std_msgs.msg import Bool, Float32
 from ackermann_msgs.msg import AckermannDriveStamped
 from eufs_msgs.msg import CanState
 from geometry_msgs.msg import TwistWithCovarianceStamped
-# from tf_helper.src.tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.StatusPublisher import StatusPublisher
 from .supervisor import Supervisor  # type: ignore
 
 
@@ -19,7 +19,7 @@ def main() -> None:
     """
 
     rclpy.init()
-    node = rclpy.create_node("supervisor")
+    node = rclpy.create_node("supervisorNode")
 
     node.declare_parameter("/control/velocity", rclpy.Parameter.Type.STRING)
     node.declare_parameter("/ros_can/cmd", rclpy.Parameter.Type.STRING)
@@ -31,9 +31,9 @@ def main() -> None:
     node.declare_parameter('/control/steering', rclpy.Parameter.Type.STRING)
     node.declare_parameter('/visualizer/marker', rclpy.Parameter.Type.STRING)
     node.declare_parameter('/visualizer/button', rclpy.Parameter.Type.STRING) 
-
-    #status = StatusPublisher("/status/supervisor")
-    #status.starting()
+    
+    node.status = StatusPublisher("/status/supervisor", node)
+    node.status.starting()
 
     controlVelTopic = node.get_parameter("/control/velocity").get_parameter_value().string_value
 
@@ -68,7 +68,7 @@ def main() -> None:
             supervisor.run()
             rate.sleep()
 
-            #status.running()
+            node.status.running()
     finally:
         rclpy.shutdown()
 

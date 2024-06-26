@@ -3,9 +3,9 @@ Supervisor main module
 """
 from typing import Optional
 from enum import Enum
-
+import time
 import rclpy
-
+from rclpy.node import Node
 from std_msgs.msg import Bool, Float32
 from eufs_msgs.msg import CanState
 from geometry_msgs.msg import TwistWithCovarianceStamped
@@ -28,7 +28,7 @@ class SuperState(Enum):
     FINISHED = 5
 
 
-class Supervisor():  # pylint: disable=too-many-instance-attributes
+class Supervisor(Node):  # pylint: disable=too-many-instance-attributes
     """
     This class is the supervisor's main class
     """
@@ -41,6 +41,7 @@ class Supervisor():  # pylint: disable=too-many-instance-attributes
         markersTopic: Optional[str] = None,
         btnTopic: Optional[str] = None
     ) -> None:
+        super().__init__("Supervisor")
         self.asState = CanState.AS_OFF
         self.amiState = CanState.AMI_NOT_SELECTED
         self.isFinished = False
@@ -50,9 +51,9 @@ class Supervisor():  # pylint: disable=too-many-instance-attributes
         self.vel = 0
         self.steer = 0
         
-        # self.drivingFlagPub = node.create_publisher(Bool, drivingFlagTopic, 10)
-        # self.missionFlagPub = self.create_publisher(Bool, missionFlagTopic, queue_size=10)
-        # self.cmd = self.create_publisher(AckermannDriveStamped, rosCanCmdTopic, queue_size=10)
+        self.drivingFlagPub = self.create_publisher(Bool, drivingFlagTopic, 10)
+        self.missionFlagPub = self.create_publisher(Bool, missionFlagTopic, 10)
+        self.cmd = self.create_publisher(AckermannDriveStamped, rosCanCmdTopic, 10)
 
         # if markersTopic is not None and btnTopic is not None:
         #     self.visualizer = Visualizer(markersTopic, btnTopic)
@@ -90,25 +91,25 @@ class Supervisor():  # pylint: disable=too-many-instance-attributes
             if self.currentVel < self.maxStopVelTh:
                 self.superState = SuperState.FINISHED
 
-        # Publish
-    #     self.publishRosCanMessages()
+        #Publish
+        self.publishRosCanMessages()
 
-    # def publishRosCanMessages(self) -> None:
-    #     """
-    #     Publishes the command to the car
-    #     """
+    def publishRosCanMessages(self) -> None:
+        """
+        Publishes the command to the car
+        """
 
-    #     if self.superState in (SuperState.WAITING, SuperState.LAUNCHING, SuperState.READY):
-    #         self.missionFlagPub.publish(False)
-    #         self.drivingFlagPub.publish(False)
-    #     elif self.superState in (SuperState.RUNNING, SuperState.STOPPING):
-    #         self.missionFlagPub.publish(False)
-    #         self.drivingFlagPub.publish(True)
-    #     elif self.superState == SuperState.FINISHED:
-    #         self.missionFlagPub.publish(True)
-    #         self.drivingFlagPub.publish(False)
+        if self.superState in (SuperState.WAITING, SuperState.LAUNCHING, SuperState.READY):
+            self.missionFlagPub.publish(Bool(data = False))
+            self.drivingFlagPub.publish(Bool(data = False))
+        elif self.superState in (SuperState.RUNNING, SuperState.STOPPING):
+            self.missionFlagPub.publish(Bool(data = False))
+            self.drivingFlagPub.publish(Bool(data = True))
+        elif self.superState == SuperState.FINISHED:
+            self.missionFlagPub.publish(Bool(data = True))
+            self.drivingFlagPub.publish(Bool(data = False))
 
-        # self.cmd.publish(self.getCmdMessage())
+        self.cmd.publish(self.getCmdMessage())
 
     def getCmdMessage(self) -> AckermannDriveStamped:
         """
@@ -123,8 +124,8 @@ class Supervisor():  # pylint: disable=too-many-instance-attributes
             SuperState.READY,
             SuperState.FINISHED,
         ):
-            cmdMsg.drive.speed = 0
-            cmdMsg.drive.steering_angle = 0
+            cmdMsg.drive.speed = 0.0
+            cmdMsg.drive.steering_angle = 0.0
         elif self.superState == SuperState.RUNNING:
             cmdMsg.drive.speed = self.vel
             cmdMsg.drive.steering_angle = self.steer
@@ -135,7 +136,7 @@ class Supervisor():  # pylint: disable=too-many-instance-attributes
             else:
                 targetVel = 0
             cmdMsg.drive.speed = targetVel
-        cmdMsg.header.stamp = rclpy.Time.now()
+        cmdMsg.header.stamp = rclpy.time.Time().to_msg()
         return cmdMsg
 
     def canStateCallback(self, msg: CanState) -> None:
