@@ -1,4 +1,4 @@
-supervisor:
+supervisorNode:
     ros__parameters:
         '/control/steering': "/control/steering"
         '/state': "/state"

@@ -56,7 +56,7 @@ class Interface:
         self.ebs_fail_pub = self.node.create_publisher(Bool, "/state_machine/ebs_fail", 1)
         self.flag_pub = self.node.create_publisher(Bool, "/state_machine/flag", 1)
         self.driving_flag_pub = self.node.create_publisher(Bool, "/state_machine/driving_flag", 1)
-        self.canStatePub = self.node.create_publisher(CanState,"/ros_can/state", 1)
+        self.canStatePub = self.node.create_publisher(CanState,"/ros_can/can_state", 1)
 
         self.state_sub = self.node.create_subscription(String, "/state_machine/state_str", self.state_cb, 10)
         self.node.create_subscription(Bool, "shutDownCircuit", self.sdcCB, 10)
@@ -259,7 +259,7 @@ class Interface:
 
     def toggle_driving_flag(self):
         msg = Bool()
-        msg.data = not self.driving_flag_button["text"].endswith("ON")
+        msg.data = not self.driving_flag_button["te print(self.superState print(self.amiState)xt"].endswith("ON")
         self.driving_flag_pub.publish(msg)
         self.driving_flag_button.config(text="DRIVING FLAG: ON" if msg.data else "DRIVING FLAG: OFF", bg=self.color5 if msg.data else self.color2)
         self.drivingFlag = not self.drivingFlag

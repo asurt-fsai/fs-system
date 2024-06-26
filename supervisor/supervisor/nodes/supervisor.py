@@ -65,9 +65,8 @@ class Supervisor(Node):  # pylint: disable=too-many-instance-attributes
         """
         Do the state machine transitions and actions
         """
-
-        print(self.superState)
-        print(self.amiState)
+              
+      
 
         # Update launcher
         if self.superState != SuperState.WAITING:
@@ -77,7 +76,8 @@ class Supervisor(Node):  # pylint: disable=too-many-instance-attributes
         if self.superState == SuperState.WAITING:
             if self.amiState != CanState.AMI_NOT_SELECTED:
                 self.superState = SuperState.LAUNCHING
-                self.launcher.launch(CanState.AMI_NOT_SELECTEDAMI_DDT_INSPECTION_A)
+                self.launcher.launch(CanState.AMI_DDT_INSPECTION_A)
+                
         elif self.superState == SuperState.LAUNCHING:
             if self.launcher.isReady():
                 self.superState = SuperState.READY
@@ -143,29 +143,35 @@ class Supervisor(Node):  # pylint: disable=too-many-instance-attributes
         """
         Callback to retreive the VCU's state and selected mission
         """
+        self.get_logger().info(f"Received CAN state message: {msg.as_state}")
+        self.get_logger().info(f"Received CAN state message: {msg.ami_state}")
         self.asState = msg.as_state
-        # self.amiState = msg.ami_state
+        self.amiState = msg.ami_state
 
     def isFinishedCallback(self, msg: Bool) -> None:
         """
         Callback for the mission's finished flag
         """
+        self.get_logger().info(f"Received isFinished message: {msg.data}")
         self.isFinished = msg.data
 
     def velCallback(self, msg: Float32) -> None:
         """
         Callback function for the velocity
         """
+        self.get_logger().info(f"Received velocity message: {msg.data}")
         self.vel = msg.data
 
     def steerCallback(self, msg: Float32) -> None:
         """
         Callback function for the steering angle
         """
+        self.get_logger().info(f"Received steering message: {msg.data}")
         self.steer = msg.data
 
     def currentVelCallback(self, msg: TwistWithCovarianceStamped) -> None:
         """
         Callback for the current velocity
         """
+        self.get_logger().info(f"Received current velocity message: {msg.twist.twist.linear.x}")
         self.currentVel = msg.twist.twist.linear.x
