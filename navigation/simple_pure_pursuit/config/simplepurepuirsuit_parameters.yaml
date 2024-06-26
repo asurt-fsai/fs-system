@@ -1,0 +1,12 @@
+SimplePurePursuitNODE:
+  ros_parameters:
+        look_ahead: 4
+        speed_target: 2.0
+        rate: 10 
+
+        frame_id: "rear_link"
+        control:
+          actions_topic: "cmd"
+          waypoints_topic: "waypoints_clean"
+
+

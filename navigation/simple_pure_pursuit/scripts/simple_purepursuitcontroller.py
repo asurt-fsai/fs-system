@@ -35,11 +35,12 @@ class SimplePurePursuit:
         self.y_list: List[float] = []
 
         self.helper = TFHelper("control")
-        self.look_ahead:float = self.node.get_parameter("/control/look_ahead_constant")\
+        self.look_ahead:float = self.node.get_parameter("control.look_ahead_constant")\
                                                               .get_parameter_value().double_value
-        self.base_length:float = self.node.get_parameter("/physical/car_base_length")\
+        self.base_length:float = self.node.get_parameter("physical.car_base_length")\
                                                               .get_parameter_value().double_value
-        # [m] car length
+        self.frame_id = self.node.get_parameter("control.frame_id").get_parameter_value().string_value
+         # [m] car length
 
     def add(self, waypoints_msg: Path) -> None:
         """
