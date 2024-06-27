@@ -11,7 +11,7 @@ Description: A class that runs the whole path planning pipeline.
 from __future__ import annotations
 
 from typing import List, Optional
-
+from dataclasses import dataclass
 import numpy as np
 
 from src.cones_sorting.cone_sorting_wrapper import ConeSortingInput, ConeSorting
@@ -21,6 +21,26 @@ from src.corner_case.corner_case_path import CornerCasesPath
 from src.types_file import FloatArray
 
 from src.utils.cone_types import ConeTypes
+
+
+@dataclass
+class ParametersState: # pylint: disable=too-many-instance-attributes
+    """Dataclass holding parameters variables."""
+    thresholdDirectionalAngle: float = np.deg2rad(40)
+    thresholdAbsoluteAngle: float = np.deg2rad(65)
+    maxNNeighbors: int = 5
+    maxDist: float = 7
+    maxDistToFirst: float = 10.0
+    maxLength: int = 7
+
+    minTrackWidth: float = 3
+    maxSearchRange: float = 5
+    maxSearchAngle: float = np.deg2rad(50)
+    matchesShouldBeMonotonic: bool = True
+
+    maximalDistanceForValidPath: float = 5
+    mpcPathLength: float = 20
+    mpcPredictionHorizon: int = 40
 
 
 class PathPlanner:
@@ -41,25 +61,25 @@ class PathPlanner:
         globalPath: A global path to be considered during path planning (Optional).
     """
 
-    def __init__(self) -> None:
+    def __init__(self, params: ParametersState) -> None:
         self.coneSorting = ConeSorting(
-            maxNNeighbors=5,
-            maxDist=7,  # default=6.5
-            maxDistToFirst=10.0,
-            maxLength=7,  # default=12
-            thresholdDirectionalAngle=np.deg2rad(40),
-            thresholdAbsoluteAngle=np.deg2rad(65),
+            maxNNeighbors=params.maxNNeighbors,
+            maxDist=params.maxDist,
+            maxDistToFirst=params.maxDistToFirst,
+            maxLength=params.maxLength,
+            thresholdDirectionalAngle=params.thresholdDirectionalAngle,
+            thresholdAbsoluteAngle=params.thresholdAbsoluteAngle,
         )
         self.coneMatching = ConeMatching(
-            minTrackWidth=3,
-            maxSearchRange=5,
-            maxSearchAngle=np.deg2rad(50),
-            matchesShouldBeMonotonic=True,
+            minTrackWidth=params.minTrackWidth,
+            maxSearchRange=params.maxSearchRange,
+            maxSearchAngle=params.maxSearchAngle,
+            matchesShouldBeMonotonic=params.matchesShouldBeMonotonic,
         )
         self.calculatePath = CalculatePath(
-            maximalDistanceForValidPath=5,
-            mpcPathLength=20,
-            mpcPredictionHorizon=40,
+            maximalDistanceForValidPath=params.maximalDistanceForValidPath,
+            mpcPathLength=params.mpcPathLength,
+            mpcPredictionHorizon=params.mpcPredictionHorizon,
         )
         self.globalPath: Optional[FloatArray] = None
 

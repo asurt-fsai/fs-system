@@ -13,12 +13,12 @@ from geometry_msgs.msg import Pose, PoseStamped
 import numpy as np
 from tf_transformations import euler_from_quaternion
 
-from src.full_pipeline.full_pipeline import PathPlanner
+from src.full_pipeline.full_pipeline import PathPlanner, ParametersState
 from src.utils.cone_types import ConeTypes
 from src.types_file import FloatArray
-import matplotlib.pyplot as plt
 
-class PlanningNode(Node):
+
+class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
     """
     A class representing a planning node.
 
@@ -47,17 +47,31 @@ class PlanningNode(Node):
         self.cones: List[FloatArray] = [np.zeros((0, 2)) for _ in ConeTypes]
         self.carPosition = np.array([0, 0])
         self.carDirection = np.float_(0.0)
-        self.pathPlanner = PathPlanner()
+        self.params = ParametersState( #replace the values with the parameters
+            thresholdDirectionalAngle = np.deg2rad(40),
+            thresholdAbsoluteAngle = np.deg2rad(65),
+            maxNNeighbors = 5,
+            maxDist = 7,
+            maxDistToFirst = 10.0,
+            maxLength = 7,
+
+            minTrackWidth = 3,
+            maxSearchRange = 5,
+            maxSearchAngle = np.deg2rad(50),
+            matchesShouldBeMonotonic = True,
+
+            maximalDistanceForValidPath = 5,
+            mpcPathLength = 20,
+            mpcPredictionHorizon = 40
+        )
+        self.pathPlanner = PathPlanner(self.params)
         self.subscriber1 = self.create_subscription(
             LandmarkArray, "/Landmarks/Observed", self.receiveFromPerception, 10
         )
         self.subscriber2 = self.create_subscription(
             Odometry, "/carmaker/Odometry", self.receiveFromLocalization, 10
         )
-        plt.ion()
         self.publisher = self.create_publisher(Path, "/topic3", 10)
-        self.figure, self.ax = plt.subplots()
-        self.figure.show()
 
     def receiveFromPerception(self, msg: LandmarkArray) -> None:
         """
@@ -103,7 +117,7 @@ class PlanningNode(Node):
         self.carPosition = np.array([pose.position.x, pose.position.y])
 
         orientationList = [orientationQ.x, orientationQ.y, orientationQ.z, orientationQ.w]
-        (roll, pitch, yaw) = euler_from_quaternion(orientationList)
+        (_, _, yaw) = euler_from_quaternion(orientationList)
         self.carDirection = yaw
 
     def sendToControl(self) -> None:
@@ -134,14 +148,6 @@ class PlanningNode(Node):
                 path.poses.append(poseStamped)
 
             self.publisher.publish(path)
-            self.get_logger().info("Path Sent...")
-            self.ax.clear()
-            self.ax.scatter(self.cones[ConeTypes.UNKNOWN][:,0],self.cones[ConeTypes.UNKNOWN][:,1],c="black")
-            self.ax.scatter(self.cones[ConeTypes.BLUE][:,0],self.cones[ConeTypes.BLUE][:,1],c="blue")
-            self.ax.scatter(self.cones[ConeTypes.YELLOW][:,0],self.cones[ConeTypes.YELLOW][:,1],c="yellow")
-            self.ax.scatter(self.carPosition[0], self.carPosition[1], c="red")
-            self.ax.scatter(self.path[:,0], self.path[:,1])
-            plt.pause(0.001)
 
 
 def main(args: Any = None) -> None:

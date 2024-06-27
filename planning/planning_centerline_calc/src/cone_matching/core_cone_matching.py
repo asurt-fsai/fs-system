@@ -35,7 +35,7 @@ class ConeMatchingInput:
 
 
 @dataclass
-class ConeMatchingState:
+class ConeMatchingState: # pylint: disable=too-many-instance-attributes
     """Dataclass holding calculation variables."""
 
     minTrackWidth: float
