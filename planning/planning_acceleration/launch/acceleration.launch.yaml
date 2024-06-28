@@ -1,0 +1,16 @@
+launch:
+
+- node:
+    pkg: "planning_acceleration"
+    exec: "acceleration_node"
+    namespace: "acceleration_node"
+    param:
+    - 
+        name: "acceleration.topics.frame_id"
+        value: "acceleration.topics.frame_id"
+    -
+        name: "acceleration.topics.pathTopic"
+        value: "acceleration.topics.pathTopic"
+    -
+        name: acceleration.topics.odometeryTopic"
+        value: "acceleration.topics.odometeryTopic"

@@ -1,0 +1,8 @@
+acceleration_node:
+  ros__parameters:
+    acceleration:
+      topics:
+        frame_id: "map"
+        pathTopic: "/acc_planning"
+        odometryTopic: "/carmaker/Odometry"
+        conesTopic: "/Landmarks/Observed"

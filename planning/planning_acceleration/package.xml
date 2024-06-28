@@ -7,13 +7,23 @@
   <maintainer email="farahhsalamaa@gmail.com">farah</maintainer>
   <license>TODO: License declaration</license>
 
-  <depend>asurt_msgs</depend>
-  <exec_depend>asurt_msgs</exec_depend>
   <build_depend>asurt_msgs</build_depend>
+  <build_depend>rclpy</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>utils</build_depend>
 
-  <depend>tf_helper</depend>
-  <exec_depend>tf_helper</exec_depend>
-  <build_depend>tf_helper</build_depend>
+  <build_export_depend>asurt_msgs</build_export_depend>
+  <build_export_depend>rclpy</build_export_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>nav_msgs</build_export_depend>
+  <build_export_depend>utils</build_export_depend>
+
+  <exec_depend>asurt_msgs</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>utils</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

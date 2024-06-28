@@ -48,13 +48,69 @@ class AccPlanningNode(Node):
         self.cones: List[FloatArray] = [np.zeros((0, 2)) for _ in ConeTypes]
         self.carPosition = np.array([0, 0])
         self.carDirection = np.float_(0.0)
+
+        self.publisher: rclpy.publisher.Publisher
+
+        self.declareParameters()
+        self.setParameters()
+        self.initPubAndSub()
+
+    def declareParameters(self) -> None:
+        """
+        Declare the parameters for the planning node.
+        """
+        self.declare_parameter("acceleration.topics.frame_id", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("acceleration.topics.pathTopic", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("acceleration.topics.odometryTopic", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("acceleration.topics.conesTopic", rclpy.Parameter.Type.STRING)
+
+    def setParameters(self) -> None:
+        """
+        Get parameters from the parameter server and set them to their respective varibles
+        """
+        self.frameId = (
+            self.get_parameter("acceleration.topics.frame_id").get_parameter_value().string_value
+        )
+
+    def initPubAndSub(self) -> None:
+        """
+        Initialize Publishers and subscribers for planning node
+
+        Parameters
+        ----------
+
+        pathTopic: str
+            The topic to publish the path
+        
+        odometryTopic: str
+            The topic to subscribe to the odometry information comming from SLAM
+
+        conesTopic: str
+            The topic to subscribe to the cones information comming from SLAM
+        """
+        pathTopic = (
+            self.get_parameter(
+                "acceleration.topics.pathTopic"
+                ).get_parameter_value().string_value
+        )
+        odometryTopic = (
+            self.get_parameter(
+                "acceleration.topics.odometryTopic"
+                ).get_parameter_value().string_value
+        )
+        conesTopic = (
+            self.get_parameter(
+                "acceleration.topics.conesTopic"
+                ).get_parameter_value().string_value
+        )
+        self.publisher = self.create_publisher(Path, pathTopic, 10)
         self.subscriber1 = self.create_subscription(
-            LandmarkArray, "/Landmarks/Observed", self.receiveFromPerception, 10
+            LandmarkArray, conesTopic, self.receiveFromPerception, 10
         )
         self.subscriber2 = self.create_subscription(
-            Odometry, "/carmaker/Odometry", self.receiveFromLocalization, 10
+            Odometry, odometryTopic, self.receiveFromLocalization, 10
         )
-        self.publisher = self.create_publisher(Path, "/acc_planning", 10)
+        
 
     def receiveFromPerception(self, msg: LandmarkArray) -> None:
         """
@@ -116,7 +172,7 @@ class AccPlanningNode(Node):
             timestamp = self.get_clock().now().to_msg()
             path = Path()
             path.header.stamp = timestamp
-            path.header.frame_id = "map"
+            path.header.frame_id = self.frameId
 
             for dataPoint in self.path:
                 pose = Pose()
@@ -126,7 +182,7 @@ class AccPlanningNode(Node):
                 poseStamped = PoseStamped()
                 poseStamped.pose = pose
                 poseStamped.header.stamp = timestamp
-                poseStamped.header.frame_id = "map"
+                poseStamped.header.frame_id = self.frameId
 
                 path.poses.append(poseStamped)
 
