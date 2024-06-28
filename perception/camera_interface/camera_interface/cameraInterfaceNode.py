@@ -45,7 +45,7 @@ class CameraNode(Node):
         Initialize Publishers and subscribers for camera interface node
         """
         camera_feed_topic = self.get_parameter('perception.camera_interface.camera_feed').get_parameter_value().string_value
-        self.img_pub = self.create_publisher(Image, camera_feed_topic, 10)
+        self.img_pub = self.create_publisher(Image, camera_feed_topic, 1)
 
     def declareParameters(self) -> None:
         """
