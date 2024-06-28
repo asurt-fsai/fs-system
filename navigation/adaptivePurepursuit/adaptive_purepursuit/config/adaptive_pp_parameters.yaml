@@ -1,0 +1,17 @@
+Controller:
+  ros__parameters:
+    time_step: 0.1
+
+    speed:
+      maximum: 6.0
+      minimum: 3.0
+
+    gains:
+      proportional: 2.0
+      integral: 0.0
+      differential: 0.0
+      lookahead: 0.3
+
+    constants:
+      speed: 63.0
+      lookahead: 1.1
