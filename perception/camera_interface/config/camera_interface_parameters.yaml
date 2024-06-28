@@ -1,0 +1,18 @@
+cameraInterfaceNode:
+  ros__parameters:
+    perception:
+      camera_interface:
+        frame_id: "kit"
+        camera_feed: "/perception/camera_interface/camera_feed"
+
+    camera:
+      image_width: 672
+      image_height: 376
+      cx: 336.6975
+      cy: 190.53525
+      fx: 350.785
+      fy: 350.785
+      k1: -0.176025
+      k2: 0.0264872
+      p1: 0.00000676566
+      p2: -0.000168124
