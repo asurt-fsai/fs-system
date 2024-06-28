@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # pylint: disable=all
 # mypy: ignore-errors
-
 import os
 from glob import glob
 from setuptools import find_packages, setup
@@ -17,7 +16,6 @@ setup(
         ("share/" + package_name, ["package.xml"]),
         (os.path.join("share", package_name, "launch"), glob("launch/*.launch.py")),
         (os.path.join("share", package_name, "config"), glob("config/*.yaml")),
-
     ],
     install_requires=["setuptools"],
     zip_safe=True,
