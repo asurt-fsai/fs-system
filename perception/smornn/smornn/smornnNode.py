@@ -3,7 +3,7 @@
 A ros wrapper for the Smornn class
 """
 from typing import Optional
-
+import threading
 import numpy as np
 from asurt_msgs.msg import LandmarkArray
 import rclpy.publisher
@@ -203,24 +203,60 @@ def main() -> None:
     # Initialize ROS node
     rclpy.init()
     smornn = SmornnNode()
+    print("test1")
     status = StatusPublisher("/status/smornn", smornn)
+    print("test2")
+    # Spin in a separate thread
+    thread = threading.Thread(target=rclpy.spin, args=(smornn, ), daemon=True)
+    thread.start()
+
+    rate = smornn.create_rate(100)
 
     status.starting()
 
     # Publish heartbeat to show the module is ready
     status.ready()
 
-    # Main loop
-    rate = smornn.create_rate(100)
-    while rclpy.ok():
-        rate.sleep()
-        out = smornn.run()
-        if out is None:
-            continue
+    print("test3")
+    # try:
+    #     while rclpy.ok():
+    #         print("test4")
+    #         rate.sleep()
+    #         print('Help me body, you are my only hope')
+    #         out = smornn.run()
+    #         if out is None:
+    #             continue
 
-        # Publish heartbeat to show the module is running
-        status.running()
+    #         # Publish heartbeat to show the module is running
+    #         status.running()
 
+    # except KeyboardInterrupt:
+    #     pass
+    try:
+        while rclpy.ok:
+            
+            print("test4")
+            rate.sleep()
+            print('Help me body, you are my only hope')
+            out = smornn.run()
+            status.running()
+            # if out is None:
+            #     continue
 
+            # Publish heartbeat to show the module is running
+            
+                
+    finally:
+        rclpy.shutdown()
+
+    # rclpy.shutdown()
+    # thread.join()
+    
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
