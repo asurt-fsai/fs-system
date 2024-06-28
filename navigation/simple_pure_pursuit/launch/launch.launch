@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find simple_pure_pursuit)/launch/parameters.launch" />
+    <node name="simple_pp_controller" pkg="simple_pure_pursuit" type="simple_pp_node.py" output="screen"/>
+</launch>

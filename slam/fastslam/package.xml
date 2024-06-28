@@ -8,7 +8,11 @@
   <license>TODO: License declaration</license>
 
   <depend>rclpy</depend>
-  <depend>asurt_msgs</depend>
+
+  <exec_depend>asurt_msgs</exec_depend>
+  <build_export_depend>asurt_msgs</build_export_depend>
+  <build_depend>asurt_msgs</build_depend>
+
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

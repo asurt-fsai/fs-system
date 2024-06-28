@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+	<test test-name="supervisor_module_test" pkg="supervisor" type="test_module.py"/>
+</launch>

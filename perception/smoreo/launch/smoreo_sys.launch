@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="setup_name" default="zed"/>
+  <arg name="tune" default="False"/>
+
+  <!-- Run smoreo without tuning  -->
+  <include file="$(find smoreo)/launch/smoreo.launch" >
+      <arg name="setup_name" value="$(arg setup_name)"/>
+      <arg name="in_tuning" value="$(arg tune)"/>
+  </include>
+
+  <!-- Run smoreo with tuning  -->
+  <group if="$(arg tune)">
+    <include file="$(find smoreo)/launch/smoreo_tuner.launch">
+      <arg  name="setup_name" value="$(arg setup_name)"/>
+    </include>
+  </group>
+</launch>
