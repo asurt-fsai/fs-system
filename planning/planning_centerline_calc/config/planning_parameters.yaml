@@ -1,0 +1,28 @@
+planning_node:
+  ros__parameters:
+    planning:
+      topics:
+        frame_id: "map"
+
+        pathTopic: "/topic3"
+        odometryTopic: "/carmaker/Odometry"
+        conesTopic: "/Landmarks/Observed"
+
+      sorting:
+        thresholdDirectionalAngle: 40.0
+        thresholdAbsoluteAngle: 65.0
+        maxNNeighbors: 5
+        maxDist: 7.0
+        maxDistToFirst: 10.0
+        maxLength: 7
+
+      matching:
+        minTrackWidth: 3.0
+        maxSearchRange: 5.0
+        maxSearchAngle: 50.0
+        matchesShouldBeMonotonic: True
+
+      path:
+        maximalDistanceForValidPath: 5.0
+        mpcPathLength: 20.0
+        mpcPredictionHorizon: 40

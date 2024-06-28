@@ -47,31 +47,199 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
         self.cones: List[FloatArray] = [np.zeros((0, 2)) for _ in ConeTypes]
         self.carPosition = np.array([0, 0])
         self.carDirection = np.float_(0.0)
-        self.params = ParametersState( #replace the values with the parameters
-            thresholdDirectionalAngle = np.deg2rad(40),
-            thresholdAbsoluteAngle = np.deg2rad(65),
-            maxNNeighbors = 5,
-            maxDist = 7,
-            maxDistToFirst = 10.0,
-            maxLength = 7,
 
-            minTrackWidth = 3,
-            maxSearchRange = 5,
-            maxSearchAngle = np.deg2rad(50),
-            matchesShouldBeMonotonic = True,
+        self.publisher: rclpy.publisher.Publisher
 
-            maximalDistanceForValidPath = 5,
-            mpcPathLength = 20,
-            mpcPredictionHorizon = 40
+        self.declareParameters()
+        self.setParameters()
+        self.initPubAndSub()
+
+    def declareParameters(self) -> None:
+        """
+        Declare the parameters for the planning node.
+        """
+        self.declare_parameter(
+            "planning.sorting.thresholdDirectionalAngle", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.sorting.thresholdAbsoluteAngle", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.sorting.maxNNeighbors", rclpy.Parameter.Type.INTEGER
+            )
+        self.declare_parameter(
+            "planning.sorting.maxDist", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.sorting.maxDistToFirst", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.sorting.maxLength", rclpy.Parameter.Type.INTEGER
+            )
+
+        self.declare_parameter(
+            "planning.matching.minTrackWidth", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.matching.maxSearchRange", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.matching.maxSearchAngle", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.matching.matchesShouldBeMonotonic", rclpy.Parameter.Type.BOOL
+            )
+
+        self.declare_parameter(
+            "planning.path.maximalDistanceForValidPath", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.path.mpcPathLength", rclpy.Parameter.Type.DOUBLE
+            )
+        self.declare_parameter(
+            "planning.path.mpcPredictionHorizon", rclpy.Parameter.Type.INTEGER
+            )
+
+        self.declare_parameter("planning.topics.frame_id", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("planning.topics.pathTopic", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("planning.topics.odometryTopic", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("planning.topics.conesTopic", rclpy.Parameter.Type.STRING)
+
+    def setParameters(self) -> None:
+        """
+        Get parameters from the parameter server and set them to their respective varibles
+        """
+        thresholdDirectionalAngle = (
+            np.deg2rad(
+                self.get_parameter(
+                    "planning.sorting.thresholdDirectionalAngle"
+                    ).get_parameter_value().double_value
+                )
+            )
+        thresholdAbsoluteAngle = (
+            np.deg2rad(
+                self.get_parameter(
+                    "planning.sorting.thresholdAbsoluteAngle"
+                    ).get_parameter_value().double_value
+                )
+            )
+        maxNNeighbors = (
+            self.get_parameter(
+                "planning.sorting.maxNNeighbors"
+                ).get_parameter_value().integer_value
+            )
+        maxDist = (
+            self.get_parameter(
+                "planning.sorting.maxDist"
+                ).get_parameter_value().double_value
+            )
+        maxDistToFirst = (
+            self.get_parameter(
+                "planning.sorting.maxDistToFirst"
+                ).get_parameter_value().double_value
+            )
+        maxLength = (
+            self.get_parameter(
+                "planning.sorting.maxLength"
+                ).get_parameter_value().integer_value
+            )
+
+        minTrackWidth = (
+            self.get_parameter(
+                "planning.matching.minTrackWidth"
+                ).get_parameter_value().double_value
+            )
+        maxSearchRange = (
+            self.get_parameter(
+                "planning.matching.maxSearchRange"
+                ).get_parameter_value().double_value
+            )
+        maxSearchAngle = (
+                np.deg2rad(
+                    self.get_parameter(
+                        "planning.matching.maxSearchAngle"
+                        ).get_parameter_value().double_value
+                    )
+            )
+        matchesShouldBeMonotonic = (
+            self.get_parameter(
+                "planning.matching.matchesShouldBeMonotonic"
+                ).get_parameter_value().bool_value
+            )
+
+        maximalDistanceForValidPath = (
+            self.get_parameter(
+                "planning.path.maximalDistanceForValidPath"
+                ).get_parameter_value().double_value
+            )
+        mpcPathLength = (
+            self.get_parameter(
+                "planning.path.mpcPathLength"
+                ).get_parameter_value().double_value
+            )
+        mpcPredictionHorizon = (
+            self.get_parameter(
+                "planning.path.mpcPredictionHorizon"
+                ).get_parameter_value().integer_value
+            )
+
+        self.params = ParametersState(
+            thresholdDirectionalAngle = thresholdDirectionalAngle,
+            thresholdAbsoluteAngle = thresholdAbsoluteAngle,
+            maxNNeighbors = maxNNeighbors,
+            maxDist = maxDist,
+            maxDistToFirst = maxDistToFirst,
+            maxLength = maxLength,
+
+            minTrackWidth = minTrackWidth,
+            maxSearchRange = maxSearchRange,
+            maxSearchAngle = maxSearchAngle,
+            matchesShouldBeMonotonic = matchesShouldBeMonotonic,
+
+            maximalDistanceForValidPath = maximalDistanceForValidPath,
+            mpcPathLength = mpcPathLength,
+            mpcPredictionHorizon = mpcPredictionHorizon
         )
+
         self.pathPlanner = PathPlanner(self.params)
+
+        self.frameId = (
+            self.get_parameter("planning.topics.frame_id").get_parameter_value().string_value
+        )
+
+    def initPubAndSub(self) -> None:
+        """
+        Initialize Publishers and subscribers for planning node
+
+        Parameters
+        ----------
+
+        pathTopic: str
+            The topic to publish the path
+        
+        odometryTopic: str
+            The topic to subscribe to the odometry information comming from SLAM
+
+        conesTopic: str
+            The topic to subscribe to the cones information comming from SLAM
+        """
+        pathTopic = (
+            self.get_parameter("planning.topics.pathTopic").get_parameter_value().string_value
+        )
+        odometryTopic = (
+            self.get_parameter("planning.topics.odometryTopic").get_parameter_value().string_value
+        )
+        conesTopic = (
+            self.get_parameter("planning.topics.conesTopic").get_parameter_value().string_value
+        )
+        self.publisher = self.create_publisher(Path, pathTopic, 10)
         self.subscriber1 = self.create_subscription(
-            LandmarkArray, "/Landmarks/Observed", self.receiveFromPerception, 10
+            LandmarkArray, conesTopic, self.receiveFromPerception, 10
         )
         self.subscriber2 = self.create_subscription(
-            Odometry, "/carmaker/Odometry", self.receiveFromLocalization, 10
+            Odometry, odometryTopic, self.receiveFromLocalization, 10
         )
-        self.publisher = self.create_publisher(Path, "/topic3", 10)
+        
 
     def receiveFromPerception(self, msg: LandmarkArray) -> None:
         """
@@ -101,7 +269,6 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
                      np.array([landmark.position.x,
                                landmark.position.y]))
                 )
-
         self.sendToControl()
 
     def receiveFromLocalization(self, msg: Odometry) -> None:
@@ -120,6 +287,7 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
         (_, _, yaw) = euler_from_quaternion(orientationList)
         self.carDirection = yaw
 
+
     def sendToControl(self) -> None:
         """
         Sends the calculated path to control.
@@ -133,7 +301,7 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
             timestamp = self.get_clock().now().to_msg()
             path = Path()
             path.header.stamp = timestamp
-            path.header.frame_id = "map"
+            path.header.frame_id = self.frameId
 
             for dataPoint in self.path:
                 pose = Pose()
@@ -143,11 +311,12 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
                 poseStamped = PoseStamped()
                 poseStamped.pose = pose
                 poseStamped.header.stamp = timestamp
-                poseStamped.header.frame_id = "map"
+                poseStamped.header.frame_id = self.frameId
 
                 path.poses.append(poseStamped)
 
             self.publisher.publish(path)
+            self.get_logger().info("Path sent to control")
 
 
 def main(args: Any = None) -> None:
