@@ -4,6 +4,7 @@ Yolo ros node
 """
 import rclpy
 import numpy as np
+import threading
 
 from rclpy.node import Node
 from tf_helper.StatusPublisher import StatusPublisher
@@ -18,7 +19,7 @@ class YoloNode(Node):
 
     def __init__(self) -> None:
 
-        super.__init__("yoloNode")
+        super().__init__("yoloNode")
         self.get_logger().info("STARTING YOLOV8 NODE")
 
         self.frameId: str
@@ -30,8 +31,8 @@ class YoloNode(Node):
         self.dets_pub: rclpy.publisher.Publisher
         self.crpd_dets_pub: rclpy.publisher.Publisher
 
-        self.proc_bboxes: BoundingBoxes
-        self.crpd_bboxes: ConeImgArray
+        self.proc_bboxes: BoundingBoxes = None
+        self.crpd_bboxes: ConeImgArray = None
 
         # start sequence 
         self.declareParameters()
@@ -142,13 +143,14 @@ def main() -> None:
     # Publish heartbeat to show the module is ready
     status.ready()
 
+    thread = threading.Thread(target=rclpy.spin, args=(yolo, ), daemon=True)
+    thread.start()
+    
     # Main loop
-    rate = yolo.create_rate(100)
+    rate = yolo.create_rate(10)
     while rclpy.ok():
         rate.sleep()
-        out = yolo.run()
-        if out is None:
-            continue
+        yolo.run()
 
         # Publish heartbeat to show the module is running
         status.running()

@@ -8,4 +8,4 @@ yoloNode:
         cropped_detections: "/perception/yolo/cropped_detections"
 
     model:
-      model_path: "/home/mazen/fs_ws/src/fs-system/perception/yolo/yolo/models/best.pt"
+      model_path: "/home/mazen/fs_ws/src/fs-system/perception/yolo/models/best.pt"
