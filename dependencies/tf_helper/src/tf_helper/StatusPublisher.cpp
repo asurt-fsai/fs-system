@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <rclcpp/rclcpp.hpp>
 #include <asurt_msgs/msg/node_status.hpp>
+#include <StatusPublisher.h>
 
 class StatusPublisher
 {
