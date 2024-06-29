@@ -13,7 +13,7 @@ from rclpy.node import Node
 from tf_helper.TFHelper import TFHelper
 
 
-class SimplePurePursuit:
+class SimplePurePursuit:  # pylint: disable=too-many-instance-attributes
     """
     Class to run the simple pure pursuit controller
     """
@@ -31,18 +31,24 @@ class SimplePurePursuit:
         self.node = node
         self.waypoints = Path()
         self.points = self.waypoints.poses
-        self.x_list: List[float] = []
-        self.y_list: List[float] = []
+        self.xList: List[float] = []
+        self.yList: List[float] = []
 
         self.helper = TFHelper("control")
-        self.look_ahead:float = self.node.get_parameter("control.look_ahead_constant")\
-                                                              .get_parameter_value().double_value
-        self.base_length:float = self.node.get_parameter("physical.car_base_length")\
-                                                              .get_parameter_value().double_value
-        self.frame_id = self.node.get_parameter("control.frame_id").get_parameter_value().string_value
-         # [m] car length
+        self.lookAhead: float = (
+            self.node.get_parameter("control.look_ahead_constant")
+            .get_parameter_value()
+            .double_value
+        )
+        self.baseLength: float = (
+            self.node.get_parameter("physical.car_base_length").get_parameter_value().double_value
+        )
+        self.frameId = (
+            self.node.get_parameter("control.frame_id").get_parameter_value().string_value
+        )
+        # [m] car length
 
-    def add(self, waypoints_msg: Path) -> None:
+    def add(self, waypointsMsg: Path) -> None:
         """
         Get the waypoints from the waypoints node and transform them to the rear_link frame
 
@@ -53,11 +59,11 @@ class SimplePurePursuit:
 
         """
 
-        self.waypoints = self.helper.transformMsg(waypoints_msg, "rear_link")
+        self.waypoints = self.helper.transformMsg(waypointsMsg, "rear_link")
 
-        self.points = waypoints_msg.poses
+        self.points = waypointsMsg.poses
 
-    def search_targetindex(self) -> int:
+    def searchTargetindex(self) -> int:
         """
         Search for the nearest point to the vehicle and calculate the distance between the vehicle
 
@@ -67,22 +73,22 @@ class SimplePurePursuit:
             target point index choosen to follow from the waypoints list
         """
 
-        self.x_list = []
-        self.y_list = []
+        self.xList = []
+        self.yList = []
         ind = 0
         for index, _ in enumerate(self.waypoints.poses):
-            self.x_list.append(self.waypoints.poses[index].pose.position.x)
-            self.y_list.append(self.waypoints.poses[index].pose.position.y)
+            self.xList.append(self.waypoints.poses[index].pose.position.x)
+            self.yList.append(self.waypoints.poses[index].pose.position.y)
 
-        while ind <= len(self.x_list) - 1:
-            distance_thisindex = math.hypot(self.x_list[ind], self.y_list[ind])
-            if distance_thisindex >= self.look_ahead:
+        while ind <= len(self.xList) - 1:
+            distanceThisindex = math.hypot(self.xList[ind], self.yList[ind])
+            if distanceThisindex >= self.lookAhead:
                 break
             ind = ind + 1
 
         return ind
 
-    def purepursuit_teercontrol(self) -> Tuple[float, int]:
+    def purepursuitSteercontrol(self) -> Tuple[float, int]:
         """
         Calculate the steering angle to follow the target point
 
@@ -95,22 +101,21 @@ class SimplePurePursuit:
         """
         # print("Went Here to purepursuit")
 
-        ind = self.search_targetindex()
-        traj_x: float = 0.0
-        traj_y: float = 0.0
+        ind = self.searchTargetindex()
+        traJx: float = 0.0
+        traJy: float = 0.0
         if self.points != []:
-            if ind < len(self.x_list):
-                traj_x = self.x_list[ind]
-                traj_y = self.y_list[ind]
+            if ind < len(self.xList):
+                traJx = self.xList[ind]
+                traJy = self.yList[ind]
 
             else:  # toward goal
-                traj_x = self.points[-1].pose.position.x
-                traj_y = self.points[-1].pose.position.y
+                traJx = self.points[-1].pose.position.x
+                traJy = self.points[-1].pose.position.y
                 ind = len(self.points) - 1
 
-        alpha: float = math.atan2(traj_y, traj_x)
+        alpha: float = math.atan2(traJy, traJx)
 
-        delta: float = math.atan2(2.0 * self.base_length * math.sin(alpha) / self.look_ahead, 1.0)
+        delta: float = math.atan2(2.0 * self.baseLength * math.sin(alpha) / self.lookAhead, 1.0)
 
         return delta, ind
-    
