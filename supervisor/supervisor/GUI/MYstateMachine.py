@@ -259,7 +259,7 @@ class Interface:
 
     def toggle_driving_flag(self):
         msg = Bool()
-        msg.data = not self.driving_flag_button["te print(self.superState print(self.amiState)xt"].endswith("ON")
+        msg.data = not self.driving_flag_button["text"].endswith("ON")
         self.driving_flag_pub.publish(msg)
         self.driving_flag_button.config(text="DRIVING FLAG: ON" if msg.data else "DRIVING FLAG: OFF", bg=self.color5 if msg.data else self.color2)
         self.drivingFlag = not self.drivingFlag

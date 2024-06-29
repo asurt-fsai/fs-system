@@ -76,7 +76,7 @@ class Supervisor(Node):  # pylint: disable=too-many-instance-attributes
         if self.superState == SuperState.WAITING:
             if self.amiState != CanState.AMI_NOT_SELECTED:
                 self.superState = SuperState.LAUNCHING
-                self.launcher.launch(CanState.AMI_DDT_INSPECTION_A)
+                self.launcher.launch(self.amiState)
                 
         elif self.superState == SuperState.LAUNCHING:
             if self.launcher.isReady():

@@ -2,7 +2,7 @@
     "modules": [
         {
             "pkg": "supervisor",
-            "launch_file": "staticB.launch",
+            "launch_file": "staticB_launch.py",
             "heartbeats_topic": "/status/staticB",
             "is_node_msg":true
         }

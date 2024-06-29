@@ -1,30 +1,6 @@
-image: ros:foxy-ros-base-focal
+variables: 
+  DEPENDENCIES:
 
-variables:
-  GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_CONCURRENT_PROJECT_ID/ros_ws/src/eufs_msgs
-  GIT_SUBMODULE_STRATEGY: recursive
-
-before_script:
-  # Move out of GIT_CLONE_PATH
-  - cd $CI_BUILDS_DIR/$CI_CONCURRENT_PROJECT_ID/ros_ws
-
-  # Install ROS package dependencies
-  - apt-get update -qq
-  - rosdep update -q
-  - rosdep install -y -q --from-paths src --ignore-src
-  - rm -rf /var/lib/apt/lists/*
-
-  # Source ROS
-  - . /opt/ros/$ROS_DISTRO/setup.sh
-
-stages:
-  - test
-
-colcon:
-  stage: test
-  script:
-    - colcon build
-  # Only run on ros2 branch and merge requests
-  rules:
-    - if: $CI_MERGE_REQUEST_ID
-    - if: $CI_COMMIT_BRANCH == "ros2"
+include:
+  - project: 'eufs/infrastructure_group/eufs_ci'
+    file: /templates/pipelines/ci-ros-package-pipeline.gitlab-ci.yml

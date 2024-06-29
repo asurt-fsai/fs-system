@@ -223,3 +223,5 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
 
     def __del__(self) -> None:
         self.shutdown()
+
+        

@@ -11,6 +11,8 @@
   <depend>ros_numpy</depend> 
   <depend>ackermann_msgs</depend>
   <depend>eufs_msgs</depend>
+  <depend>asurt_msgs</depend>
+  <depend>tf_helper</depend>
 
   <exec_depend>ros2launch</exec_depend>
 
