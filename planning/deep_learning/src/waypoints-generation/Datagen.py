@@ -6,15 +6,21 @@ import torch
 
 
 class DataGenerator:
+    """
+    A class for generating data for waypoints.
+
+    Attributes:
+        conesData (Any): A dictionary containing the x and y coordinates of the cones.
+        spline (Any): A list containing the x and y coordinates of the fitted spline curve.
+    """
 
     def __init__(self, conesData: Any, spline: Any) -> None:
         """
-        Initialize the DataGenerator class with cones_data and spline
-        inputs:
-        cones_data: A dictionary containing the x and y coordinates of the cones.
-        spline: A list containing the x and y coordinates of the fitted spline curve.
-        outputs:
-        None
+        Initialize the DataGenerator class with cones_data and spline.
+
+        Args:
+            conesData (Any): A dictionary containing the x and y coordinates of the cones.
+            spline (Any): A list containing the x and y coordinates of the fitted spline curve.
         """
         self.conesData = conesData
         self.spline = spline
@@ -45,7 +51,7 @@ class DataGenerator:
         """
         One-hot encodes the 'color' column in the given DataFrame.
 
-        Parameters:
+        Args:
             src (pd.DataFrame): The input DataFrame containing the 'color' column.
 
         Returns:
