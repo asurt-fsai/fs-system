@@ -258,3 +258,4 @@ class TrackGenerator:
         plt.ylabel("y")
         plt.axis("equal")
         plt.show()
+        
