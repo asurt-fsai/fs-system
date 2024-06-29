@@ -1,4 +1,5 @@
 import numpy as np
+from icecream import ic
 # from fastslam import HungarianAlg
 
 # import types for numpy arrays
@@ -8,13 +9,13 @@ import math
 from utils.utils import angleToPi
 from dataclasses import dataclass
 
-Q = np.diag([3.0, np.deg2rad(10.0)])**2         # measurement variance
-R = np.diag([1.0, 1.0, np.deg2rad(20.0)])**2    # action variance
+import time
+
 
 STATE_SIZE = 3  # State size [x,y,yaw]
 LM_SIZE = 2  # landmark srate size [x,y]
 N_PARTICLE = 100  # number of particle
-NTH = N_PARTICLE / 1.5  # Number of particle for re-sampling
+NTH = N_PARTICLE / 1.5   # Number of particle for re-sampling
 
 @dataclass
 class Particle:
@@ -33,10 +34,11 @@ class Particle:
 class FastSLAM:
     def __init__(self, numParticles, initPose=np.zeros((1, 3))):
         self.pose = initPose.reshape(-1, 3) # x, y, theta
-        self.R = np.diag([0.1, np.deg2rad(20.0)])**2
-        self.Q = np.diag([3.0, np.deg2rad(10.0)])**2
+        self.R = np.diag([0.01, np.deg2rad(0.01)])**2
+        self.Q = np.diag([0.01, np.deg2rad(0.01)])**2
         self.numParticles = numParticles
-        self.particles = [Particle(0) for _ in range(numParticles)]
+        self.particles = np.array([Particle(100) for _ in range(numParticles)])
+        self.maxWeightParticle = self.particles[0]
 
 
     def update(self, controlAction, observation, dT = 100e-3):
@@ -59,12 +61,26 @@ class FastSLAM:
         maxWeightParticle: Particle
             Particle with the highest weight
         '''
-        # Convert the observation to bearing and distance
-        obs = observation[0] + 1j * observation[1]
-        obs = [abs(obs), np.angle(obs)] 
+        time1 = time.time()
+        convObservation = np.zeros((observation.shape[0],3))
+
+        for i in range(observation.shape[0]):
+            obs = observation[i,0] + 1j * observation[i,1]
+            dist = abs(obs)
+            angle = np.angle(obs) - self.maxWeightParticle.yaw
+            convObservation[i,:] = [dist, angle, observation[i,2]]
+        
         self.particles = self.predictParticles(self.particles, controlAction, dT)
-        self.particles = self.updateWithObservation(self.particles, obs)
+        ic("TIME FOR PREDICT: ", time.time() - time1)
+        time2 = time.time()
+        ###
+        self.particles = self.updateWithObservation(self.particles, convObservation)
+        ic("TIME FOR UPDATE WITH OBSERVATION: ", time.time() - time2)
+        time2 = time.time()
         self.particles, _, maxWeightIndex = self.resampling(self.particles)
+        ic("TIME FOR RESAMPLING: ", time.time() - time2)
+        self.maxWeightParticle = self.particles[maxWeightIndex]
+        ic("TIME FOR UPDATE: ", time.time() - time1)
         return self.particles, self.particles[maxWeightIndex]
 
     ##########    
@@ -89,7 +105,9 @@ class FastSLAM:
             Updated particles
         '''
         for i in range(particles.shape[0]):
-            noisyAction = controlAction + (np.random.randn(1, 2) @ self.R).T # Add noise to the control action
+            noise = (np.random.randn(1, 2)@ self.R) 
+            noisyAction = controlAction + noise  # Add noise to the control action
+            noisyAction = noisyAction.reshape(-1)
             particles[i] = self.motionModel(particles[i], noisyAction, dT) # Update the particle with the noisy action
         return particles
    
@@ -110,11 +128,10 @@ class FastSLAM:
         particle: Particle
             Updated particle
         '''
-
-        uTheta = controlAction[1, 0] * xddT
+        uTheta = controlAction[1] * dT
         particle.yaw += uTheta
-        uX = controlAction[0, 0] * dT * cos(particle.yaw)
-        uY = controlAction[1, 0] * dT * sin(particle.yaw)
+        uX = controlAction[0] * dT * cos(particle.yaw)
+        uY = controlAction[0] * dT * sin(particle.yaw)
         particle.x += uX
         particle.y += uY
         return particle
@@ -303,17 +320,18 @@ class FastSLAM:
             Updated particles
         '''
 
-        for iz in range(len(observation[0, :])):
-            lmid = int(observation[2, iz])
+        for iz in range(observation.shape[0]):
+            lmid = int(observation[iz, 2])
             for indParticle in range(self.numParticles):
                 # new landmark
                 if abs(particles[indParticle].landmark[lmid, 0]) <= 0.01: # if landmark is at the origin, then it is an uninitialized landmark
-                    particles[indParticle] = self.addNewLandmark(particles[indParticle], observation[:, iz], self.Q)
+                    particles[indParticle] = self.addNewLandmark(particles[indParticle], observation[iz,:], self.Q)
+                    particles[indParticle].maxlmID += 1
                 # known landmark
                 else:
-                    w = self.calcWeightSingle(particles[indParticle], observation[:, iz], self.Q)
+                    w = self.calcWeightSingle(particles[indParticle], observation[iz, :], self.Q)
                     particles[indParticle].weight *= w
-                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[:, iz], self.Q)
+                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[iz, :], self.Q)
         return particles
 
     def updateLandmark(self,particle: Particle, observation, Q):
@@ -325,7 +343,7 @@ class FastSLAM:
         particle: Particle
             The particle to be updated
 
-        observation: np.ndarray, shape=(3,1)
+        observation: np.ndarray, shape=(1,3)
             Observation of the landmark [X, Y, ID], poistion is relative to the car
 
         Q: np.ndarray, shape=(2,2)
@@ -389,6 +407,7 @@ class FastSLAM:
 
         particle.lmP[2 * landmarkID:2 * landmarkID + 2] = Gz @ Q @ Gz.T
 
+
         return particle
     
     def resampling(self,particles):
@@ -409,7 +428,7 @@ class FastSLAM:
         maxWeightIndex: int
             Index of the particle with the highest weight
         '''
-
+        inds = []
         particles = self.normalizeWeight(particles)
         maxWeightIndex = np.argmax([p.weight for p in particles])
         particleWeights = []
@@ -439,5 +458,6 @@ class FastSLAM:
                 particles[i].y = tparticles[inds[i]].y
                 particles[i].yaw = tparticles[inds[i]].yaw
                 particles[i].weight = 1.0 / self.numParticles
+
 
         return particles, inds, maxWeightIndex
