@@ -48,7 +48,7 @@ class MyPlannerTransformer(nn.Module):
             batch_first=True,
         )
         # map tgt to have the same number of features as src
-        self.input = nn.Linear(5, d_model)
+        self.input = nn.Linear(6, d_model)
         self.tgt = nn.Linear(2, d_model)
         self.output = nn.Linear(d_model, 2)
 
@@ -82,8 +82,8 @@ class MyPlannerTransformer(nn.Module):
         Args:
             src (torch.tensor):
 
-            takes a tensor of shape (sequence, 5)
-            in our case sequence is 10 and 5 is the number of features
+            takes a tensor of shape (sequence, 6)
+            in our case sequence is 15 and 6 is the number of features
 
         Returns:
             torch.tensor:
@@ -94,7 +94,7 @@ class MyPlannerTransformer(nn.Module):
         """
 
         self.eval()
-        src = src.reshape(1, -1, 5)
+        src = src.reshape(1, -1, 6)
         if tgt is None:
             tgt = torch.zeros((1, 1, 2))
         else:
