@@ -6,10 +6,12 @@ import rclpy
 import cv2
 import sys
 import numpy as np
+import threading
 
 from rclpy.node import Node
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
+from tf_helper.StatusPublisher import StatusPublisher
 
 class CameraNode(Node):
     """
@@ -19,7 +21,7 @@ class CameraNode(Node):
         """
         Init function for camera interface node
         """
-        super.__init__("cameraInterfaceNode")
+        super().__init__("cameraInterfaceNode")
         self.get_logger().info("STARTING CAMERA NODE...")
 
         self.frameId: str
@@ -54,8 +56,8 @@ class CameraNode(Node):
         self.declare_parameter("perception.camera_interface.frame_id", rclpy.Parameter.Type.STRING)
         self.declare_parameter("perception.camera_interface.camera_feed", rclpy.Parameter.Type.STRING)
         # Video feed params
-        self.declare_parameter("camera.image_width", rclpy.Parameter.Type.DOUBLE)
-        self.declare_parameter("camera.image_height", rclpy.Parameter.Type.DOUBLE)
+        self.declare_parameter("camera.image_width", rclpy.Parameter.Type.INTEGER)
+        self.declare_parameter("camera.image_height", rclpy.Parameter.Type.INTEGER)
         # Camera Intrinsics
         self.declare_parameter("camera.fx", rclpy.Parameter.Type.DOUBLE)
         self.declare_parameter("camera.fy", rclpy.Parameter.Type.DOUBLE)
@@ -118,7 +120,6 @@ class CameraNode(Node):
             if not ret:
                 self.get_logger().error('Error capturing image')
                 return
-            
             # extract the left image from the ZED's stereo pair
             left_img = np.split(frame, 2, axis=1)[0]
 
@@ -128,13 +129,13 @@ class CameraNode(Node):
             
             # Convert OpenCV image to ROS2 Image message
             ros_image = self.bridge.cv2_to_imgmsg(rgb_img, encoding="rgb8")
-            ros_image.header.frame_id = str(self.frame_id)
+            ros_image.header.frame_id = str(self.ViewId)
             
             # Publish the image
-            self.img_publisher.publish(ros_image)
+            self.img_pub.publish(ros_image)
 
-            self.get_logger().info('Publishing camera feed frame: ' + str(self.view_id))
-            self.frame_id += 1
+            self.get_logger().info('Publishing camera feed frame: ' + str(self.ViewId))
+            self.ViewId += 1
         except Exception as e:
             self.get_logger().error(f'Failed to process image: {e}')
 
@@ -147,19 +148,19 @@ def main() -> None:
     camera_node = CameraNode()
     status = StatusPublisher("/status/camera_interface", camera_node)
 
+    thread = threading.Thread(target=rclpy.spin, args=(camera_node, ), daemon=True)
+    thread.start()
+
     status.starting()
 
     # Publish heartbeat to show the module is ready
     status.ready()
 
     # Main loop
-    rate = camera_node.create_rate(100)
+    rate = camera_node.create_rate(frequency=10)
     while rclpy.ok():
         rate.sleep()
-        out = camera_node.run()
-        if out is None:
-            continue
-
+        camera_node.run()
         # Publish heartbeat to show the module is running
         status.running()
 
