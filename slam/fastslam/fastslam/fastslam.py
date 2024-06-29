@@ -6,6 +6,7 @@ from typing import List
 from math import cos, sin
 import math
 from utils.utils import angleToPi
+from dataclasses import dataclass
 
 Q = np.diag([3.0, np.deg2rad(10.0)])**2         # measurement variance
 R = np.diag([1.0, 1.0, np.deg2rad(20.0)])**2    # action variance
@@ -15,6 +16,7 @@ LM_SIZE = 2  # landmark srate size [x,y]
 N_PARTICLE = 100  # number of particle
 NTH = N_PARTICLE / 1.5  # Number of particle for re-sampling
 
+@dataclass
 class Particle:
 
     def __init__(self, N_LM):
@@ -31,39 +33,94 @@ class Particle:
 class FastSLAM:
     def __init__(self, numParticles, initPose=np.zeros((1, 3))):
         self.pose = initPose.reshape(-1, 3) # x, y, theta
-        self.dT = 100e-3
         self.R = np.diag([0.1, np.deg2rad(20.0)])**2
         self.Q = np.diag([3.0, np.deg2rad(10.0)])**2
         self.numParticles = numParticles
+        self.particles = [Particle(0) for _ in range(numParticles)]
 
+
+    def update(self, controlAction, observation, dT = 100e-3):
+        '''
+        Update the FastSLAM algorithm with the control action and observation
+
+        Parameters
+        ----------
+        controlAction: np.ndarray, shape=(2,1)
+            Control action [v, omega]
+
+        observation: np.ndarray, shape=(3,1)
+            Observation of the landmark [distance, bearing, ID], poistion is relative to the car
+
+        Returns
+        -------
+        particles: List(Particle)
+            Updated particles
+
+        maxWeightParticle: Particle
+            Particle with the highest weight
+        '''
+        # Convert the observation to bearing and distance
+        obs = observation[0] + 1j * observation[1]
+        obs = [abs(obs), np.angle(obs)] 
+        self.particles = self.predictParticles(self.particles, controlAction, dT)
+        self.particles = self.updateWithObservation(self.particles, obs)
+        self.particles, _, maxWeightIndex = self.resampling(self.particles)
+        return self.particles, self.particles[maxWeightIndex]
 
     ##########    
     # TESTED #
     ##########
 
-    def predictParticles(self,particles,u):
+    def predictParticles(self,particles,controlAction,dT):
         '''
-        Predict the particles using the motion model
-        @param particles: list of particles
-        @param u: control input [v, omega]
-        @return: list of particles
+        Predict the particles using a simple motion model
+        
+        Parameters
+        ----------
+        particles: Particle
+            List of particles
+
+        controlAction: np.ndarray, shape=(2,1)
+            Control action [v, omega]
+
+        Returns
+        -------
+        particles: Particle
+            Updated particles
         '''
         for i in range(particles.shape[0]):
-            noisyAction = u + (np.random.randn(1, 2) @ self.R).T # [v, omega]
-            particles[i] = self.motionModel(particles[i], noisyAction)
+            noisyAction = controlAction + (np.random.randn(1, 2) @ self.R).T # Add noise to the control action
+            particles[i] = self.motionModel(particles[i], noisyAction, dT) # Update the particle with the noisy action
         return particles
    
-    def motionModel(self,particle,u):
-        uTheta = u[1, 0] * self.dT
+    def motionModel(self,particle,controlAction, dT):
+        '''
+        Simple motion model for the particle
+
+        Parameters
+        ----------
+        particle: Particle
+            The particle to be updated
+
+        controlAction: np.ndarray, shape=(2,1)
+            Control action [v, omega]
+
+        Returns
+        -------
+        particle: Particle
+            Updated particle
+        '''
+
+        uTheta = controlAction[1, 0] * xddT
         particle.yaw += uTheta
-        uX = u[0, 0] * self.dT * cos(particle.yaw)
-        uY = u[1, 0] * self.dT * sin(particle.yaw)
+        uX = controlAction[0, 0] * dT * cos(particle.yaw)
+        uY = controlAction[1, 0] * dT * sin(particle.yaw)
         particle.x += uX
         particle.y += uY
         return particle
    
     def calcJacobian(self,particle, xf, Pf, Q):
-        """
+        '''
         Calculates the jacobian 
 
         Parameters
@@ -93,7 +150,7 @@ class FastSLAM:
 
         Sf: np.ndarray, shape
             Covariance
-        """
+        '''
 
         dx = xf[0, 0] - particle.x
         dy = xf[1, 0] - particle.y
@@ -185,6 +242,34 @@ class FastSLAM:
 
 
     def updateKF(self,xf, Pf, v, Q, Hf):
+        '''
+        Update the Kalman filter
+
+        Parameters
+        ----------
+        xf: np.ndarray, shape=(2,1)
+            position of the landmark
+
+        Pf: np.ndarray, shape=(2,2)
+            Covariance of the landmark's position
+
+        v: np.ndarray, shape=(2,1)
+            Observation error
+
+        Q: np.ndarray, shape=(2,2)
+            Covariance of the measurements
+
+        Hf: np.ndarray, shape=(2,2)
+            Jacobian ???
+
+        Returns
+        -------
+        x: np.ndarray, shape=(2,1)
+            Updated position of the landmark
+
+        P: np.ndarray, shape=(2,2)
+            Updated Covariance of the landmark's position
+        '''
         PHt = Pf @ Hf.T
         S = Hf @ PHt + Q
 
@@ -199,8 +284,58 @@ class FastSLAM:
 
         return x, P
 
+    
+    def updateWithObservation(self,particles, observation):
+        '''
+        Update the particles with the observation
+
+        Parameters
+        ----------
+        particles: List(Particle)
+            List of particles
+
+        observation: np.ndarray, shape=(3,1)
+            Observation of the landmark [distance, bearing, ID], poistion is relative to the car
+
+        Returns
+        -------
+        particles: List(Particle)
+            Updated particles
+        '''
+
+        for iz in range(len(observation[0, :])):
+            lmid = int(observation[2, iz])
+            for indParticle in range(self.numParticles):
+                # new landmark
+                if abs(particles[indParticle].landmark[lmid, 0]) <= 0.01: # if landmark is at the origin, then it is an uninitialized landmark
+                    particles[indParticle] = self.addNewLandmark(particles[indParticle], observation[:, iz], self.Q)
+                # known landmark
+                else:
+                    w = self.calcWeightSingle(particles[indParticle], observation[:, iz], self.Q)
+                    particles[indParticle].weight *= w
+                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[:, iz], self.Q)
+        return particles
 
     def updateLandmark(self,particle: Particle, observation, Q):
+        '''
+        Update the landmark position
+        
+        Parameters
+        ----------
+        particle: Particle
+            The particle to be updated
+
+        observation: np.ndarray, shape=(3,1)
+            Observation of the landmark [X, Y, ID], poistion is relative to the car
+
+        Q: np.ndarray, shape=(2,2)
+            Covariance of the measurements
+
+        Returns
+        -------
+        particle: Particle
+            Updated particle
+        '''
 
         landmarkID = int(observation[2])
         xf = np.array(particle.landmark[landmarkID, :]).reshape(2, 1)
@@ -217,29 +352,27 @@ class FastSLAM:
         particle.lmP[2 * landmarkID:2 * landmarkID + 2, :] = Pf
 
         return particle
-        
-
-    def updateWithObservation(self,particles, observation):
-        for iz in range(len(observation[0, :])):
-
-            lmid = int(observation[2, iz])
-
-            for indParticle in range(self.numParticles):
-                # new landmark
-                if abs(particles[indParticle].landmark[lmid, 0]) <= 0.01:
-                    particles[indParticle] = self.addNewLandmark(particles[indParticle], observation[:, iz], self.Q)
-                # known landmark
-                else:
-                    w = self.calcWeightSingle(particles[indParticle], observation[:, iz], self.Q)
-                    particles[indParticle].weight *= w
-                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[:, iz], self.Q)
-
-        return particles
-        
-
 
     def addNewLandmark(self,particle, observation, Q):
+        '''
+        Add a new landmark to the particle
 
+        Parameters
+        ----------
+        particle: Particle
+            The particle to be updated
+
+        observation: np.ndarray, shape=(3,1)
+            Observation of the landmark [X, Y, ID], poistion is relative to the car
+
+        Q: np.ndarray, shape=(2,2)
+            Covariance of the measurements
+
+        Returns
+        -------
+        particle: Particle
+            Updated particle
+        '''
         r = observation[0]
         b = observation[1]
         landmarkID = int(observation[2])
@@ -259,9 +392,23 @@ class FastSLAM:
         return particle
     
     def resampling(self,particles):
-        """
-        low variance re-sampling
-        """
+        '''
+        Resample the particles
+        
+        Parameters
+        ----------
+        particles: List(Particle)
+            List of particles
+
+        Returns
+        -------
+        particles: List(Particle)
+            Resampled particles
+        inds: List(int)
+            Indices of the resampled particles
+        maxWeightIndex: int
+            Index of the particle with the highest weight
+        '''
 
         particles = self.normalizeWeight(particles)
         maxWeightIndex = np.argmax([p.weight for p in particles])
@@ -294,8 +441,3 @@ class FastSLAM:
                 particles[i].weight = 1.0 / self.numParticles
 
         return particles, inds, maxWeightIndex
-    
-
-    ##############    
-    # NOT TESTED #
-    ##############
