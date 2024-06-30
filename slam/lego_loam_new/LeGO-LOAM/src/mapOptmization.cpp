@@ -36,6 +36,7 @@
 
 #include "mapOptimization.h"
 #include <future>
+#include "StatusPublisher.h"
 
 using namespace gtsam;
 
@@ -48,7 +49,8 @@ const std::string PARAM_HISTORY_SCORE = "mapping.history_keyframe_fitness_score"
 const std::string PARAM_GLOBAL_SEARCH_RADIUS = "mapping.global_map_visualization_search_radius";
 
 MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut> &input_channel)
-    : Node(name), _input_channel(input_channel), _publish_global_signal(false), _loop_closure_signal(false) {
+    : Node(name), _input_channel(input_channel), _publish_global_signal(false), _loop_closure_signal(false), 
+    statusPublisher("/status/mapOptimization", this) {
 
   /* Initializes the MapOptimization node for LiDAR odometry and mapping optimization. 
      This constructor sets up the optimization framework, publishers for various point clouds and odometry data, 
@@ -90,6 +92,9 @@ MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut
    It processes incoming LiDAR data to optimize the map and detect loop closures, significantly improving the accuracy and 
    consistency of the map over time.
 */
+
+  // Publish starting status
+  statusPublisher.starting();
 
   ISAM2Params parameters;
   parameters.relinearizeThreshold = 0.01;
@@ -2234,6 +2239,9 @@ void MapOptimization::run() {
    Corrects the map poses following loop closures and manages the periodic publication of the global map and transformation data.
 */
 
+  // Publish ready status after initialization
+  statusPublisher.ready();
+
   size_t cycle_count = 0;
 
   while (rclcpp::ok()) {
@@ -2270,6 +2278,10 @@ void MapOptimization::run() {
 
       clearCloud();
     }
+
+    // Publish running status
+    statusPublisher.running();
+
     cycle_count++;
 
     if ((cycle_count % 3) == 0) {

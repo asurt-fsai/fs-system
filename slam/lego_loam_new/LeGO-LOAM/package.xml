@@ -14,7 +14,7 @@
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  <build_depend>cloud_msgs</build_depend>
+  <build_depend>asurt_msgs</build_depend>
 
   <exec_depend>rclcpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
@@ -24,7 +24,7 @@
   <exec_depend>tf2</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>pcl_conversions</exec_depend>
-  <exec_depend>cloud_msgs</exec_depend>
+  <exec_depend>asurt_msgs</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

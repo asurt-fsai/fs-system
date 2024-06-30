@@ -14,6 +14,7 @@
 #include <gtsam/slam/BetweenFactor.h>
 #include <gtsam/slam/PriorFactor.h>
 #include <gtsam/nonlinear/ISAM2.h>
+#include "StatusPublisher.h"
 
 inline gtsam::Pose3 pclPointTogtsamPose3(PointTypePose thisPoint) {
   // camera frame to lidar frame
@@ -46,6 +47,8 @@ class MapOptimization : public rclcpp::Node {
   gtsam::Values initialEstimate;
   gtsam::ISAM2 *isam;
   gtsam::Values isamCurrentEstimate;
+
+  StatusPublisher statusPublisher;
 
   bool _loop_closure_enabled;
 

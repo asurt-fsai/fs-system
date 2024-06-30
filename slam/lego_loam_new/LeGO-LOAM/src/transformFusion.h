@@ -2,6 +2,7 @@
 #define TRANSFORMFUSION_H
 
 #include "lego_loam/utility.h"
+#include "StatusPublisher.h"
 
 class TransformFusion : public rclcpp::Node {
  private:
@@ -17,6 +18,8 @@ class TransformFusion : public rclcpp::Node {
   float transformMapped[6];
   float transformBefMapped[6];
   float transformAftMapped[6];
+
+  StatusPublisher statusPublisher;
 
  public:
   TransformFusion(const std::string &name);

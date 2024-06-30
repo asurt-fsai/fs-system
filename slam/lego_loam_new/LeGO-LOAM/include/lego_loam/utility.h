@@ -8,7 +8,7 @@
 #include "std_msgs/msg/bool.hpp"
 #include "geometry_msgs/msg/transform_stamped.hpp"
 #include <tf2/LinearMath/Quaternion.h>
-#include "cloud_msgs/msg/cloud_info.hpp"
+#include "asurt_msgs/msg/cloud_info.hpp"
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -64,7 +64,7 @@ struct ProjectionOut
 {
   pcl::PointCloud<PointType>::Ptr segmented_cloud;
   pcl::PointCloud<PointType>::Ptr outlier_cloud;
-  cloud_msgs::msg::CloudInfo seg_msg;
+  asurt_msgs::msg::CloudInfo seg_msg;
 };
 
 

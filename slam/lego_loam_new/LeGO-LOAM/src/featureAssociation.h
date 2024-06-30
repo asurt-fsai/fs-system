@@ -6,6 +6,8 @@
 #include "lego_loam/nanoflann_pcl.h"
 #include <Eigen/Eigenvalues>
 #include <Eigen/QR>
+#include "StatusPublisher.h"
+
 
 class FeatureAssociation : public rclcpp::Node {
 
@@ -26,6 +28,8 @@ class FeatureAssociation : public rclcpp::Node {
   float surfThreshold;
   float nearestFeatureDistSqr;
   int mappingFrequencyDiv;
+
+  StatusPublisher statusPublisher;
 
   std::thread _run_thread;
 
@@ -50,7 +54,7 @@ class FeatureAssociation : public rclcpp::Node {
 
   pcl::VoxelGrid<PointType> downSizeFilter;
 
-  cloud_msgs::msg::CloudInfo segInfo;
+  asurt_msgs::msg::CloudInfo segInfo;
   std_msgs::msg::Header cloudHeader;
 
   std::vector<smoothness_t> cloudSmoothness;

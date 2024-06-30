@@ -4,6 +4,7 @@
 #include "lego_loam/utility.h"
 #include "lego_loam/channel.h"
 #include <Eigen/QR>
+#include <StatusPublisher.h>
 
 class ImageProjection : public rclcpp::Node {
  public:
@@ -22,6 +23,9 @@ class ImageProjection : public rclcpp::Node {
   void cloudSegmentation();
   void labelComponents(int row, int col);
   void publishClouds();
+
+  StatusPublisher statusPublisher;
+
 
   pcl::PointCloud<PointType>::Ptr _laser_cloud_in;
 
@@ -54,10 +58,10 @@ class ImageProjection : public rclcpp::Node {
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubGroundCloud;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubSegmentedCloud;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubSegmentedCloudPure;
-  rclcpp::Publisher<cloud_msgs::msg::CloudInfo>::SharedPtr pubSegmentedCloudInfo;
+  rclcpp::Publisher<asurt_msgs::msg::CloudInfo>::SharedPtr pubSegmentedCloudInfo;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pubOutlierCloud;
 
-  cloud_msgs::msg::CloudInfo _seg_msg;
+  asurt_msgs::msg::CloudInfo _seg_msg;
 
   int _label_count;
 

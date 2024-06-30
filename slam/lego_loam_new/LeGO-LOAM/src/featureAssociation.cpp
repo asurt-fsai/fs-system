@@ -35,6 +35,7 @@
 //      (IROS). October 2018.
 
 #include "featureAssociation.h"
+#include "StatusPublisher.h"
 
 // Parameters initializations
 const std::string PARAM_VERTICAL_SCANS = "laser.num_vertical_scans";
@@ -49,7 +50,8 @@ const float RAD2DEG = 180.0 / M_PI;
 
 FeatureAssociation::FeatureAssociation(const std::string &name, Channel<ProjectionOut> &input_channel,
                                        Channel<AssociationOut> &output_channel)
-    : Node(name), _input_channel(input_channel), _output_channel(output_channel) {
+    : Node(name), _input_channel(input_channel), _output_channel(output_channel), 
+    statusPublisher("/status/featureAssociation", this) {
 
   /* A class for associating features in LiDAR data for SLAM.
  
@@ -85,6 +87,9 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
    runFeatureAssociation():
        Main loop for processing feature association.
  */
+
+  // Publish starting status
+  statusPublisher.starting();
 
   pubCornerPointsSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_sharp", 1);
   pubCornerPointsLessSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_less_sharp", 1);
@@ -2007,6 +2012,9 @@ void FeatureAssociation::runFeatureAssociation() {
    This function is designed to run in a loop, continuously processing incoming LiDAR scans until the application is terminated.
 */
 
+  // Publish ready status after initialization
+  statusPublisher.ready();
+
   while (rclcpp::ok()) {
     ProjectionOut projection;
     _input_channel.receive(projection);
@@ -2044,6 +2052,9 @@ void FeatureAssociation::runFeatureAssociation() {
     publishOdometry();
 
     publishCloudsLast();  // cloud to mapOptimization
+
+    // Publish running status
+    statusPublisher.running();
 
     //--------------
     _cycle_count++;

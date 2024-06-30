@@ -31,8 +31,9 @@
 //     Robotics: Science and Systems Conference (RSS). Berkeley, CA, July 2014.
 
 #include "transformFusion.h"
+#include "StatusPublisher.h"
 
-TransformFusion::TransformFusion(const std::string &name) : Node(name) {
+TransformFusion::TransformFusion(const std::string &name) : Node(name), statusPublisher("/status/transformFusion", this) {
 
   /* Constructor for the TransformFusion class, initializing the ROS node, publishers, and subscribers for odometry data integration.
 
@@ -91,6 +92,9 @@ TransformFusion::TransformFusion(const std::string &name) : Node(name) {
            The incoming map-optimized odometry data.
 */
 
+  // Publish starting status
+  statusPublisher.starting();
+
   pubLaserOdometry2 = this->create_publisher<nav_msgs::msg::Odometry>("/integrated_to_init", 5);
   subLaserOdometry = this->create_subscription<nav_msgs::msg::Odometry>(
       "/laser_odom_to_init", 5, std::bind(&TransformFusion::laserOdometryHandler, this, std::placeholders::_1));
@@ -112,6 +116,9 @@ TransformFusion::TransformFusion(const std::string &name) : Node(name) {
     transformBefMapped[i] = 0;
     transformAftMapped[i] = 0;
   }
+
+  // Publish ready status
+  statusPublisher.ready();
 }
 
 void TransformFusion::transformAssociateToMap() {
@@ -316,6 +323,8 @@ void TransformFusion::laserOdometryHandler(
    -------
    This function publishes the `laserOdometry2` message and broadcasts the `laserOdometryTrans` transform.
 */
+
+  statusPublisher.running();
 
   OdometryToTransform(*laserOdometry, transformSum);
 

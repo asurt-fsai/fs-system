@@ -28,6 +28,7 @@
 
 #include <boost/circular_buffer.hpp>
 #include "imageProjection.h"
+#include "StatusPublisher.h"
 
 const std::string PARAM_VERTICAL_SCANS = "laser.num_vertical_scans";
 const std::string PARAM_HORIZONTAL_SCANS = "laser.num_horizontal_scans";
@@ -40,7 +41,7 @@ const std::string PARAM_SEGMENT_POINT = "image_projection.segment_valid_point_nu
 const std::string PARAM_SEGMENT_LINE = "image_projection.segment_valid_line_num";
 
 ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>& output_channel)
-    : Node(name),  _output_channel(output_channel)
+    : Node(name),  _output_channel(output_channel), statusPublisher("/status/imageProjection", this)
 {
   /* Handles the projection of LiDAR data into a 2D image plane and segmentation of the ground and obstacles.
   
@@ -86,6 +87,7 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
        Publishes various forms of processed point clouds for visualization and further processing.
  */
   
+  statusPublisher.starting();
   subLaserCloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
       "/lidar_points", 1, std::bind(&ImageProjection::cloudHandler, this, std::placeholders::_1));
 
@@ -94,7 +96,7 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
   pubGroundCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/ground_cloud", 1);
   pubSegmentedCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud", 1);
   pubSegmentedCloudPure = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud_pure", 1);
-  pubSegmentedCloudInfo = this->create_publisher<cloud_msgs::msg::CloudInfo>("/segmented_cloud_info", 1);
+  pubSegmentedCloudInfo = this->create_publisher<asurt_msgs::msg::CloudInfo>("/segmented_cloud_info", 1);
   pubOutlierCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud", 1);
 
   // Declare parameters
@@ -195,7 +197,7 @@ void ImageProjection::resetParameters() {
        Matrix used for labeling points in the cloud, reset to zero.
    - _label_count : int
        Counter for the number of labels used in segmentation, reset to 1.
-   - _seg_msg : cloud_msgs::msg::CloudInfo
+   - _seg_msg : asurt_msgs::msg::CloudInfo
        Data structure to hold information about the segmented cloud, reset for the new scan processing.
 
    Returns
@@ -267,6 +269,9 @@ void ImageProjection::cloudHandler(
    -------
    This function processes the input point cloud and publishes the results.
 */
+
+  statusPublisher.ready();
+
   // Reset parameters
   resetParameters();
 
@@ -285,6 +290,9 @@ void ImageProjection::cloudHandler(
   cloudSegmentation();
   //publish (optionally)
   publishClouds();
+
+  // Publish running status
+  statusPublisher.running();
 }
 
 
