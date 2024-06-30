@@ -4,6 +4,7 @@ Path planning node
 This node is responsible for starting the path planning module
 """
 
+import threading
 from typing import Any, List
 import rclpy
 from rclpy.node import Node
@@ -12,6 +13,7 @@ from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Pose, PoseStamped
 import numpy as np
 from tf_transformations import euler_from_quaternion
+from tf_helper.StatusPublisher import StatusPublisher
 
 from src.full_pipeline.full_pipeline import PathPlanner, ParametersState
 from src.utils.cone_types import ConeTypes
@@ -239,7 +241,6 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
         self.subscriber2 = self.create_subscription(
             Odometry, odometryTopic, self.receiveFromLocalization, 10
         )
-        
 
     def receiveFromPerception(self, msg: LandmarkArray) -> None:
         """
@@ -269,6 +270,7 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
                      np.array([landmark.position.x,
                                landmark.position.y]))
                 )
+        self.get_logger().info("Path Sent")
         self.sendToControl()
 
     def receiveFromLocalization(self, msg: Odometry) -> None:
@@ -286,6 +288,7 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
         orientationList = [orientationQ.x, orientationQ.y, orientationQ.z, orientationQ.w]
         (_, _, yaw) = euler_from_quaternion(orientationList)
         self.carDirection = yaw
+
 
 
     def sendToControl(self) -> None:
@@ -316,18 +319,32 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
                 path.poses.append(poseStamped)
 
             self.publisher.publish(path)
-            self.get_logger().info("Path sent to control")
+            
 
 
-def main(args: Any = None) -> None:
+def main() -> None:
     """
     Initializes ROS, creates PlanningNode, spins, & shuts down.
     """
-    rclpy.init(args=args)
+    rclpy.init()
     node = PlanningNode()
+    status = StatusPublisher("/status/planning_node", node)
 
-    rclpy.spin(node)
-    rclpy.shutdown()
+    status.starting()
+
+    # Publish heartbeat to show the module is ready
+    status.ready()
+
+    # Main loop
+    # Spin in a seperate thread
+    thread = threading.Thread(target=rclpy.spin, args=(node, ), daemon=True)
+    thread.start()
+    rate = node.create_rate(100)
+    while rclpy.ok():
+        rate.sleep()
+        # Publish heartbeat to show the module is running
+        status.running()
+    node.get_logger().info("ok")
 
 
 if __name__ == "__main__":
