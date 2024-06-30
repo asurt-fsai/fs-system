@@ -1,0 +1,55 @@
+launch:
+
+- node:
+    pkg: "planning_centerline_calc"
+    exec: "planning_centerline_calc_node"
+    namespace: "planning_centerline_calc"
+    param:
+    -
+        name: "/planning/topics/frame_id"
+        value: "/planning/topics/frame_id"
+    -
+        name: "/planning/topics/odometryTopic"
+        value: "/planning/topics/odometryTopic"
+    -
+        name: "/planning/topics/conesTopic"
+        value: "/planning/topics/conesTopic"
+    -
+        name: "/planning/sorting/thresholdDirectionalAngle"
+        value: "/planning/sorting/thresholdDirectionalAngle"
+    -
+        name: "/planning/sorting/thresholdAbsoluteAngle"
+        value: "/planning/sorting/thresholdAbsoluteAngle"
+    -
+        name: "/planning/sorting/maxNNeighbors"
+        value: "/planning/sorting/maxNNeighbors"
+    -
+        name: "/planning/sorting/maxDist"
+        value: "/planning/sorting/maxDist"
+    -
+        name: "/planning/sorting/maxDistToFirst"
+        value: "/planning/sorting/maxDistToFirst"
+    -
+        name: "/planning/sorting/maxLength"
+        value: "/planning/sorting/maxLength"
+    -
+        name: "/planning/matching/minTrackWidth"
+        value: "/planning/matching/minTrackWidth"
+    -
+        name: "/planning/matching/maxSearchRange"
+        value: "/planning/matching/maxSearchRange"
+    -
+        name: "/planning/matching/maxSearchAngle"
+        value: "/planning/matching/maxSearchAngle"
+    -
+        name: "/planning/matching/matchesShouldBeMonotonic"
+        value: "/planning/matching/matchesShouldBeMonotonic"
+    -
+        name: "/planning/path/maximalDistanceForValidPath"
+        value: "/planning/path/maximalDistanceForValidPath"
+    -
+        name: "/planning/path/mpcPathLength"
+        value: "/planning/path/mpcPathLength"
+    -
+        name: "/planning/path/mpcPredictionHorizon"
+        value: "/planning/path/mpcPredictionHorizon"
