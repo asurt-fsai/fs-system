@@ -40,7 +40,7 @@ class PlanningDlNode(Node):  # type: ignore
     def __init__(self) -> None:
         super().__init__("planning_dl")
         self.get_logger().info("DL Path Planner instantiated...")
-        modelPath = ("./model_1000_epoch.pt")
+        modelPath = ("src/planning_deep_learning/planning_deep_learning/model_1000_epoch.pt")
         self.model = model.createModel(modelPath)
         self.path = None
         self.conesList = Any
@@ -140,7 +140,7 @@ def main(args: None = None) -> None:
         args: Command-line arguments (default: None).
     """
     rclpy.init(args=args)
-    node = PlanningDlNode()
+    node = PlanningDlNode("src/planning_deep_learning/planning_deep_learning/model_1000_epoch.pt")
     rclpy.spin(node)
     rclpy.shutdown()
 
