@@ -40,10 +40,7 @@ class PlanningDlNode(Node):  # type: ignore
     def __init__(self) -> None:
         super().__init__("planning_dl")
         self.get_logger().info("DL Path Planner instantiated...")
-        modelPath = (
-            "/home/ubuntu/ros2_ws/src/planning_deep_learning/"
-            "planning_deep_learning/model_after_Last_Train.pt"
-        )
+        modelPath = ("./model_1000_epoch.pt")
         self.model = model.createModel(modelPath)
         self.path = None
         self.conesList = Any
