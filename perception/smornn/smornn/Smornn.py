@@ -9,8 +9,8 @@ import numpy as np
 import numpy.typing as npt
 
 from asurt_msgs.msg import Landmark
-from .helpers import mutexLock
 
+from smornn.helpers import mutexLock
 
 class Smornn:
     """

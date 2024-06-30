@@ -9,7 +9,9 @@ from icecream import ic
 from .fastslam import FastSLAM
 from visualization_msgs.msg import Marker, MarkerArray
 from nav_msgs.msg import Odometry
+
 from message_filters import Subscriber, ApproximateTimeSynchronizer
+
 
 
 class FastSlamNode(Node):
@@ -17,6 +19,7 @@ class FastSlamNode(Node):
         super().__init__("fastslam_node")
         self.landmarks = np.array([])
         self.observations = np.array([])
+
 
         self.markerPub = self.create_publisher(MarkerArray, "landmarks_marker_hung", 10)
         self.fastSlam = FastSLAM()
@@ -30,6 +33,7 @@ class FastSlamNode(Node):
 
 
     def callback(self, msg: LandmarkArray, odom: Odometry):
+
         self.observations = np.array([])
         for marker in msg.markers:
             self.observations = np.append(
@@ -38,6 +42,7 @@ class FastSlamNode(Node):
         if self.landmarks.size == 0:
             self.landmarks = self.observations
         hung = HungarianAlg(self.observations, self.landmarks)
+
         self.landmarks, associatedObservations = hung.solve()
 
         # convert observations to range-bearing
@@ -49,6 +54,7 @@ class FastSlamNode(Node):
             b = np.arctan2(obs[1] - odom.pose.pose.position.y, obs[0] - odom.pose.pose.position.x) - odom.pose.pose.orientation.z
             observations.append([r, b, obs[2]])
         
+
 
         mrkArr = MarkerArray()
         for i in range(self.landmarks.shape[0]):
