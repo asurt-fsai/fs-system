@@ -1,0 +1,6 @@
+*.ipynb
+*.pt
+*.json
+/inputs
+*.zip
+*.rar
