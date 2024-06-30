@@ -31,9 +31,7 @@ class SendPath:
         self.reduisMean = 0.0
 
     def mergePoints(
-        self,
-        points: np.ndarray[np.float_, Any],
-        threshold: float,
+        self, points: np.ndarray[np.float_, Any], threshold: float
     ) -> np.ndarray[np.float_, Any]:
         """
         Merges points that are close to each other based on a given threshold,
@@ -44,7 +42,7 @@ class SendPath:
             threshold (float): Maximum distance between points to merge.
 
         Returns:
-            np.ndarray: Merged array of points.
+            np.ndarray: Merged points array.
         """
         num = len(points)
 
@@ -52,9 +50,7 @@ class SendPath:
         merged = np.zeros(num, dtype=bool)
 
         # Initialize merged points array with zeros
-        mergedPoints: np.ndarray[np.float_, Any] = np.zeros(
-            (0, points.shape[1]), dtype=points.dtype
-        )
+        mergedPoints = np.zeros((0, points.shape[1]), dtype=points.dtype)
 
         # Create a dictionary to count the occurrences of each color
         colorCounts: Dict[int, int] = {}
@@ -84,9 +80,7 @@ class SendPath:
                     continue
 
                 # Calculate the Euclidean distance between the points
-                distance = np.linalg.norm(
-                    np.array([points[i, 0], points[i, 1]]) - np.array([points[j, 0], points[j, 1]])
-                )
+                distance = np.linalg.norm(points[i, :2] - points[j, :2])
 
                 # Merge the points if they are close enough
                 if distance <= threshold:
@@ -125,21 +119,13 @@ class SendPath:
             - unknownCones: Array of unknown cones.
         """
         # filter_outliers cones based on position and color
-        rightBlueCones: np.ndarray[np.float_, Any] = np.array(
-            cones[cones[:, 2] == 0][cones[cones[:, 2] == 0][:, 0] > 0]
-        )
-        leftBlueCones: np.ndarray[np.float_, Any] = np.array(
-            cones[cones[:, 2] == 0][cones[cones[:, 2] == 0][:, 0] <= 0]
-        )
-        rightYellowCones: np.ndarray[np.float_, Any] = np.array(
-            cones[cones[:, 2] == 1][cones[cones[:, 2] == 1][:, 0] > 0]
-        )
-        leftYellowCones: np.ndarray[np.float_, Any] = np.array(
-            cones[cones[:, 2] == 1][cones[cones[:, 2] == 1][:, 0] <= 0]
-        )
-        orangeCones: np.ndarray[np.float_, Any] = np.array(cones[cones[:, 2] == 2])
-        bigOrange: np.ndarray[np.float_, Any] = np.array(cones[cones[:, 2] == 3])
-        unknownCones: np.ndarray[np.float_, Any] = np.array(cones[cones[:, 2] == 4])
+        rightBlueCones = np.array(cones[cones[:, 2] == 0][cones[cones[:, 2] == 0][:, 1] < 0])
+        leftBlueCones = np.array(cones[cones[:, 2] == 0][cones[cones[:, 2] == 0][:, 1] >= 0])
+        rightYellowCones = np.array(cones[cones[:, 2] == 1][cones[cones[:, 2] == 1][:, 1] < 0])
+        leftYellowCones = np.array(cones[cones[:, 2] == 1][cones[cones[:, 2] == 1][:, 1] >= 0])
+        orangeCones = np.array(cones[cones[:, 2] == 2])
+        bigOrange = np.array(cones[cones[:, 2] == 3])
+        unknownCones = np.array(cones[cones[:, 2] == 4])
 
         # Sort cones based on distance from robot's pose
         rightBlueCones = rightBlueCones[
@@ -208,7 +194,7 @@ class SendPath:
             numpy.ndarray: Array of orange nodes that satisfy the conditions.
         """
         # Initialize an empty array to store orange nodes
-        orangeNodes: np.ndarray[np.float_, Any] = np.zeros((0, 3))
+        orangeNodes = np.zeros((0, 3))
 
         for cone1 in orangeConesMap:
             lowestDist = float("inf")
@@ -216,7 +202,7 @@ class SendPath:
 
             # Find the nearest cone to the current cone
             for cone2 in orangeConesMap:
-                if not np.array_equal(cone1, cone2) and cone1[0] * cone2[0] < 0:
+                if not np.array_equal(cone1, cone2) and cone1[1] * cone2[1] < 0:
                     dist = math.sqrt((cone1[0] - cone2[0]) ** 2 + (cone1[1] - cone2[1]) ** 2)
                     if dist < lowestDist:
                         lowestDist = dist
@@ -259,14 +245,14 @@ class SendPath:
             np.ndarray: Array representing the line path.
         """
         # Initialize variables
-        if self.origin[1] != 0:
+        if self.origin[0] != 0:
             x = np.append(orangeNodes[:, 0], self.origin[0])
             y = np.append(orangeNodes[:, 1], self.origin[1])
         else:
             x = orangeNodes[:, 0]
             y = orangeNodes[:, 1]
         noNeedIndex = np.array([], dtype=int)
-        path: np.ndarray[np.float_, Any] = np.zeros((0, 2))
+        path = np.zeros((0, 2))
 
         # Check if there are no orange nodes
         if orangeNodes.shape[0] < 1:
@@ -288,22 +274,22 @@ class SendPath:
             const = 0
 
         # Find the end point of the path
-        if self.count < 4 and self.origin[1] != 0:
-            y = np.linspace(
-                float(pos[1]), self.origin[1], int(abs(pos[1] - self.origin[1]) + 1) * 5
+        if self.count < 4 and not np.array_equal(self.origin, [0, 0]):
+            x = np.linspace(
+                float(pos[0]), self.origin[0], int(abs(pos[0] - self.origin[0]) + 1) * 5
             )
         elif self.count < 4:
-            y = np.linspace(
-                float(pos[1]), float(pos[1]) + 5, int(abs(pos[1] - (float(pos[1]) + 5)) + 1) * 5
+            x = np.linspace(
+                float(pos[0]), float(pos[0]) + 5, int(abs(pos[0] - (float(pos[0]) + 5)) + 1) * 5
             )
         else:
-            end = orangeNodes[:, 1].max()
-            y = np.linspace(float(pos[1]), end, int(abs(pos[1] - end) + 1) * 10)
+            end = orangeNodes[:, 0].max()
+            x = np.linspace(float(pos[0]), end, int(abs(pos[0] - end) + 1) * 10)
 
         if round(slope, 1) != 0.0:
-            path = np.column_stack(((y - const) / slope, y))
+            path = np.column_stack((x, slope * x + const))
         else:
-            path = np.column_stack((np.full_like(y, pos[0]), y))
+            path = np.column_stack((x, np.full_like(x, pos[1])))
 
         return path
 
@@ -354,16 +340,17 @@ class SendPath:
             np.ndarray: Circular path represented by an array of points.
         """
         # Initialize variables
-        path: np.ndarray[np.float_, Any] = np.empty((0, 2))
+        path = np.empty((0, 2))
         xPath = np.empty(0)
         yPath1 = np.empty(0)
         yPath2 = np.empty(0)
+        yPath3 = np.empty(0)
 
         # Calculate the mean circle
         xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
         meanReduis = math.sqrt((xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2)
         if np.array_equal(pos, [0, 0]):
-            pos = np.array([xCenter - meanReduis, yCenter])
+            pos = np.array([xCenter, yCenter + meanReduis])
         # Calculate the start angle
         if round((pos[0] - xCenter), 3) == 0:
             if pos[1] > yCenter:
@@ -374,29 +361,35 @@ class SendPath:
             start = math.atan(round((pos[1] - yCenter) / (pos[0] - xCenter), 3))
 
         # Generate the circular path
-        if round((pos[0] - xCenter), 3) < 0 and round((pos[1] - yCenter), 3) < 0:
+        if round((pos[0] - xCenter), 3) < 0:
             start = start - math.pi
-        elif round((pos[0] - xCenter), 3) < 0:
-            if round((pos[1] - yCenter), 3) >= 0:
-                start = start + math.pi
 
-        seta = np.linspace(start, -math.pi, int(self.dist(start, -math.pi) + 1) * 5)
+        seta = np.linspace(start, -3 * math.pi / 2, int(self.dist(start, -3 * math.pi / 2) + 1) * 5)
         for i in seta:
             xPath = np.append(xPath, meanReduis * np.cos(i) + xCenter)
-            if i < 0:
+            if -math.pi < i < 0:
                 yPath2 = np.append(
                     yPath2,
                     -math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
                 )
-            else:
+            elif 0 <= i < math.pi:
                 yPath1 = np.append(
                     yPath1,
                     math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
                 )
+            else:
+                yPath3 = np.append(
+                    yPath3,
+                    math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
+                )
+
         path = np.vstack(
             (
                 np.column_stack((xPath[: len(yPath1)], yPath1)),
-                np.column_stack((xPath[len(yPath1) :], yPath2)),
+                np.column_stack(
+                    (xPath[len(yPath1) : len(np.concatenate((yPath1, yPath2), axis=0))], yPath2)
+                ),
+                np.column_stack((xPath[len(np.concatenate((yPath1, yPath2), axis=0)) :], yPath3)),
             )
         )
         return path
@@ -417,16 +410,17 @@ class SendPath:
             np.ndarray: Circular path represented by an array of points.
         """
         # Initialize variables
-        path: np.ndarray[np.float_, Any] = np.empty((0, 2))
+        path = np.empty((0, 2))
         xPath = np.empty(0)
         yPath1 = np.empty(0)
         yPath2 = np.empty(0)
+        yPath3 = np.empty(0)
 
         # Calculate the mean circle
         xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
         meanReduis = math.sqrt((xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2)
         if np.array_equal(pos, [0, 0]):
-            pos = np.array([xCenter + meanReduis, yCenter])
+            pos = np.array([xCenter, yCenter - meanReduis])
         # Calculate the start angle
         if round((pos[0] - xCenter), 3) == 0:
             if pos[1] > yCenter:
@@ -437,31 +431,34 @@ class SendPath:
             start = math.atan(round((pos[1] - yCenter) / (pos[0] - xCenter), 3))
 
         # Generate the circular path
-        if start < 0:
-            start = start + 2 * math.pi
-        if round((pos[0] - xCenter), 3) < 0 and round((pos[1] - yCenter), 3) < 0:
+        if round((pos[0] - xCenter), 3) < 0:
             start = start + math.pi
-        elif round((pos[0] - xCenter), 3) < 0:
-            if round((pos[1] - yCenter), 3) >= 0:
-                start = start - math.pi
 
-        seta = np.linspace(start, 2 * math.pi, int(self.dist(start, 2 * math.pi) + 1) * 5)
+        seta = np.linspace(start, 3 / 2 * math.pi, int(self.dist(start, 3 / 2 * math.pi) + 1) * 5)
         for i in seta:
             xPath = np.append(xPath, meanReduis * np.cos(i) + xCenter)
-            if i > math.pi:
+            if 0 < i < math.pi:
                 yPath2 = np.append(
                     yPath2,
+                    math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
+                )
+            elif -math.pi < i <= 0:
+                yPath1 = np.append(
+                    yPath1,
                     -math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
                 )
             else:
-                yPath1 = np.append(
-                    yPath1,
-                    math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
+                yPath3 = np.append(
+                    yPath3,
+                    -math.sqrt(round(meanReduis**2 - (xPath[-1] - xCenter) ** 2, 3)) + yCenter,
                 )
         path = np.vstack(
             (
                 np.column_stack((xPath[: len(yPath1)], yPath1)),
-                np.column_stack((xPath[len(yPath1) :], yPath2)),
+                np.column_stack(
+                    (xPath[len(yPath1) : len(np.concatenate((yPath1, yPath2), axis=0))], yPath2)
+                ),
+                np.column_stack((xPath[len(np.concatenate((yPath1, yPath2), axis=0)) :], yPath3)),
             )
         )
         return path
@@ -481,9 +478,9 @@ class SendPath:
         if np.array_equal(self.origin, np.array([0, 0])):
             return None
         # Check if the robot has passed origin
-        if (pos[1] > self.origin[1]) and (self.pastPos[1] < self.origin[1]):
-            if round(pos[0], 0) < round(self.origin[0] + 1, 0) and round(pos[0], 0) > round(
-                self.origin[0] - 1, 0
+        if (pos[0] > self.origin[0]) and (self.pastPos[0] < self.origin[0]):
+            if round(pos[1], 1) < round(self.origin[1] + 1.5, 1) and round(pos[1], 1) > round(
+                self.origin[1] - 1.5, 1
             ):
                 self.count += 1
         return None
@@ -510,15 +507,14 @@ class SendPath:
         xLeftCenter = 0.0
         yLeftCenter = 0.0
         counterOrangeNodes = self.findOrangeNodes(bigOrange)
-        if len(counterOrangeNodes) == 2:
+        if len(counterOrangeNodes) == 2 and self.flag == 0:
             self.origin = np.array(
                 [
                     (counterOrangeNodes[0][0] + counterOrangeNodes[1][0]) / 2,
                     (counterOrangeNodes[0][1] + counterOrangeNodes[1][1]) / 2,
                 ]
             )
-            self.flag = 1
-        elif len(leftBlueCones) >= 3 and len(rightYellowCones) >= 3 and self.flag == 0:
+        elif len(leftBlueCones) >= 3 and len(rightYellowCones) >= 3:
             xRightCenter, yRightCenter, _ = self.fitCircle(rightYellowCones)
             xLeftCenter, yLeftCenter, _ = self.fitCircle(leftBlueCones)
             self.origin = np.array(
@@ -530,6 +526,7 @@ class SendPath:
             self.reduisMean = math.sqrt(
                 (xRightCenter - self.origin[0]) ** 2 + (yRightCenter - self.origin[1]) ** 2
             )
+            self.flag = 1
 
     def classifyPoints(
         self, colorPoints: np.ndarray[np.float_, Any], unknownPoints: np.ndarray[np.float_, Any]
@@ -547,7 +544,7 @@ class SendPath:
             np.ndarray: Array of classified points.
         """
 
-        classifiedPoints: np.ndarray[np.float_, Any] = colorPoints
+        classifiedPoints = colorPoints
         xRightCenter, yRightCenter, radius = self.fitCircle(colorPoints)
         for point in unknownPoints:
             x, y = point[0], point[1]
@@ -579,7 +576,7 @@ class SendPath:
             np.array: Generated path as a NumPy array.
         """
         # Initialize variables
-        path: np.ndarray[np.float_, Any] = np.empty((0, 2))  # Initialize an empty NumPy array
+        path = np.empty((0, 2))  # Initialize an empty NumPy array
         # Get the current position
         pos = np.array([self.state.pose.pose.position.x, self.state.pose.pose.position.y])
         # sum all orange cones(big and small)
@@ -589,8 +586,7 @@ class SendPath:
         # Find orange nodes
         orangeNodes = self.findOrangeNodes(orange)
         # update the counter if there are more than 2 big orange cones
-        if len(bigOrange) > 2:
-            self.counter(pos)
+        self.counter(pos)
         # Get the origin if it is not set
         if np.array_equal(self.origin, np.array([0, 0])):
             self.getOrigin(bigOrange, leftBlueCones, rightYellowCones)
@@ -600,21 +596,24 @@ class SendPath:
             if len(rightYellowCones) >= 3:
                 path = np.concatenate((path, self.rightCirclePath(rightYellowCones)), axis=0)
         elif self.count < 2:
-            path = self.rightCirclePath(rightYellowCones, pos)
-            path = np.concatenate((path, self.rightCirclePath(rightYellowCones)), axis=0)
+            if len(rightYellowCones) >= 3:
+                path = self.rightCirclePath(rightYellowCones, pos)
+                path = np.concatenate((path, self.rightCirclePath(rightYellowCones)), axis=0)
         elif self.count < 3:
             path = self.rightCirclePath(rightYellowCones, pos)
             if len(leftBlueCones) >= 3:
                 path = np.concatenate((path, self.leftCirclePath(leftBlueCones)), axis=0)
         elif self.count < 4:
-            path = self.leftCirclePath(leftBlueCones, pos)
-            path = np.concatenate((path, self.leftCirclePath(leftBlueCones)), axis=0)
+            if len(leftBlueCones) >= 3:
+                path = self.leftCirclePath(leftBlueCones, pos)
+                path = np.concatenate((path, self.leftCirclePath(leftBlueCones)), axis=0)
         elif self.count < 5:
             path = self.leftCirclePath(leftBlueCones, pos)
-            if len(orangeNodes) > 0 and pos[1] < self.origin[1]:
+            if len(orangeNodes) > 0 and pos[0] < self.origin[0]:
                 path = np.concatenate((path, self.linePath(orangeNodes, path[-1])), axis=0)
         elif self.count >= 5:
             path = np.concatenate((path, self.linePath(orangeNodes, pos)), axis=0)
+
         return path
 
     def orangeFilter(self, orangeCones: np.ndarray[np.float_, Any]) -> np.ndarray[np.float_, Any]:
@@ -628,16 +627,14 @@ class SendPath:
             np.ndarray: Filtered array of orange cones.
         """
         for cone in orangeCones:
-            if cone[0] < -1.7:
+            if cone[1] < -1.7:
                 orangeCones = np.delete(
                     orangeCones, np.where((orangeCones == cone).all(axis=1)), axis=0
                 )
-            elif cone[0] > 1.7:
+            elif cone[1] > 1.7:
                 orangeCones = np.delete(
                     orangeCones, np.where((orangeCones == cone).all(axis=1)), axis=0
                 )
-        # rightOrangeCones = np.array(orangeCones[orangeCones[:, 0] > 0])
-        # leftOrangeCones = np.array(orangeCones[orangeCones[:, 0] <= 0])
         return orangeCones
 
     def getPath(
