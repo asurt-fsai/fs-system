@@ -5,6 +5,7 @@ Yolo ros node
 import rclpy
 import numpy as np
 import threading
+import cv2
 
 from rclpy.node import Node
 from tf_helper.StatusPublisher import StatusPublisher
@@ -86,8 +87,9 @@ class YoloNode(Node):
 
         """
         # Convert ROS Image message to OpenCV image
-        cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="rgb8")
-
+        cv_image = self.bridge.imgmsg_to_cv2(msg, "rgb8")
+        cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
+        
         # Process the image through YOLO
         try:
             result = self.detector(cv_image)[0]
@@ -113,7 +115,7 @@ class YoloNode(Node):
         """
         Runs the yolo node and publishes the results if there is any
         """
-        if self.proc_bboxes or self.crpd_bboxes is None:
+        if (self.proc_bboxes or self.crpd_bboxes) is None:
             return None
         
         # Publish bounding boxes
