@@ -8,14 +8,22 @@ from math import cos, sin
 import math
 from utils.utils import angleToPi
 from dataclasses import dataclass
-
+from dataAssociation.hungarian import HungarianAlg
+from enum import Enum
 import time
 
 
 STATE_SIZE = 3  # State size [x,y,yaw]
-LM_SIZE = 2  # landmark srate size [x,y]
+LM_SIZE = 2  # landmark srate size [x,y,color]
 N_PARTICLE = 100  # number of particle
 NTH = N_PARTICLE / 1.5   # Number of particle for re-sampling
+
+class ConeColor(Enum):
+    BLUE = 0
+    YELLOW = 1
+    ORANGE = 2
+    ORANGE_LARGE = 3
+    UNKNOWN = 4
 
 @dataclass
 class Particle:
@@ -26,16 +34,19 @@ class Particle:
         self.y = 0.0
         self.yaw = 0.0
         # landmark x-y positions
-        self.landmark = np.zeros((N_LM, LM_SIZE))
+        self.landmark = np.array([]).reshape(0, LM_SIZE)
+        self.landmarkColors = np.array([]).reshape(0, 1)
         # landmark position covariance
         self.lmP = np.zeros((N_LM * LM_SIZE, LM_SIZE))
         self.maxlmID = 0
+        self.observations = np.array([])
+        
 
 class FastSLAM:
     def __init__(self, numParticles, initPose=np.zeros((1, 3))):
         self.pose = initPose.reshape(-1, 3) # x, y, theta
-        self.R = np.diag([0.01, np.deg2rad(0.01)])**2
-        self.Q = np.diag([0.01, np.deg2rad(0.01)])**2
+        self.R = np.diag([0.5, np.deg2rad(5.0)])**2
+        self.Q = np.diag([0.05, np.deg2rad(10.0)])**2
         self.numParticles = numParticles
         self.particles = np.array([Particle(100) for _ in range(numParticles)])
         self.maxWeightParticle = self.particles[0]
@@ -61,32 +72,43 @@ class FastSLAM:
         maxWeightParticle: Particle
             Particle with the highest weight
         '''
-        time1 = time.time()
-        convObservation = np.zeros((observation.shape[0],3))
 
-        for i in range(observation.shape[0]):
-            obs = observation[i,0] + 1j * observation[i,1]
-            dist = abs(obs)
-            angle = np.angle(obs) - self.maxWeightParticle.yaw
-            convObservation[i,:] = [dist, angle, observation[i,2]]
-        
+        self.associateObservation(self.particles, observation)
         self.particles = self.predictParticles(self.particles, controlAction, dT)
-        ic("TIME FOR PREDICT: ", time.time() - time1)
-        time2 = time.time()
-        ###
-        self.particles = self.updateWithObservation(self.particles, convObservation)
-        ic("TIME FOR UPDATE WITH OBSERVATION: ", time.time() - time2)
-        time2 = time.time()
+        self.particles = self.updateWithObservation(self.particles)
         self.particles, _, maxWeightIndex = self.resampling(self.particles)
-        ic("TIME FOR RESAMPLING: ", time.time() - time2)
         self.maxWeightParticle = self.particles[maxWeightIndex]
-        ic("TIME FOR UPDATE: ", time.time() - time1)
         return self.particles, self.particles[maxWeightIndex]
 
     ##########    
     # TESTED #
     ##########
+    def associateObservation(self,particles,observation):
+        for particle in particles:
+            estimateObservation = particle.landmark - np.array([particle.x, particle.y])
+            if particle.maxlmID != 0:
+                hung = HungarianAlg(observation[:,:2], estimateObservation)
+                _, associatedObservations, indeces = hung.solve()
+                associatedObservations = np.array(associatedObservations)
+                indeces = np.array(indeces)
+                ic(indeces.shape)
+            else:
+                associatedObservations = np.zeros((observation.shape[0],3))
+                associatedObservations[:,:2] = observation[:,:2]
+                associatedObservations[:,2] = np.arange(observation.shape[0])
+                indeces = np.arange(observation.shape[0]).reshape(-1,1)
 
+
+            particle.observation = np.zeros((associatedObservations.shape[0],4))
+            for i in range(associatedObservations.shape[0]):
+                compObs = associatedObservations[i,0] + 1j * associatedObservations[i,1]
+                dist = np.abs(compObs)
+                angle = np.angle(compObs) - particle.yaw
+                
+                particle.observation[i] = [dist, angle, associatedObservations[i,2], observation[indeces[i,0],2]]
+            
+        return particles
+    
     def predictParticles(self,particles,controlAction,dT):
         '''
         Predict the particles using a simple motion model
@@ -302,7 +324,7 @@ class FastSLAM:
         return x, P
 
     
-    def updateWithObservation(self,particles, observation):
+    def updateWithObservation(self,particles):
         '''
         Update the particles with the observation
 
@@ -319,19 +341,18 @@ class FastSLAM:
         particles: List(Particle)
             Updated particles
         '''
-
-        for iz in range(observation.shape[0]):
-            lmid = int(observation[iz, 2])
-            for indParticle in range(self.numParticles):
+        for indParticle, particle in enumerate(particles):
+            for iz in range(particle.observation.shape[0]):
+                lmid = int(particle.observation[iz, 2])
                 # new landmark
-                if abs(particles[indParticle].landmark[lmid, 0]) <= 0.01: # if landmark is at the origin, then it is an uninitialized landmark
-                    particles[indParticle] = self.addNewLandmark(particles[indParticle], observation[iz,:], self.Q)
+                if lmid >= particle.maxlmID: 
+                    particles[indParticle] = self.addNewLandmark(particles[indParticle], particle.observation[iz,:], self.Q)
                     particles[indParticle].maxlmID += 1
                 # known landmark
                 else:
-                    w = self.calcWeightSingle(particles[indParticle], observation[iz, :], self.Q)
+                    w = self.calcWeightSingle(particles[indParticle], particle.observation[iz, :], self.Q)
                     particles[indParticle].weight *= w
-                    particles[indParticle] = self.updateLandmark(particles[indParticle], observation[iz, :], self.Q)
+                    particles[indParticle] = self.updateLandmark(particles[indParticle], particle.observation[iz, :], self.Q)
         return particles
 
     def updateLandmark(self,particle: Particle, observation, Q):
@@ -365,8 +386,10 @@ class FastSLAM:
         dz[1, 0] = angleToPi(dz[1, 0])
 
         xf, Pf = self.updateKF(xf, Pf, dz, Q, Hf)
-
+        
         particle.landmark[landmarkID, :] = xf.T
+        particle.landmarkColors[landmarkID] = observation[3]
+        ic(observation,particle.landmarkColors)
         particle.lmP[2 * landmarkID:2 * landmarkID + 2, :] = Pf
 
         return particle
@@ -393,20 +416,17 @@ class FastSLAM:
         '''
         r = observation[0]
         b = observation[1]
-        landmarkID = int(observation[2])
+        # landmarkID = int(observation[2])
 
         s = math.sin(angleToPi(particle.yaw + b))
         c = math.cos(angleToPi(particle.yaw + b))
-
-        particle.landmark[landmarkID, 0] = particle.x + r * c
-        particle.landmark[landmarkID, 1] = particle.y + r * s
-
+        particle.landmark = np.append(particle.landmark, [[particle.x + r * c, particle.y + r * s]], axis=0)
+        particle.landmarkColors = np.append(particle.landmarkColors, observation[3])
         # covariance
         Gz = np.array([[c, -r * s],
                     [s, r * c]])
 
-        particle.lmP[2 * landmarkID:2 * landmarkID + 2] = Gz @ Q @ Gz.T
-
+        particle.lmP = np.append(particle.lmP, Gz @ Q @ Gz.T, axis=0)
 
         return particle
     
