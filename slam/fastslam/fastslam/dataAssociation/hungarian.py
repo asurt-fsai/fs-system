@@ -9,13 +9,14 @@ class HungarianAlg(object):
         This creates a HungarianAlg object with the cost matrix associated to it. It stores a copy of the matrix as well as the original.
         It then records the shape and initiates some helper variables, like the covers for the rows and columns and the markings.
         """
-        self.debug=True
+        self.debug=False
         self.obsIDs = []
         self.cleanedObsIDs = []
-        self.threshold = 1
+        self.threshold = 2.5
         self.observationMatrix = observationMatrix
         self.landmarkMatrix = landmarkMatrix
         self.removedObservations = []
+
         self.orgCostMatrix = self.calcCostMatrix()
         self.orgCostMatrix = self.removeFarCones()
         self.O = self.orgCostMatrix
@@ -107,10 +108,11 @@ class HungarianAlg(object):
                     axis=0,
                 )
 
-        associatedObservations = []
-        for i in range(len(self.solution)):
-            associatedObservations.append([self.observationMatrix[self.solution[i][0]],self.solution[i][1]])
-        return self.landmarkMatrix, associatedObservations
+            associatedObservations = []
+            for i in range(len(self.solution)):
+                associatedObservations.append(np.hstack((self.observationMatrix[self.solution[i][0]],self.solution[i][1])))
+        # self.printResults()
+        return self.landmarkMatrix, associatedObservations, self.solution
 
     def printResults(self):
         if self.solution == None:
