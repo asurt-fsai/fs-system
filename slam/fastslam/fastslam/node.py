@@ -4,9 +4,10 @@ import time
 import numpy as np
 from rclpy.node import Node
 from asurt_msgs.msg import LandmarkArray, Landmark
-from .hungarian import HungarianAlg
+from fastslam import FastSLAM
+from fastslam import Particle as Particle
 from icecream import ic
-from .fastslam import FastSLAM
+from utils.utils import angleToPi
 from visualization_msgs.msg import Marker, MarkerArray
 from nav_msgs.msg import Odometry
 from message_filters import Subscriber, ApproximateTimeSynchronizer
@@ -15,14 +16,15 @@ from message_filters import Subscriber, ApproximateTimeSynchronizer
 class FastSlamNode(Node):
     def __init__(self):
         super().__init__("fastslam_node")
-        self.landmarks = np.array([])
-        self.observations = np.array([])
+        self.landmarks = np.array([]).reshape(-1, 4)
+        self.observations = np.array([]).reshape(-1, 3)
 
         self.markerPub = self.create_publisher(MarkerArray, "landmarks_marker_hung", 10)
-        self.fastSlam = FastSLAM()
+        self.fastSlam = FastSLAM(10)
 
         self.tss = ApproximateTimeSynchronizer({Subscriber(self,LandmarkArray,"/Landmarks/Observed"),Subscriber(self,Odometry,"/carmaker/Odometry")},10,0.1,True)
         self.tss.registerCallback(self.callback)
+        self.time = self.get_clock().now()
 
     def callback(self, landmarks:LandmarkArray, odometry:Odometry):
         print(landmarks.landmarks[0].position)
@@ -30,25 +32,14 @@ class FastSlamNode(Node):
 
 
     def callback(self, msg: LandmarkArray, odom: Odometry):
-        self.observations = np.array([])
-        for marker in msg.markers:
-            self.observations = np.append(
-                self.observations, [marker.pose.position.x, marker.pose.position.y]
-            ).reshape(-1, 2)
-        if self.landmarks.size == 0:
-            self.landmarks = self.observations
-        hung = HungarianAlg(self.observations, self.landmarks)
-        self.landmarks, associatedObservations = hung.solve()
-
-        # convert observations to range-bearing
-        observations = []
-        for obs in associatedObservations:
-            zObs = complex(obs[0], obs[1])
-            pose = complex(odom.pose.pose.position.x, odom.pose.pose.position.y)
-            r = abs(zObs - pose)
-            b = np.arctan2(obs[1] - odom.pose.pose.position.y, obs[0] - odom.pose.pose.position.x) - odom.pose.pose.orientation.z
-            observations.append([r, b, obs[2]])
+        for i in range(len(msg.landmarks)):
+            self.observations = np.vstack([self.observations, [msg.landmarks[i].position.x, msg.landmarks[i].position.y, msg.landmarks[i].type]])
         
+        controlAction = np.array([odom.twist.twist.linear.x, odom.twist.twist.angular.z])
+        dt = (self.get_clock().now() - self.time).nanoseconds / 1e9
+        self.time = self.get_clock().now()
+        self.fastSlam.update(controlAction, self.observations, dt)
+        self.landmarks = self.fastSlam.maxWeightParticle.landmarks
 
         mrkArr = MarkerArray()
         for i in range(self.landmarks.shape[0]):
