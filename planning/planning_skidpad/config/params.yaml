@@ -1,0 +1,5 @@
+skidPadPathPlannerNode:
+  ros__parameters:
+    pathTopic: "path"
+    conesTopic: "cones"
+    stateTopic: "state"

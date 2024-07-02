@@ -27,7 +27,6 @@ class SendPath:
         self.pastPos = np.empty(2)
         self.origin = np.array([0, 0])
         self.threshold = 0.2
-        self.flag = 0
         self.reduisMean = 0.0
 
     def mergePoints(
@@ -38,11 +37,11 @@ class SendPath:
         considering the maximum repeated color.
 
         Args:
-            points (np.ndarray): Array of points.
+            points (np.ndarray[np.float_, Any]): Array of points.
             threshold (float): Maximum distance between points to merge.
 
         Returns:
-            np.ndarray: Merged points array.
+            np.ndarray[np.float_, Any]: Merged points array.
         """
         num = len(points)
 
@@ -218,19 +217,6 @@ class SendPath:
                     orangeNodes = np.concatenate((orangeNodes, newNode), axis=0)
         return orangeNodes
 
-    def dist(self, seta1: float, seta2: float) -> float:
-        """
-        Calculates the distance between two angles.
-
-        Args:
-            seta1 (float): First angle.
-            seta2 (float): Second angle.
-
-        Returns:
-            float: Distance between the two angles.
-        """
-        return abs(seta1 - seta2)
-
     def linePath(
         self, orangeNodes: np.ndarray[np.float_, Any], pos: np.ndarray[np.float_, Any]
     ) -> np.ndarray[np.float_, Any]:
@@ -238,11 +224,11 @@ class SendPath:
         Generates a line path based on orange nodes and a given position.
 
         Args:
-            orangeNodes (np.ndarray): Array of orange nodes.
+            orangeNodes (np.ndarray[np.float_, Any]): Array of orange nodes.
             pos (list): Current position.
 
         Returns:
-            np.ndarray: Array representing the line path.
+            np.ndarray[np.float_, Any]: Array representing the line path.
         """
         # Initialize variables
         if self.origin[0] != 0:
@@ -251,19 +237,12 @@ class SendPath:
         else:
             x = orangeNodes[:, 0]
             y = orangeNodes[:, 1]
-        noNeedIndex = np.array([], dtype=int)
+        # noNeedIndex = np.array([], dtype=int)
         path = np.zeros((0, 2))
 
         # Check if there are no orange nodes
         if orangeNodes.shape[0] < 1:
             return path
-
-        # filter_outliers orange nodes based on position
-        for i in range(len(orangeNodes)):
-            if orangeNodes[i, 1] < pos[1]:
-                noNeedIndex = np.append(noNeedIndex, i)
-        noNeedIndex = np.flip(noNeedIndex)
-        orangeNodes = np.delete(orangeNodes, noNeedIndex, axis=0)
 
         # Generate the path
         try:
@@ -280,7 +259,7 @@ class SendPath:
             )
         elif self.count < 4:
             x = np.linspace(
-                float(pos[0]), float(pos[0]) + 5, int(abs(pos[0] - (float(pos[0]) + 5)) + 1) * 5
+                float(pos[0]), float(pos[0]) + 10, int(abs(pos[0] - (float(pos[0]) + 10)) + 1) * 5
             )
         else:
             end = orangeNodes[:, 0].max()
@@ -298,7 +277,7 @@ class SendPath:
         Fits a circle to the given points using a least squares method.
 
         Args:
-            points (np.ndarray): Array of points.
+            points (np.ndarray[np.float_, Any]): Array of points.
 
         Returns:
             Tuple[float, float, float]:
@@ -324,20 +303,56 @@ class SendPath:
 
         return xRightCenter, yRightCenter, raduis
 
+    def meanCircles(
+        self, outerCones: np.ndarray[np.float_, Any], innerCones: np.ndarray[np.float_, Any]
+    ) -> Tuple[float, float, float]:
+        """
+        Calculates the mean circle from outer and inner cones.
+
+        Args:
+            outer_cones (np.ndarray[np.float_, Any]): Array of outer cones.
+            inner_cones (np.ndarray[np.float_, Any]): Array of inner cones.
+
+        Returns:
+            Tuple[float, float, np.ndarray[np.float_, Any]]: x-coordinate of the center mean,
+            y-coordinate of the center mean,
+            and array of mean radii.
+        """
+        # Initialize arrays
+        reduis1 = 0.0
+        reduis0 = 0.0
+        xCenter0 = 0.0
+        xCenter1 = 0.0
+        yCenter0 = 0.0
+        yCenter1 = 0.0
+
+        # Fit circles to the given cones
+        xCenter1, yCenter1, reduis1 = self.fitCircle(outerCones)
+        xCenter0, yCenter0, reduis0 = self.fitCircle(innerCones)
+
+        # Calculate the mean of the circle
+        xMean: float = (xCenter1 + xCenter0) / 2
+        yMean: float = (yCenter1 + yCenter0) / 2
+        reduisMean: float = (reduis1 + reduis0) / 2
+
+        return xMean, yMean, reduisMean
+
     def rightCirclePath(
         self,
         innerCones: np.ndarray[np.float_, Any],
+        outerCones: np.ndarray[np.float_, Any],
         pos: np.ndarray[np.float_, Any] = np.array([0, 0]),
     ) -> np.ndarray[np.float_, Any]:
         """
         Generates a circular path based inner cones.
 
         Args:
-            innerCones (np.ndarray): Array of inner cones.
-            pos (np.ndarray, optional): Position array. Defaults to np.array([0, 0]).
+            innerCones (np.ndarray[np.float_, Any]): Array of inner cones.
+            pos (np.ndarray[np.float_, Any], optional):
+                Position array. Defaults to np.array([0, 0]).
 
         Returns:
-            np.ndarray: Circular path represented by an array of points.
+            np.ndarray[np.float_, Any]: Circular path represented by an array of points.
         """
         # Initialize variables
         path = np.empty((0, 2))
@@ -347,10 +362,16 @@ class SendPath:
         yPath3 = np.empty(0)
 
         # Calculate the mean circle
-        xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
-        meanReduis = math.sqrt((xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2)
+        if len(outerCones) >= 3:
+            xCenter, yCenter, meanReduis = self.meanCircles(outerCones, innerCones)
+        else:
+            xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
+            meanReduis = math.sqrt(
+                (xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2
+            )
         if np.array_equal(pos, [0, 0]):
             pos = np.array([xCenter, yCenter + meanReduis])
+
         # Calculate the start angle
         if round((pos[0] - xCenter), 3) == 0:
             if pos[1] > yCenter:
@@ -364,7 +385,7 @@ class SendPath:
         if round((pos[0] - xCenter), 3) < 0:
             start = start - math.pi
 
-        seta = np.linspace(start, -3 * math.pi / 2, int(self.dist(start, -3 * math.pi / 2) + 1) * 5)
+        seta = np.linspace(start, -3 * math.pi / 2, int(abs(start - (-3 * math.pi / 2)) + 1) * 5)
         for i in seta:
             xPath = np.append(xPath, meanReduis * np.cos(i) + xCenter)
             if -math.pi < i < 0:
@@ -397,17 +418,19 @@ class SendPath:
     def leftCirclePath(
         self,
         innerCones: np.ndarray[np.float_, Any],
+        outerCones: np.ndarray[np.float_, Any],
         pos: np.ndarray[np.float_, Any] = np.array([0, 0]),
     ) -> np.ndarray[np.float_, Any]:
         """
         Generates a circular path based inner cones.
 
         Args:
-            innerCones (np.ndarray): Array of inner cones.
-            pos (np.ndarray, optional): Position array. Defaults to np.array([0, 0]).
+            innerCones (np.ndarray[np.float_, Any]): Array of inner cones.
+            pos (np.ndarray[np.float_, Any], optional):
+                Position array. Defaults to np.array([0, 0]).
 
         Returns:
-            np.ndarray: Circular path represented by an array of points.
+            np.ndarray[np.float_, Any]: Circular path represented by an array of points.
         """
         # Initialize variables
         path = np.empty((0, 2))
@@ -417,8 +440,13 @@ class SendPath:
         yPath3 = np.empty(0)
 
         # Calculate the mean circle
-        xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
-        meanReduis = math.sqrt((xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2)
+        if len(outerCones) >= 3:
+            xCenter, yCenter, meanReduis = self.meanCircles(outerCones, innerCones)
+        else:
+            xCenter, yCenter, meanReduis = self.fitCircle(innerCones)
+            meanReduis = math.sqrt(
+                (xCenter - self.origin[0]) ** 2 + (yCenter - self.origin[1]) ** 2
+            )
         if np.array_equal(pos, [0, 0]):
             pos = np.array([xCenter, yCenter - meanReduis])
         # Calculate the start angle
@@ -434,7 +462,7 @@ class SendPath:
         if round((pos[0] - xCenter), 3) < 0:
             start = start + math.pi
 
-        seta = np.linspace(start, 3 / 2 * math.pi, int(self.dist(start, 3 / 2 * math.pi) + 1) * 5)
+        seta = np.linspace(start, 3 / 2 * math.pi, int(abs(start - (3 / 2 * math.pi)) + 1) * 5)
         for i in seta:
             xPath = np.append(xPath, meanReduis * np.cos(i) + xCenter)
             if 0 < i < math.pi:
@@ -487,7 +515,6 @@ class SendPath:
 
     def getOrigin(
         self,
-        bigOrange: np.ndarray[np.float_, Any],
         leftBlueCones: np.ndarray[np.float_, Any],
         rightYellowCones: np.ndarray[np.float_, Any],
     ) -> None:
@@ -495,9 +522,9 @@ class SendPath:
         Gets the origin based on the given cones.
 
         Args:
-            bigOrange (np.ndarray): Array of big orange cones.
-            leftBlueCones (np.ndarray): Array of left blue cones.
-            rightYellowCones (np.ndarray): Array of right yellow cones.
+            bigOrange (np.ndarray[np.float_, Any]): Array of big orange cones.
+            leftBlueCones (np.ndarray[np.float_, Any]): Array of left blue cones.
+            rightYellowCones (np.ndarray[np.float_, Any]): Array of right yellow cones.
 
         Returns:
             None
@@ -506,15 +533,7 @@ class SendPath:
         yRightCenter = 0.0
         xLeftCenter = 0.0
         yLeftCenter = 0.0
-        counterOrangeNodes = self.findOrangeNodes(bigOrange)
-        if len(counterOrangeNodes) == 2 and self.flag == 0:
-            self.origin = np.array(
-                [
-                    (counterOrangeNodes[0][0] + counterOrangeNodes[1][0]) / 2,
-                    (counterOrangeNodes[0][1] + counterOrangeNodes[1][1]) / 2,
-                ]
-            )
-        elif len(leftBlueCones) >= 3 and len(rightYellowCones) >= 3:
+        if len(leftBlueCones) >= 3 and len(rightYellowCones) >= 3:
             xRightCenter, yRightCenter, _ = self.fitCircle(rightYellowCones)
             xLeftCenter, yLeftCenter, _ = self.fitCircle(leftBlueCones)
             self.origin = np.array(
@@ -526,7 +545,6 @@ class SendPath:
             self.reduisMean = math.sqrt(
                 (xRightCenter - self.origin[0]) ** 2 + (yRightCenter - self.origin[1]) ** 2
             )
-            self.flag = 1
 
     def classifyPoints(
         self, colorPoints: np.ndarray[np.float_, Any], unknownPoints: np.ndarray[np.float_, Any]
@@ -537,11 +555,12 @@ class SendPath:
 
         Args:
             colorPoints:
-            np.ndarray representing points with known color, including the color value.
-            unknown_points: np.ndarray representing points with unknown color.
+            np.ndarray[np.float_, Any] representing points with known color,
+            including the color value.
+            unknown_points: np.ndarray[np.float_, Any] representing points with unknown color.
 
         Returns:
-            np.ndarray: Array of classified points.
+            np.ndarray[np.float_, Any]: Array of classified points.
         """
 
         classifiedPoints = colorPoints
@@ -556,7 +575,9 @@ class SendPath:
     def path(
         self,
         leftBlueCones: np.ndarray[np.float_, Any],
+        leftYellowCones: np.ndarray[np.float_, Any],
         rightYellowCones: np.ndarray[np.float_, Any],
+        rightBlueCones: np.ndarray[np.float_, Any],
         orangeCones: np.ndarray[np.float_, Any],
         bigOrange: np.ndarray[np.float_, Any],
     ) -> np.ndarray[np.float_, Any]:
@@ -589,26 +610,34 @@ class SendPath:
         self.counter(pos)
         # Get the origin if it is not set
         if np.array_equal(self.origin, np.array([0, 0])):
-            self.getOrigin(bigOrange, leftBlueCones, rightYellowCones)
+            self.getOrigin(leftBlueCones, rightYellowCones)
         # Generate the path based on the current count
         if self.count < 1:
             path = self.linePath(orangeNodes, pos)
             if len(rightYellowCones) >= 3:
-                path = np.concatenate((path, self.rightCirclePath(rightYellowCones)), axis=0)
+                path = np.concatenate(
+                    (path, self.rightCirclePath(rightYellowCones, rightBlueCones)), axis=0
+                )
         elif self.count < 2:
             if len(rightYellowCones) >= 3:
-                path = self.rightCirclePath(rightYellowCones, pos)
-                path = np.concatenate((path, self.rightCirclePath(rightYellowCones)), axis=0)
+                path = self.rightCirclePath(rightYellowCones, rightBlueCones, pos)
+                path = np.concatenate(
+                    (path, self.rightCirclePath(rightYellowCones, rightBlueCones)), axis=0
+                )
         elif self.count < 3:
-            path = self.rightCirclePath(rightYellowCones, pos)
+            path = self.rightCirclePath(rightYellowCones, rightBlueCones, pos)
             if len(leftBlueCones) >= 3:
-                path = np.concatenate((path, self.leftCirclePath(leftBlueCones)), axis=0)
+                path = np.concatenate(
+                    (path, self.leftCirclePath(leftBlueCones, leftYellowCones)), axis=0
+                )
         elif self.count < 4:
             if len(leftBlueCones) >= 3:
-                path = self.leftCirclePath(leftBlueCones, pos)
-                path = np.concatenate((path, self.leftCirclePath(leftBlueCones)), axis=0)
+                path = self.leftCirclePath(leftBlueCones, leftYellowCones, pos)
+                path = np.concatenate(
+                    (path, self.leftCirclePath(leftBlueCones, leftYellowCones)), axis=0
+                )
         elif self.count < 5:
-            path = self.leftCirclePath(leftBlueCones, pos)
+            path = self.leftCirclePath(leftBlueCones, leftYellowCones, pos)
             if len(orangeNodes) > 0 and pos[0] < self.origin[0]:
                 path = np.concatenate((path, self.linePath(orangeNodes, path[-1])), axis=0)
         elif self.count >= 5:
@@ -621,10 +650,10 @@ class SendPath:
         Filters out the orange cones that are outside the track.
 
         Args:
-            orangeCones (np.ndarray): Array of orange cones.
+            orangeCones (np.ndarray[np.float_, Any]): Array of orange cones.
 
         Returns:
-            np.ndarray: Filtered array of orange cones.
+            np.ndarray[np.float_, Any]: Filtered array of orange cones.
         """
         for cone in orangeCones:
             if cone[1] < -1.7:
@@ -645,10 +674,10 @@ class SendPath:
 
         Args:
             state (Odometry): Current state.
-            cones (np.ndarray): Array of cones.
+            cones (np.ndarray[np.float_, Any]): Array of cones.
 
         Returns:
-            Tuple[np.ndarray, np.ndarray]:
+            Tuple[np.ndarray[np.float_, Any], np.ndarray[np.float_, Any]]:
               Generated path as a NumPy array and the merged cones array.
         """
         # Store the previous position if the current state is not None
@@ -697,5 +726,8 @@ class SendPath:
             leftYellowCones = self.classifyPoints(leftYellowCones, unknownCones)
 
         # Generate the path
-        path = self.path(leftBlueCones, rightYellowCones, orangeCones, bigOrange)
+        path = self.path(
+            leftBlueCones, leftYellowCones, rightYellowCones, rightBlueCones, orangeCones, bigOrange
+        )
+
         return path, returnCones

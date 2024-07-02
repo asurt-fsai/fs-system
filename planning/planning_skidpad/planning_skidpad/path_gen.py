@@ -9,8 +9,10 @@ from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
 from asurt_msgs.msg import LandmarkArray
 
+# import threading
 
-class SkidPad(Node):  # type: ignore[misc]
+
+class SkidPadPathPlannerNode(Node):  # type: ignore[misc]
     """
     Class for generating a path for the skidpad.
 
@@ -19,18 +21,38 @@ class SkidPad(Node):  # type: ignore[misc]
         finalPath (Path): The final path to be published.
         state (Odometry): The current state of the vehicle.
         conePositions (np.array): The positions of the cones.
-
     """
 
     def __init__(self) -> None:
-        super().__init__("ConesPublisher")
+        """
+        Constructor for the SkidPadPathPlannerNode class.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        super().__init__("skidPadPathPlannerNode")
+        # Get parameters
+        self.declare_parameters(
+            namespace="",
+            parameters=[
+                ("pathTopic", rclpy.Parameter.Type.STRING),
+                ("conesTopic", rclpy.Parameter.Type.STRING),
+                ("stateTopic", rclpy.Parameter.Type.STRING),
+            ],
+        )
+        pathTopic = self.get_parameter("pathTopic").get_parameter_value().string_value
+        conesTopic = self.get_parameter("conesTopic").get_parameter_value().string_value
+        stateTopic = self.get_parameter("stateTopic").get_parameter_value().string_value
 
         # Publishers
-        self.pathPub = self.create_publisher(Path, "/path", 10)
+        self.pathPub = self.create_publisher(Path, pathTopic, 10)
 
         # Subscriptions
-        self.create_subscription(LandmarkArray, "cones", self.listenerCallback, 10)
-        self.create_subscription(Odometry, "state", self.stateCallback, 10)
+        self.create_subscription(LandmarkArray, conesTopic, self.listenerCallback, 10)
+        self.create_subscription(Odometry, stateTopic, self.stateCallback, 10)
 
         # Initialize variables
         self.pathGen = SendPath()
@@ -67,10 +89,7 @@ class SkidPad(Node):  # type: ignore[misc]
         self.conePositions = np.append(
             self.conePositions,
             np.array(
-                [
-                    [pose.position.x, pose.position.y, pose.identifier]
-                    for pose in poseArrayMsg.landmarks
-                ]
+                [[pose.position.x, pose.position.y, pose.type] for pose in poseArrayMsg.landmarks]
             ),
             axis=0,
         )
@@ -80,6 +99,7 @@ class SkidPad(Node):  # type: ignore[misc]
         # self.timeStart = time.time()
         path, self.conePositions = self.pathGen.getPath(self.state, self.conePositions)
         # self.timeStep = time.time() - self.timeStart
+        # self.get_logger().info(f"path is {path} ")
         # self.get_logger().info(f"time_step is {self.timeStep} ")
 
         if path is None:
@@ -108,11 +128,14 @@ def main() -> None:
     # Initialize the ROS2 node
     rclpy.init()
     # Create the path generation node
-    path = SkidPad()
+    skidPad = SkidPadPathPlannerNode()
+    # Spin in a separate thread
+    # thread = threading.Thread(target=rclpy.spin, args=(SkidPad, ), daemon=True)
+    # thread.start()
     # Spin the node
-    rclpy.spin(path)
+    rclpy.spin(skidPad)
     # Destroy the node
-    path.destroy_node()
+    skidPad.destroy_node()
     # Shutdown the ROS2 client library
     rclpy.shutdown()
 
