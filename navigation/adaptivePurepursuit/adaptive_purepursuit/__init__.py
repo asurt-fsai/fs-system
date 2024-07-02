@@ -1,2 +1,1 @@
-"""pointer from bicycle model to adaptivePurepursuit"""
-from .bicycle_model import *
+"""init file for adaptive pure pursuit package"""
