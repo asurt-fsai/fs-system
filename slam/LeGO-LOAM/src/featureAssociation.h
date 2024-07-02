@@ -29,6 +29,19 @@ class FeatureAssociation : public rclcpp::Node {
   float nearestFeatureDistSqr;
   int mappingFrequencyDiv;
 
+  std::string _laserCloudSharp;
+  std::string _laserCloudLessSharp;
+  std::string _laserCloudFlat;
+  std::string _laserCloudLessFlat;
+  std::string _laserCloudCornerLast;
+  std::string _laserCloudSurfLast;
+  std::string _outlierCloudLast;
+  std::string _laserOdometry;
+
+  std::string _camera;
+  std::string _cameraInit;
+  std::string _laserOdom;
+
   StatusPublisher statusPublisher;
 
   std::thread _run_thread;

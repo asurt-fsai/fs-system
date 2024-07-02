@@ -101,14 +101,46 @@ MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut
   parameters.relinearizeSkip = 1;
   isam = new ISAM2(parameters);
 
-  pubKeyPoses = this->create_publisher<sensor_msgs::msg::PointCloud2>("/key_pose_origin", 2);
-  pubLaserCloudSurround = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_surround", 2);
-  pubOdomAftMapped = this->create_publisher<nav_msgs::msg::Odometry>("/aft_mapped_to_init", 5);
-  pubHistoryKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/history_cloud", 2);
-  pubIcpKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/corrected_cloud", 2);
-  pubRecentKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>("/recent_cloud", 2);
-  pubOdomAftMappedAdjusted = this->create_publisher<nav_msgs::msg::Odometry>("/aft_mapped_adjusted", 5);
-  pubLoopClosureStatus = this->create_publisher<std_msgs::msg::Bool>("/loop_closure_flag", 2);
+  // Declare Topic Parameters
+  this->declare_parameter("topics.keyPoseOrigin", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudSurround", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.aftMappedToInit", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.historyCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.correctedCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.recentCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.aftMappedAdjusted", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.loopClosureFlag", rclcpp::PARAMETER_STRING);
+
+  // Declare Frame Parameters
+  this->declare_parameter("frames.cameraInit", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("frames.aftMapped", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("frames.aftAdjusted", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("frames.mapAdjusted", rclcpp::PARAMETER_STRING);
+
+  // Get Topic Parameters
+  this->get_parameter("topics.keyPoseOrigin", _keyPoseOrigin);
+  this->get_parameter("topics.laserCloudSurround", _laserCloudSurround);
+  this->get_parameter("topics.aftMappedToInit", _aftMappedToInit);
+  this->get_parameter("topics.historyCloud", _historyCloud);
+  this->get_parameter("topics.correctedCloud", _correctedCloud);
+  this->get_parameter("topics.recentCloud", _recentCloud);
+  this->get_parameter("topics.aftMappedAdjusted", _aftMappedAdjusted);
+  this->get_parameter("topics.loopClosureFlag", _loopClosureFlag);
+
+  // Get Frame Parameters
+  this->get_parameter("frames.cameraInit", _cameraInit);
+  this->get_parameter("frames.aftMapped", _aftMapped);
+  this->get_parameter("frames.aftAdjusted", _aftAdjusted);
+  this->get_parameter("frames.mapAdjusted", _mapAdjusted);
+
+  pubKeyPoses = this->create_publisher<sensor_msgs::msg::PointCloud2>(_keyPoseOrigin, 2);
+  pubLaserCloudSurround = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudSurround, 2);
+  pubOdomAftMapped = this->create_publisher<nav_msgs::msg::Odometry>(_aftMappedToInit, 5);
+  pubHistoryKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>(_historyCloud, 2);
+  pubIcpKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>(_correctedCloud, 2);
+  pubRecentKeyFrames = this->create_publisher<sensor_msgs::msg::PointCloud2>(_recentCloud, 2);
+  pubOdomAftMappedAdjusted = this->create_publisher<nav_msgs::msg::Odometry>(_aftMappedAdjusted, 5);
+  pubLoopClosureStatus = this->create_publisher<std_msgs::msg::Bool>(_loopClosureFlag, 2);
 
   tfBroadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -126,17 +158,17 @@ MapOptimization::MapOptimization(const std::string &name, Channel<AssociationOut
   // for global map visualization
   downSizeFilterGlobalMapKeyFrames.setLeafSize(0.4, 0.4, 0.4);
 
-  odomAftMapped.header.frame_id = "camera_init";
-  odomAftMapped.child_frame_id = "aft_mapped";
+  odomAftMapped.header.frame_id = _cameraInit;
+  odomAftMapped.child_frame_id = _aftMapped;
 
-  aftMappedTrans.header.frame_id = "camera_init";
-  aftMappedTrans.child_frame_id = "aft_mapped";
+  aftMappedTrans.header.frame_id = _cameraInit;
+  aftMappedTrans.child_frame_id = _aftMapped;
 
-  odomAftMappedAdjusted.header.frame_id = "map_adjusted";
-  odomAftMappedAdjusted.child_frame_id = "aft_adjusted";
+  odomAftMappedAdjusted.header.frame_id = _mapAdjusted;
+  odomAftMappedAdjusted.child_frame_id = _aftAdjusted;
 
-  aftMappedTrans.header.frame_id = "map_adjusted";
-  aftMappedTrans.child_frame_id = "aft_adjusted";
+  aftMappedTrans.header.frame_id = _mapAdjusted;
+  aftMappedTrans.child_frame_id = _aftAdjusted;
 
   // Declare parameters
   this->declare_parameter(PARAM_ENABLE_LOOP, true);
@@ -984,7 +1016,7 @@ void MapOptimization::publishKeyPosesAndFrames() {
     sensor_msgs::msg::PointCloud2 cloudMsgTemp;
     pcl::toROSMsg(*cloudKeyPoses3D, cloudMsgTemp);
     cloudMsgTemp.header.stamp = timeLaserOdometry;
-    cloudMsgTemp.header.frame_id = "camera_init";
+    cloudMsgTemp.header.frame_id = _cameraInit;
     pubKeyPoses->publish(cloudMsgTemp);
   }
 
@@ -992,7 +1024,7 @@ void MapOptimization::publishKeyPosesAndFrames() {
     sensor_msgs::msg::PointCloud2 cloudMsgTemp;
     pcl::toROSMsg(*laserCloudSurfFromMapDS, cloudMsgTemp);
     cloudMsgTemp.header.stamp = timeLaserOdometry;
-    cloudMsgTemp.header.frame_id = "camera_init";
+    cloudMsgTemp.header.frame_id = _cameraInit;
     pubRecentKeyFrames->publish(cloudMsgTemp);
   }
 }
@@ -1068,7 +1100,7 @@ void MapOptimization::publishGlobalMap() {
   sensor_msgs::msg::PointCloud2 cloudMsgTemp;
   pcl::toROSMsg(*globalMapKeyFramesDS, cloudMsgTemp);
   cloudMsgTemp.header.stamp = timeLaserOdometry;
-  cloudMsgTemp.header.frame_id = "camera_init";
+  cloudMsgTemp.header.frame_id = _cameraInit;
   pubLaserCloudSurround->publish(cloudMsgTemp);
 
   globalMapKeyPoses->clear();
@@ -1157,7 +1189,7 @@ bool MapOptimization::detectLoopClosure() {
     sensor_msgs::msg::PointCloud2 cloudMsgTemp;
     pcl::toROSMsg(*nearHistorySurfKeyFrameCloudDS, cloudMsgTemp);
     cloudMsgTemp.header.stamp = timeLaserOdometry;
-    cloudMsgTemp.header.frame_id = "camera_init";
+    cloudMsgTemp.header.frame_id = _cameraInit;
     pubHistoryKeyFrames->publish(cloudMsgTemp);
   }
 
@@ -1245,7 +1277,7 @@ void MapOptimization::performLoopClosure() {
     sensor_msgs::msg::PointCloud2 cloudMsgTemp;
     pcl::toROSMsg(*closed_cloud, cloudMsgTemp);
     cloudMsgTemp.header.stamp = timeLaserOdometry;
-    cloudMsgTemp.header.frame_id = "camera_init";
+    cloudMsgTemp.header.frame_id = _cameraInit;
     pubIcpKeyFrames->publish(cloudMsgTemp);
   }
 

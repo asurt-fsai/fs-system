@@ -19,6 +19,12 @@ class TransformFusion : public rclcpp::Node {
   float transformBefMapped[6];
   float transformAftMapped[6];
 
+  std::string _laserOdomToInit;
+  std::string _aftMappedToInit;
+  std::string _integratedToInit;
+  std::string _cameraInit;
+  std::string _camera;
+
   StatusPublisher statusPublisher;
 
  public:

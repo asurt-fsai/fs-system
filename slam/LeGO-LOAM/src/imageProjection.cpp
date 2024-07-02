@@ -87,17 +87,39 @@ ImageProjection::ImageProjection(const std::string &name, Channel<ProjectionOut>
        Publishes various forms of processed point clouds for visualization and further processing.
  */
   
-  statusPublisher.starting();
-  subLaserCloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-      "/lidar_points", 1, std::bind(&ImageProjection::cloudHandler, this, std::placeholders::_1));
+  // Declare Topic Parameters
+  this->declare_parameter("topics.lidarPoints", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.fullCloudProjected", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.fullCloudInfo", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.groundCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.segmentedCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.segmentedCloudPure", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.segmentedCloudInfo", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.outlierCloud", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("frames.baseLink", rclcpp::PARAMETER_STRING);
 
-  pubFullCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_projected", 1);
-  pubFullInfoCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/full_cloud_info", 1);
-  pubGroundCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/ground_cloud", 1);
-  pubSegmentedCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud", 1);
-  pubSegmentedCloudPure = this->create_publisher<sensor_msgs::msg::PointCloud2>("/segmented_cloud_pure", 1);
-  pubSegmentedCloudInfo = this->create_publisher<asurt_msgs::msg::CloudInfo>("/segmented_cloud_info", 1);
-  pubOutlierCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud", 1);
+  // Get Topic Parameters
+  this->get_parameter("topics.lidarPoints", _lidarPoints);
+  this->get_parameter("topics.fullCloudProjected", _fullCloudProjected);
+  this->get_parameter("topics.fullCloudInfo", _fullCloudInfo);
+  this->get_parameter("topics.groundCloud", _groundCloud);
+  this->get_parameter("topics.segmentedCloud", _segmentedCloud);
+  this->get_parameter("topics.segmentedCloudPure", _segmentedCloudPure);
+  this->get_parameter("topics.segmentedCloudInfo", _segmentedCloudInfo);
+  this->get_parameter("topics.outlierCloud", _outlierCloud);
+  this->get_parameter("frames.baseLink", _baseLink);
+  
+  subLaserCloud = this->create_subscription<sensor_msgs::msg::PointCloud2>(
+      _lidarPoints, 1, std::bind(&ImageProjection::cloudHandler, this, std::placeholders::_1));
+
+  pubFullCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(_fullCloudProjected, 1);
+  pubFullInfoCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(_fullCloudInfo, 1);
+  pubGroundCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(_groundCloud, 1);
+  pubSegmentedCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(_segmentedCloud, 1);
+  pubSegmentedCloudPure = this->create_publisher<sensor_msgs::msg::PointCloud2>(_segmentedCloudPure, 1);
+  pubSegmentedCloudInfo = this->create_publisher<cloud_msgs::msg::CloudInfo>(_segmentedCloudInfo, 1);
+  pubOutlierCloud = this->create_publisher<sensor_msgs::msg::PointCloud2>(_outlierCloud, 1);
+
 
   // Declare parameters
   this->declare_parameter(PARAM_VERTICAL_SCANS, rclcpp::PARAMETER_INTEGER);
@@ -775,7 +797,7 @@ void ImageProjection::publishClouds() {
 
   sensor_msgs::msg::PointCloud2 temp;
   temp.header.stamp = _seg_msg.header.stamp;
-  temp.header.frame_id = "base_link";
+  temp.header.frame_id = _baseLink;
 
   auto PublishCloud = [](rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pub, sensor_msgs::msg::PointCloud2& temp,
                           const pcl::PointCloud<PointType>::Ptr& cloud) {

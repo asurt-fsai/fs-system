@@ -48,6 +48,16 @@ class ImageProjection : public rclcpp::Node {
   int groundScanIndex;
   float sensorMountAngle;
 
+  std::string _lidarPoints;
+  std::string _fullCloudProjected;
+  std::string _fullCloudInfo;
+  std::string _groundCloud;
+  std::string _segmentedCloud;
+  std::string _segmentedCloudPure;
+  std::string _segmentedCloudInfo;
+  std::string _outlierCloud;
+  std::string _baseLink;
+
   Channel<ProjectionOut>& _output_channel;
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr subLaserCloud;

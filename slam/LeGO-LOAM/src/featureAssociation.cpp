@@ -91,15 +91,45 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
   // Publish starting status
   statusPublisher.starting();
 
-  pubCornerPointsSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_sharp", 1);
-  pubCornerPointsLessSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_less_sharp", 1);
-  pubSurfPointsFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_flat", 1);
-  pubSurfPointsLessFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_less_flat", 1);
+   // Declare Topic Parameters
+  this->declare_parameter("topics.laserCloudSharp", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudLessSharp", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudFlat", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudLessFlat", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudCornerLast", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserCloudSurfLast", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.outlierCloudLast", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.laserOdometry", rclcpp::PARAMETER_STRING);
 
-  pubCloudCornerLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_corner_last", 2);
-  pubCloudSurfLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/laser_cloud_surf_last", 2);
-  pubOutlierCloudLast = this->create_publisher<sensor_msgs::msg::PointCloud2>("/outlier_cloud_last", 2);
-  pubLaserOdometry = this->create_publisher<nav_msgs::msg::Odometry>("/laser_odom_to_init", 5);
+  // Declare Frame Parameters
+  this->declare_parameter("frames.cameraInit", rclcpp::PARAMETER_STRING);  
+  this->declare_parameter("frames.camera", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("frames.laserOdom", rclcpp::PARAMETER_STRING);
+
+  // Get Topic Parameters
+  this->get_parameter("topics.laserCloudSharp", _laserCloudSharp);
+  this->get_parameter("topics.laserCloudLessSharp", _laserCloudLessSharp);
+  this->get_parameter("topics.laserCloudFlat", _laserCloudFlat);
+  this->get_parameter("topics.laserCloudLessFlat", _laserCloudLessFlat);
+  this->get_parameter("topics.laserCloudCornerLast", _laserCloudCornerLast);
+  this->get_parameter("topics.laserCloudSurfLast", _laserCloudSurfLast);
+  this->get_parameter("topics.outlierCloudLast", _outlierCloudLast);
+  this->get_parameter("topics.laserOdometry", _laserOdometry);
+
+  // Get Frame Parameters
+  this->get_parameter("frames.cameraInit", _cameraInit);
+  this->get_parameter("frames.camera", _camera);  
+  this->get_parameter("frames.laserOdom", _laserOdom);
+
+  pubCornerPointsSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudSharp, 1);
+  pubCornerPointsLessSharp = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudLessSharp, 1);
+  pubSurfPointsFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudFlat, 1);
+  pubSurfPointsLessFlat = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudLessFlat, 1);
+
+  pubCloudCornerLast = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudCornerLast, 2);
+  pubCloudSurfLast = this->create_publisher<sensor_msgs::msg::PointCloud2>(_laserCloudSurfLast, 2);
+  pubOutlierCloudLast = this->create_publisher<sensor_msgs::msg::PointCloud2>(_outlierCloudLast, 2);
+  pubLaserOdometry = this->create_publisher<nav_msgs::msg::Odometry>(_laserOdometry, 5);
 
   tfBroadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
@@ -107,6 +137,7 @@ FeatureAssociation::FeatureAssociation(const std::string &name, Channel<Projecti
 
   // Declare parameters
   this->declare_parameter(PARAM_VERTICAL_SCANS,rclcpp::PARAMETER_INTEGER );
+  
   this->declare_parameter(PARAM_HORIZONTAL_SCANS,rclcpp::PARAMETER_INTEGER );
   this->declare_parameter(PARAM_SCAN_PERIOD,rclcpp::PARAMETER_DOUBLE );
   this->declare_parameter(PARAM_FREQ_DIVIDER,rclcpp::PARAMETER_INTEGER );
@@ -252,11 +283,11 @@ void FeatureAssociation::initializationValue() {
   laserCloudOri.reset(new pcl::PointCloud<PointType>());
   coeffSel.reset(new pcl::PointCloud<PointType>());
 
-  laserOdometry.header.frame_id = "camera_init";
-  laserOdometry.child_frame_id = "laser_odom";
+  laserOdometry.header.frame_id = _cameraInit;
+  laserOdometry.child_frame_id = _laserOdom;
 
-  laserOdometryTrans.header.frame_id = "camera_init";
-  laserOdometryTrans.child_frame_id = "laser_odom";
+  laserOdometryTrans.header.frame_id = _cameraInit;
+  laserOdometryTrans.child_frame_id = _laserOdom;
 
   isDegenerate = false;
 
@@ -1625,13 +1656,13 @@ void FeatureAssociation::checkSystemInitialization() {
   sensor_msgs::msg::PointCloud2 laserCloudCornerLast2;
   pcl::toROSMsg(*laserCloudCornerLast, laserCloudCornerLast2);
   laserCloudCornerLast2.header.stamp = cloudHeader.stamp;
-  laserCloudCornerLast2.header.frame_id = "camera";
+  laserCloudCornerLast2.header.frame_id = _camera;
   pubCloudCornerLast->publish(laserCloudCornerLast2);
 
   sensor_msgs::msg::PointCloud2 laserCloudSurfLast2;
   pcl::toROSMsg(*laserCloudSurfLast, laserCloudSurfLast2);
   laserCloudSurfLast2.header.stamp = cloudHeader.stamp;
-  laserCloudSurfLast2.header.frame_id = "camera";
+  laserCloudSurfLast2.header.frame_id = _camera;
   pubCloudSurfLast->publish(laserCloudSurfLast2);
 
   systemInitedLM = true;
@@ -1879,7 +1910,7 @@ void FeatureAssociation::publishCloud() {
     if (pub->get_subscription_count() != 0) {
       pcl::toROSMsg(*cloud, laserCloudOutMsg);
       laserCloudOutMsg.header.stamp = cloudHeader.stamp;
-      laserCloudOutMsg.header.frame_id = "camera";
+      laserCloudOutMsg.header.frame_id = _camera;
       pub->publish(laserCloudOutMsg);
     }
   };
@@ -1971,7 +2002,7 @@ void FeatureAssociation::publishCloudsLast() {
       if (pub->get_subscription_count() != 0) {
         pcl::toROSMsg(*cloud, cloudTemp);
         cloudTemp.header.stamp = cloudHeader.stamp;
-        cloudTemp.header.frame_id = "camera";
+        cloudTemp.header.frame_id = _camera;
         pub->publish(cloudTemp);
       }
     };

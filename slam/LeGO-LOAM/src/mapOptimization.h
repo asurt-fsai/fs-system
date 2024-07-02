@@ -59,6 +59,20 @@ class MapOptimization : public rclcpp::Node {
   float _history_keyframe_fitness_score;
   float _global_map_visualization_search_radius;
 
+  std::string _keyPoseOrigin;
+  std::string _laserCloudSurround;
+  std::string _aftMappedToInit;
+  std::string _historyCloud;
+  std::string _correctedCloud;
+  std::string _recentCloud;
+  std::string _aftMappedAdjusted;
+  std::string _loopClosureFlag;
+
+  std::string _aftMapped;
+  std::string _mapAdjusted;
+  std::string _aftAdjusted;
+  std::string _cameraInit;
+
   Channel<AssociationOut>& _input_channel;
   std::thread _run_thread;
 

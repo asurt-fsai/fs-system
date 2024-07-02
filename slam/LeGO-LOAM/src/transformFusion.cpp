@@ -95,17 +95,35 @@ TransformFusion::TransformFusion(const std::string &name) : Node(name), statusPu
   // Publish starting status
   statusPublisher.starting();
 
-  pubLaserOdometry2 = this->create_publisher<nav_msgs::msg::Odometry>("/integrated_to_init", 5);
+  // Declare Topics Parameters
+  this->declare_parameter("topics.laserOdomToInit", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.aftMappedToInit", rclcpp::PARAMETER_STRING);
+  this->declare_parameter("topics.integratedToInit", rclcpp::PARAMETER_STRING);
+
+  // Declare Frame Parameters
+  this->declare_parameter("frames.cameraInit", rclcpp::PARAMETER_STRING);  
+  this->declare_parameter("frames.camera", rclcpp::PARAMETER_STRING);
+
+  // Get Topics Parameters
+  this->get_parameter("topics.laserOdomToInit", _laserOdomToInit);
+  this->get_parameter("topics.aftMappedToInit", _aftMappedToInit);
+  this->get_parameter("topics.integratedToInit", _integratedToInit);
+
+  // Get Frame Parameters
+  this->get_parameter("frames.cameraInit", _cameraInit);
+  this->get_parameter("frames.camera", _camera);  
+
+  pubLaserOdometry2 = this->create_publisher<nav_msgs::msg::Odometry>(_integratedToInit, 5);
   subLaserOdometry = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/laser_odom_to_init", 5, std::bind(&TransformFusion::laserOdometryHandler, this, std::placeholders::_1));
+      _laserOdomToInit, 5, std::bind(&TransformFusion::laserOdometryHandler, this, std::placeholders::_1));
   subOdomAftMapped = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/aft_mapped_to_init", 5, std::bind(&TransformFusion::odomAftMappedHandler, this, std::placeholders::_1));
+      _aftMappedToInit, 5, std::bind(&TransformFusion::odomAftMappedHandler, this, std::placeholders::_1));
 
-  laserOdometry2.header.frame_id = "camera_init";
-  laserOdometry2.child_frame_id = "camera";
+  laserOdometry2.header.frame_id = _cameraInit;
+  laserOdometry2.child_frame_id = _camera;
 
-  laserOdometryTrans.header.frame_id = "camera_init";
-  laserOdometryTrans.child_frame_id = "camera";
+  laserOdometryTrans.header.frame_id = _cameraInit;
+  laserOdometryTrans.child_frame_id = _camera;
 
   tfBroadcaster = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
