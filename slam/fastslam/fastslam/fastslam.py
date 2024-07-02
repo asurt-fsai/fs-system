@@ -1,4 +1,5 @@
 import numpy as np
+
 # from fastslam import HungarianAlg
 
 # import types for numpy arrays
@@ -299,3 +300,4 @@ class FastSLAM:
     ##############    
     # NOT TESTED #
     ##############
+

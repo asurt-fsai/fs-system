@@ -1,0 +1,19 @@
+smornnNode:
+  ros__parameters:
+    perception:
+      smornn:
+        min_dist_neighbor: 1.0
+        frame_id: "kit"
+        detected_markers: "/perception/smornn/detected_markers"
+        detected: "perception/smornn/detected"
+
+      smoreo:
+        detected: "/perception/smoreo/detected"
+
+      lidar:
+        detected: "perception/lidar/detected"
+
+    physical:
+      cone_height: 0.4
+      cone_radius: 0.16
+      lidar_height: 0.3

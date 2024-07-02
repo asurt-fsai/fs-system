@@ -9,10 +9,12 @@ class HungarianAlg(object):
         This creates a HungarianAlg object with the cost matrix associated to it. It stores a copy of the matrix as well as the original.
         It then records the shape and initiates some helper variables, like the covers for the rows and columns and the markings.
         """
+
         self.debug=True
         self.obsIDs = []
         self.cleanedObsIDs = []
         self.threshold = 1
+
         self.observationMatrix = observationMatrix
         self.landmarkMatrix = landmarkMatrix
         self.removedObservations = []
@@ -34,6 +36,7 @@ class HungarianAlg(object):
 
     def calcCostMatrix(self):
         # Calculate the cost matrix (distance between observations and landmarks)
+
         # costMatrix = np.zeros((self.observationMatrix.shape[0], self.landmarkMatrix.shape[0]))
         # for i in range(self.observationMatrix.shape[0]):
         #     self.obsIDs.append(i)  # Store the observation IDs
@@ -44,16 +47,19 @@ class HungarianAlg(object):
         # costMatrix = costMatrix.reshape(
         #     self.observationMatrix.shape[0], self.landmarkMatrix.shape[0]
         # )
+
         # Code above is slow code below is 100x faster
         # convert obs and landmarks to complex !!! 200IQ MOVE !!!
         obs = self.observationMatrix[:, 0] + 1j * self.observationMatrix[:, 1]
         landmarks = self.landmarkMatrix[:, 0] + 1j * self.landmarkMatrix[:, 1]
         # calculate the cost matrix
         costMatrix = np.abs(obs[:, np.newaxis] - landmarks) # IM FAST AF BOIIII
+
         return costMatrix
 
     def removeFarCones(self):
         # Remove observations that are too far from any landmark
+
         cleanedCostMatrix = np.array([])
         for i in range(self.orgCostMatrix.shape[0]):
             if np.min(self.orgCostMatrix[i]) > self.threshold:
@@ -64,6 +70,7 @@ class HungarianAlg(object):
         cleanedCostMatrix = cleanedCostMatrix.reshape(
             len(self.cleanedObsIDs), self.orgCostMatrix.shape[1]
         )
+
         return cleanedCostMatrix
 
     def clearCovers(self):
@@ -107,12 +114,14 @@ class HungarianAlg(object):
                     axis=0,
                 )
 
+
         associatedObservations = []
         for i in range(len(self.solution)):
             associatedObservations.append([self.observationMatrix[self.solution[i][0]],self.solution[i][1]])
         return self.landmarkMatrix, associatedObservations
 
     def printResults(self):
+
         if self.solution == None:
             raise Exception(
                 "No solution was computed yet or there is no solution. Run the solve method or try another cost matrix."
@@ -127,10 +136,12 @@ class HungarianAlg(object):
 
 
 def step0(state):
+
     start = time.perf_counter()
     """
     This step pads the matrix so that it's squared
     """
+
     matrixSize = max(state.n, state.m)
     colPad = matrixSize - state.n
     rowPad = matrixSize - state.m
@@ -138,8 +149,10 @@ def step0(state):
     state.rowCovered = np.zeros(state.C.shape[0], dtype=bool)
     state.colCovered = np.zeros(state.C.shape[1], dtype=bool)
     state.marked = np.zeros((state.C.shape[0], state.C.shape[1]), dtype=int)
+
     if state.debug:
         print("Step 0 took: ", time.perf_counter() - start)
+
     return step1
 
 
@@ -147,10 +160,12 @@ def step1(state):
     """
     Subtracts the minimum value per column for each cell of that column
     """
+
     start = time.perf_counter()
     state.C = state.C - np.min(state.C, axis=1)[:, np.newaxis]
     if state.debug:
         print("Step 1 took: ", time.perf_counter() - start)
+
     return step2
 
 
@@ -158,10 +173,12 @@ def step2(state):
     """
     Subtracts the minimum value per row for each cell of that row
     """
+
     start = time.perf_counter()
     state.C = state.C - np.min(state.C, axis=0)[np.newaxis, :]
     if state.debug:
         print("Step 2 took: ", time.perf_counter() - start)
+
     return step3
 
 
@@ -170,7 +187,9 @@ def step3(state):
     This step tries to find a coverage of all zeroes in the matrix using the minimum amount of row/column covers.
     It then uses this coverage to check for a solution. If one is found, the algorithm stops. Otherwise, it goes to step 4 and back to step 3.
     """
+
     start = time.perf_counter()
+
     rowMarked = np.zeros(state.C.shape[0], dtype=bool)
     colMarked = np.zeros(state.C.shape[1], dtype=bool)
 
@@ -196,8 +215,10 @@ def step3(state):
     state.rowCovered = np.logical_not(rowMarked)
     state.colCovered = colMarked
     numLines = np.sum(state.rowCovered) + np.sum(state.colCovered)
+
     if state.debug:
         print("Step 3 took: ", time.perf_counter() - start)
+
     if numLines == state.C.shape[0]:
         sol = checkSol(state)
         return sol
@@ -213,7 +234,9 @@ def step4(state):
     If no solution was found in step 3, this step changes some values in the matrix so that we may now find some coverage.
     The algorithm may be stuck in a step 3 - step 4 loop. If it happens, there is no solution or the wrong matrix was given.
     """
+
     start = time.perf_counter()
+
     minUncovered = np.inf
     for i in range(state.C.shape[0]):
         for j in range(state.C.shape[1]):
@@ -229,8 +252,10 @@ def step4(state):
 
     state.clearCovers()
     state.clearMarks()
+
     if state.debug:
         print("Step 4 took: ", time.perf_counter() - start)
+
     return step3
 
 
@@ -238,7 +263,9 @@ def checkSol(state):
     """
     This method uses the coverage of the cost matrix to try and find a solution.
     """
+
     start = time.perf_counter()
+
     for j in range(state.C.shape[1]):
         for i in range(state.C.shape[0]):
             if not state.rowCovered[i] and not state.colCovered[j] and state.C[i][j] == 0:
@@ -255,6 +282,8 @@ def checkSol(state):
                 cost = cost + state.O[i][j]
 
     state.clearCovers()
+
     if state.debug:
         print("CheckSol took: ", time.perf_counter() - start)   
+
     return len(sol) == state.orgCostMatrix.shape[0], cost, sol
