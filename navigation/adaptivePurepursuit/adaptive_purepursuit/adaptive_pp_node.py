@@ -25,8 +25,8 @@ import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry, Path
 from tf_transformations import euler_from_quaternion
-from adaptive_purepursuit.adaptive_purepursuit import AdaptivePurePursuit
 from ackermann_msgs.msg import AckermannDriveStamped
+from .adaptive_purepursuit import AdaptivePurePursuit
 
 
 class Controller(Node):  # type: ignore[misc]
@@ -58,7 +58,7 @@ class Controller(Node):  # type: ignore[misc]
         """
         Initializes the controller node with the name "controller" using the super() function.
         """
-        super().__init__("controller")
+        super().__init__("Controller")
         self.purepursuit = AdaptivePurePursuit(self)
         self.declareTopics()
         self.initPubAndSub()
@@ -72,15 +72,10 @@ class Controller(Node):  # type: ignore[misc]
             state: Topic to subscribe to the state message
             path: Topic to subscribe to the path message
         """
-        self.declare_parameter(
-            "navigation.adaptivePurePursuit.topics.drive", rclpy.Parameter.Type.STRING
-        )
-        self.declare_parameter(
-            "navigation.adaptivePurePursuit.topics.state", rclpy.Parameter.Type.STRING
-        )
-        self.declare_parameter(
-            "navigation.adaptivePurePursuit.topics.path", rclpy.Parameter.Type.STRING
-        )
+        self.declare_parameter("drive", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("state", rclpy.Parameter.Type.STRING)
+        self.declare_parameter("path", rclpy.Parameter.Type.STRING)
+        self.get_logger().info("parameters declared")
 
     def initPubAndSub(self) -> None:
         """
@@ -101,22 +96,13 @@ class Controller(Node):  # type: ignore[misc]
         timer:
             timer: Timer to publish the drive message
         """
-
-        driveTopic = (
-            self.get_parameter("navigation.adaptivePurePursuit.topics.drive")
-            .get_parameter_value()
-            .string_value
-        )
-        stateTopic = (
-            self.get_parameter("navigation.adaptivePurePursuit.topics.state")
-            .get_parameter_value()
-            .string_value
-        )
-        pathTopic = (
-            self.get_parameter("navigation.adaptivePurePursuit.topics.path")
-            .get_parameter_value()
-            .string_value
-        )
+        driveTopic = self.get_parameter("drive").get_parameter_value().string_value
+        log = "drive topic : " + str(driveTopic)
+        stateTopic = self.get_parameter("state").get_parameter_value().string_value
+        log = log + "state topic : " + str(stateTopic)
+        pathTopic = self.get_parameter("path").get_parameter_value().string_value
+        log = log + "path topic : " + str(pathTopic)
+        self.get_logger().info(log)
 
         self.drivePub = self.create_publisher(AckermannDriveStamped, driveTopic, 10)
         self.stateSub = self.create_subscription(Odometry, stateTopic, self.stateCallback, 10)
@@ -168,7 +154,7 @@ class Controller(Node):  # type: ignore[misc]
 
     def publishDrive(self) -> None:
         """
-        Publishes the drive message to the drive topic.
+        Publishes the drive message to the drinodeve topic.
 
         driveMsg:
             AckermannDriveStamped message

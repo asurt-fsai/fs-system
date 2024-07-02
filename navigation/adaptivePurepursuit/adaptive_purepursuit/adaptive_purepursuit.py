@@ -16,9 +16,10 @@ Dataclasses:
 
 from dataclasses import dataclass
 import math
+from multiprocessing.util import get_logger
 from typing import List, Tuple
 import rclpy
-from rclpy import Node
+from rclpy.node import Node
 
 
 class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
@@ -103,20 +104,11 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
 
             time_step: Time step for the algorithm
         """
-        self.node.declare_parameter(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.gains", rclpy.Parameter.Type.DOUBLE
-        )
-        self.node.declare_parameter(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.speed", rclpy.Parameter.Type.DOUBLE
-        )
-        self.node.declare_parameter(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.constants",
-            rclpy.Parameter.Type.DOUBLE,
-        )
-        self.node.declare_parameter(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.time_step",
-            rclpy.Parameter.Type.DOUBLE,
-        )
+        self.node.declare_parameter("gains", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("speed", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("constants", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("time_step", rclpy.Parameter.Type.DOUBLE)
+        get_logger().info("parameters declared")
 
     def setParameters(self) -> None:
         """
@@ -128,7 +120,6 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
                 -integral: Integral gain
                 -differential: Differential gain
                 -lookahead: Lookahead distance
-
             speed: Speed limits
                 -minimum: Minimum speed
                 -maximum: Maximum speed
@@ -140,18 +131,13 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
             time_step: Time step for the algorithm
         """
         self.gains = self.node.get_parameter_or(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.gains",
+            "gains",
             GainParams(0.0, 0.0, 0.0, 0.0),
         )
-        self.speedLimits = self.node.get_parameter_or(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.speed", SpeedLimits(0.0, 0.0)
-        )
-        self.constants = self.node.get_parameter_or(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.constants", Constants(0.0, 0.0)
-        )
-        self.deltaT = self.node.get_parameter_or(
-            "navigation.adaptivePurePursuit.adaptivePurePursuit.time_step", 0.0
-        )
+        self.speedLimits = self.node.get_parameter_or("speed", SpeedLimits(0.0, 0.0))
+        self.constants = self.node.get_parameter_or("constants", Constants(0.0, 0.0))
+        self.deltaT = self.node.get_parameter_or("time_step", 0.0)
+        get_logger().info("parameters set")
         self.gains.prevError = 0.0
         self.gains.errorSum = 0.0
 

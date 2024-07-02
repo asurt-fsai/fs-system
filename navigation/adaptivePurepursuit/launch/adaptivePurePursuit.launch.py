@@ -13,7 +13,7 @@ from launch import LaunchDescription  # type: ignore[attr-defined]
 from launch_ros.actions import Node
 
 
-def generateLaunchdescription() -> LaunchDescription:
+def generate_launch_description() -> LaunchDescription:
     """
     This function generates a launch description that launches the adaptive_pp_node
     with the parameters specified in the adaptive_pp_parameters.yaml file.
@@ -37,5 +37,5 @@ def generateLaunchdescription() -> LaunchDescription:
     return ld
 
 
-if __name__ == "__main__":
-    generateLaunchdescription()
+# if __name__ == "__main__":
+#    generate_launch_description()
