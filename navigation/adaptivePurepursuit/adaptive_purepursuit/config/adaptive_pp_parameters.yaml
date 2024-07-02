@@ -1,17 +1,65 @@
 Controller:
   ros__parameters:
-    time_step: 0.1
+    Navigation:
+      adaptivePurePursuit:
+        adaptivePurePursuit:
 
-    speed:
-      maximum: 6.0
-      minimum: 3.0
+          time_step:
+            default: 0.1
+            description: Time step
+            type: double
 
-    gains:
-      proportional: 2.0
-      integral: 0.0
-      differential: 0.0
-      lookahead: 0.3
 
-    constants:
-      speed: 63.0
-      lookahead: 1.1
+          speed:
+            maximum:
+              default: 6.0
+              description: Maximum speed
+              type: double
+            minimum:
+              default: 3.0
+              description: Minimum speed
+              type: double
+
+
+          gains:
+            proportional:
+              default: 2.0
+              description: Proportional gain
+              type: double
+            integral:
+              default: 0.0
+              description: Integral gain
+              type: double
+            differential:
+              default: 0.0
+              description: Differential gain
+              type: double
+            lookahead:
+              default: 0.3
+              description: Lookahead gain
+              type: double
+
+
+          constants:
+            speed:
+              default: 63.0
+              description: Speed constant
+              type: double
+            lookahead:
+              default: 1.1
+              description: Lookahead constant
+              type: double
+
+        topics:
+          drive:
+            default: /drive
+            description: Drive topic
+            type: string
+          state:
+            default: /state
+            description: State topic
+            type: string
+          path:
+            default: /path
+            description: Path topic
+            type: string

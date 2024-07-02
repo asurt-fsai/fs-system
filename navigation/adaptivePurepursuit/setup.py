@@ -17,16 +17,14 @@ setup(
     ],
     install_requires=["setuptools"],
     zip_safe=True,
-    maintainer="mohamedalaa",
+    maintainer="marwanmahmoud",
     maintainer_email="mohammed.alaa200080@gmail.com",
     description="TODO: Package description",
     license="TODO: License declaration",
     tests_require=["pytest"],
     entry_points={
         "console_scripts": [
-            "adaptive_purepursuit = adaptive_purepursuit.adaptive_pp_node:main",
-            "path_gen = adaptive_purepursuit.path_gen:main",
-            "test = adaptive_purepursuit.adaptive_purepursuit:main",
+            "adaptive_pp_node = adaptive_purepursuit.adaptive_pp_node:main",
         ],
     },
 )
