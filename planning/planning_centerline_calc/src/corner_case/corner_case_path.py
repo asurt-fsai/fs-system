@@ -185,6 +185,11 @@ def distanceBetweenPoints(point1: FloatArray, point2: FloatArray) -> np.float_:
     Returns:
         The distance between the two points.
     """
+    if len(point1) != 2 or len(point2) != 2:
+        raise ValueError("Both points must be 2D coordinates.")
     x1, y1 = point1
     x2, y2 = point2
-    return np.float_(math.sqrt((x2 - x1)**2 + (y2 - y1)**2))
+    try:
+        return np.float_(math.sqrt((x2 - x1)**2 + (y2 - y1)**2))
+    except ValueError:
+        return np.float_(0)
