@@ -2,7 +2,7 @@
 Module class to launch and shutdown modules (launch files)
 """
 from typing import Optional
-
+import subprocess
 from ament_index_python.packages import get_package_share_directory
 import rclpy
 import time
@@ -14,6 +14,9 @@ import launch.actions
 import launch.substitutions
 import launch_ros.actions
 import os
+import subprocess
+import signal
+from ament_index_python.packages import get_package_share_directory
 
 
 class Module(Node):  # pylint: disable=too-many-instance-attributes
@@ -40,6 +43,8 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         launchFile: str,
         heartbeat: Optional[str] = None,
         isHeartbeatNodestatus: bool = True,
+ 
+        
     ) -> None:
         
         super().__init__("Module")
@@ -50,7 +55,11 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         self.moduleHandle = None
         self.scheduleRestart = False
         self.hasHeartbeat = heartbeat is not None
+        self.isHeartbeatNodestatus = isHeartbeatNodestatus
         self.rate = 0.0
+
+        terminal_processes = {}
+        
 
         if self.hasHeartbeat:
             if isHeartbeatNodestatus:
@@ -82,92 +91,26 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         self.shutdown()
         self.launch()
 
-    def launch(self) -> None:
+    def run_terminal_command(command):
+        try:
+        # Open a terminal and execute the command
+            subprocess.run(['gnome-terminal', '--', 'bash', '-c', command])
+        except FileNotFoundError:
+            print("Error: gnome-terminal is not installed or not found on your system.")
+
+    def launch(self,pkgs, launch_files) -> None:
         """
         Launches the module.
         """
-
-        '''
-        self.state = NodeStatus.STARTING
-        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-
-        roslaunchFile = roslaunch.rlutil.resolve_launch_arguments([self.pkg, self.launchFile])
-
-        parent = roslaunch.parent.ROSLaunchParent(uuid, roslaunchFile)
-        parent.start()
-        '''
-        '''
-        use_sim_time = LaunchConfiguration("use_sim_time", default="false")
-            param_dir = os.path.join(get_package_share_directory('supervisor'), 'config', 'staticA_params.yaml')
-
-            static_a_node = launch_ros.actions.Node(
-                package='supervisor',
-                executable='staticAtest',
-                parameters=[param_dir],
-                output='screen'
-            )
-
-            tkinter_node = launch_ros.actions.Node(
-                package='supervisor',
-                executable='interface',
-                name='tkinter_node',
-                namespace='tkinter_node',
-                output='screen'
-            )
-
-            return launch.LaunchDescription([
-                DeclareLaunchArgument(
-                    'param_dir',
-                    default_value=param_dir,
-                    description='Full path to the parameter file to load'),
-                static_a_node,
-                tkinter_node
-            ])
-
-        '''
-
-        # # Create launch description
-        
-
-        # # Set node status to STARTING
-        # self.state =NodeStatus.STARTING
-
-        # # Resolve launch file arguments
-        # launch_file_path = self.launchFile
-        # # launch_file_path = launch.substitutions.LaunchConfiguration('launch_file')
-        # pkg_path = self.pkg  #launch.substitutions.LaunchConfiguration('pkg')
-        # resolved_launch_file = launch.actions.IncludeLaunchDescription(
-        #     launch.launch_description_sources.PythonLaunchDescriptionSource(launch_file_path),
-        #     launch_arguments={'pkg': pkg_path}.items())
-
-        # # Add actions to launch description
-        # ld.add_action(resolved_launch_file)
-
-        # # Execute launch description
-        # return launch.LaunchDescription([ld])
-        # Define the path to your launch file
-         # Create the launch service
-        
-        
-        launch_service = launch.LaunchService()
-    # Define the path to your launch file
-        launch_file_path = os.path.join(get_package_share_directory('supervisor'), 'launch', self.launchFile)
-
-        # Include the launch description from your staticA_launch.py file
-        launch_description = launch.LaunchDescription([
-            launch.actions.IncludeLaunchDescription(
-                launch.launch_description_sources.PythonLaunchDescriptionSource(launch_file_path)
-            ),
-        ])
-    
-
-        # Include the launch description in the launch service
-        launch_service.include_launch_description(launch_description)
-
-        # Run the launch service
-        launch_service.run()
-
-
+        for idx, (launch_file, pkg) in enumerate(zip(launch_files, pkgs), start=1):
+        # Construct the command to source ROS 2 environment and launch the file
+            command = f'source /opt/ros/humble/setup.bash && ros2 launch {pkg} {launch_file}'
+            pid = self.run_terminal_command(command)
+            if pid is not None:
+                self.terminal_processes[idx] = pid  # Store the process ID with its associated ID
+                print(f"Launched terminal {idx} for {pkg} - {launch_file}")
+            else:
+                print(f"Failed to launch terminal for {pkg} - {launch_file}")
 
     def shutdown(self) -> None:
         """
@@ -179,6 +122,18 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
                 self.heartbeartRateThread = IntervalTimer(1, self.updateHeartbeatRate)
             
         self.state = NodeStatus.SHUTDOWN
+
+    def close_terminal(self,terminal_id):
+        if terminal_id in self.terminal_processes:
+            pid = self.terminal_processes[terminal_id]
+            try:
+                os.kill(pid, signal.SIGINT)  # Send SIGINT signal to terminate the process
+                del self.terminal_processes[terminal_id]  # Remove from dictionary after termination
+                print(f"Closed terminal {terminal_id}")
+            except ProcessLookupError:
+                print(f"Failed to close terminal {terminal_id}: Process not found")
+        else:
+            print(f"Terminal with ID {terminal_id} not found.")
 
     def heartbeatCallback(self, msg: NodeStatus) -> None:
         """
@@ -207,7 +162,7 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         # increment the count of messages since last update of the heartbeat rate
         self.heartbeatCount += 1.0
 
-    def updateHeartbeatRate(self) -> None:
+    def updateHeartbeatRate(self, StatusTopic) -> None:
         """
         Updates the heartbeat rate, called using a looping thread
         """
@@ -220,6 +175,13 @@ class Module(Node):  # pylint: disable=too-many-instance-attributes
         self.rate = beta * self.rate + (1.0 - beta) * newHeartbeartRate
         if newHeartbeartRate < 1:
             self.state = NodeStatus.UNRESPONSIVE
+
+    def run_terminal_command(command):
+        try:
+        # Open a terminal and execute the command
+          subprocess.run(['gnome-terminal', '--', 'bash', '-c', command])
+        except FileNotFoundError:
+            print("Error: gnome-terminal is not installed or not found on your system.")
 
     def __del__(self) -> None:
         self.shutdown()
