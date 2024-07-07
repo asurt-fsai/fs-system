@@ -1,8 +1,10 @@
+# pylint: disable-all
+# mypy: ignore-errors
 #!/usr/bin/env python3
 """publishing waypoints"""
+from typing import List, Tuple
 from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
-
 import rclpy
 from rclpy.node import Node
 
@@ -55,24 +57,26 @@ p11.header.frame_id = "map"
 poses = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11]
 
 
+# mypy: disable-error-code="misc"
 class WayPoints(Node):
-    """ waypoints following"""
-    def __init__(self):
+    """waypoints following"""
+
+    def __init__(self) -> None:
         super().__init__("waypoints_node")
         self.waypoints = Path()
-        self.msg_publisher = self.create_publisher(Path, "/waypoints", 10)
+        self.msgPublisher = self.create_publisher(Path, "/waypoints", 10)
         self.create_timer(1, self.publishing)
         self.waypoints.poses = poses
         self.waypoints.header.frame_id = "map"
         # self.waypoints.header.stamp = rclpy.Node.get_clock().now()
 
-    def publishing(self):
+    def publishing(self) -> None:
         # self.get_logger().info("Publishing Paths")
         """publishing waypoints"""
-        self.msg_publisher.publish(self.waypoints)
+        self.msgPublisher.publish(self.waypoints)
 
 
-def main(args=None):
+def main(args=None) -> None:
     """starting execution"""
     rclpy.init(args=args)
 
