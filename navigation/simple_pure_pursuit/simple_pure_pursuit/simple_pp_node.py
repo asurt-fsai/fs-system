@@ -3,6 +3,7 @@
 Initilization Pure Pursuit node for vehicle control
 """
 # from typing import Tuple
+import threading
 from nav_msgs.msg import Path
 
 # from geometry_msgs.msg import PoseStamped
@@ -80,6 +81,11 @@ def main() -> None:
     rclpy.init(args=None)
     simplepurePursuitnode: SimplePurePursuitNode = SimplePurePursuitNode()
     status: StatusPublisher = StatusPublisher("/status/simple_pure_pursuit", simplepurePursuitnode)
+
+    # Spin in a separate thread
+    thread = threading.Thread(target=rclpy.spin, args=(simplepurePursuitnode,), daemon=True)
+    thread.start()
+
     status.starting()
     status.ready()
     while rclpy.ok():
