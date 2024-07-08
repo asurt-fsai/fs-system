@@ -23,6 +23,7 @@ import math
 from typing import List
 import rclpy
 from rclpy.node import Node
+import rclpy.publisher
 from nav_msgs.msg import Odometry, Path
 from tf_transformations import euler_from_quaternion
 from ackermann_msgs.msg import AckermannDriveStamped
@@ -62,6 +63,7 @@ class Controller(Node):  # type: ignore[misc]
         self.purepursuit = AdaptivePurePursuit(self)
         self.declareTopics()
         self.initPubAndSub()
+        self.drivePub: rclpy.publisher.Publisher
 
     def declareTopics(self) -> None:
         """

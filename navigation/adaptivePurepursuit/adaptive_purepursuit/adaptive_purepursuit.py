@@ -16,7 +16,6 @@ Dataclasses:
 
 from dataclasses import dataclass
 import math
-from multiprocessing.util import get_logger
 from typing import List, Tuple
 import rclpy
 from rclpy.node import Node
@@ -104,11 +103,16 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
 
             time_step: Time step for the algorithm
         """
-        self.node.declare_parameter("gains", rclpy.Parameter.Type.DOUBLE)
-        self.node.declare_parameter("speed", rclpy.Parameter.Type.DOUBLE)
-        self.node.declare_parameter("constants", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("gains.proportional", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("gains.integral", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("gains.differential", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("gains.lookAhead", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("speed.maximum", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("speed.minimum", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("constants.speed", rclpy.Parameter.Type.DOUBLE)
+        self.node.declare_parameter("constants.lookahead", rclpy.Parameter.Type.DOUBLE)
         self.node.declare_parameter("time_step", rclpy.Parameter.Type.DOUBLE)
-        get_logger().info("parameters declared")
+        self.node.get_logger().info("parameters declared")
 
     def setParameters(self) -> None:
         """
@@ -130,14 +134,43 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
 
             time_step: Time step for the algorithm
         """
-        self.gains = self.node.get_parameter_or(
-            "gains",
-            GainParams(0.0, 0.0, 0.0, 0.0),
+
+        proportional = (
+            self.node.get_parameter_or("gains.proportional", 2.0).get_parameter_value().double_value
         )
-        self.speedLimits = self.node.get_parameter_or("speed", SpeedLimits(0.0, 0.0))
-        self.constants = self.node.get_parameter_or("constants", Constants(0.0, 0.0))
-        self.deltaT = self.node.get_parameter_or("time_step", 0.0)
-        get_logger().info("parameters set")
+        integral = (
+            self.node.get_parameter_or("gains.integral", 0.0).get_parameter_value().double_value
+        )
+        differential = (
+            self.node.get_parameter_or("gains.differential", 0.0).get_parameter_value().double_value
+        )
+        lookAhead = (
+            self.node.get_parameter_or("gains.lookAhead", 0.3).get_parameter_value().double_value
+        )
+        self.gains = GainParams(proportional, integral, differential, lookAhead)
+
+        maximum = (
+            self.node.get_parameter_or("speed.maximum", 5.0).get_parameter_value().double_value
+        )
+        minimum = (
+            self.node.get_parameter_or("speed.minimum", 2.0).get_parameter_value().double_value
+        )
+        self.speedLimits = SpeedLimits(minimum, maximum)
+
+        speed = (
+            self.node.get_parameter_or("constants.speed", 21.0).get_parameter_value().double_value
+        )
+        lookahead = (
+            self.node.get_parameter_or("constants.lookahead", 1.1)
+            .get_parameter_value()
+            .double_value
+        )
+        self.constants = Constants(speed, lookahead)
+
+        self.deltaT = (
+            self.node.get_parameter_or("time_step", 0.1).get_parameter_value().double_value
+        )
+        self.node.get_logger().info("parameters set")
         self.gains.prevError = 0.0
         self.gains.errorSum = 0.0
 
@@ -189,7 +222,7 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
         returns:
             steeringAngle: float
         """
-        self.lookaheadDistance = self.state[3] * self.gains.lookahead + self.constants.lookahead
+        self.lookaheadDistance = self.state[3] * self.gains.lookAhead + self.constants.lookahead
         self.targetIndex = self.searchTargetpoint()
         targetWaypoint = self.waypoints[self.targetIndex]
         targetX, targetY = targetWaypoint
@@ -245,7 +278,7 @@ class GainParams:
     proportional: float
     integral: float
     differential: float
-    lookahead: float
+    lookAhead: float
     prevError: float = 0.0
     errorSum: float = 0.0
 

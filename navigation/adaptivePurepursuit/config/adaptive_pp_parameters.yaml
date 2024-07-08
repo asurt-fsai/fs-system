@@ -3,9 +3,9 @@ Controller:
     time_step: 0.1
 
     speed:
-      maximum: 6.0
+      maximum: 5.0
 
-      minimum: 3.0
+      minimum: 2.0
 
     gains:
       proportional: 2.0
@@ -14,15 +14,15 @@ Controller:
 
       differential: 0.0
 
-      lookahead: 0.3
+      lookAhead: 0.3
 
     constants:
-      speed: 63.0
+      speed: 21.0
 
       lookahead: 1.1
 
     drive: "/ackr"
 
-    state: "/state"
+    state: "/carmaker/Odometry"
 
     path: "/path"
