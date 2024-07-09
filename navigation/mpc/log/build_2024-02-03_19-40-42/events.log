@@ -1,0 +1,85 @@
+[0.000000] (-) TimerEvent: {}
+[0.004182] (mpc) JobQueued: {'identifier': 'mpc', 'dependencies': OrderedDict()}
+[0.006494] (mpc) JobStarted: {'identifier': 'mpc'}
+[0.098980] (-) TimerEvent: {}
+[0.201456] (-) TimerEvent: {}
+[0.303284] (-) TimerEvent: {}
+[0.410475] (-) TimerEvent: {}
+[0.518920] (-) TimerEvent: {}
+[0.620026] (-) TimerEvent: {}
+[0.721536] (-) TimerEvent: {}
+[0.826400] (-) TimerEvent: {}
+[0.929032] (-) TimerEvent: {}
+[1.030646] (-) TimerEvent: {}
+[1.135247] (-) TimerEvent: {}
+[1.237264] (-) TimerEvent: {}
+[1.338751] (-) TimerEvent: {}
+[1.441263] (-) TimerEvent: {}
+[1.543773] (-) TimerEvent: {}
+[1.645541] (-) TimerEvent: {}
+[1.746606] (-) TimerEvent: {}
+[1.848769] (-) TimerEvent: {}
+[1.950654] (-) TimerEvent: {}
+[2.052011] (-) TimerEvent: {}
+[2.153035] (-) TimerEvent: {}
+[2.254531] (-) TimerEvent: {}
+[2.356571] (-) TimerEvent: {}
+[2.457807] (-) TimerEvent: {}
+[2.558713] (-) TimerEvent: {}
+[2.660299] (-) TimerEvent: {}
+[2.761266] (-) TimerEvent: {}
+[2.862758] (-) TimerEvent: {}
+[2.964126] (-) TimerEvent: {}
+[3.065596] (-) TimerEvent: {}
+[3.166465] (-) TimerEvent: {}
+[3.207734] (mpc) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'egg_info', '--egg-base', 'build/mpc', 'build', '--build-base', '/home/yasmeen/fs-system/navigation/mpc/build/mpc/build', 'install', '--record', '/home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log', '--single-version-externally-managed'], 'cwd': '/home/yasmeen/fs-system/navigation/mpc', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'LANGUAGE': 'en_US:', 'USER': 'yasmeen', 'LC_TIME': 'ar_EG.UTF-8', 'XDG_SESSION_TYPE': 'wayland', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/yasmeen', 'OLDPWD': '/home/yasmeen/fs-system/navigation', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'LC_MONETARY': 'ar_EG.UTF-8', 'SYSTEMD_EXEC_PID': '1610', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/yasmeen/ros2_ws/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'yasmeen', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'yasmeen', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/yasmeen-virtual-machine:@/tmp/.ICE-unix/1584,unix/yasmeen-virtual-machine:/tmp/.ICE-unix/1584', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'ar_EG.UTF-8', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/145b3a35_b16f_47e5_bbeb_2ed4de8090ea', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'ar_EG.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.028BI2', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'GNOME_TERMINAL_SERVICE': ':1.207', 'SSH_AGENT_LAUNCHER': 'gnome-keyring', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/opt/ros/humble', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_EG.UTF-8', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'ar_EG.UTF-8', 'LC_IDENTIFICATION': 'ar_EG.UTF-8', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/yasmeen/fs-system/navigation/mpc/build/mpc', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/yasmeen/fs-system/navigation/mpc/build/mpc/prefix_override:/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'LC_NUMERIC': 'ar_EG.UTF-8', 'LC_PAPER': 'ar_EG.UTF-8', 'COLCON': '1', 'VTE_VERSION': '6800'}, 'shell': False}
+[3.268873] (-) TimerEvent: {}
+[3.375163] (-) TimerEvent: {}
+[3.477224] (-) TimerEvent: {}
+[3.578514] (-) TimerEvent: {}
+[3.680076] (-) TimerEvent: {}
+[3.781750] (-) TimerEvent: {}
+[3.882846] (-) TimerEvent: {}
+[3.984015] (-) TimerEvent: {}
+[4.084902] (-) TimerEvent: {}
+[4.114617] (mpc) StdoutLine: {'line': b'running egg_info\n'}
+[4.117866] (mpc) StdoutLine: {'line': b'creating build/mpc/mpc.egg-info\n'}
+[4.121066] (mpc) StdoutLine: {'line': b'writing build/mpc/mpc.egg-info/PKG-INFO\n'}
+[4.122915] (mpc) StdoutLine: {'line': b'writing dependency_links to build/mpc/mpc.egg-info/dependency_links.txt\n'}
+[4.125059] (mpc) StdoutLine: {'line': b'writing entry points to build/mpc/mpc.egg-info/entry_points.txt\n'}
+[4.128270] (mpc) StdoutLine: {'line': b'writing requirements to build/mpc/mpc.egg-info/requires.txt\n'}
+[4.134307] (mpc) StdoutLine: {'line': b'writing top-level names to build/mpc/mpc.egg-info/top_level.txt\n'}
+[4.135078] (mpc) StdoutLine: {'line': b"writing manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'\n"}
+[4.148269] (mpc) StdoutLine: {'line': b"reading manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'\n"}
+[4.151380] (mpc) StdoutLine: {'line': b"writing manifest file 'build/mpc/mpc.egg-info/SOURCES.txt'\n"}
+[4.153725] (mpc) StdoutLine: {'line': b'running build\n'}
+[4.155193] (mpc) StdoutLine: {'line': b'running build_py\n'}
+[4.156478] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/build/mpc/build\n'}
+[4.157870] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib\n'}
+[4.159444] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc\n'}
+[4.160988] (mpc) StdoutLine: {'line': b'copying mpc/__init__.py -> /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc\n'}
+[4.162176] (mpc) StdoutLine: {'line': b'running install\n'}
+[4.185825] (-) TimerEvent: {}
+[4.237133] (mpc) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[4.238234] (mpc) StderrLine: {'line': b'  warnings.warn(\n'}
+[4.241999] (mpc) StdoutLine: {'line': b'running install_lib\n'}
+[4.242768] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc\n'}
+[4.242995] (mpc) StdoutLine: {'line': b'copying /home/yasmeen/fs-system/navigation/mpc/build/mpc/build/lib/mpc/__init__.py -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc\n'}
+[4.247415] (mpc) StdoutLine: {'line': b'byte-compiling /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc/__init__.py to __init__.cpython-310.pyc\n'}
+[4.248242] (mpc) StdoutLine: {'line': b'running install_data\n'}
+[4.248471] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/ament_index\n'}
+[4.248645] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/ament_index/resource_index\n'}
+[4.248817] (mpc) StdoutLine: {'line': b'creating /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/ament_index/resource_index/packages\n'}
+[4.248979] (mpc) StdoutLine: {'line': b'copying resource/mpc -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/ament_index/resource_index/packages\n'}
+[4.249143] (mpc) StdoutLine: {'line': b'copying package.xml -> /home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc\n'}
+[4.249325] (mpc) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.255814] (mpc) StdoutLine: {'line': b'Copying build/mpc/mpc.egg-info to /home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages/mpc-0.0.0-py3.10.egg-info\n'}
+[4.260001] (mpc) StdoutLine: {'line': b'running install_scripts\n'}
+[4.286560] (-) TimerEvent: {}
+[4.343033] (mpc) StdoutLine: {'line': b"writing list of installed files to '/home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log'\n"}
+[4.387519] (-) TimerEvent: {}
+[4.440898] (mpc) CommandEnded: {'returncode': 0}
+[4.499869] (-) TimerEvent: {}
+[4.601669] (-) TimerEvent: {}
+[4.695229] (mpc) JobEnded: {'identifier': 'mpc', 'rc': 0}
+[4.699607] (-) EventReactorShutdown: {}

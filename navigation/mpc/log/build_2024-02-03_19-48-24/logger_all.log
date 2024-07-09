@@ -1,0 +1,91 @@
+[3.292s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[3.293s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=2, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7fa0a8ccec20>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7fa0a8f2fbe0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7fa0a8f2fbe0>>)
+[3.489s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[3.490s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[3.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[3.492s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[3.493s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[3.494s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[3.494s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/yasmeen/fs-system/navigation/mpc'
+[3.495s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[3.496s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[3.497s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[3.498s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[3.499s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[3.499s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[3.500s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[3.501s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[3.501s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[3.551s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.ament_python' and name 'mpc'
+[3.552s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[3.553s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[3.553s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[3.554s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[3.554s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[3.801s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[3.802s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[3.920s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 1 installed packages in /home/yasmeen/fs-system/navigation/mpc/install
+[3.969s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /home/yasmeen/ros2_ws/install
+[4.087s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 270 installed packages in /opt/ros/humble
+[4.092s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[4.455s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_args' from command line to 'None'
+[4.455s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_target' from command line to 'None'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_clean_cache' from command line to 'False'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_clean_first' from command line to 'False'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'cmake_force_configure' from command line to 'False'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'ament_cmake_args' from command line to 'None'
+[4.456s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'catkin_cmake_args' from command line to 'None'
+[4.457s] Level 5:colcon.colcon_core.verb:set package 'mpc' build argument 'catkin_skip_building_tests' from command line to 'False'
+[4.457s] DEBUG:colcon.colcon_core.verb:Building package 'mpc' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/yasmeen/fs-system/navigation/mpc/build/mpc', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/yasmeen/fs-system/navigation/mpc/install/mpc', 'merge_install': False, 'path': '/home/yasmeen/fs-system/navigation/mpc', 'symlink_install': False, 'test_result_base': None}
+[4.508s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[4.557s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[4.559s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/yasmeen/fs-system/navigation/mpc' with build type 'ament_python'
+[4.560s] Level 1:colcon.colcon_core.shell:create_environment_hook('mpc', 'ament_prefix_path')
+[4.656s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[4.657s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/ament_prefix_path.ps1'
+[4.663s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/ament_prefix_path.dsv'
+[4.667s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/ament_prefix_path.sh'
+[4.737s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.737s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[5.983s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/yasmeen/fs-system/navigation/mpc'
+[6.047s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[6.048s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[7.598s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/yasmeen/fs-system/navigation/mpc': PYTHONPATH=/home/yasmeen/fs-system/navigation/mpc/build/mpc/prefix_override:/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/mpc build --build-base /home/yasmeen/fs-system/navigation/mpc/build/mpc/build install --record /home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log --single-version-externally-managed
+[8.730s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/yasmeen/fs-system/navigation/mpc' returned '0': PYTHONPATH=/home/yasmeen/fs-system/navigation/mpc/build/mpc/prefix_override:/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/mpc build --build-base /home/yasmeen/fs-system/navigation/mpc/build/mpc/build install --record /home/yasmeen/fs-system/navigation/mpc/build/mpc/install.log --single-version-externally-managed
+[8.807s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc' for CMake module files
+[8.812s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc' for CMake config files
+[8.815s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib'
+[8.817s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc/bin'
+[8.818s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/pkgconfig/mpc.pc'
+[8.819s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc/lib/python3.10/site-packages'
+[8.820s] Level 1:colcon.colcon_core.shell:create_environment_hook('mpc', 'pythonpath')
+[8.884s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/pythonpath.ps1'
+[8.887s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/pythonpath.dsv'
+[8.889s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/hook/pythonpath.sh'
+[8.892s] Level 1:colcon.colcon_core.environment:checking '/home/yasmeen/fs-system/navigation/mpc/install/mpc/bin'
+[8.893s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(mpc)
+[8.953s] INFO:colcon.colcon_core.shell:Creating package script '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/package.ps1'
+[8.957s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/package.dsv'
+[8.961s] INFO:colcon.colcon_core.shell:Creating package script '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/package.sh'
+[8.964s] INFO:colcon.colcon_core.shell:Creating package script '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/package.bash'
+[8.967s] INFO:colcon.colcon_core.shell:Creating package script '/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/mpc/package.zsh'
+[8.970s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/yasmeen/fs-system/navigation/mpc/install/mpc/share/colcon-core/packages/mpc)
+[8.973s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[8.978s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[8.978s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[8.979s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[9.068s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[9.069s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[9.070s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[9.154s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[9.271s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/yasmeen/fs-system/navigation/mpc/install/local_setup.ps1'
+[9.280s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/yasmeen/fs-system/navigation/mpc/install/_local_setup_util_ps1.py'
+[9.289s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/yasmeen/fs-system/navigation/mpc/install/setup.ps1'
+[9.381s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/yasmeen/fs-system/navigation/mpc/install/local_setup.sh'
+[9.385s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/yasmeen/fs-system/navigation/mpc/install/_local_setup_util_sh.py'
+[9.389s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/yasmeen/fs-system/navigation/mpc/install/setup.sh'
+[9.464s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/yasmeen/fs-system/navigation/mpc/install/local_setup.bash'
+[9.467s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/yasmeen/fs-system/navigation/mpc/install/setup.bash'
+[9.516s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/yasmeen/fs-system/navigation/mpc/install/local_setup.zsh'
+[9.522s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/yasmeen/fs-system/navigation/mpc/install/setup.zsh'
