@@ -3,9 +3,9 @@ Controller:
     time_step: 0.1
 
     speed:
-      maximum: 5.0
+      maximum: 4.0
 
-      minimum: 2.0
+      minimum: 1.0
 
     gains:
       proportional: 2.0
@@ -17,7 +17,7 @@ Controller:
       lookAhead: 0.3
 
     constants:
-      speed: 21.0
+      speed: 28.66
 
       lookahead: 1.1
 

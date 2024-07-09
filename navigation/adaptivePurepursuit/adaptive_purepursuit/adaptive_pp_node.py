@@ -176,7 +176,8 @@ class Controller(Node):  # type: ignore[misc]
             if self.purepursuit.searchTargetpoint() == len(self.purepursuit.waypoints) - 1:
                 driveMsg.drive.speed = 0
             else:
-                throttle = self.purepursuit.pidController(steeringAngle)
+                steering = math.degrees(steeringAngle)
+                throttle = self.purepursuit.pidController(steering)
                 driveMsg.drive.speed = self.purepursuit.state[3] + throttle
         else:
             driveMsg.drive.steering_angle = self.purepursuit.steeringAngle

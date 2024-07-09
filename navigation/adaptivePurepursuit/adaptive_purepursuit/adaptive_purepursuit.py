@@ -150,15 +150,15 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
         self.gains = GainParams(proportional, integral, differential, lookAhead)
 
         maximum = (
-            self.node.get_parameter_or("speed.maximum", 5.0).get_parameter_value().double_value
+            self.node.get_parameter_or("speed.maximum", 4.0).get_parameter_value().double_value
         )
         minimum = (
-            self.node.get_parameter_or("speed.minimum", 2.0).get_parameter_value().double_value
+            self.node.get_parameter_or("speed.minimum", 1.0).get_parameter_value().double_value
         )
         self.speedLimits = SpeedLimits(minimum, maximum)
 
         speed = (
-            self.node.get_parameter_or("constants.speed", 21.0).get_parameter_value().double_value
+            self.node.get_parameter_or("constants.speed", 28.66).get_parameter_value().double_value
         )
         lookahead = (
             self.node.get_parameter_or("constants.lookahead", 1.1)
@@ -230,7 +230,6 @@ class AdaptivePurePursuit:  # pylint: disable=too-many-instance-attributes
         deltaY = targetY - self.state[1]
         alpha = math.atan2(deltaY, deltaX) - self.state[2]
         lookaheadAngle = math.atan2(2 * 0.5 * math.sin(alpha) / self.lookaheadDistance, 1)
-        self.steeringAngle = math.degrees(lookaheadAngle)
         self.steeringAngle = max(-0.5, min(0.5, lookaheadAngle))
         return self.steeringAngle
 
