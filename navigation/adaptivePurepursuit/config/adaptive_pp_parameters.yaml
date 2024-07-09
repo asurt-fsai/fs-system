@@ -1,0 +1,28 @@
+Controller:
+  ros__parameters:
+    time_step: 0.1
+
+    speed:
+      maximum: 4.0
+
+      minimum: 1.0
+
+    gains:
+      proportional: 2.0
+
+      integral: 0.0
+
+      differential: 0.0
+
+      lookAhead: 0.3
+
+    constants:
+      speed: 28.66
+
+      lookahead: 1.1
+
+    drive: "/ackr"
+
+    state: "/carmaker/Odometry"
+
+    path: "/path"
