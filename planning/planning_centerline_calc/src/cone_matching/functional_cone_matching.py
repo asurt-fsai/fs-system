@@ -198,6 +198,18 @@ def insertVirtualConesToExisting(
     """
     Combine the virtual with the real cones into a single array.
     """
+    print("Went here")
+    #return otherSideCones
+    if(len(otherSideVirtualCones.shape) == 4):
+        otherSideVirtualCones = otherSideVirtualCones.reshape(-1, otherSideVirtualCones.shape[-1])
+    if(otherSideVirtualCones.shape[1] > 2):
+        otherSideVirtualCones = otherSideVirtualCones[:,:2]
+    print(f"Shape of otherSideCones {otherSideCones.shape}")
+    print(f"Shape of otherSideVirtualCones {otherSideVirtualCones.shape}")
+    print(f"otherSideCones items: {otherSideCones}")
+    print(f"otherSideVirtualCones items: {otherSideVirtualCones}")
+
+
     existingCones, conesToInsert = (
         (otherSideCones, otherSideVirtualCones)
         if len(otherSideCones) > len(otherSideVirtualCones)
@@ -205,6 +217,8 @@ def insertVirtualConesToExisting(
     )
     existingCones = existingCones.copy()
     conesToInsert = conesToInsert.copy()
+
+    # print(f"Shape of conesTOINSERT {conesToInsert.shape}")
 
     orderToInsert = myCdistSqEuclidean(conesToInsert, existingCones).min(axis=1).argsort()
     conesToInsert = conesToInsert[orderToInsert]
@@ -226,7 +240,7 @@ def insertVirtualConesToExisting(
             if np.isnan(virtualToClosest).any():
                 continue
             angleBetweenVirtualConesAndClosestTwo = vecAngleBetween(
-                virtualToClosest, virtualToSecondClosest
+                virtualToClosest+0.00001, virtualToSecondClosest+0.00001
             )
 
             #coneIsBetweenClosestTwo = cast(bool, angleBetweenVirtualConesAndClosestTwo > np.pi / 2)
@@ -400,7 +414,8 @@ def calculateConesForOtherSide(
     positionsOfVirtualCones = calculatePositionsOfVirtualCones(
         matchableCones, indicesNoMatch, searchDirections, minTrackWidth
     )
-
+    print(f"Shape of positionsOfVirtualCones {positionsOfVirtualCones.shape}")
+    print(f"Value of positionOfVirtualCones {positionsOfVirtualCones}")
     # removedOtherSideConeType
 
     result = combineAndSortVirtualWithReal(
@@ -460,7 +475,7 @@ def calculateVirtualConesForBothSides(
     minorRadius: float,
     maxSearchAngle: float,
     matchesShouldBeMonotonic: bool = True,
-) -> Tuple[Tuple[FloatArray, BoolArray, IntArray], Tuple[FloatArray, BoolArray, IntArray],]:
+) -> Tuple[Tuple[FloatArray, BoolArray, IntArray], Tuple[FloatArray, BoolArray, IntArray]]:
     """
     The main function of the module. It applies all the steps to return two results
     containing the new cones including a virtual ones, a boolean mask indicating for

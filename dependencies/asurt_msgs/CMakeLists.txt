@@ -20,6 +20,12 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/LandmarkArray.msg"
   "msg/NodeStatus.msg"
   "msg/Roadstate.msg"
+  "msg/CloudInfo.msg"
+  "msg/BoundingBox.msg"
+  "msg/BoundingBoxes.msg"
+  "msg/ConeImg.msg"
+  "msg/ConeImgArray.msg"
+  "msg/KeyPoints.msg"
   DEPENDENCIES builtin_interfaces geometry_msgs std_msgs
  )
 

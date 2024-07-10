@@ -115,12 +115,15 @@ class CornerCasesPath:
             directionConeToPoint = np.array([pointsDirection[1], -pointsDirection[0]])
         else:
             directionConeToPoint = np.array([-pointsDirection[1], pointsDirection[0]])
-        directionConeToPoint = directionConeToPoint / np.linalg.norm(directionConeToPoint)
+        if not  np.all(directionConeToPoint==0):
+            directionConeToPoint = directionConeToPoint / np.linalg.norm(directionConeToPoint)
+        print(f"directionConeToPoint: {directionConeToPoint}")
         points: FloatArray = cones + directionConeToPoint * 1.5
         pointsDirectionAngle: np.float_ = np.float_(angleFrom2dVector(pointsDirection))
         path = createStraightPath(points[0], pointsDirectionAngle, 10)
         pathExtention = self.connectPathToCar(path[0])
-        path = np.row_stack((pathExtention, path))
+        if len(pathExtention) > 0:
+            path = np.row_stack((pathExtention, path))
         return path
 
     def connectPathToCar(self, firstPoint: FloatArray) -> FloatArray:
@@ -129,10 +132,15 @@ class CornerCasesPath:
         calculating the distance between the last point of the path update and the
         current position of the car. The path update is then shifted by this distance.
         """
-        numOfPoints = math.floor(distanceBetweenPoints(self.carPosition, firstPoint))
-        direction = np.float_(angleFrom2dVector(firstPoint - self.carPosition))
+        num = distanceBetweenPoints(self.carPosition, firstPoint)
+        print(f"num = {num}")
+        if not math.isnan(num):
+            numOfPoints = math.floor(num)
+            direction = np.float_(angleFrom2dVector(firstPoint - self.carPosition))
 
-        pathUpdate = createStraightPath(self.carPosition, direction, numOfPoints)
+            pathUpdate = createStraightPath(self.carPosition, direction, numOfPoints)
+        else:
+            pathUpdate = np.array([])
 
         return pathUpdate
 
@@ -185,8 +193,6 @@ def distanceBetweenPoints(point1: FloatArray, point2: FloatArray) -> np.float_:
     Returns:
         The distance between the two points.
     """
-    if len(point1) != 2 or len(point2) != 2:
-        raise ValueError("Both points must be 2D coordinates.")
     x1, y1 = point1
     x2, y2 = point2
     try:

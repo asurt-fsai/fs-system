@@ -25,10 +25,17 @@ def generate_launch_description():
         output="screen",
         parameters=[config],
     )
+    transform_velodyne = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='zed_to_inverted',
+        arguments=['0', '0', '0', '0', '-3.14159', '0','zed_left','zed_inverted'],
+    )
 
     ld = LaunchDescription()
 
     # Add node 
     ld.add_action(planning_node)
+    ld.add_action(transform_velodyne)
 
     return ld

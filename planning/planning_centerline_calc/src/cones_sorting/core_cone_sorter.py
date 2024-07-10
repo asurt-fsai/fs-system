@@ -130,10 +130,10 @@ class ConeSorter:
             carPosition, carDirection, cones, coneType, indexToSkip=twoCones
         )
         # Combine the position of the two cones with the third cone
-        newCones, *_ = combineAndSortVirtualWithReal(
+        newCones, _ = combineAndSortVirtualWithReal(
             cones[twoCones, :2], cones[index3, :2][None], carPosition
         )
-
+        print(f"shape newCones={newCones.shape}, cones={cones[:, :2].shape}")
         last, middle, first = myCdistSqEuclidean(newCones, cones[:, :2]).argmin(axis=1)
 
         # If the angle between the second cone to the car and the car is less than pi/2

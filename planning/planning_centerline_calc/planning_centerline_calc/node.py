@@ -14,6 +14,7 @@ from geometry_msgs.msg import Pose, PoseStamped
 import numpy as np
 from tf_transformations import euler_from_quaternion
 from tf_helper.StatusPublisher import StatusPublisher
+from tf_helper.TFHelper import TFHelper
 
 from src.full_pipeline.full_pipeline import PathPlanner, ParametersState
 from src.utils.cone_types import ConeTypes
@@ -55,6 +56,8 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
         self.declareParameters()
         self.setParameters()
         self.initPubAndSub()
+
+        self.tfHelper = TFHelper(self)
 
     def declareParameters(self) -> None:
         """
@@ -250,6 +253,8 @@ class PlanningNode(Node): # pylint: disable=too-many-instance-attributes
             msg (LandmarkArray): The data received from perception.
         """
         # get cones_colors, cones_positions
+        msg = self.tfHelper.transformMsg(msg, self.frameId)
+        self.get_logger().info("Recieved")
         self.cones = [np.zeros((0, 2)) for _ in ConeTypes]
         for landmark in msg.landmarks:
             if landmark.type == Landmark.BLUE_CONE:
